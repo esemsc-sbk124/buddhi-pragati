@@ -80,7 +80,7 @@ INDOWORDNET_MIN_DEFINITION_LENGTH=5
 # ==========================================
 
 # Default API credentials (leave empty to force environment lookup)
-DEFAULT_HF_TOKEN=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
+DEFAULT_HF_TOKEN=
 
 # ==========================================
 #       ENHANCED CONTEXT SCORING
@@ -228,10 +228,8 @@ VISUALIZATION_FORMAT=png
 
 # Default API credentials for all providers
 # Leave empty to force environment variable lookup
-DEFAULT_OPENAI_API_KEY=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
-DEFAULT_ANTHROPIC_API_KEY=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
-DEFAULT_SARVAM_API_KEY=sk_6f347byh_VMJnbr0vniofUYk9mesWnyrF
-DEFAULT_OPENROUTER_API_KEY=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
+DEFAULT_OPENAI_API_KEY=
+DEFAULT_OPENROUTER_API_KEY=
 
 # Old API KEYS
 OLD_SARVAM_API_KEY=sk_wwy052yk_IgV2rhe8KqCAxwipvUMmf4yt
