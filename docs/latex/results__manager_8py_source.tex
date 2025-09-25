@@ -1,0 +1,938 @@
+\doxysection{results\+\_\+manager.\+py}
+\hypertarget{results__manager_8py_source}{}\label{results__manager_8py_source}\index{buddhi\_pragati/evaluate/results\_manager.py@{buddhi\_pragati/evaluate/results\_manager.py}}
+\mbox{\hyperlink{results__manager_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate_1_1results__manager}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00002}00002\ \textcolor{stringliteral}{Enhanced\ results\ management\ and\ analysis\ for\ the\ new\ crossword\ evaluation\ framework.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ provides\ utilities\ for:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00005}00005\ \textcolor{stringliteral}{-\/\ Managing\ the\ new\ experiment\ structure\ (0,\ 2-\/7\ +\ analyses\ 1,\ 8-\/10)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00006}00006\ \textcolor{stringliteral}{-\/\ Priority\ subset\ analysis\ and\ filtering}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00007}00007\ \textcolor{stringliteral}{-\/\ Cross-\/experiment\ comparison\ and\ visualization\ support}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00008}00008\ \textcolor{stringliteral}{-\/\ Standardized\ result\ processing\ for\ plotting\ libraries}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00009}00009\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00011}00011\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00012}00012\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00013}00013\ \textcolor{keyword}{from}\ datetime\ \textcolor{keyword}{import}\ datetime}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00014}00014\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ List,\ Optional,\ Any,\ Tuple}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00015}00015\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00016}00016\ \textcolor{keyword}{import}\ pandas\ \textcolor{keyword}{as}\ pd}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00017}00017\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00019}00019\ \textcolor{keyword}{from}\ ..utils.config\_loader\ \textcolor{keyword}{import}\ get\_config}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00022}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager}{00022}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager}{ExperimentResultsManager}}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00023}00023\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ Manages\ experiment\ results\ including\ saving,\ loading,\ and\ analysis.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00025}00025\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ Provides\ utilities\ for:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ -\/\ Saving\ experiment\ results\ to\ JSON}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ -\/\ Loading\ and\ aggregating\ results}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ -\/\ Statistical\ analysis\ across\ experiments}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ -\/\ Generating\ summary\ reports}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00033}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a9c8462c845c0e9faa409839226e81b2f}{00033}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a9c8462c845c0e9faa409839226e81b2f}{\_\_init\_\_}}(self,\ results\_dir:\ Optional[str]\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00034}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{00034}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{logger}}\ =\ logging.getLogger(\textcolor{stringliteral}{"{}ExperimentResultsManager"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00035}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ab79a7c5befe2fbd3ee1f8d073031b3a8}{00035}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ab79a7c5befe2fbd3ee1f8d073031b3a8}{config}}\ =\ get\_config()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ config\ default\ if\ no\ directory\ specified}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ results\_dir\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ results\_dir\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ab79a7c5befe2fbd3ee1f8d073031b3a8}{config}}.get(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}EXPERIMENT\_RESULTS\_DIR"{}},\ \textcolor{stringliteral}{"{}buddhi\_pragati/experiments"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00043}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{00043}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}\ =\ Path(results\_dir)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00046}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{00046}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ self,\ experiment\_id:\ str,\ limit:\ Optional[int]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00048}00048\ \ \ \ \ )\ -\/>\ List[Dict[str,\ Any]]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ all\ results\ for\ a\ specific\ experiment\ type.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00051}00051\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_id:\ Experiment\ identifier\ to\ load}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ limit:\ Optional\ limit\ on\ number\ of\ results\ to\ load\ (most\ recent\ first)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00055}00055\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00056}00056\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00057}00057\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ experiment\ result\ dictionaries}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ pattern\ =\ f\textcolor{stringliteral}{"{}\{experiment\_id\}\_*.json"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ result\_files\ =\ sorted(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}.glob(pattern),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ key=\textcolor{keyword}{lambda}\ x:\ x.stat().st\_mtime,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ reverse=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ limit:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ result\_files\ =\ result\_files[:limit]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00068}00068\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ results\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ filepath\ \textcolor{keywordflow}{in}\ result\_files:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(filepath,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ results.append(result)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{logger}}.warning(f\textcolor{stringliteral}{"{}Failed\ to\ load\ \{filepath\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ \{len(results)\}\ results\ for\ experiment\ \{experiment\_id\}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ results}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00084}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}{00084}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}{aggregate\_experiment\_metrics}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ self,\ experiment\_results:\ List[Dict[str,\ Any]]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00086}00086\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Aggregate\ metrics\ across\ multiple\ experiment\ runs.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00089}00089\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00091}00091\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_results:\ List\ of\ experiment\ result\ dictionaries}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00092}00092\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00093}00093\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00094}00094\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Aggregated\ metrics\ with\ mean,\ std,\ min,\ max\ across\ runs}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00095}00095\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ experiment\_results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00098}00098\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ aggregated\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiment\_count"{}}:\ len(experiment\_results),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}aggregated\_metrics"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model\_performance"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}statistical\_summary"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ all\ metric\ values}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ metric\_values\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ model\_scores\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ result\ \textcolor{keywordflow}{in}\ experiment\_results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}results"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ result:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ model\_result\ \textcolor{keywordflow}{in}\ result[\textcolor{stringliteral}{"{}results"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ model\_scores:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_name]\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Handle\ different\ result\ structures}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(model\_result,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a8cdddc06b6fca6ac680a8adf934707ce}{\_extract\_metrics\_from\_result}}(model\_result)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name,\ value\ \textcolor{keywordflow}{in}\ metrics.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ metric\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ metric\_values:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_values[metric\_name]\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ metric\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ model\_scores[model\_name]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_name][metric\_name]\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_values[metric\_name].append(value)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_name][metric\_name].append(value)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ aggregated\ statistics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name,\ values\ \textcolor{keywordflow}{in}\ metric\_values.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ values\ \textcolor{keywordflow}{and}\ all(isinstance(v,\ (int,\ float))\ \textcolor{keywordflow}{for}\ v\ \textcolor{keywordflow}{in}\ values):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ aggregated[\textcolor{stringliteral}{"{}aggregated\_metrics"{}}][metric\_name]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean"{}}:\ np.mean(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std"{}}:\ np.std(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min"{}}:\ np.min(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max"{}}:\ np.max(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}count"{}}:\ len(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ per-\/model\ statistics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ metrics\ \textcolor{keywordflow}{in}\ model\_scores.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ aggregated[\textcolor{stringliteral}{"{}model\_performance"{}}][model\_name]\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name,\ values\ \textcolor{keywordflow}{in}\ metrics.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ values\ \textcolor{keywordflow}{and}\ all(isinstance(v,\ (int,\ float))\ \textcolor{keywordflow}{for}\ v\ \textcolor{keywordflow}{in}\ values):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ aggregated[\textcolor{stringliteral}{"{}model\_performance"{}}][model\_name][metric\_name]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean"{}}:\ np.mean(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std"{}}:\ np.std(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}count"{}}:\ len(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ aggregated}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00155}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a8cdddc06b6fca6ac680a8adf934707ce}{00155}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a8cdddc06b6fca6ac680a8adf934707ce}{\_extract\_metrics\_from\_result}}(self,\ result:\ Dict[str,\ Any])\ -\/>\ Dict[str,\ float]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Extract\ numeric\ metrics\ from\ a\ result\ dictionary."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ metrics\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ summary\ metrics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}summary\_metrics"{}}\ \textcolor{keywordflow}{in}\ result:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key,\ value\ \textcolor{keywordflow}{in}\ result[\textcolor{stringliteral}{"{}summary\_metrics"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(value,\ (int,\ float)):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics[key]\ =\ float(value)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ direct\ metrics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}metrics"{}}\ \textcolor{keywordflow}{in}\ result:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key,\ value\ \textcolor{keywordflow}{in}\ result[\textcolor{stringliteral}{"{}metrics"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(value,\ (int,\ float)):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics[key]\ =\ float(value)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Handle\ nested\ structures\ (e.g.,\ language\ family\ results)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key,\ value\ \textcolor{keywordflow}{in}\ result.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(value,\ dict)\ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}summary\_metrics"{}}\ \textcolor{keywordflow}{in}\ value:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_key,\ metric\_value\ \textcolor{keywordflow}{in}\ value[\textcolor{stringliteral}{"{}summary\_metrics"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(metric\_value,\ (int,\ float)):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics[f\textcolor{stringliteral}{"{}\{key\}\_\{metric\_key\}"{}}]\ =\ float(metric\_value)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ metrics}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00180}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa113733d0c7bfed19166cf3c43737283}{00180}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa113733d0c7bfed19166cf3c43737283}{compare\_experiments}}(self,\ experiment\_ids:\ List[str])\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00182}00182\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Compare\ results\ across\ different\ experiment\ types.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00183}00183\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00184}00184\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00185}00185\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_ids:\ List\ of\ experiment\ identifiers\ to\ compare}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00186}00186\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00187}00187\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00188}00188\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Comparison\ analysis\ dictionary}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00189}00189\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ comparison\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiment\_ids"{}}:\ experiment\_ids,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}comparison\_timestamp"{}}:\ datetime.now().isoformat(),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiment\_summaries"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cross\_experiment\_analysis"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ and\ summarize\ each\ experiment}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ all\_metrics\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_id\ \textcolor{keywordflow}{in}\ experiment\_ids:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(exp\_id,\ limit=5)\ \ \textcolor{comment}{\#\ Recent\ 5\ runs}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ summary\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}{aggregate\_experiment\_metrics}}(results)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ comparison[\textcolor{stringliteral}{"{}experiment\_summaries"{}}][exp\_id]\ =\ summary}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Collect\ metrics\ for\ cross-\/experiment\ analysis}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}aggregated\_metrics"{}}\ \textcolor{keywordflow}{in}\ summary:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_metrics[exp\_id]\ =\ summary[\textcolor{stringliteral}{"{}aggregated\_metrics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Cross-\/experiment\ metric\ comparison}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ all\_metrics:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ comparison[\textcolor{stringliteral}{"{}cross\_experiment\_analysis"{}}]\ =\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a173e6d3d15c9f222257735ebd9486514}{\_compare\_metrics\_across\_experiments}}(all\_metrics)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ comparison}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00217}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a173e6d3d15c9f222257735ebd9486514}{00217}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a173e6d3d15c9f222257735ebd9486514}{\_compare\_metrics\_across\_experiments}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ self,\ all\_metrics:\ Dict[str,\ Dict]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00219}00219\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Compare\ the\ same\ metrics\ across\ different\ experiments."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ comparison\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ common\ metrics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ all\_metric\_names\ =\ set()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_metrics\ \textcolor{keywordflow}{in}\ all\_metrics.values():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ all\_metric\_names.update(exp\_metrics.keys())}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name\ \textcolor{keywordflow}{in}\ all\_metric\_names:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ metric\_comparison\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_id,\ metrics\ \textcolor{keywordflow}{in}\ all\_metrics.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ metric\_name\ \textcolor{keywordflow}{in}\ metrics\ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}mean"{}}\ \textcolor{keywordflow}{in}\ metrics[metric\_name]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_comparison[exp\_id]\ =\ metrics[metric\_name][\textcolor{stringliteral}{"{}mean"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(metric\_comparison)\ >\ 1:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ relative\ performance}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ list(metric\_comparison.values())}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ best\_value\ =\ max(values)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ worst\_value\ =\ min(values)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00240}00240\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ comparison[metric\_name]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiment\_means"{}}:\ metric\_comparison,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}best\_experiment"{}}:\ max(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_comparison.items(),\ key=\textcolor{keyword}{lambda}\ x:\ x[1]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}worst\_experiment"{}}:\ min(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_comparison.items(),\ key=\textcolor{keyword}{lambda}\ x:\ x[1]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}performance\_range"{}}:\ best\_value\ -\/\ worst\_value,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}coefficient\_of\_variation"{}}:\ np.std(values)\ /\ np.mean(values)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ np.mean(values)\ >\ 0}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ 0,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ comparison}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00257}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6c08e24c13c859881cf6ffd90f205134}{00257}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6c08e24c13c859881cf6ffd90f205134}{generate\_experiment\_report}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ self,\ experiment\_id:\ str,\ output\_format:\ str\ =\ \textcolor{stringliteral}{"{}json"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00259}00259\ \ \ \ \ )\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00261}00261\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Generate\ a\ comprehensive\ report\ for\ an\ experiment.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00262}00262\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00263}00263\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00264}00264\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_id:\ Experiment\ identifier}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00265}00265\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ output\_format:\ Output\ format\ ('json',\ 'markdown',\ 'csv')}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00266}00266\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00267}00267\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00268}00268\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Path\ to\ generated\ report\ file}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00269}00269\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ results\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(experiment\_id)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(f\textcolor{stringliteral}{"{}No\ results\ found\ for\ experiment\ \{experiment\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ aggregated\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}{aggregate\_experiment\_metrics}}(results)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ timestamp\ =\ datetime.now().strftime(\textcolor{stringliteral}{"{}\%Y\%m\%d\_\%H\%M\%S"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00277}00277\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ output\_format\ ==\ \textcolor{stringliteral}{"{}json"{}}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ report\_path\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}\ /\ f\textcolor{stringliteral}{"{}\{experiment\_id\}\_report\_\{timestamp\}.json"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(report\_path,\ \textcolor{stringliteral}{"{}w"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(aggregated,\ f,\ ensure\_ascii=\textcolor{keyword}{False},\ indent=2,\ default=str)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ output\_format\ ==\ \textcolor{stringliteral}{"{}markdown"{}}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ report\_path\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}\ /\ f\textcolor{stringliteral}{"{}\{experiment\_id\}\_report\_\{timestamp\}.md"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(report\_path,\ \textcolor{stringliteral}{"{}w"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a5be3153673ec89ca753a9eeec44dcedc}{\_write\_markdown\_report}}(f,\ experiment\_id,\ aggregated)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ output\_format\ ==\ \textcolor{stringliteral}{"{}csv"{}}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ report\_path\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}\ /\ f\textcolor{stringliteral}{"{}\{experiment\_id\}\_report\_\{timestamp\}.csv"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad8236bbd024df56cbeeb0d76e7ac2ded}{\_write\_csv\_report}}(report\_path,\ aggregated)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(f\textcolor{stringliteral}{"{}Unsupported\ output\ format:\ \{output\_format\}"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00294}00294\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{logger}}.info(f\textcolor{stringliteral}{"{}Generated\ \{output\_format\}\ report:\ \{report\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(report\_path)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00298}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a5be3153673ec89ca753a9eeec44dcedc}{00298}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a5be3153673ec89ca753a9eeec44dcedc}{\_write\_markdown\_report}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ self,\ file\_obj,\ experiment\_id:\ str,\ aggregated:\ Dict[str,\ Any]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00300}00300\ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Write\ a\ markdown\ format\ report."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}\#\ Experiment\ Report:\ \{experiment\_id\}\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}Generated:\ \{datetime.now().isoformat()\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ file\_obj.write(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Experiment\ runs\ analyzed:\ \{aggregated.get('experiment\_count',\ 0)\}\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Aggregated\ metrics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}aggregated\_metrics"{}}\ \textcolor{keywordflow}{in}\ aggregated:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\#\#\ Aggregated\ Metrics\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}|\ Metric\ |\ Mean\ |\ Std\ |\ Min\ |\ Max\ |\ Count\ |\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}|-\/-\/-\/-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/-\/-\/|\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name,\ stats\ \textcolor{keywordflow}{in}\ aggregated[\textcolor{stringliteral}{"{}aggregated\_metrics"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}|\ \{metric\_name\}\ |\ \{stats['mean']:.3f\}\ |\ \{stats['std']:.3f\}\ |\ \{stats['min']:.3f\}\ |\ \{stats['max']:.3f\}\ |\ \{stats['count']\}\ |\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00318}00318\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Model\ performance}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}model\_performance"{}}\ \textcolor{keywordflow}{in}\ aggregated:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\(\backslash\)n\#\#\ Model\ Performance\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ metrics\ \textcolor{keywordflow}{in}\ aggregated[\textcolor{stringliteral}{"{}model\_performance"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}\#\#\#\ \{model\_name\}\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}|\ Metric\ |\ Mean\ |\ Std\ |\ Count\ |\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}|-\/-\/-\/-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/|-\/-\/-\/-\/-\/-\/-\/|\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name,\ stats\ \textcolor{keywordflow}{in}\ metrics.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}|\ \{metric\_name\}\ |\ \{stats['mean']:.3f\}\ |\ \{stats['std']:.3f\}\ |\ \{stats['count']\}\ |\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00333}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad8236bbd024df56cbeeb0d76e7ac2ded}{00333}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad8236bbd024df56cbeeb0d76e7ac2ded}{\_write\_csv\_report}}(self,\ filepath:\ Path,\ aggregated:\ Dict[str,\ Any]):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Write\ a\ CSV\ format\ report."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ rows\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Model\ performance\ data}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}model\_performance"{}}\ \textcolor{keywordflow}{in}\ aggregated:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ metrics\ \textcolor{keywordflow}{in}\ aggregated[\textcolor{stringliteral}{"{}model\_performance"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name,\ stats\ \textcolor{keywordflow}{in}\ metrics.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ rows.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model"{}}:\ model\_name,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metric"{}}:\ metric\_name,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean"{}}:\ stats[\textcolor{stringliteral}{"{}mean"{}}],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std"{}}:\ stats[\textcolor{stringliteral}{"{}std"{}}],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}count"{}}:\ stats[\textcolor{stringliteral}{"{}count"{}}],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ rows:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ df\ =\ pd.DataFrame(rows)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ df.to\_csv(filepath,\ index=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Empty\ CSV\ with\ headers}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ pd.DataFrame(columns=[\textcolor{stringliteral}{"{}model"{}},\ \textcolor{stringliteral}{"{}metric"{}},\ \textcolor{stringliteral}{"{}mean"{}},\ \textcolor{stringliteral}{"{}std"{}},\ \textcolor{stringliteral}{"{}count"{}}]).to\_csv(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filepath,\ index=\textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00360}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad16f3e4d068dfd259e43904b906a5d4c}{00360}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad16f3e4d068dfd259e43904b906a5d4c}{find\_best\_performing\_models}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ self,\ experiment\_id:\ str,\ metric\_name:\ str\ =\ \textcolor{stringliteral}{"{}word\_accuracy\_global"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00362}00362\ \ \ \ \ )\ -\/>\ List[Tuple[str,\ float]]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00364}00364\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Find\ the\ best\ performing\ models\ for\ a\ specific\ metric.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00365}00365\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00366}00366\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00367}00367\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_id:\ Experiment\ identifier}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00368}00368\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ metric\_name:\ Metric\ to\ rank\ by}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00369}00369\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00370}00370\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00371}00371\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ (model\_name,\ score)\ tuples\ sorted\ by\ performance}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00372}00372\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ results\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(experiment\_id)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ aggregated\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}{aggregate\_experiment\_metrics}}(results)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ model\_scores\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}model\_performance"{}}\ \textcolor{keywordflow}{in}\ aggregated:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ metrics\ \textcolor{keywordflow}{in}\ aggregated[\textcolor{stringliteral}{"{}model\_performance"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ metric\_name\ \textcolor{keywordflow}{in}\ metrics:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ score\ =\ metrics[metric\_name][\textcolor{stringliteral}{"{}mean"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores.append((model\_name,\ score))}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Sort\ by\ score\ (descending)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ model\_scores.sort(key=\textcolor{keyword}{lambda}\ x:\ x[1],\ reverse=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ model\_scores}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00386}00386\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00387}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a0aadb918e469c0478084749422ca5fe8}{00387}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a0aadb918e469c0478084749422ca5fe8}{list\_available\_experiments}}(self)\ -\/>\ Dict[str,\ int]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00389}00389\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ List\ all\ available\ experiment\ types\ and\ their\ result\ counts.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00390}00390\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00391}00391\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00392}00392\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ mapping\ experiment\_id\ to\ result\ count}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00393}00393\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ experiments\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00395}00395\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ json\_file\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}.glob(\textcolor{stringliteral}{"{}*.json"{}}):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ experiment\ ID\ from\ filename\ (before\ first\ underscore\ or\ second\ underscore\ for\ new\ format)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ filename\ =\ json\_file.stem}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ filename.startswith(\textcolor{stringliteral}{"{}experiment\_"{}}):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ New\ format:\ experiment\_0\_master\_timestamp.json}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parts\ =\ filename.split(\textcolor{stringliteral}{"{}\_"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parts)\ >=\ 3:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_id\ =\ f\textcolor{stringliteral}{"{}\{parts[1]\}\_\{parts[2]\}"{}}\ \ \textcolor{comment}{\#\ e.g.,\ "{}0\_master"{},\ "{}2\_shot\_variations"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ experiments[exp\_id]\ =\ experiments.get(exp\_id,\ 0)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}\_"{}}\ \textcolor{keywordflow}{in}\ filename:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Old\ format:\ experiment\_id\_timestamp.json}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_id\ =\ filename.split(\textcolor{stringliteral}{"{}\_"{}})[0]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ experiments[exp\_id]\ =\ experiments.get(exp\_id,\ 0)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00409}00409\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ experiments}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00411}00411\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00412}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a85b07d4343e85209a075448104e2b27b}{00412}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a85b07d4343e85209a075448104e2b27b}{load\_master\_experiment\_results}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ self,\ limit:\ Optional[int]\ =\ 1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00414}00414\ \ \ \ \ )\ -\/>\ Optional[Dict[str,\ Any]]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00416}00416\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ the\ most\ recent\ master\ experiment\ (experiment\ 0)\ results.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00417}00417\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00418}00418\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00419}00419\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ limit:\ Number\ of\ most\ recent\ results\ to\ load\ (default:\ 1\ for\ latest\ only)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00420}00420\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00421}00421\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00422}00422\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Master\ experiment\ results\ dictionary\ or\ None\ if\ not\ found}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00423}00423\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ master\_results\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(\textcolor{stringliteral}{"{}0\_master"{}},\ limit=limit)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ master\_results[0]\ \textcolor{keywordflow}{if}\ master\_results\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00426}00426\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00427}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adc224e5137ade0ec40c7c6911cea5d79}{00427}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adc224e5137ade0ec40c7c6911cea5d79}{filter\_results\_by\_priority\_subset}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ results:\ Dict[str,\ Any],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ priority\_models:\ List[str]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ priority\_languages:\ List[str]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ priority\_grid\_sizes:\ List[int]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00433}00433\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00435}00435\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Filter\ experiment\ results\ to\ only\ include\ priority\ subset.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00436}00436\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00437}00437\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00438}00438\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ results:\ Full\ experiment\ results}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00439}00439\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ priority\_models:\ Models\ to\ include\ (None\ =\ all)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00440}00440\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ priority\_languages:\ Languages\ to\ include\ (None\ =\ all)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00441}00441\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ priority\_grid\_sizes:\ Grid\ sizes\ to\ include\ (None\ =\ all)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00442}00442\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00443}00443\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00444}00444\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Filtered\ results\ containing\ only\ priority\ subset}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00445}00445\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}results"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ results}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ filtered\_results\ =\ results.copy()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ filtered\_results[\textcolor{stringliteral}{"{}results"{}}]\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ by\ models}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ models\_to\_include\ =\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \ \ \ \ priority\_models\ \textcolor{keywordflow}{if}\ priority\_models\ \textcolor{keywordflow}{else}\ results[\textcolor{stringliteral}{"{}results"{}}].keys()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00456}00456\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name\ \textcolor{keywordflow}{in}\ models\_to\_include:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ results[\textcolor{stringliteral}{"{}results"{}}]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00460}00460\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ model\_data\ =\ results[\textcolor{stringliteral}{"{}results"{}}][model\_name]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_model\_data\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00463}00463\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ by\ languages}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ languages\_to\_include\ =\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ priority\_languages\ \textcolor{keywordflow}{if}\ priority\_languages\ \textcolor{keywordflow}{else}\ model\_data.keys()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ language\ \textcolor{keywordflow}{in}\ languages\_to\_include:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ model\_data:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00472}00472\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ language\_data\ =\ model\_data[language]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_language\_data\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00475}00475\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ by\ grid\ sizes}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ priority\_grid\_sizes:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_keys\_to\_include\ =\ [}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}grid\_\{size\}"{}}\ \textcolor{keywordflow}{for}\ size\ \textcolor{keywordflow}{in}\ priority\_grid\_sizes}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00480}00480\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_keys\_to\_include\ =\ language\_data.keys()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00483}00483\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ grid\_key\ \textcolor{keywordflow}{in}\ grid\_keys\_to\_include:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ grid\_key\ \textcolor{keywordflow}{in}\ language\_data:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_language\_data[grid\_key]\ =\ language\_data[grid\_key]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00487}00487\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ filtered\_language\_data:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_model\_data[language]\ =\ filtered\_language\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00490}00490\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ filtered\_model\_data:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_results[\textcolor{stringliteral}{"{}results"{}}][model\_name]\ =\ filtered\_model\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00493}00493\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ configuration\ to\ reflect\ filtering}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}configuration"{}}\ \textcolor{keywordflow}{in}\ filtered\_results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ config\ =\ filtered\_results[\textcolor{stringliteral}{"{}configuration"{}}].copy()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ priority\_models:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config[\textcolor{stringliteral}{"{}filtered\_models"{}}]\ =\ priority\_models}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ priority\_languages:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config[\textcolor{stringliteral}{"{}filtered\_languages"{}}]\ =\ priority\_languages}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ priority\_grid\_sizes:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config[\textcolor{stringliteral}{"{}filtered\_grid\_sizes"{}}]\ =\ priority\_grid\_sizes}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_results[\textcolor{stringliteral}{"{}configuration"{}}]\ =\ config}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00504}00504\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00505}00505\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filtered\_results}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00506}00506\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00507}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acdef6ef8bde3156dce49fa7276607586}{00507}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acdef6ef8bde3156dce49fa7276607586}{extract\_visualization\_data}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ experiment\_results:\ Dict[str,\ Any],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ metric\_name:\ str\ =\ \textcolor{stringliteral}{"{}average\_word\_accuracy\_global"{}},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00511}00511\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00513}00513\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Extract\ data\ in\ format\ suitable\ for\ matplotlib/seaborn\ visualization.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00514}00514\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00515}00515\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00516}00516\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_results:\ Experiment\ results\ dictionary}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00517}00517\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ metric\_name:\ Metric\ to\ extract\ for\ visualization}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00518}00518\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00519}00519\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00520}00520\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ with\ visualization-\/ready\ data\ structures}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00521}00521\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ viz\_data\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiment\_id"{}}:\ experiment\_results.get(\textcolor{stringliteral}{"{}experiment\_id"{}},\ \textcolor{stringliteral}{"{}unknown"{}}),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metric\_name"{}}:\ metric\_name,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\_points"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}heatmap\_data"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_stats"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00529}00529\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}results"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ experiment\_results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ viz\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00532}00532\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ data\ points\ for\ scatter\ plots,\ bar\ charts}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ model\_data\ \textcolor{keywordflow}{in}\ experiment\_results[\textcolor{stringliteral}{"{}results"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(model\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ language,\ language\_data\ \textcolor{keywordflow}{in}\ model\_data.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(language\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ grid\_key,\ grid\_data\ \textcolor{keywordflow}{in}\ language\_data.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isinstance(grid\_data,\ dict)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}summary\_metrics"{}}\ \textcolor{keywordflow}{in}\ grid\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics\ =\ grid\_data[\textcolor{stringliteral}{"{}summary\_metrics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ metric\_name\ \textcolor{keywordflow}{in}\ metrics:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ viz\_data[\textcolor{stringliteral}{"{}data\_points"{}}].append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model"{}}:\ model\_name,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}language"{}}:\ language,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}grid\_size"{}}:\ grid\_key.replace(\textcolor{stringliteral}{"{}grid\_"{}},\ \textcolor{stringliteral}{"{}"{}}),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metric\_value"{}}:\ metrics[metric\_name],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_count"{}}:\ grid\_data.get(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_count"{}},\ 1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ heatmap\ data\ (model\ x\ language\ matrix)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00558}00558\ \ \ \ \ \ \ \ \ models\ =\ list(set(dp[\textcolor{stringliteral}{"{}model"{}}]\ \textcolor{keywordflow}{for}\ dp\ \textcolor{keywordflow}{in}\ viz\_data[\textcolor{stringliteral}{"{}data\_points"{}}]))}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00559}00559\ \ \ \ \ \ \ \ \ languages\ =\ list(set(dp[\textcolor{stringliteral}{"{}language"{}}]\ \textcolor{keywordflow}{for}\ dp\ \textcolor{keywordflow}{in}\ viz\_data[\textcolor{stringliteral}{"{}data\_points"{}}]))}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00560}00560\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ heatmap\_matrix\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ models:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ model\_row\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ language\ \textcolor{keywordflow}{in}\ languages:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Average\ across\ grid\ sizes\ for\ each\ model-\/language\ combination}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_lang\_values\ =\ [}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dp[\textcolor{stringliteral}{"{}metric\_value"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ dp\ \textcolor{keywordflow}{in}\ viz\_data[\textcolor{stringliteral}{"{}data\_points"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ dp[\textcolor{stringliteral}{"{}model"{}}]\ ==\ model\ \textcolor{keywordflow}{and}\ dp[\textcolor{stringliteral}{"{}language"{}}]\ ==\ language}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00570}00570\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ avg\_value\ =\ np.mean(model\_lang\_values)\ \textcolor{keywordflow}{if}\ model\_lang\_values\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_row.append(avg\_value)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ heatmap\_matrix.append(model\_row)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00574}00574\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ viz\_data[\textcolor{stringliteral}{"{}heatmap\_data"{}}]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}matrix"{}}:\ heatmap\_matrix,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}models"{}}:\ models,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}languages"{}}:\ languages,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Summary\ statistics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ viz\_data[\textcolor{stringliteral}{"{}data\_points"{}}]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ [dp[\textcolor{stringliteral}{"{}metric\_value"{}}]\ \textcolor{keywordflow}{for}\ dp\ \textcolor{keywordflow}{in}\ viz\_data[\textcolor{stringliteral}{"{}data\_points"{}}]]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ viz\_data[\textcolor{stringliteral}{"{}summary\_stats"{}}]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean"{}}:\ np.mean(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std"{}}:\ np.std(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min"{}}:\ np.min(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max"{}}:\ np.max(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}count"{}}:\ len(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00591}00591\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ viz\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00594}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a842a5366622ee907c3b26888c0211911}{00594}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a842a5366622ee907c3b26888c0211911}{compare\_parameter\_experiments}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00595}00595\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ experiment\_ids:\ List[str],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ metric\_name:\ str\ =\ \textcolor{stringliteral}{"{}average\_word\_accuracy\_global"{}},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00598}00598\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00600}00600\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Compare\ results\ across\ parameter\ variation\ experiments\ (2-\/7).}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00601}00601\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00602}00602\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00603}00603\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_ids:\ List\ of\ experiment\ IDs\ to\ compare\ (e.g.,\ ["{}2\_shot\_variations"{},\ "{}4\_chain\_of\_thought"{}])}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00604}00604\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ metric\_name:\ Metric\ to\ use\ for\ comparison}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00605}00605\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00606}00606\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00607}00607\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Comparison\ analysis\ with\ parameter\ sensitivity\ data}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00608}00608\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ comparison\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}comparison\_id"{}}:\ f\textcolor{stringliteral}{"{}parameter\_comparison\_\{datetime.now().strftime('\%Y\%m\%d\_\%H\%M\%S')\}"{}},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiments"{}}:\ experiment\_ids,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metric\_name"{}}:\ metric\_name,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parameter\_effects"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model\_rankings"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00615}00615\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sensitivity\_analysis"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00616}00616\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00617}00617\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00618}00618\ \ \ \ \ \ \ \ \ experiment\_data\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00619}00619\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00620}00620\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ all\ experiment\ results}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_id\ \textcolor{keywordflow}{in}\ experiment\_ids:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(exp\_id,\ limit=1)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ experiment\_data[exp\_id]\ =\ results[0]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00625}00625\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00626}00626\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ parameter\ effects}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00627}00627\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}results"{}}\ \textcolor{keywordflow}{in}\ results[0]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00628}00628\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parameter\_effects\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00629}00629\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00630}00630\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ parameter\_value,\ param\_data\ \textcolor{keywordflow}{in}\ results[0][\textcolor{stringliteral}{"{}results"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(param\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00632}00632\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ average\ performance\ across\ models\ for\ this\ parameter\ value}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00633}00633\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00634}00634\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_data\ \textcolor{keywordflow}{in}\ param\_data.values():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00635}00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(model\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00636}00636\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\_data\ \textcolor{keywordflow}{in}\ model\_data.values():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00637}00637\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(lang\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ grid\_data\ \textcolor{keywordflow}{in}\ lang\_data.values():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00639}00639\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00640}00640\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isinstance(grid\_data,\ dict)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00641}00641\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}summary\_metrics"{}}\ \textcolor{keywordflow}{in}\ grid\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00642}00642\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00643}00643\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00644}00644\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_name}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00645}00645\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ grid\_data[\textcolor{stringliteral}{"{}summary\_metrics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00646}00646\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00647}00647\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_data[}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_metrics"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00650}00650\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ][metric\_name]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00651}00651\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00652}00652\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00653}00653\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ values:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00654}00654\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parameter\_effects[parameter\_value]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00655}00655\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean"{}}:\ np.mean(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00656}00656\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std"{}}:\ np.std(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00657}00657\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}count"{}}:\ len(values),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00658}00658\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00659}00659\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00660}00660\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ comparison[\textcolor{stringliteral}{"{}parameter\_effects"{}}][exp\_id]\ =\ parameter\_effects}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00661}00661\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00662}00662\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ model\ rankings\ across\ experiments}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00663}00663\ \ \ \ \ \ \ \ \ model\_scores\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00664}00664\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_id,\ exp\_data\ \textcolor{keywordflow}{in}\ experiment\_data.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00665}00665\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}results"{}}\ \textcolor{keywordflow}{in}\ exp\_data:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ param\_value,\ param\_data\ \textcolor{keywordflow}{in}\ exp\_data[\textcolor{stringliteral}{"{}results"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(param\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ model\_data\ \textcolor{keywordflow}{in}\ param\_data.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00669}00669\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ model\_scores:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00670}00670\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_name]\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00671}00671\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ average\ score\ for\ this\ model\ in\ this\ parameter\ setting}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00673}00673\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00674}00674\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(model\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00675}00675\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\_data\ \textcolor{keywordflow}{in}\ model\_data.values():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00676}00676\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(lang\_data,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ grid\_data\ \textcolor{keywordflow}{in}\ lang\_data.values():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00678}00678\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00679}00679\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ isinstance(grid\_data,\ dict)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{and}\ \textcolor{stringliteral}{"{}summary\_metrics"{}}\ \textcolor{keywordflow}{in}\ grid\_data}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00681}00681\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00682}00682\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_name}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ grid\_data[\textcolor{stringliteral}{"{}summary\_metrics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00687}00687\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_data[\textcolor{stringliteral}{"{}summary\_metrics"{}}][}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00688}00688\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metric\_name}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00689}00689\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00690}00690\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00691}00691\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00692}00692\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ values:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00693}00693\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_name].append(np.mean(values))}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00694}00694\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00695}00695\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Rank\ models\ by\ average\ performance\ across\ all\ experiments}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00696}00696\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\_name,\ scores\ \textcolor{keywordflow}{in}\ model\_scores.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00697}00697\ \ \ \ \ \ \ \ \ \ \ \ \ comparison[\textcolor{stringliteral}{"{}model\_rankings"{}}][model\_name]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00698}00698\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}average\_score"{}}:\ np.mean(scores),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00699}00699\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std\_score"{}}:\ np.std(scores),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00700}00700\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}rank\_score"{}}:\ np.mean(scores),\ \ \textcolor{comment}{\#\ Used\ for\ ranking}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00701}00701\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00702}00702\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00703}00703\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Sort\ by\ rank\ score}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00704}00704\ \ \ \ \ \ \ \ \ comparison[\textcolor{stringliteral}{"{}model\_rankings"{}}]\ =\ dict(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00705}00705\ \ \ \ \ \ \ \ \ \ \ \ \ sorted(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00706}00706\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ comparison[\textcolor{stringliteral}{"{}model\_rankings"{}}].items(),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00707}00707\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key=\textcolor{keyword}{lambda}\ x:\ x[1][\textcolor{stringliteral}{"{}rank\_score"{}}],}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00708}00708\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reverse=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00709}00709\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00710}00710\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00711}00711\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00712}00712\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ comparison}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00713}00713\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00714}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_abfdbc29a639338b36146932ed599744b}{00714}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_abfdbc29a639338b36146932ed599744b}{generate\_experiment\_summary\_report}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00715}00715\ \ \ \ \ \ \ \ \ self,\ experiment\_ids:\ Optional[List[str]]\ =\ \textcolor{keywordtype}{None},\ output\_format:\ str\ =\ \textcolor{stringliteral}{"{}json"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00716}00716\ \ \ \ \ )\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00717}00717\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00718}00718\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Generate\ comprehensive\ summary\ report\ across\ multiple\ experiments.}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00719}00719\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00720}00720\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00721}00721\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ experiment\_ids:\ List\ of\ experiments\ to\ include\ (None\ =\ all\ available)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00722}00722\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ output\_format:\ Output\ format\ ('json',\ 'markdown')}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00723}00723\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00724}00724\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00725}00725\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Path\ to\ generated\ report\ file}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00726}00726\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00727}00727\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ experiment\_ids\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00728}00728\ \ \ \ \ \ \ \ \ \ \ \ \ experiment\_ids\ =\ list(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a0aadb918e469c0478084749422ca5fe8}{list\_available\_experiments}}().keys())}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00729}00729\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00730}00730\ \ \ \ \ \ \ \ \ summary\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00731}00731\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}report\_id"{}}:\ f\textcolor{stringliteral}{"{}experiment\_summary\_\{datetime.now().strftime('\%Y\%m\%d\_\%H\%M\%S')\}"{}},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00732}00732\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiments\_included"{}}:\ experiment\_ids,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00733}00733\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_statistics"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00734}00734\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}key\_findings"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00735}00735\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}recommendations"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00736}00736\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00737}00737\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00738}00738\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ and\ analyze\ each\ experiment}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00739}00739\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_id\ \textcolor{keywordflow}{in}\ experiment\_ids:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00740}00740\ \ \ \ \ \ \ \ \ \ \ \ \ results\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\_experiment\_results}}(exp\_id,\ limit=1)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00741}00741\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ results:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00742}00742\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_summary\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00743}00743\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}experiment\_type"{}}:\ exp\_id,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00744}00744\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_combinations"{}}:\ 0,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00745}00745\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}successful\_evaluations"{}}:\ 0,}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00746}00746\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}average\_performance"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00747}00747\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}top\_performers"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00748}00748\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00749}00749\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00750}00750\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Count\ evaluations\ and\ calculate\ statistics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00751}00751\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}results"{}}\ \textcolor{keywordflow}{in}\ results[0]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00752}00752\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_scores\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00753}00753\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00754}00754\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00755}00755\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key1,\ data1\ \textcolor{keywordflow}{in}\ results[0][\textcolor{stringliteral}{"{}results"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00756}00756\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data1,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00757}00757\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key2,\ data2\ \textcolor{keywordflow}{in}\ data1.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00758}00758\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data2,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00759}00759\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key3,\ data3\ \textcolor{keywordflow}{in}\ data2.items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00760}00760\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(data3,\ dict):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00761}00761\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_summary[\textcolor{stringliteral}{"{}total\_combinations"{}}]\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00762}00762\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00763}00763\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}summary\_metrics"{}}\ \textcolor{keywordflow}{in}\ data3:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00764}00764\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_summary[}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00765}00765\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}successful\_evaluations"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00766}00766\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00767}00767\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics\ =\ data3[\textcolor{stringliteral}{"{}summary\_metrics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00768}00768\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00769}00769\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Collect\ word\ accuracy\ scores}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00770}00770\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00771}00771\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}average\_word\_accuracy\_global"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00772}00772\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{in}\ metrics}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00773}00773\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00774}00774\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ score\ =\ metrics[}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00775}00775\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}average\_word\_accuracy\_global"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00776}00776\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00777}00777\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_scores.append(score)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00778}00778\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00779}00779\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Track\ model\ performance}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00780}00780\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_key\ =\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00781}00781\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key1}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00782}00782\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ exp\_id\ ==\ \textcolor{stringliteral}{"{}0\_master"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00783}00783\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ key2}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00784}00784\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ Model\ name\ varies\ by\ experiment\ structure}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00785}00785\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_key\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ model\_scores:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00786}00786\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_key]\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00787}00787\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_scores[model\_key].append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00788}00788\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ score}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00789}00789\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00790}00790\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00791}00791\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ summary\ statistics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00792}00792\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ all\_scores:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00793}00793\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_summary[\textcolor{stringliteral}{"{}average\_performance"{}}]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00794}00794\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean\_word\_accuracy"{}}:\ np.mean(all\_scores),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00795}00795\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std\_word\_accuracy"{}}:\ np.std(all\_scores),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00796}00796\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min\_word\_accuracy"{}}:\ np.min(all\_scores),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00797}00797\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max\_word\_accuracy"{}}:\ np.max(all\_scores),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00798}00798\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00799}00799\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00800}00800\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Identify\ top\ performers}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00801}00801\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_scores:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00802}00802\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_averages\ =\ \{}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00803}00803\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model:\ np.mean(scores)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00804}00804\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model,\ scores\ \textcolor{keywordflow}{in}\ model\_scores.items()}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00805}00805\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00806}00806\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ top\_3\_models\ =\ sorted(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00807}00807\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model\_averages.items(),\ key=\textcolor{keyword}{lambda}\ x:\ x[1],\ reverse=\textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00808}00808\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )[:3]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00809}00809\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ exp\_summary[\textcolor{stringliteral}{"{}top\_performers"{}}]\ =\ dict(top\_3\_models)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00810}00810\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00811}00811\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}summary\_statistics"{}}][exp\_id]\ =\ exp\_summary}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00812}00812\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00813}00813\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Generate\ key\ findings\ and\ recommendations}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00814}00814\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}key\_findings"{}}]\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa04706b9d2a8de8e7bff1d931dc99b89}{\_extract\_key\_findings}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00815}00815\ \ \ \ \ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}summary\_statistics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00816}00816\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00817}00817\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}recommendations"{}}]\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a26332301c60a5a905728a50fb40c608b}{\_generate\_recommendations}}(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00818}00818\ \ \ \ \ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}summary\_statistics"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00819}00819\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00820}00820\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00821}00821\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ report}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00822}00822\ \ \ \ \ \ \ \ \ timestamp\ =\ datetime.now().strftime(\textcolor{stringliteral}{"{}\%Y\%m\%d\_\%H\%M\%S"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00823}00823\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ output\_format\ ==\ \textcolor{stringliteral}{"{}json"{}}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00824}00824\ \ \ \ \ \ \ \ \ \ \ \ \ report\_path\ =\ (}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00825}00825\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}\ /\ f\textcolor{stringliteral}{"{}experiment\_summary\_report\_\{timestamp\}.json"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00826}00826\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00827}00827\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(report\_path,\ \textcolor{stringliteral}{"{}w"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00828}00828\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(summary,\ f,\ ensure\_ascii=\textcolor{keyword}{False},\ indent=2,\ default=str)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00829}00829\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ output\_format\ ==\ \textcolor{stringliteral}{"{}markdown"{}}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00830}00830\ \ \ \ \ \ \ \ \ \ \ \ \ report\_path\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\_dir}}\ /\ f\textcolor{stringliteral}{"{}experiment\_summary\_report\_\{timestamp\}.md"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00831}00831\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(report\_path,\ \textcolor{stringliteral}{"{}w"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00832}00832\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aca2d25055ce934630f386827acd417e4}{\_write\_markdown\_summary\_report}}(f,\ summary)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00833}00833\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00834}00834\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(f\textcolor{stringliteral}{"{}Unsupported\ output\ format:\ \{output\_format\}"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00835}00835\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00836}00836\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{logger}}.info(f\textcolor{stringliteral}{"{}Generated\ summary\ report:\ \{report\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00837}00837\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(report\_path)}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00838}00838\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00839}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa04706b9d2a8de8e7bff1d931dc99b89}{00839}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa04706b9d2a8de8e7bff1d931dc99b89}{\_extract\_key\_findings}}(self,\ experiment\_stats:\ Dict[str,\ Any])\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00840}00840\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Extract\ key\ findings\ from\ experiment\ statistics."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00841}00841\ \ \ \ \ \ \ \ \ findings\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00842}00842\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00843}00843\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ best\ performing\ experiment\ overall}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00844}00844\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ experiment\_stats:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00845}00845\ \ \ \ \ \ \ \ \ \ \ \ \ best\_exp\ =\ max(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00846}00846\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ experiment\_stats.items(),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00847}00847\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key=\textcolor{keyword}{lambda}\ x:\ x[1]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00848}00848\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .get(\textcolor{stringliteral}{"{}average\_performance"{}},\ \{\})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00849}00849\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .get(\textcolor{stringliteral}{"{}mean\_word\_accuracy"{}},\ 0),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00850}00850\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00851}00851\ \ \ \ \ \ \ \ \ \ \ \ \ findings.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00852}00852\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Best\ overall\ performance:\ \{best\_exp[0]\}\ with\ "{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00853}00853\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{best\_exp[1]['average\_performance']['mean\_word\_accuracy']:.3f\}\ average\ word\ accuracy"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00854}00854\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00855}00855\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00856}00856\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ most\ consistent\ experiment\ (lowest\ std)}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00857}00857\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ experiment\_stats:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00858}00858\ \ \ \ \ \ \ \ \ \ \ \ \ most\_consistent\ =\ min(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00859}00859\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ experiment\_stats.items(),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00860}00860\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key=\textcolor{keyword}{lambda}\ x:\ x[1]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00861}00861\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .get(\textcolor{stringliteral}{"{}average\_performance"{}},\ \{\})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00862}00862\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .get(\textcolor{stringliteral}{"{}std\_word\_accuracy"{}},\ float(\textcolor{stringliteral}{"{}inf"{}})),}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00863}00863\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00864}00864\ \ \ \ \ \ \ \ \ \ \ \ \ findings.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00865}00865\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Most\ consistent\ performance:\ \{most\_consistent[0]\}\ with\ "{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00866}00866\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{most\_consistent[1]['average\_performance']['std\_word\_accuracy']:.3f\}\ standard\ deviation"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00867}00867\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00868}00868\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00869}00869\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ findings}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00870}00870\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00871}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a26332301c60a5a905728a50fb40c608b}{00871}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a26332301c60a5a905728a50fb40c608b}{\_generate\_recommendations}}(self,\ experiment\_stats:\ Dict[str,\ Any])\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00872}00872\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Generate\ recommendations\ based\ on\ experiment\ statistics."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00873}00873\ \ \ \ \ \ \ \ \ recommendations\ =\ []}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00874}00874\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00875}00875\ \ \ \ \ \ \ \ \ recommendations.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00876}00876\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Run\ the\ master\ experiment\ (0\_master)\ first\ to\ establish\ comprehensive\ baseline\ performance"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00877}00877\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00878}00878\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00879}00879\ \ \ \ \ \ \ \ \ recommendations.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00880}00880\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Focus\ parameter\ optimization\ experiments\ on\ top-\/performing\ models\ identified\ in\ master\ experiment"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00881}00881\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00882}00882\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00883}00883\ \ \ \ \ \ \ \ \ recommendations.append(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00884}00884\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Use\ priority\ subset\ settings\ for\ focused\ experiments\ to\ balance\ thoroughness\ with\ computational\ efficiency"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00885}00885\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00886}00886\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00887}00887\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ recommendations}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00888}00888\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00889}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aca2d25055ce934630f386827acd417e4}{00889}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aca2d25055ce934630f386827acd417e4}{\_write\_markdown\_summary\_report}}(self,\ file\_obj,\ summary:\ Dict[str,\ Any]):}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00890}00890\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Write\ a\ markdown\ format\ summary\ report."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00891}00891\ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\#\ Experiment\ Summary\ Report\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00892}00892\ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}Generated:\ \{datetime.now().isoformat()\}\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00893}00893\ \ \ \ \ \ \ \ \ file\_obj.write(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00894}00894\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Experiments\ Analyzed:\ \{len(summary['experiments\_included'])\}\(\backslash\)n\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00895}00895\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00896}00896\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00897}00897\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Key\ findings}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00898}00898\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}key\_findings"{}}\ \textcolor{keywordflow}{in}\ summary:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00899}00899\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\#\#\ Key\ Findings\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00900}00900\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ finding\ \textcolor{keywordflow}{in}\ summary[\textcolor{stringliteral}{"{}key\_findings"{}}]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00901}00901\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}-\/\ \{finding\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00902}00902\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00903}00903\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00904}00904\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Recommendations}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00905}00905\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}recommendations"{}}\ \textcolor{keywordflow}{in}\ summary:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00906}00906\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\#\#\ Recommendations\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00907}00907\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ rec\ \textcolor{keywordflow}{in}\ summary[\textcolor{stringliteral}{"{}recommendations"{}}]:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00908}00908\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}-\/\ \{rec\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00909}00909\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00910}00910\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00911}00911\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Detailed\ statistics}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00912}00912\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}summary\_statistics"{}}\ \textcolor{keywordflow}{in}\ summary:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00913}00913\ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\#\#\ Detailed\ Results\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00914}00914\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ exp\_id,\ stats\ \textcolor{keywordflow}{in}\ summary[\textcolor{stringliteral}{"{}summary\_statistics"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00915}00915\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}\#\#\#\ \{exp\_id\}\(\backslash\)n\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00916}00916\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}-\/\ Total\ combinations:\ \{stats['total\_combinations']\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00917}00917\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00918}00918\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}-\/\ Successful\ evaluations:\ \{stats['successful\_evaluations']\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00919}00919\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00920}00920\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00921}00921\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}average\_performance"{}}\ \textcolor{keywordflow}{in}\ stats:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00922}00922\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ perf\ =\ stats[\textcolor{stringliteral}{"{}average\_performance"{}}]}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00923}00923\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00924}00924\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}-\/\ Average\ word\ accuracy:\ \{perf['mean\_word\_accuracy']:.3f\}\ ±\ \{perf['std\_word\_accuracy']:.3f\}\(\backslash\)n"{}}}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00925}00925\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00926}00926\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00927}00927\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}top\_performers"{}}\ \textcolor{keywordflow}{in}\ stats:}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00928}00928\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}-\/\ Top\ performers:\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00929}00929\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model,\ score\ \textcolor{keywordflow}{in}\ stats[\textcolor{stringliteral}{"{}top\_performers"{}}].items():}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00930}00930\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(f\textcolor{stringliteral}{"{}\ \ -\/\ \{model\}:\ \{score:.3f\}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00931}00931\ }
+\DoxyCodeLine{\Hypertarget{results__manager_8py_source_l00932}00932\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ file\_obj.write(\textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+
+\end{DoxyCode}

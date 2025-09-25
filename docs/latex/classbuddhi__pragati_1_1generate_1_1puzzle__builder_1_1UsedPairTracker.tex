@@ -1,0 +1,162 @@
+\doxysection{buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker Class Reference}
+\hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker}{}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker}\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_ae06d864863b2af015778646f5d8c336d}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, float \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a24999d7512dbed8604a6efcbe245a989}{max\+\_\+reuse\+\_\+percentage}}=0.\+10)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a8c72b6fc99cae3622ab307c5ab0ed388}{can\+\_\+use\+\_\+pair}} (self, str clue, str answer)
+\item 
+List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a13def38c719401833f0de4c7ead17b20}{filter\+\_\+corpus}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} corpus\+\_\+pairs)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_abad736d33c6a97f428ddd560a85adf57}{record\+\_\+puzzle\+\_\+usage}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} used\+\_\+pairs)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a0f40b8aab9a0afea5840bb91d9d3baca}{get\+\_\+usage\+\_\+stats}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a24999d7512dbed8604a6efcbe245a989}{max\+\_\+reuse\+\_\+percentage}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a8730e33a2da7d5fad221d3e9cbca838b}{pair\+\_\+usage}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a1cd15042e3b52c2b5c9b2503a34ed6e9}{total\+\_\+puzzles}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Tracks usage of clue-answer pairs across puzzle generation to ensure diversity.
+
+Enforces maximum usage percentage per pair to prevent repetitive puzzles
+that would allow LLM memorization.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00026}{26}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_ae06d864863b2af015778646f5d8c336d}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_ae06d864863b2af015778646f5d8c336d} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{float }]{max\+\_\+reuse\+\_\+percentage = {\ttfamily 0.10} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize tracker.
+
+Args:
+    max_reuse_percentage: Maximum percentage of puzzles that can use the same pair (0.0-1.0)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00034}{34}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a8c72b6fc99cae3622ab307c5ab0ed388}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a8c72b6fc99cae3622ab307c5ab0ed388} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!can\_use\_pair@{can\_use\_pair}}
+\index{can\_use\_pair@{can\_use\_pair}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{can\_use\_pair()}{can\_use\_pair()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+can\+\_\+use\+\_\+pair (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{clue,  }\item[{str}]{answer }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if a pair can be used without exceeding reuse limit.
+
+Args:
+    clue: Clue text
+    answer: Answer text
+
+Returns:
+    True if pair can be used, False if overused
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00049}{49}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a13def38c719401833f0de4c7ead17b20}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a13def38c719401833f0de4c7ead17b20} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!filter\_corpus@{filter\_corpus}}
+\index{filter\_corpus@{filter\_corpus}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{filter\_corpus()}{filter\_corpus()}}
+{\footnotesize\ttfamily  List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+filter\+\_\+corpus (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}     }]{corpus\+\_\+pairs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Filter corpus to remove overused pairs.
+
+Args:
+    corpus_pairs: List of (clue, answer) pairs
+
+Returns:
+    Filtered list excluding overused pairs
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00069}{69}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a0f40b8aab9a0afea5840bb91d9d3baca}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a0f40b8aab9a0afea5840bb91d9d3baca} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!get\_usage\_stats@{get\_usage\_stats}}
+\index{get\_usage\_stats@{get\_usage\_stats}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{get\_usage\_stats()}{get\_usage\_stats()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+get\+\_\+usage\+\_\+stats (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get usage statistics for monitoring.
+
+Returns:
+    Dictionary with usage statistics
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00112}{112}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_abad736d33c6a97f428ddd560a85adf57}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_abad736d33c6a97f428ddd560a85adf57} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!record\_puzzle\_usage@{record\_puzzle\_usage}}
+\index{record\_puzzle\_usage@{record\_puzzle\_usage}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{record\_puzzle\_usage()}{record\_puzzle\_usage()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+record\+\_\+puzzle\+\_\+usage (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{used\+\_\+pairs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Record pairs used in a completed puzzle.
+
+Args:
+    used_pairs: List of (clue, answer) pairs used in the puzzle
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00095}{95}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a24999d7512dbed8604a6efcbe245a989}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a24999d7512dbed8604a6efcbe245a989} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!max\_reuse\_percentage@{max\_reuse\_percentage}}
+\index{max\_reuse\_percentage@{max\_reuse\_percentage}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{max\_reuse\_percentage}{max\_reuse\_percentage}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+max\+\_\+reuse\+\_\+percentage}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00041}{41}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a8730e33a2da7d5fad221d3e9cbca838b}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a8730e33a2da7d5fad221d3e9cbca838b} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!pair\_usage@{pair\_usage}}
+\index{pair\_usage@{pair\_usage}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{pair\_usage}{pair\_usage}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+pair\+\_\+usage}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00042}{42}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a1cd15042e3b52c2b5c9b2503a34ed6e9}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker_a1cd15042e3b52c2b5c9b2503a34ed6e9} 
+\index{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}!total\_puzzles@{total\_puzzles}}
+\index{total\_puzzles@{total\_puzzles}!buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker@{buddhi\_pragati.generate.puzzle\_builder.UsedPairTracker}}
+\doxysubsubsection{\texorpdfstring{total\_puzzles}{total\_puzzles}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Used\+Pair\+Tracker.\+total\+\_\+puzzles}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00043}{43}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/generate/\mbox{\hyperlink{puzzle__builder_8py}{puzzle\+\_\+builder.\+py}}\end{DoxyCompactItemize}

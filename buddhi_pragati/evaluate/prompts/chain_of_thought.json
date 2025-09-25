@@ -1,0 +1,8 @@
+{
+  "chain_of_thought_instruction": {
+    "English": "Think step by step. For each clue, first identify its corresponding number and directions in the clue description. Note that the numbering may not be in order (ie clues might be numbered 21 23 1 15 78), then determine the word length, check for any interesection that you might have already filled by solving another clue and infer what constraint it imposes on the clue you are trying to solve. Then, analyze the clue carefully and consider possible answers. Then finally see how they might intersect with other words and confirm alignment with crossing letters. Explain your reasoning for each answer before providing your final solution."
+  },
+  "no_chain_of_thought_instruction": {
+    "English": "Provide your answers directly without showing your thinking process."
+  }
+}

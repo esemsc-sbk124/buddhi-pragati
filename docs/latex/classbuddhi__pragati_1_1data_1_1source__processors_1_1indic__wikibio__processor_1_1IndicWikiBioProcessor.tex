@@ -1,0 +1,296 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor Class Reference}
+\hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor}{}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor}\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+Inheritance diagram for buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}, context\+\_\+scorer=None)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a669a455411fc774d1df94ac6881717d7}{get\+\_\+supported\+\_\+languages}} (self)
+\item 
+Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf155bc1eeb61cfbbb531d41dff30275}{load\+\_\+raw\+\_\+data}} (self, int batch\+\_\+size, int offset=0)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a1e4e398405c30b750e76bfef68ff1f75}{process\+\_\+batch}} (self, List\mbox{[}Dict\mbox{]} batch\+\_\+data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\+\_\+single\+\_\+word}} (self, str text)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\+\_\+quality\+\_\+score}} (self, str clue, str answer)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ab377bf58129c86d066528f2d9bcffc58}{dataset}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_aa5029592af0e379a5708ea1c5f72ea98}{valid\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a05efc854dcfda44cc4f65ac4c6bdefc2}{SUPPORTED\+\_\+\+LANGUAGES}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6902e7740be37e3fadce74677b8420d9}{\+\_\+process\+\_\+single\+\_\+item}} (self, Dict item)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad667ab37e5c862ddd4a448d759cd320f}{\+\_\+extract\+\_\+names\+\_\+from\+\_\+infobox}} (self, str infobox\+\_\+str)
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ac3c54efcee27a7b4298f600a742aa792}{\+\_\+create\+\_\+entry\+\_\+from\+\_\+name}} (self, str summary, List\mbox{[}str\mbox{]} all\+\_\+names, str name, str source\+\_\+id, int name\+\_\+idx)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a25a73167cbc740d73fc412c0fdb7626b}{\+\_\+remove\+\_\+phonetic\+\_\+pronunciations}} (self, str text)
+\item 
+Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_afab8bac5f9888331445c61e040234d49}{\+\_\+load\+\_\+batch\+\_\+from\+\_\+zip}} (self, str lang\+\_\+code, int batch\+\_\+size, int offset)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab0add796c2b9cabdebcb762907641f70}{\+\_\+load\+\_\+context\+\_\+scorer}} (self)
+\item 
+Dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a6db0db9696d5bf3ce5ccabd721204dfb}{\+\_\+parse\+\_\+scoring\+\_\+config}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\+\_\+cached\+\_\+data}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6b681be16f77ba9a9fc85e340c800f4e}{\+\_\+data\+\_\+file\+\_\+path}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_adf852d8b32f6feb8f9254b36ace2ea95}{\+\_\+context\+\_\+scorer}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a631dc0711391faa70d3a361e06f8949a}{\+\_\+enable\+\_\+enhanced\+\_\+scoring}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Processor for IndicWikiBio dataset.
+
+Extracts names from biographical infoboxes and removes them from
+the summary to create crossword clue-answer pairs.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00022}{22}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{dict}]{config,  }\item[{str}]{language,  }\item[{}]{context\+\_\+scorer = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac0bab857d8cb68dacbd504f5256964a4}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00043}{43}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ac3c54efcee27a7b4298f600a742aa792}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ac3c54efcee27a7b4298f600a742aa792} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_create\_entry\_from\_name@{\_create\_entry\_from\_name}}
+\index{\_create\_entry\_from\_name@{\_create\_entry\_from\_name}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_create\_entry\_from\_name()}{\_create\_entry\_from\_name()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+create\+\_\+entry\+\_\+from\+\_\+name (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{summary,  }\item[{List\mbox{[}str\mbox{]}}]{all\+\_\+names,  }\item[{str}]{name,  }\item[{str}]{source\+\_\+id,  }\item[{int}]{name\+\_\+idx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create a dataset entry by removing ALL names from summary.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00247}{247}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad667ab37e5c862ddd4a448d759cd320f}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad667ab37e5c862ddd4a448d759cd320f} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_extract\_names\_from\_infobox@{\_extract\_names\_from\_infobox}}
+\index{\_extract\_names\_from\_infobox@{\_extract\_names\_from\_infobox}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_extract\_names\_from\_infobox()}{\_extract\_names\_from\_infobox()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+extract\+\_\+names\+\_\+from\+\_\+infobox (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{infobox\+\_\+str }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Extract names from tab-separated infobox string data.
+
+The infobox is a string in format: "name_1:value1\tname_2:value2\tother_field:value3"
+We parse this format to extract name fields and convert to individual words.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00173}{173}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_afab8bac5f9888331445c61e040234d49}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_afab8bac5f9888331445c61e040234d49} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_load\_batch\_from\_zip@{\_load\_batch\_from\_zip}}
+\index{\_load\_batch\_from\_zip@{\_load\_batch\_from\_zip}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_load\_batch\_from\_zip()}{\_load\_batch\_from\_zip()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+load\+\_\+batch\+\_\+from\+\_\+zip (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{lang\+\_\+code,  }\item[{int}]{batch\+\_\+size,  }\item[{int     }]{offset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Load batch of IndicWikiBio data directly from zip files.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00343}{343}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6902e7740be37e3fadce74677b8420d9}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6902e7740be37e3fadce74677b8420d9} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_process\_single\_item@{\_process\_single\_item}}
+\index{\_process\_single\_item@{\_process\_single\_item}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_process\_single\_item()}{\_process\_single\_item()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+process\+\_\+single\+\_\+item (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict}]{item }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Process a single IndicWikiBio item into multiple dataset entries.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00142}{142}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a25a73167cbc740d73fc412c0fdb7626b}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a25a73167cbc740d73fc412c0fdb7626b} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_remove\_phonetic\_pronunciations@{\_remove\_phonetic\_pronunciations}}
+\index{\_remove\_phonetic\_pronunciations@{\_remove\_phonetic\_pronunciations}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_remove\_phonetic\_pronunciations()}{\_remove\_phonetic\_pronunciations()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+remove\+\_\+phonetic\+\_\+pronunciations (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Remove phonetic pronunciations and transliterations from text.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00311}{311}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a669a455411fc774d1df94ac6881717d7}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a669a455411fc774d1df94ac6881717d7} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return set of languages supported by IndicWikiBio.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ad7ae21c80ff0ad7a1e4709746710de5b}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00049}{49}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf155bc1eeb61cfbbb531d41dff30275}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf155bc1eeb61cfbbb531d41dff30275} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!load\_raw\_data@{load\_raw\_data}}
+\index{load\_raw\_data@{load\_raw\_data}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{load\_raw\_data()}{load\_raw\_data()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+load\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{batch\+\_\+size,  }\item[{int }]{offset = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load batch of raw IndicWikiBio data directly from zip files.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab7267908c99eb1dc87c5f0d353369170}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00053}{53}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a1e4e398405c30b750e76bfef68ff1f75}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a1e4e398405c30b750e76bfef68ff1f75} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Dict\mbox{]}}]{batch\+\_\+data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Process batch of IndicWikiBio data into dataset entries.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a3da768df8b6ff82fa1e593cca13205f0}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00082}{82}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_cached\_data@{\_cached\_data}}
+\index{\_cached\_data@{\_cached\_data}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_cached\_data}{\_cached\_data}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+cached\+\_\+data\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00046}{46}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6b681be16f77ba9a9fc85e340c800f4e}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6b681be16f77ba9a9fc85e340c800f4e} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!\_data\_file\_path@{\_data\_file\_path}}
+\index{\_data\_file\_path@{\_data\_file\_path}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{\_data\_file\_path}{\_data\_file\_path}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+\_\+data\+\_\+file\+\_\+path\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00047}{47}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}}
+\index{answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{answer\_in\_clue\_rejections}{answer\_in\_clue\_rejections}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+answer\+\_\+in\+\_\+clue\+\_\+rejections}
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00112}{112}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ab377bf58129c86d066528f2d9bcffc58}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ab377bf58129c86d066528f2d9bcffc58} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!dataset@{dataset}}
+\index{dataset@{dataset}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{dataset}{dataset}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+dataset}
+
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00045}{45}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a05efc854dcfda44cc4f65ac4c6bdefc2}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a05efc854dcfda44cc4f65ac4c6bdefc2} 
+\index{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}!SUPPORTED\_LANGUAGES@{SUPPORTED\_LANGUAGES}}
+\index{SUPPORTED\_LANGUAGES@{SUPPORTED\_LANGUAGES}!buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor@{buddhi\_pragati.data.source\_processors.indic\_wikibio\_processor.IndicWikiBioProcessor}}
+\doxysubsubsection{\texorpdfstring{SUPPORTED\_LANGUAGES}{SUPPORTED\_LANGUAGES}}
+{\footnotesize\ttfamily dict buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor.\+SUPPORTED\+\_\+\+LANGUAGES\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{indic__wikibio__processor_8py_source_l00031}{31}} of file \mbox{\hyperlink{indic__wikibio__processor_8py_source}{indic\+\_\+wikibio\+\_\+processor.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/data/source\+\_\+processors/\mbox{\hyperlink{indic__wikibio__processor_8py}{indic\+\_\+wikibio\+\_\+processor.\+py}}\end{DoxyCompactItemize}

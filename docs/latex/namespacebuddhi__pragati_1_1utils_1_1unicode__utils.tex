@@ -1,0 +1,195 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils}{}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils}\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a8f50161e1090fbc3370b23e79f379d87}{is\+\_\+alphabetic\+\_\+unicode}} (str text)
+\item 
+Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a831f51df7023391d2599c8255081f196}{clean\+\_\+unicode\+\_\+text}} (Optional\mbox{[}str\mbox{]} text)
+\item 
+str \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a3e7b39108525638cceb68762905d965e}{get\+\_\+script\+\_\+name}} (str text)
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_ac3cf3ee43d277f386b2f6bf94fd1cc37}{contains\+\_\+latin\+\_\+script}} (str text)
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a515dfe466ed97b77eb4d326edd63bf8d}{is\+\_\+predominantly\+\_\+latin\+\_\+script}} (str text)
+\item 
+str \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a3b3d0998d2a6e92faba8184b2e67a316}{extract\+\_\+first\+\_\+sentence}} (str text)
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_acd8a0bcb4148689d61ddf48d1e1f3257}{has\+\_\+multiple\+\_\+words}} (str text)
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_aca71640bacc2c7c86a5656da4284603e}{answer\+\_\+in\+\_\+clue\+\_\+check}} (str clue, str answer)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Unicode utility functions for Buddhi-Pragati crossword benchmark.
+
+This module provides Unicode-aware text processing functions.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_aca71640bacc2c7c86a5656da4284603e}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_aca71640bacc2c7c86a5656da4284603e} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!answer\_in\_clue\_check@{answer\_in\_clue\_check}}
+\index{answer\_in\_clue\_check@{answer\_in\_clue\_check}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{answer\_in\_clue\_check()}{answer\_in\_clue\_check()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+answer\+\_\+in\+\_\+clue\+\_\+check (\begin{DoxyParamCaption}\item[{str}]{clue,  }\item[{str}]{answer }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if answer appears in clue (case-insensitive).
+
+This is the universal sanity check to ensure no answer leakage.
+
+Args:
+    clue: The clue text
+    answer: The answer text
+
+Returns:
+    True if answer is found in clue, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00210}{210}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a831f51df7023391d2599c8255081f196}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a831f51df7023391d2599c8255081f196} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!clean\_unicode\_text@{clean\_unicode\_text}}
+\index{clean\_unicode\_text@{clean\_unicode\_text}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{clean\_unicode\_text()}{clean\_unicode\_text()}}
+{\footnotesize\ttfamily  Optional\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+clean\+\_\+unicode\+\_\+text (\begin{DoxyParamCaption}\item[{Optional\mbox{[}str\mbox{]}}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clean and normalize Unicode text for crossword processing.
+
+Args:
+    text: Input text to clean
+
+Returns:
+    Cleaned text or None if input is invalid
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00044}{44}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_ac3cf3ee43d277f386b2f6bf94fd1cc37}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_ac3cf3ee43d277f386b2f6bf94fd1cc37} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!contains\_latin\_script@{contains\_latin\_script}}
+\index{contains\_latin\_script@{contains\_latin\_script}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{contains\_latin\_script()}{contains\_latin\_script()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+contains\+\_\+latin\+\_\+script (\begin{DoxyParamCaption}\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if text contains any Latin script characters.
+
+This is used to detect entries that have Latin script entities
+embedded in Indic script texts (like scientific names).
+
+Args:
+    text: Text to check
+
+Returns:
+    True if text contains any Latin letters, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00092}{92}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a3b3d0998d2a6e92faba8184b2e67a316}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a3b3d0998d2a6e92faba8184b2e67a316} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!extract\_first\_sentence@{extract\_first\_sentence}}
+\index{extract\_first\_sentence@{extract\_first\_sentence}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{extract\_first\_sentence()}{extract\_first\_sentence()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+extract\+\_\+first\+\_\+sentence (\begin{DoxyParamCaption}\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Extract the first sentence from text.
+
+This function handles multiple languages and uses Unicode-aware
+sentence boundary detection.
+
+Args:
+    text: Input text
+
+Returns:
+    First sentence from the text, or original text if no sentence boundary found
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00157}{157}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a3e7b39108525638cceb68762905d965e}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a3e7b39108525638cceb68762905d965e} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!get\_script\_name@{get\_script\_name}}
+\index{get\_script\_name@{get\_script\_name}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{get\_script\_name()}{get\_script\_name()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+get\+\_\+script\+\_\+name (\begin{DoxyParamCaption}\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get the primary script name for a text string.
+
+Args:
+    text: Text to analyze
+
+Returns:
+    Script name (e.g., 'Latin', 'Devanagari', 'Bengali', etc.)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00067}{67}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_acd8a0bcb4148689d61ddf48d1e1f3257}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_acd8a0bcb4148689d61ddf48d1e1f3257} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!has\_multiple\_words@{has\_multiple\_words}}
+\index{has\_multiple\_words@{has\_multiple\_words}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{has\_multiple\_words()}{has\_multiple\_words()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+has\+\_\+multiple\+\_\+words (\begin{DoxyParamCaption}\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if text contains multiple words.
+
+This is Unicode-aware and handles different scripts properly.
+
+Args:
+    text: Text to check
+
+Returns:
+    True if text contains multiple words separated by spaces
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00190}{190}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a8f50161e1090fbc3370b23e79f379d87}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a8f50161e1090fbc3370b23e79f379d87} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!is\_alphabetic\_unicode@{is\_alphabetic\_unicode}}
+\index{is\_alphabetic\_unicode@{is\_alphabetic\_unicode}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{is\_alphabetic\_unicode()}{is\_alphabetic\_unicode()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+is\+\_\+alphabetic\+\_\+unicode (\begin{DoxyParamCaption}\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if text contains only Unicode letters (any script).
+
+This is a Unicode-aware replacement for str.isalpha() that works
+with all scripts including Devanagari, Bengali, Tamil, Telugu, etc.
+
+For Indic scripts, this includes combining marks (vowel signs, etc.)
+which are essential parts of words but have categories Mc/Mn instead of L.
+
+Args:
+    text: Text to check
+
+Returns:
+    True if text contains only Unicode letters and combining marks, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00012}{12}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a515dfe466ed97b77eb4d326edd63bf8d}\label{namespacebuddhi__pragati_1_1utils_1_1unicode__utils_a515dfe466ed97b77eb4d326edd63bf8d} 
+\index{buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}!is\_predominantly\_latin\_script@{is\_predominantly\_latin\_script}}
+\index{is\_predominantly\_latin\_script@{is\_predominantly\_latin\_script}!buddhi\_pragati.utils.unicode\_utils@{buddhi\_pragati.utils.unicode\_utils}}
+\doxysubsubsection{\texorpdfstring{is\_predominantly\_latin\_script()}{is\_predominantly\_latin\_script()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+unicode\+\_\+utils.\+is\+\_\+predominantly\+\_\+latin\+\_\+script (\begin{DoxyParamCaption}\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if text is predominantly in Latin script.
+
+This is used to filter out answers that are in Latin script
+when we expect Indic script answers.
+
+Args:
+    text: Text to check
+
+Returns:
+    True if more than 50% of letter characters are Latin script
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{unicode__utils_8py_source_l00121}{121}} of file \mbox{\hyperlink{unicode__utils_8py_source}{unicode\+\_\+utils.\+py}}.
+

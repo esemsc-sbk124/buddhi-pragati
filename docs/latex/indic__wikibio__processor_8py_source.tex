@@ -1,0 +1,409 @@
+\doxysection{indic\+\_\+wikibio\+\_\+processor.\+py}
+\hypertarget{indic__wikibio__processor_8py_source}{}\label{indic__wikibio__processor_8py_source}\index{buddhi\_pragati/data/source\_processors/indic\_wikibio\_processor.py@{buddhi\_pragati/data/source\_processors/indic\_wikibio\_processor.py}}
+\mbox{\hyperlink{indic__wikibio__processor_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00002}00002\ \textcolor{stringliteral}{IndicWikiBio\ Dataset\ Processor}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00004}00004\ \textcolor{stringliteral}{Handles\ processing\ of\ IndicWikiBio\ biographical\ entries\ to\ extract}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00005}00005\ \textcolor{stringliteral}{names\ from\ infoboxes\ and\ use\ summaries\ as\ clues\ for\ crossword\ pairs.}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00008}00008\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00009}00009\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00010}00010\ \textcolor{keyword}{import}\ zipfile}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00011}00011\ \textcolor{keyword}{import}\ tempfile}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00012}00012\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00013}00013\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Dict,\ Set,\ Tuple,\ Optional}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00014}00014\ \textcolor{keyword}{from}\ huggingface\_hub\ \textcolor{keyword}{import}\ hf\_hub\_download}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00016}00016\ \textcolor{keyword}{from}\ ..dataset\_builder\ \textcolor{keyword}{import}\ SourceProcessor,\ DatasetEntry}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00017}00017\ \textcolor{keyword}{from}\ ...utils.unicode\_utils\ \textcolor{keyword}{import}\ answer\_in\_clue\_check}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00019}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_a7dc689a3949d599f6bae3dd5a034356d}{00019}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00022}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor}{00022}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor}{IndicWikiBioProcessor}}(\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{SourceProcessor}}):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00023}00023\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ Processor\ for\ IndicWikiBio\ dataset.}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00025}00025\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ Extracts\ names\ from\ biographical\ infoboxes\ and\ removes\ them\ from}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ the\ summary\ to\ create\ crossword\ clue-\/answer\ pairs.}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00030}00030\ \ \ \ \ \textcolor{comment}{\#\ Languages\ supported\ by\ IndicWikiBio}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00031}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a05efc854dcfda44cc4f65ac4c6bdefc2}{00031}}\ \ \ \ \ SUPPORTED\_LANGUAGES\ =\ \{}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00043}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1}{00043}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1}{\_\_init\_\_}}(self,\ config:\ dict,\ language:\ str,\ context\_scorer=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1}{\_\_init\_\_}}(config,\ language,\ context\_scorer)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00045}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ab377bf58129c86d066528f2d9bcffc58}{00045}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ab377bf58129c86d066528f2d9bcffc58}{dataset}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00046}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{00046}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}}\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Cache\ for\ loaded\ data}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00047}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6b681be16f77ba9a9fc85e340c800f4e}{00047}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6b681be16f77ba9a9fc85e340c800f4e}{\_data\_file\_path}}\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Cache\ for\ extracted\ JSONL\ file}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00049}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a669a455411fc774d1df94ac6881717d7}{00049}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a669a455411fc774d1df94ac6881717d7}{get\_supported\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Return\ set\ of\ languages\ supported\ by\ IndicWikiBio."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a05efc854dcfda44cc4f65ac4c6bdefc2}{SUPPORTED\_LANGUAGES}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00053}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf155bc1eeb61cfbbb531d41dff30275}{00053}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf155bc1eeb61cfbbb531d41dff30275}{load\_raw\_data}}(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ self,\ batch\_size:\ int,\ offset:\ int\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00055}00055\ \ \ \ \ )\ -\/>\ Tuple[List[Dict],\ bool]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ batch\ of\ raw\ IndicWikiBio\ data\ directly\ from\ zip\ files."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Map\ language\ to\ IndicWikiBio\ language\ code}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ lang\_map\ =\ \{}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}}:\ \textcolor{stringliteral}{"{}as"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}}:\ \textcolor{stringliteral}{"{}bn"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}}:\ \textcolor{stringliteral}{"{}hi"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}}:\ \textcolor{stringliteral}{"{}kn"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}}:\ \textcolor{stringliteral}{"{}ml"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}}:\ \textcolor{stringliteral}{"{}or"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}}:\ \textcolor{stringliteral}{"{}pa"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}}:\ \textcolor{stringliteral}{"{}ta"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}}:\ \textcolor{stringliteral}{"{}te"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ lang\_code\ =\ lang\_map.get(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ lang\_code:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Unsupported\ language:\ \{self.language\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ data\ directly\ from\ zip\ files\ (no\ API\ calls\ needed)}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_afab8bac5f9888331445c61e040234d49}{\_load\_batch\_from\_zip}}(lang\_code,\ batch\_size,\ offset)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ IndicWikiBio\ batch\ for\ \{self.language\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00082}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a1e4e398405c30b750e76bfef68ff1f75}{00082}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a1e4e398405c30b750e76bfef68ff1f75}{process\_batch}}(self,\ batch\_data:\ List[Dict])\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ batch\ of\ IndicWikiBio\ data\ into\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ processed\_count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ error\_count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ batch\_start\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ batch\_start\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ item\ \textcolor{keywordflow}{in}\ enumerate(batch\_data):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ item\ structure}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ isinstance(item,\ dict):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Item\ \{i\}\ is\ not\ a\ dict:\ \{type(item)\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ required\ fields}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}summary"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ item\ \textcolor{keywordflow}{or}\ \textcolor{stringliteral}{"{}infobox"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ item:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Item\ \{i\}\ missing\ required\ fields.\ Available:\ \{list(item.keys())\}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ before\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item\_entries\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6902e7740be37e3fadce74677b8420d9}{\_process\_single\_item}}(item)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ item\_entries:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.extend(item\_entries)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ answer\_in\_clue\ counter\ didn't\ increase,\ this\ was\ rejected\ for\ other\ reasons}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00112}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{00112}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{answer\_in\_clue\_rejections}}\ ==\ before\_answer\_in\_clue:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ processed\_count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00115}00115\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ i\ \%\ 10\ ==\ 0:\ \ \textcolor{comment}{\#\ Log\ progress\ every\ 10\ items}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Processed\ \{i\ +\ 1\}/\{len(batch\_data)\}\ items,\ generated\ \{len(entries)\}\ entries\ so\ far"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Error\ processing\ IndicWikiBio\ item\ \{i\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Item\ keys:\ \{list(item.keys())\ if\ isinstance(item,\ dict)\ else\ 'Not\ a\ dict'\}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ error\_count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ batch\ statistics}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ batch\_answer\_in\_clue\ =\ (}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{answer\_in\_clue\_rejections}}\ -\/\ batch\_start\_answer\_in\_clue}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ batch\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ -\/\ batch\_start\_other}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}IndicWikiBio\ batch\ complete:\ processed\ \{len(batch\_data)\},\ \{len(entries)\},\ "{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}answer-\/in-\/clue\ rejections\ \{batch\_answer\_in\_clue\},\ other\ rejections\ \{batch\_other\}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00142}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6902e7740be37e3fadce74677b8420d9}{00142}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a6902e7740be37e3fadce74677b8420d9}{\_process\_single\_item}}(self,\ item:\ Dict)\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ a\ single\ IndicWikiBio\ item\ into\ multiple\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ summary\ =\ item.get(\textcolor{stringliteral}{"{}summary"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ infobox\_str\ =\ item.get(\textcolor{stringliteral}{"{}infobox"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ summary\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ infobox\_str:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00149}00149\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ summary\ length}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ min\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}INDIC\_WIKIBIO\_MIN\_SUMMARY\_LENGTH"{}},\ 30)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(summary)\ <\ min\_length:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ names\ from\ infobox\ string}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ names\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad667ab37e5c862ddd4a448d759cd320f}{\_extract\_names\_from\_infobox}}(infobox\_str)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ names:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ entries\ for\ each\ valid\ name}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ source\_id\ =\ str(item.get(\textcolor{stringliteral}{"{}id"{}},\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\_count}}))}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ name\_idx,\ name\ \textcolor{keywordflow}{in}\ enumerate(names):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ entry\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ac3c54efcee27a7b4298f600a742aa792}{\_create\_entry\_from\_name}}(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ summary,\ names,\ name,\ source\_id,\ name\_idx}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entry:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.append(entry)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00170}00170\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00172}00172\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00173}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad667ab37e5c862ddd4a448d759cd320f}{00173}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad667ab37e5c862ddd4a448d759cd320f}{\_extract\_names\_from\_infobox}}(self,\ infobox\_str:\ str)\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00175}00175\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Extract\ names\ from\ tab-\/separated\ infobox\ string\ data.}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00176}00176\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00177}00177\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ The\ infobox\ is\ a\ string\ in\ format:\ "{}name\_1:value1\(\backslash\)tname\_2:value2\(\backslash\)tother\_field:value3"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00178}00178\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ We\ parse\ this\ format\ to\ extract\ name\ fields\ and\ convert\ to\ individual\ words.}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00179}00179\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ names\ =\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ infobox\_str\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ isinstance(infobox\_str,\ str):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ names}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ tab-\/separated\ key:value\ pairs}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ infobox\_dict\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ pairs\ =\ infobox\_str.split(\textcolor{stringliteral}{"{}\(\backslash\)t"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00189}00189\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pair\ \textcolor{keywordflow}{in}\ pairs:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}:"{}}\ \textcolor{keywordflow}{in}\ pair:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key,\ value\ =\ pair.split(\textcolor{stringliteral}{"{}:"{}},\ 1)\ \ \textcolor{comment}{\#\ Split\ only\ on\ first\ colon}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key\ =\ key.strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ value.strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ key\ \textcolor{keywordflow}{and}\ value:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ infobox\_dict[key]\ =\ value}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Parsed\ infobox\ keys:\ \{list(infobox\_dict.keys())\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ sequential\ name\ fields\ (name\_1,\ name\_2,\ name\_3,\ ...)}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ name\_parts\ =\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ i\ =\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ f\textcolor{stringliteral}{"{}name\_\{i\}"{}}\ \textcolor{keywordflow}{in}\ infobox\_dict:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ part\ =\ infobox\_dict[f\textcolor{stringliteral}{"{}name\_\{i\}"{}}].strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ part\ \textcolor{keywordflow}{and}\ part\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}<"{}},\ \textcolor{stringliteral}{"{}>"{}},\ \textcolor{stringliteral}{"{}br"{}}]:\ \ \textcolor{comment}{\#\ Filter\ out\ HTML\ artifacts}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name\_parts.append(part)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ we\ found\ name\ parts,\ extract\ individual\ words}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ name\_parts:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ part\ \textcolor{keywordflow}{in}\ name\_parts:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ part\ of\ any\ remaining\ HTML-\/like\ content}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cleaned\_part\ =\ part.replace(\textcolor{stringliteral}{"{}<"{}},\ \textcolor{stringliteral}{"{}"{}}).replace(\textcolor{stringliteral}{"{}>"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\_single\_word}}(cleaned\_part):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ names.append(cleaned\_part)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Also\ check\ for\ other\ common\ name\ fields}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ other\_name\_fields\ =\ [\textcolor{stringliteral}{"{}full\_name"{}},\ \textcolor{stringliteral}{"{}birth\_name"{}},\ \textcolor{stringliteral}{"{}real\_name"{}}]}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ field\ \textcolor{keywordflow}{in}\ other\_name\_fields:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ field\ \textcolor{keywordflow}{in}\ infobox\_dict:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ infobox\_dict[field].strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ value\ \textcolor{keywordflow}{and}\ value.lower()\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}unknown"{}},\ \textcolor{stringliteral}{"{}न/ए"{}},\ \textcolor{stringliteral}{"{}अज्ञात"{}}]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Split\ multi-\/word\ names\ into\ individual\ words}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ words\ =\ value.split()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ word\ \textcolor{keywordflow}{in}\ words:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cleaned\_word\ =\ (}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ word.replace(\textcolor{stringliteral}{"{}<"{}},\ \textcolor{stringliteral}{"{}"{}}).replace(\textcolor{stringliteral}{"{}>"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\_single\_word}}(cleaned\_word):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ names.append(cleaned\_word)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ duplicates\ while\ preserving\ order}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ unique\_names\ =\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ seen\ =\ set()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ name\ \textcolor{keywordflow}{in}\ names:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ seen\ \textcolor{keywordflow}{and}\ len(name)\ >\ 1:\ \ \textcolor{comment}{\#\ Ensure\ meaningful\ names}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ unique\_names.append(name)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seen.add(name)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Extracted\ names:\ \{unique\_names\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ unique\_names[:5]\ \ \textcolor{comment}{\#\ Limit\ to\ 5\ names\ per\ entry}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Error\ parsing\ infobox:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00247}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ac3c54efcee27a7b4298f600a742aa792}{00247}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ac3c54efcee27a7b4298f600a742aa792}{\_create\_entry\_from\_name}}(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ summary:\ str,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ all\_names:\ List[str],}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ name:\ str,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ source\_id:\ str,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ name\_idx:\ int,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00254}00254\ \ \ \ \ )\ -\/>\ Optional[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Create\ a\ dataset\ entry\ by\ removing\ ALL\ names\ from\ summary."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Start\ with\ the\ original\ summary}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ clue\ =\ summary}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ ALL\ extracted\ names\ from\ the\ clue}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ extracted\_name\ \textcolor{keywordflow}{in}\ all\_names:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ clue\ =\ clue.replace(extracted\_name,\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00262}00262\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ extra\ whitespace}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ clue\ =\ \textcolor{stringliteral}{"{}\ "{}}.join(clue.split())}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ phonetic\ pronunciation\ filter}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a25a73167cbc740d73fc412c0fdb7626b}{\_remove\_phonetic\_pronunciations}}(clue)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ we\ still\ have\ meaningful\ clue\ after\ removing\ all\ names}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(clue)\ <\ 10:\ \ \textcolor{comment}{\#\ Increased\ threshold\ since\ we\ need\ substantial\ content}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00272}00272\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ clue\ length\ constraints}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ min\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_CLUE\_LENGTH"{}},\ 10)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ max\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MAX\_CLUE\_LENGTH"{}},\ 500)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00276}00276\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(clue)\ <\ min\_len\ \textcolor{keywordflow}{or}\ len(clue)\ >\ max\_len:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00279}00279\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ word\ length\ for\ crossword\ suitability}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ min\_word\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_WORD\_LENGTH"{}},\ 2)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(name)\ <\ min\_word\_length:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Universal\ sanity\ check\ -\/\ ensure\ answer\ not\ in\ clue}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ answer\_in\_clue\_check(clue,\ name):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}IndicWikiBio\ rejected\ entry:\ answer\ '\{name\}'\ found\ in\ clue\ '\{clue[:100]\}...'"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_ad7000559f55806b982f6bdba0d37e04b}{answer\_in\_clue\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ quality\ score}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ quality\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\_quality\_score}}(clue,\ name)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ unique\ entry\ ID\ with\ correct\ format:\ indic\_wiki\_bio\_\{language\}\_\{source\_id\}\_\{name\_idx\}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ We\ need\ name\_idx\ since\ one\ source\ entry\ can\ generate\ multiple\ clue-\/answer\ pairs}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ entry\_id\ =\ f\textcolor{stringliteral}{"{}indic\_wiki\_bio\_\{self.language\}\_\{source\_id\}\_\{name\_idx\}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ context\_score\ will\ be\ computed\ later\ after\ quality\ filtering\ (deferred\ scoring)}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{DatasetEntry}}(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ id=entry\_id,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ clue=clue,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ answer=name.upper(),}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ source=\textcolor{stringliteral}{"{}IndicWikiBio"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ source\_id=source\_id,\ \ \textcolor{comment}{\#\ Use\ actual\ source\_id\ from\ dataset}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ context\_score\ defaults\ to\ 0.0\ and\ will\ be\ computed\ later}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00311}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a25a73167cbc740d73fc412c0fdb7626b}{00311}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a25a73167cbc740d73fc412c0fdb7626b}{\_remove\_phonetic\_pronunciations}}(self,\ text:\ str)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Remove\ phonetic\ pronunciations\ and\ transliterations\ from\ text."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Patterns\ to\ remove\ phonetic\ pronunciations}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ patterns\ =\ [}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Latin\ script\ in\ parentheses:\ (लातिन\ :\ Franciscus\ [franˈtʃiskus])}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)(लातिन\(\backslash\)s*:\(\backslash\)s*[\string^)]*\(\backslash\))"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)([Ll]atin\(\backslash\)s*:\(\backslash\)s*[\string^)]*\(\backslash\))"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Phonetic\ transcriptions\ in\ brackets:\ [franˈtʃiskus]}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)[[\string^\(\backslash\)]]*ˈ[\string^\(\backslash\)]]*\(\backslash\)]"{}},\ \ \textcolor{comment}{\#\ Contains\ phonetic\ stress\ marks}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)[[\string^\(\backslash\)]]*ʃ[\string^\(\backslash\)]]*\(\backslash\)]"{}},\ \ \textcolor{comment}{\#\ Contains\ phonetic\ symbols}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)[[\string^\(\backslash\)]]*θ[\string^\(\backslash\)]]*\(\backslash\)]"{}},\ \ \textcolor{comment}{\#\ Contains\ phonetic\ symbols}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)[[\string^\(\backslash\)]]*ð[\string^\(\backslash\)]]*\(\backslash\)]"{}},\ \ \textcolor{comment}{\#\ Contains\ phonetic\ symbols}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Birth\ names\ in\ parentheses\ that\ are\ transliterations}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)(\(\backslash\)s*जन्म\(\backslash\)s*:\(\backslash\)s*[\string^)]*\(\backslash\))"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)([Bb]irth\(\backslash\)s*:\(\backslash\)s*[\string^)]*\(\backslash\))"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)([Bb]orn\(\backslash\)s*:\(\backslash\)s*[\string^)]*\(\backslash\))"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Generic\ parenthetical\ content\ with\ mixed\ scripts}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)([\string^)]*[a-\/zA-\/Z][\string^)]*[a-\/zA-\/Z][\string^)]*\(\backslash\))"{}},\ \ \textcolor{comment}{\#\ Contains\ multiple\ Latin\ letters}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00332}00332\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ cleaned\_text\ =\ text}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pattern\ \textcolor{keywordflow}{in}\ patterns:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ cleaned\_text\ =\ re.sub(pattern,\ \textcolor{stringliteral}{"{}"{}},\ cleaned\_text,\ flags=re.IGNORECASE)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ extra\ whitespace\ and\ punctuation}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ cleaned\_text\ =\ re.sub(\textcolor{stringliteral}{r"{}\(\backslash\)s*;\(\backslash\)s*"{}},\ \textcolor{stringliteral}{"{}\ "{}},\ cleaned\_text)\ \ \textcolor{comment}{\#\ Remove\ semicolons}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ cleaned\_text\ =\ re.sub(\textcolor{stringliteral}{r"{}\(\backslash\)s+"{}},\ \textcolor{stringliteral}{"{}\ "{}},\ cleaned\_text).strip()}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cleaned\_text}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00342}00342\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00343}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_afab8bac5f9888331445c61e040234d49}{00343}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_afab8bac5f9888331445c61e040234d49}{\_load\_batch\_from\_zip}}(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ self,\ lang\_code:\ str,\ batch\_size:\ int,\ offset:\ int}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00345}00345\ \ \ \ \ )\ -\/>\ Tuple[List[Dict],\ bool]:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ batch\ of\ IndicWikiBio\ data\ directly\ from\ zip\ files."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ all\ data\ if\ not\ cached}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ IndicWikiBio\ data\ for\ \{lang\_code\}\ from\ zip\ file..."{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Download\ the\ zip\ file\ for\ this\ language}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ zip\_filename\ =\ f\textcolor{stringliteral}{"{}data/\{lang\_code\}\_WikiBio\_v1.0.zip"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ zip\_path\ =\ hf\_hub\_download(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id=\textcolor{stringliteral}{"{}ai4bharat/IndicWikiBio"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filename=zip\_filename,}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_type=\textcolor{stringliteral}{"{}dataset"{}},}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00360}00360\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ and\ load\ training\ data}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ zipfile.ZipFile(zip\_path,\ \textcolor{stringliteral}{"{}r"{}})\ \textcolor{keyword}{as}\ zip\_ref:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ tempfile.TemporaryDirectory()\ \textcolor{keyword}{as}\ temp\_dir:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ zip\_ref.extractall(temp\_dir)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Look\ for\ training\ file}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ train\_file\ =\ os.path.join(temp\_dir,\ f\textcolor{stringliteral}{"{}\{lang\_code\}\_train.jsonl"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ os.path.exists(train\_file):}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(train\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ f:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ line.strip():}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entry\ =\ json.loads(line.strip())}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}}.append(entry)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00375}00375\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ \{len(self.\_cached\_data)\}\ entries\ from\ \{train\_file\}"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Training\ file\ not\ found:\ \{train\_file\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ data\ from\ zip\ for\ \{lang\_code\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00386}00386\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ batch\ from\ cached\ data}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ total\_entries\ =\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}})}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ start\_idx\ =\ offset}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ end\_idx\ =\ min(offset\ +\ batch\_size,\ total\_entries)}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ batch\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_aaef287b918cc9673f5af2a98ce3765ae}{\_cached\_data}}[start\_idx:end\_idx]}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ has\_more\ =\ end\_idx\ <\ total\_entries}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ \{len(batch)\}\ entries\ from\ zip\ file\ for\ \{lang\_code\},\ "{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}offset=\{offset\},\ has\_more=\{has\_more\}\ (total:\ \{total\_entries\})"{}}}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00402}00402\ }
+\DoxyCodeLine{\Hypertarget{indic__wikibio__processor_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ batch,\ has\_more}
+
+\end{DoxyCode}

@@ -1,0 +1,39 @@
+==================================================
+              Model Fetcher Results
+==================================================
+All models have the following columns: Name,Supported Indic Languages,Reasoning Model (Y/N),Model Type (Indic Fine-tuned/General Multilingual)
+
+----------- HuggingFace Models ----------- For {model}, documentation at https://huggingface.co/{model}
+- ai4bharat/Airavata,Assamese Bengali Bodo Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,Indic Fine-tuned,Y
+- CohereForAI/aya-101,Hindi Tamil Telugu Bengali Marathi Urdu Gujarati Kannada Malayalam Punjabi English,Y,General Multilingual,Y
+- Cognitive-Lab/Ambari-7B-Instruct-v0.1,Kannada English,Y,Indic Fine-tuned,N
+- nickmalhotra/ProjectIndus,Hindi English,Y,Indic Fine-tuned,N
+- smallstepai/Misal-7B-instruct-v0.1,Marathi,Y,Indic Fine-tuned,N
+- abhinand/tamil-llama-7b-instruct-v0.2,Tamil,Y,Indic Fine-tuned,N
+
+----------- SarvamAI Models ----------- Documentation at https://docs.sarvam.ai/api-reference-docs/chat/completions
+- sarvamai/sarvam-m, Bengali English Gujarati Hindi Kannada Malayalam Marathi Odia Punjabi Tami Telugu,Y,Indic Fine-tuned,Y
+
+--- OpenAI Models --- documentation at https://platform.openai.com/docs/api-reference/
+- gpt-4o,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,Y
+- gpt-4.1,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,Y
+- gpt-5,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,Y
+- o1,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,N
+- o1-pro,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,N
+- o3,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,Y
+
+
+--- Anthropic Models --- Documentation at https://docs.anthropic.com/en/api/messages
+- claude-3-7-sonnet-20250219,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,N
+- claude-opus-4-1-20250805,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,Y
+- claude-sonnet-4-20250514,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multinlingual,Y
+
+--- OpenRouter Models --- For each {model}, documentation at https://openrouter.ai/{model}
+- deepseek/deepseek-r1:free,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multilingual,Y
+- google/gemini-2.0-flash-exp:free,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,N,General Multilingual,Y
+- meta-llama/llama-3.3-70b-instruct:free,English German French Italian Portuguese Hindi Spanish Thai,N,General Multilingual,N
+- mistralai/mistral-small-3.2-24b-instruct:free,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,N,General Multilingual,Y
+- moonshotai/kimi-k2:free,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multilingual,Y
+- qwen/qwen3-30b-a3b:free,Assamese Bengali Bodo English Gujarati Hindi Kannada Kashmiri Konkani Malayalam Marathi Meitei Nepali Odia Punjabi Sanskrit Tamil Telugu Urdu,Y,General Multilingual,Y
+
+

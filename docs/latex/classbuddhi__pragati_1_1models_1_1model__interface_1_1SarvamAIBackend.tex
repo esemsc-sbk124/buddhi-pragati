@@ -1,0 +1,194 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend Class Reference}
+\hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend}{}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend}\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+Inheritance diagram for buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a59034e431851bd602b99d5393b7a6166}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a1cdf4177d3a43db6b1f432c6b53bfc25}{model\+\_\+name}}, Optional\mbox{[}str\mbox{]} api\+\_\+key=None, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_aadcc5fc50f843750602b5b3674fd3303}{generate\+\_\+response}} (self, str prompt, int max\+\_\+completion\+\_\+tokens=1000, int max\+\_\+tokens=1000, Optional\mbox{[}bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}=None, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a91bd0422868b5aea93bce1ca5c7951f5}{get\+\_\+reasoning\+\_\+token\+\_\+limit}} (self, Optional\mbox{[}str\mbox{]} effort=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a54d105c7f19daaf3fa31ccd5566712ca}{get\+\_\+last\+\_\+token\+\_\+usage}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a4f010777cfa9d0bb214f475382583d88}{api\+\_\+subscription\+\_\+key}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ac6167bfa99f8482550080e5f6312278c}{api\+\_\+model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a7908bb9aac507744fdf4112381cb7e29}{client}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a00641703fe28fc4a8683a448d06b7e86}{api\+\_\+url}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ad6633cb928d1bb7d4d80e3e1fe018cf9}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a68b306f9f5f69a3716ccb1d5d450d42c}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a1cdf4177d3a43db6b1f432c6b53bfc25}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a872d583047f5888008ef9e67b3b811c9}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_ac64f735d00604bf6915e7b64c656c853}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a46220218796cc16206b87bbc14f2cc67}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a5b0e4a9be06b6c99e468fcd3366805f6}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a90c34203d67ffa8037ec32b02348aeb2}{\+\_\+generate\+\_\+with\+\_\+client}} (self, str prompt, int max\+\_\+tokens, bool use\+\_\+reasoning, str effort)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ad3749b721a1578acdcbfae9e4fbd69ca}{\+\_\+generate\+\_\+with\+\_\+requests}} (self, str prompt, int max\+\_\+tokens, bool use\+\_\+reasoning, str effort)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}SarvamAI API backend with official client library and reasoning effort support for Indic languages.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02045}{2045}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a59034e431851bd602b99d5393b7a6166}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a59034e431851bd602b99d5393b7a6166} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{api\+\_\+key = {\ttfamily None},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a020ebe0e3f56628a73401fd23acaa015}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02048}{2048}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a90c34203d67ffa8037ec32b02348aeb2}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a90c34203d67ffa8037ec32b02348aeb2} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!\_generate\_with\_client@{\_generate\_with\_client}}
+\index{\_generate\_with\_client@{\_generate\_with\_client}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_generate\_with\_client()}{\_generate\_with\_client()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+\_\+generate\+\_\+with\+\_\+client (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int}]{max\+\_\+tokens,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate response using SarvamAI official client.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02111}{2111}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ad3749b721a1578acdcbfae9e4fbd69ca}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ad3749b721a1578acdcbfae9e4fbd69ca} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!\_generate\_with\_requests@{\_generate\_with\_requests}}
+\index{\_generate\_with\_requests@{\_generate\_with\_requests}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_generate\_with\_requests()}{\_generate\_with\_requests()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+\_\+generate\+\_\+with\+\_\+requests (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int}]{max\+\_\+tokens,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Legacy requests-based generation for backward compatibility.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02170}{2170}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_aadcc5fc50f843750602b5b3674fd3303}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_aadcc5fc50f843750602b5b3674fd3303} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!generate\_response@{generate\_response}}
+\index{generate\_response@{generate\_response}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{generate\_response()}{generate\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+generate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int }]{max\+\_\+completion\+\_\+tokens = {\ttfamily 1000},  }\item[{int }]{max\+\_\+tokens = {\ttfamily 1000},  }\item[{Optional\mbox{[}bool\mbox{]} }]{reasoning\+\_\+mode = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{reasoning\+\_\+effort = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate response using SarvamAI API with reasoning effort support.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_aab76e566366a7038db3a22d9a87e7e96}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02085}{2085}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ac6167bfa99f8482550080e5f6312278c}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ac6167bfa99f8482550080e5f6312278c} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!api\_model\_name@{api\_model\_name}}
+\index{api\_model\_name@{api\_model\_name}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{api\_model\_name}{api\_model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+api\+\_\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02062}{2062}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a4f010777cfa9d0bb214f475382583d88}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a4f010777cfa9d0bb214f475382583d88} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!api\_subscription\_key@{api\_subscription\_key}}
+\index{api\_subscription\_key@{api\_subscription\_key}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{api\_subscription\_key}{api\_subscription\_key}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+api\+\_\+subscription\+\_\+key}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02053}{2053}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a00641703fe28fc4a8683a448d06b7e86}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a00641703fe28fc4a8683a448d06b7e86} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!api\_url@{api\_url}}
+\index{api\_url@{api\_url}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{api\_url}{api\_url}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+api\+\_\+url}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02073}{2073}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a7908bb9aac507744fdf4112381cb7e29}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a7908bb9aac507744fdf4112381cb7e29} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!client@{client}}
+\index{client@{client}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{client}{client}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+client}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02065}{2065}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a68b306f9f5f69a3716ccb1d5d450d42c}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_a68b306f9f5f69a3716ccb1d5d450d42c} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!last\_token\_usage@{last\_token\_usage}}
+\index{last\_token\_usage@{last\_token\_usage}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{last\_token\_usage}{last\_token\_usage}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+last\+\_\+token\+\_\+usage}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02141}{2141}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ad6633cb928d1bb7d4d80e3e1fe018cf9}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend_ad6633cb928d1bb7d4d80e3e1fe018cf9} 
+\index{buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}!temperature@{temperature}}
+\index{temperature@{temperature}!buddhi\_pragati.models.model\_interface.SarvamAIBackend@{buddhi\_pragati.models.model\_interface.SarvamAIBackend}}
+\doxysubsubsection{\texorpdfstring{temperature}{temperature}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Sarvam\+AIBackend.\+temperature}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l02125}{2125}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/models/\mbox{\hyperlink{model__interface_8py}{model\+\_\+interface.\+py}}\end{DoxyCompactItemize}

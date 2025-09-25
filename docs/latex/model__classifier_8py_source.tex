@@ -1,0 +1,330 @@
+\doxysection{model\+\_\+classifier.\+py}
+\hypertarget{model__classifier_8py_source}{}\label{model__classifier_8py_source}\index{buddhi\_pragati/evaluate/model\_classifier.py@{buddhi\_pragati/evaluate/model\_classifier.py}}
+\mbox{\hyperlink{model__classifier_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate_1_1model__classifier}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00002}00002\ \textcolor{stringliteral}{Model\ classification\ and\ cost\ tracking\ system\ for\ evaluation\ experiments.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ classifies\ models\ from\ models\_description.txt\ by\ reasoning\ capability,}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00005}00005\ \textcolor{stringliteral}{Indic\ fine-\/tuning\ status,\ language\ support,\ and\ cost\ characteristics.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00006}00006\ \textcolor{stringliteral}{Provides\ filtering\ utilities\ for\ experiment\ design.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00007}00007\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00009}00009\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00010}00010\ \textcolor{keyword}{from}\ dataclasses\ \textcolor{keyword}{import}\ dataclass}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00011}00011\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ List,\ Set,\ Optional,\ Tuple}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00012}00012\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00014}00014\ \textcolor{keyword}{from}\ ..utils.config\_loader\ \textcolor{keyword}{import}\ get\_config}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00017}00017\ \textcolor{preprocessor}{@dataclass}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00018}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{00018}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{ModelInfo}}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00019}00019\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Information\ about\ a\ model's\ capabilities\ and\ characteristics."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00021}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_a1c01a78bbf636c9006cc11e0e58354bb}{00021}}\ \ \ \ \ name:\ str}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00022}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_adc60fd1f41088b1804fe2bd4499cc6eb}{00022}}\ \ \ \ \ supported\_languages:\ List[str]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00023}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_ae06b1860f2e86b81d23d999a446f02f4}{00023}}\ \ \ \ \ is\_reasoning\_model:\ bool}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00024}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_a3adcb8bf547f65901351bf3f1999eeba}{00024}}\ \ \ \ \ model\_type:\ str\ \ \textcolor{comment}{\#\ "{}Indic\ Fine-\/tuned"{}\ or\ "{}General\ Multilingual"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00025}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_a78846b22bcc226e45096c895e2a576e4}{00025}}\ \ \ \ \ is\_indic\_finetuned:\ bool}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00026}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_ad5e84cd2d319f7a2e7e0a00eacf22281}{00026}}\ \ \ \ \ provider:\ str\ \ \textcolor{comment}{\#\ "{}OpenAI"{},\ "{}Anthropic"{},\ "{}OpenRouter"{},\ "{}HuggingFace"{},\ "{}SarvamAI"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00027}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_a1afa30202d6d8bcaa59f24538b12925c}{00027}}\ \ \ \ \ is\_priority\_model:\ bool\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00028}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_aae37e2d5766b5ef7c1b8f1e69afff88d}{00028}}\ \ \ \ \ cost\_per\_input\_token:\ Optional[float]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00029}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo_a56c27f88e16c34abeb5dea351c369569}{00029}}\ \ \ \ \ cost\_per\_output\_token:\ Optional[float]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00032}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier}{00032}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier}{ModelClassifier}}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00033}00033\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ Classifies\ and\ filters\ models\ for\ evaluation\ experiments.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00035}00035\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ Provides\ utilities\ for:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ -\/\ Loading\ model\ information\ from\ models.txt}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ -\/\ Filtering\ by\ reasoning\ capability}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ -\/\ Filtering\ by\ Indic\ fine-\/tuning\ status}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ -\/\ Calculating\ evaluation\ costs}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ -\/\ Language\ support\ queries}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00043}00043\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00044}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9c9cad4b48eab9cef19f420ea8ce51bb}{00044}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9c9cad4b48eab9cef19f420ea8ce51bb}{\_\_init\_\_}}(self,\ models\_file:\ Optional[str]\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00045}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{00045}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}\ =\ logging.getLogger(\textcolor{stringliteral}{"{}ModelClassifier"{}})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00046}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab8d8557196e2698b3828cffe814dc5d7}{00046}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab8d8557196e2698b3828cffe814dc5d7}{config}}\ =\ get\_config()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Default\ to\ models\_description.txt\ in\ project\ root}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ models\_file\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \ \ \ \ models\_file\ =\ Path(\_\_file\_\_).parent.parent.parent\ /\ \textcolor{stringliteral}{"{}models\_description.txt"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00052}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f}{00052}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f}{models\_file}}\ =\ Path(models\_file)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Configuration\ flags}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00055}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac9d822c4f8adc36c28df0a42112a6734}{00055}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac9d822c4f8adc36c28df0a42112a6734}{cost\_tracking\_enabled}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab8d8557196e2698b3828cffe814dc5d7}{config}}.get\_bool(\textcolor{stringliteral}{"{}ENABLE\_COST\_TRACKING"{}},\ \textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ self.models:\ Dict[str,\ ModelInfo]\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ad25df507c9f9b363ab40567a94b866d2}{\_load\_models}}()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Language\ family\ classifications\ for\ experiments}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00060}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c}{00060}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c}{dravidian\_languages}}\ =\ \{\textcolor{stringliteral}{"{}Tamil"{}},\ \textcolor{stringliteral}{"{}Telugu"{}},\ \textcolor{stringliteral}{"{}Kannada"{}},\ \textcolor{stringliteral}{"{}Malayalam"{}}\}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00061}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0}{00061}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0}{indo\_aryan\_languages}}\ =\ \{}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Nepali"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kashmiri"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Konkani"{}},}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00075}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a08e50a10b140ee414fd248fea64f73b6}{00075}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a08e50a10b140ee414fd248fea64f73b6}{other\_languages}}\ =\ \{\textcolor{stringliteral}{"{}English"{}},\ \textcolor{stringliteral}{"{}Bodo"{}},\ \textcolor{stringliteral}{"{}Meitei"{}}\}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00077}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ad25df507c9f9b363ab40567a94b866d2}{00077}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ad25df507c9f9b363ab40567a94b866d2}{\_load\_models}}(self):}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ model\ information\ from\ models\_description.txt\ file."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f}{models\_file}},\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lines\ =\ f.readlines()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ current\_provider\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00084}00084\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ line\ \textcolor{keywordflow}{in}\ lines:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ line\ =\ line.strip()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Skip\ empty\ lines\ and\ headers}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ line\ \textcolor{keywordflow}{or}\ line.startswith(\textcolor{stringliteral}{"{}="{}})\ \textcolor{keywordflow}{or}\ \textcolor{stringliteral}{"{}Model\ Fetcher\ Results"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Detect\ provider\ sections}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}HuggingFace\ Models"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_provider\ =\ \textcolor{stringliteral}{"{}HuggingFace"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}SarvamAI\ Models"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_provider\ =\ \textcolor{stringliteral}{"{}SarvamAI"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}OpenAI\ Models"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_provider\ =\ \textcolor{stringliteral}{"{}OpenAI"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}Anthropic\ Models"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_provider\ =\ \textcolor{stringliteral}{"{}Anthropic"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}OpenRouter\ Models"{}}\ \textcolor{keywordflow}{in}\ line:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_provider\ =\ \textcolor{stringliteral}{"{}OpenRouter"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ model\ lines\ (start\ with\ "{}-\/\ "{})}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ line.startswith(\textcolor{stringliteral}{"{}-\/\ "{}})\ \textcolor{keywordflow}{and}\ current\_provider:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a216feeae11109a8328d4fd6c3bd87bb8}{\_parse\_model\_line}}(line[2:],\ current\_provider)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ \{len(self.models)\}\ models\ from\ \{self.models\_file\}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ FileNotFoundError:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}.error(f\textcolor{stringliteral}{"{}Models\ file\ not\ found:\ \{self.models\_file\}"{}})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}.error(f\textcolor{stringliteral}{"{}Error\ loading\ models:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00122}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a216feeae11109a8328d4fd6c3bd87bb8}{00122}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a216feeae11109a8328d4fd6c3bd87bb8}{\_parse\_model\_line}}(self,\ line:\ str,\ provider:\ str):}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Parse\ a\ single\ model\ line\ from\ the\ CSV\ format."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ parts\ =\ [part.strip()\ \textcolor{keywordflow}{for}\ part\ \textcolor{keywordflow}{in}\ line.split(\textcolor{stringliteral}{"{},"{}})]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parts)\ <\ 4:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}.warning(f\textcolor{stringliteral}{"{}Skipping\ malformed\ model\ line:\ \{line\}"{}})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ model\_name\ =\ parts[0]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ languages\_text\ =\ parts[1]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ reasoning\_text\ =\ parts[2]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ model\_type\ =\ parts[3]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ priority\_text\ =\ parts[4]\ \textcolor{keywordflow}{if}\ len(parts)\ >\ 4\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}N"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ supported\ languages}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ languages\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a15f7e07f38260bdfc291bdc6504b4cca}{\_parse\_language\_list}}(languages\_text)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Determine\ characteristics}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ is\_reasoning\ =\ reasoning\_text.strip().upper()\ ==\ \textcolor{stringliteral}{"{}Y"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ is\_indic\_finetuned\ =\ \textcolor{stringliteral}{"{}Indic\ Fine-\/tuned"{}}\ \textcolor{keywordflow}{in}\ model\_type}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ is\_priority\ =\ priority\_text.strip().upper()\ ==\ \textcolor{stringliteral}{"{}Y"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ self.models[model\_name]\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{ModelInfo}}(}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ name=model\_name,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ supported\_languages=languages,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ is\_reasoning\_model=is\_reasoning,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ model\_type=model\_type,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ is\_indic\_finetuned=is\_indic\_finetuned,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ provider=provider,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ is\_priority\_model=is\_priority,}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00153}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab08115ce1a95ad7482543c603eeb3163}{00153}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab08115ce1a95ad7482543c603eeb3163}{get\_reasoning\_models}}(self)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ reasoning-\/capable\ models."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [model\ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()\ \textcolor{keywordflow}{if}\ model.is\_reasoning\_model]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00157}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_add0250ccfcd18b3fb7c39f3ed62946b2}{00157}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_add0250ccfcd18b3fb7c39f3ed62946b2}{get\_non\_reasoning\_models}}(self)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ non-\/reasoning\ models."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [model\ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()\ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ model.is\_reasoning\_model]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00160}00160\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00161}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9da4a01dcf4a01f505b96999303a4215}{00161}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9da4a01dcf4a01f505b96999303a4215}{get\_indic\_finetuned\_models}}(self)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ Indic\ fine-\/tuned\ models."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [model\ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()\ \textcolor{keywordflow}{if}\ model.is\_indic\_finetuned]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00165}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a460863cfcd1d74ab42f1ac9b5ba4192a}{00165}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a460863cfcd1d74ab42f1ac9b5ba4192a}{get\_general\_multilingual\_models}}(self)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ general\ multilingual\ models."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [model\ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()\ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ model.is\_indic\_finetuned]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00168}00168\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00169}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{00169}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(self,\ language:\ str)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00171}00171\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Normalize\ language\ name\ for\ case-\/insensitive\ comparison.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00172}00172\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00173}00173\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ name\ in\ any\ case\ format}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00175}00175\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00176}00176\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00177}00177\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Lowercase\ language\ name\ for\ comparison}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00178}00178\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ language.strip().lower()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00181}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a1898b7c966885595814bf528892f79d6}{00181}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a1898b7c966885595814bf528892f79d6}{get\_models\_for\_language}}(self,\ language:\ str)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00183}00183\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ models\ that\ support\ a\ specific\ language.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00184}00184\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00185}00185\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Uses\ case-\/insensitive\ matching\ to\ handle\ different\ language\ name\ formats}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00186}00186\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ from\ various\ data\ sources\ (HuggingFace\ configs\ vs\ model\ definitions).}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00187}00187\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00188}00188\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00189}00189\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ name\ (case-\/insensitive)}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00190}00190\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00191}00191\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00192}00192\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ ModelInfo\ objects\ that\ support\ the\ language}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00193}00193\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ normalized\_language\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(language)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ model}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ any(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(lang)\ ==\ normalized\_language}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ model.supported\_languages)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00202}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac736e21ceb227183730125cc4027f221}{00202}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac736e21ceb227183730125cc4027f221}{get\_models\_by\_provider}}(self,\ provider:\ str)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ models\ from\ a\ specific\ provider."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [model\ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()\ \textcolor{keywordflow}{if}\ model.provider\ ==\ provider]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00206}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9e9cee210158c2c3ef6d96a20f9b67df}{00206}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9e9cee210158c2c3ef6d96a20f9b67df}{classify\_language\_family}}(self,\ language:\ str)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00208}00208\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Classify\ language\ into\ Dravidian,\ Indo-\/Aryan,\ or\ Other\ family.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00209}00209\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00210}00210\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Uses\ case-\/insensitive\ matching\ to\ handle\ different\ language\ name\ formats.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00211}00211\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00212}00212\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00213}00213\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ name\ (case-\/insensitive)}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00214}00214\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00215}00215\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00216}00216\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Language\ family\ classification\ string}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00217}00217\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ normalized\_language\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(language)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ Dravidian\ family\ (case-\/insensitive)}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ any(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(lang)\ ==\ normalized\_language}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c}{dravidian\_languages}}):}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Dravidian"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ Indo-\/Aryan\ family\ (case-\/insensitive)}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ any(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(lang)\ ==\ normalized\_language}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0}{indo\_aryan\_languages}}):}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Indo-\/Aryan"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00229}00229\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ Other\ languages\ (case-\/insensitive)}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ any(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\_normalize\_language\_name}}(lang)\ ==\ normalized\_language}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a08e50a10b140ee414fd248fea64f73b6}{other\_languages}}):}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Other"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Unknown\ language\ -\/\ default\ to\ Other}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}.warning(f\textcolor{stringliteral}{"{}Unknown\ language\ '\{language\}'\ classified\ as\ Other"{}})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}Other"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00240}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a3db05a49d044e1a732e53a47a4f93d80}{00240}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a3db05a49d044e1a732e53a47a4f93d80}{get\_dravidian\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ Dravidian\ languages\ for\ experiments."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c}{dravidian\_languages}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00244}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab96f44708e451f6adc6bf1da5390d2e9}{00244}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab96f44708e451f6adc6bf1da5390d2e9}{get\_indo\_aryan\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ Indo-\/Aryan\ languages\ for\ experiments."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0}{indo\_aryan\_languages}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00247}00247\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00248}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a2ee59d6966d00c1b21853c95de45fab4}{00248}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a2ee59d6966d00c1b21853c95de45fab4}{calculate\_evaluation\_cost}}(}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ self,\ model\_name:\ str,\ input\_tokens:\ int,\ output\_tokens:\ int}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00250}00250\ \ \ \ \ )\ -\/>\ Optional[float]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00252}00252\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculate\ cost\ for\ evaluating\ with\ a\ specific\ model.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00253}00253\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00254}00254\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns\ None\ if\ cost\ tracking\ is\ disabled\ or\ cost\ information\ is\ not\ available.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00255}00255\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac9d822c4f8adc36c28df0a42112a6734}{cost\_tracking\_enabled}}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.models:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ model\ =\ self.models[model\_name]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model.cost\_per\_input\_token\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{or}\ model.cost\_per\_output\_token\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ input\_tokens\ *\ model.cost\_per\_input\_token}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ +\ output\_tokens\ *\ model.cost\_per\_output\_token}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00271}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_afec0104ac6347861a554c01870c8edb5}{00271}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_afec0104ac6347861a554c01870c8edb5}{get\_model\_info}}(self,\ model\_name:\ str)\ -\/>\ Optional[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ detailed\ information\ about\ a\ specific\ model."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.models.get(model\_name)}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00274}00274\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00275}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aa713406e43dd73c7cae141c1caefdc87}{00275}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aa713406e43dd73c7cae141c1caefdc87}{list\_all\_models}}(self)\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}List\ all\ available\ model\ names."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ list(self.models.keys())}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00279}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a15f7e07f38260bdfc291bdc6504b4cca}{00279}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a15f7e07f38260bdfc291bdc6504b4cca}{\_parse\_language\_list}}(self,\ languages\_text:\ str)\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Parse\ comma\ and\ space\ separated\ language\ list."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Handle\ various\ formats:\ "{}Hindi,\ Tamil,\ Telugu"{}\ or\ "{}Hindi\ Tamil\ Telugu"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ languages\_text\ =\ languages\_text.replace(\textcolor{stringliteral}{"{},"{}},\ \textcolor{stringliteral}{"{}\ "{}})}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [lang.strip()\ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ languages\_text.split()\ \textcolor{keywordflow}{if}\ lang.strip()]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00285}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_af26f2b4589f081ae0a539bd8822a7f66}{00285}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_af26f2b4589f081ae0a539bd8822a7f66}{get\_priority\_models}}(self)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ all\ priority\ models."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [model\ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()\ \textcolor{keywordflow}{if}\ model.is\_priority\_model]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00288}00288\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00289}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae2e386f6a81a030a47a1f5fb509080af}{00289}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae2e386f6a81a030a47a1f5fb509080af}{get\_priority\_models\_by\_type}}(self,\ model\_type:\ str)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ priority\ models\ of\ a\ specific\ type."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ model}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model.is\_priority\_model\ \textcolor{keywordflow}{and}\ model.model\_type\ ==\ model\_type}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00297}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a5825e881dcde9e976f837f4a9bed7376}{00297}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a5825e881dcde9e976f837f4a9bed7376}{get\_priority\_models\_by\_provider}}(self,\ provider:\ str)\ -\/>\ List[ModelInfo]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ priority\ models\ from\ a\ specific\ provider."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ model}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ model\ \textcolor{keywordflow}{in}\ self.models.values()}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model.is\_priority\_model\ \textcolor{keywordflow}{and}\ model.provider\ ==\ provider}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00304}00304\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00305}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a857dafa7091f4820fd22dc3d2dc4080a}{00305}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a857dafa7091f4820fd22dc3d2dc4080a}{get\_experiment\_model\_pairs}}(self)\ -\/>\ Dict[str,\ List[Tuple[str,\ str]]]:}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00307}00307\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ model\ pairs\ for\ comparison\ experiments.}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00308}00308\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00309}00309\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00310}00310\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dict\ mapping\ experiment\ type\ to\ list\ of\ (model1,\ model2)\ comparison\ pairs}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00311}00311\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ reasoning\_models\ =\ [m.name\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab08115ce1a95ad7482543c603eeb3163}{get\_reasoning\_models}}()]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ non\_reasoning\_models\ =\ [m.name\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_add0250ccfcd18b3fb7c39f3ed62946b2}{get\_non\_reasoning\_models}}()]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ indic\_models\ =\ [m.name\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9da4a01dcf4a01f505b96999303a4215}{get\_indic\_finetuned\_models}}()]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ general\_models\ =\ [m.name\ \textcolor{keywordflow}{for}\ m\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a460863cfcd1d74ab42f1ac9b5ba4192a}{get\_general\_multilingual\_models}}()]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}reasoning\_vs\_non\_reasoning"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (r,\ nr)\ \textcolor{keywordflow}{for}\ r\ \textcolor{keywordflow}{in}\ reasoning\_models[:3]\ \textcolor{keywordflow}{for}\ nr\ \textcolor{keywordflow}{in}\ non\_reasoning\_models[:3]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}indic\_vs\_general"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (i,\ g)\ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ indic\_models[:3]\ \textcolor{keywordflow}{for}\ g\ \textcolor{keywordflow}{in}\ general\_models[:3]}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{model__classifier_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}

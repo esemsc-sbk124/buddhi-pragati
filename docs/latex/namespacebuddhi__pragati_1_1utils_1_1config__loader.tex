@@ -1,0 +1,98 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+config\+\_\+loader Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1utils_1_1config__loader}{}\label{namespacebuddhi__pragati_1_1utils_1_1config__loader}\index{buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1config__loader_1_1ConfigLoader}{Config\+Loader}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1config__loader_1_1ConfigLoader}{Config\+Loader}} \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1config__loader_a932506b187b1170aa514d194c2671239}{get\+\_\+config}} ()
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1config__loader_ac23fe5ee106083377f0f314e553e8548}{reload\+\_\+config}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1config__loader_a8cf08fe5fc30368f57f074cba82cdaef}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1config__loader_af105762cf922016d8b0175a33b376c2d}{\+\_\+config}} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Configuration Management System for Buddhi-Pragati Benchmark.
+
+This module provides centralized configuration management for the crossword benchmark system.
+It loads parameters from crossword_config.txt with type-safe parsing, hierarchical fallbacks,
+and comprehensive default values for all system components.
+
+Key Features:
+- Type-safe parameter parsing (string, int, float, bool)
+- Hierarchical configuration: CLI args → Config file → Environment → Defaults
+- Comprehensive validation and error handling
+- Support for complex configuration objects (weights, sources, model lists)
+- CLI defaults integration for streamlined command-line usage
+
+Architecture:
+- ConfigLoader: Main configuration management class
+- Global config singleton via get_config()
+- Automatic project root detection
+- Memory-efficient caching with reload capabilities
+
+The configuration system supports:
+- Dataset creation parameters (sources, sizes, quality thresholds)
+- Model interface settings (API keys, timeouts, reasoning modes)
+- Evaluation parameters (experimental types, metrics, prompt configurations)
+- Generation settings (grid densities, algorithms, cultural scoring)
+- Performance tuning (batch sizes, memory limits, caching strategies)
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1config__loader_a932506b187b1170aa514d194c2671239}\label{namespacebuddhi__pragati_1_1utils_1_1config__loader_a932506b187b1170aa514d194c2671239} 
+\index{buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}!get\_config@{get\_config}}
+\index{get\_config@{get\_config}!buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}}
+\doxysubsubsection{\texorpdfstring{get\_config()}{get\_config()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1config__loader_1_1ConfigLoader}{Config\+Loader}} buddhi\+\_\+pragati.\+utils.\+config\+\_\+loader.\+get\+\_\+config (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get global configuration instance.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{config__loader_8py_source_l00296}{296}} of file \mbox{\hyperlink{config__loader_8py_source}{config\+\_\+loader.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1config__loader_ac23fe5ee106083377f0f314e553e8548}\label{namespacebuddhi__pragati_1_1utils_1_1config__loader_ac23fe5ee106083377f0f314e553e8548} 
+\index{buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}!reload\_config@{reload\_config}}
+\index{reload\_config@{reload\_config}!buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}}
+\doxysubsubsection{\texorpdfstring{reload\_config()}{reload\_config()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+config\+\_\+loader.\+reload\+\_\+config (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Reload configuration from file.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{config__loader_8py_source_l00304}{304}} of file \mbox{\hyperlink{config__loader_8py_source}{config\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1config__loader_af105762cf922016d8b0175a33b376c2d}\label{namespacebuddhi__pragati_1_1utils_1_1config__loader_af105762cf922016d8b0175a33b376c2d} 
+\index{buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}!\_config@{\_config}}
+\index{\_config@{\_config}!buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}}
+\doxysubsubsection{\texorpdfstring{\_config}{\_config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+config\+\_\+loader.\+\_\+config = None\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{config__loader_8py_source_l00293}{293}} of file \mbox{\hyperlink{config__loader_8py_source}{config\+\_\+loader.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1config__loader_a8cf08fe5fc30368f57f074cba82cdaef}\label{namespacebuddhi__pragati_1_1utils_1_1config__loader_a8cf08fe5fc30368f57f074cba82cdaef} 
+\index{buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.utils.config\_loader@{buddhi\_pragati.utils.config\_loader}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+config\+\_\+loader.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{config__loader_8py_source_l00033}{33}} of file \mbox{\hyperlink{config__loader_8py_source}{config\+\_\+loader.\+py}}.
+

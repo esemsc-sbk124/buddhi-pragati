@@ -1,0 +1,14 @@
+{
+  "high_reasoning_instruction": {
+    "English": "Take your time and think deeply about this puzzle. Consider multiple possibilities for each clue, analyze how words intersect, think about word patterns, letter frequency, and contextual clues. Be thorough and systematic in your approach. Generate detailed reasoning for each word choice."
+  },
+  "low_reasoning_instruction": {
+    "English": "Solve this puzzle quickly and efficiently. Provide direct answers."
+  },
+  "self_reflection_instruction": {
+    "English": "After providing your solution, review your answers. Check for any inconsistencies, incorrect intersections, or words that don't match their clues. Check also that you have not impacted the integrity of the grid (changed the format or blocked/unblocked cells on your ownr). If you find errors, correct them and provide an updated solution."
+  },
+  "self_reflection_correction": {
+    "English": "Based on your previous attempt, here are the errors found:\n{errors}\n\nPlease re-examine your answer and systematically verify each word in order to correct these errors and provide an improved solution:"
+  }
+}

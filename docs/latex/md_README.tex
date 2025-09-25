@@ -1,0 +1,378 @@
+\chapter{Buddhi-\/\+Pragati\+: Crossword Reasoning Benchmark System}
+\hypertarget{md_README}{}\label{md_README}\index{Buddhi-\/Pragati: Crossword Reasoning Benchmark System@{Buddhi-\/Pragati: Crossword Reasoning Benchmark System}}
+\label{md_README_autotoc_md18}%
+\Hypertarget{md_README_autotoc_md18}%
+ A comprehensive LLM reasoning benchmark system that evaluates language model capabilities through crossword puzzle generation and solving across multiple languages and cultural contexts.\hypertarget{md_README_autotoc_md19}{}\doxysection{\texorpdfstring{Project Overview}{Project Overview}}\label{md_README_autotoc_md19}
+{\bfseries{Buddhi-\/\+Pragati}} (Sanskrit for "{}wisdom-\/progress"{}) is a modular, model-\/agnostic benchmark architecture that tests language model reasoning skills through crossword puzzles. The system implements a complete pipeline from dataset creation to evaluation, with special focus on Indian languages and cultural context.\hypertarget{md_README_autotoc_md20}{}\doxysubsection{\texorpdfstring{Key Features}{Key Features}}\label{md_README_autotoc_md20}
+
+\begin{DoxyItemize}
+\item {\bfseries{Multi-\/\+Language Support}}\+: 20+ languages including 11 Indic scripts
+\item {\bfseries{Cultural Context Assessment}}\+: Sophisticated scoring for Indian cultural relevance
+\item {\bfseries{Model-\/\+Agnostic}}\+: Unified interface supporting Open\+AI, Anthropic, Hugging\+Face, Open\+Router, and Sarvam\+AI
+\item {\bfseries{Advanced Generation}}\+: Memetic algorithms achieving 75\%+ grid density
+\item {\bfseries{Comprehensive Evaluation}}\+: Multiple experimental conditions and prompting strategies
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md21}{}\doxysection{\texorpdfstring{Architecture Overview}{Architecture Overview}}\label{md_README_autotoc_md21}
+The system consists of six main modules that work together to create a complete benchmark pipeline\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{buddhi\_pragati/}
+\DoxyCodeLine{\texttt{+}\texttt{-}\texttt{-}\ core/\ \ \ \ \ \ \ \ \ \ \ \#\ Base\ interfaces\ and\ data\ structures}
+\DoxyCodeLine{\texttt{+}\texttt{-}\texttt{-}\ data/\ \ \ \ \ \ \ \ \ \ \ \#\ Dataset\ creation\ and\ source\ processing\ \ }
+\DoxyCodeLine{\texttt{+}\texttt{-}\texttt{-}\ models/\ \ \ \ \ \ \ \ \ \#\ Unified\ model\ interface\ system}
+\DoxyCodeLine{\texttt{+}\texttt{-}\texttt{-}\ generate/\ \ \ \ \ \ \ \#\ Crossword\ puzzle\ generation}
+\DoxyCodeLine{\texttt{+}\texttt{-}\texttt{-}\ evaluate/\ \ \ \ \ \ \ \#\ LLM\ evaluation\ and\ experiments}
+\DoxyCodeLine{\texttt{`}\texttt{-}\texttt{-}\ utils/\ \ \ \ \ \ \ \ \ \ \#\ Configuration,\ scoring,\ and\ utilities}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md22}{}\doxysubsection{\texorpdfstring{Module Interactions}{Module Interactions}}\label{md_README_autotoc_md22}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{[Data\ Sources]\ →\ [data/]\ →\ [Dataset]\ →\ [generate/]\ →\ [Puzzles]}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ↓}
+\DoxyCodeLine{[models/]\ ←→\ [evaluate/]\ ←→\ [Puzzles]\ →\ [Results]}
+\DoxyCodeLine{\ \ \ \ \ ↑\ \ \ \ \ \ \ \ \ \ \ \ \ \ ↑}
+\DoxyCodeLine{[utils/]\ \ \ \ [core/interfaces]}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md23}{}\doxysection{\texorpdfstring{Module Documentation}{Module Documentation}}\label{md_README_autotoc_md23}
+\hypertarget{md_README_autotoc_md24}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/core/$<$/tt$>$ -\/ Base Interfaces}{<tt>buddhi\_pragati/core/</tt> - Base Interfaces}}\label{md_README_autotoc_md24}
+{\bfseries{Purpose}}\+: Provides minimal abstract interfaces that all puzzle types and evaluators must implement.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Package exports and version information
+\item {\ttfamily \doxylink{base__puzzle_8py}{base\+\_\+puzzle.\+py}} -\/ Abstract {\ttfamily Base\+Puzzle} interface and concrete {\ttfamily Crossword\+Puzzle}/{\ttfamily Crossword\+Clue} implementations
+\item {\ttfamily \doxylink{base__evaluator_8py}{base\+\_\+evaluator.\+py}} -\/ Abstract {\ttfamily Base\+Evaluator} interface for evaluation systems
+\end{DoxyItemize}
+
+{\bfseries{Architecture}}\+: Clean separation of concerns with minimal dependencies, enabling easy extension to new puzzle types.\hypertarget{md_README_autotoc_md25}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/data/$<$/tt$>$ -\/ Dataset Creation Pipeline}{<tt>buddhi\_pragati/data/</tt> - Dataset Creation Pipeline}}\label{md_README_autotoc_md25}
+{\bfseries{Purpose}}\+: Multi-\/source dataset creation pipeline that processes raw data from Indian language sources into structured crossword datasets.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Package exports
+\item {\ttfamily \doxylink{data__structure_8py}{data\+\_\+structure.\+py}} -\/ {\ttfamily Dataset\+Entry} dataclass defining the standard dataset format ~\newline
+
+\item {\ttfamily \doxylink{dataset__builder_8py}{dataset\+\_\+builder.\+py}} -\/ Main {\ttfamily Dataset\+Builder} orchestrator coordinating all source processors
+\item {\ttfamily dataset\+\_\+state.\+json} -\/ Processing state tracking for resumable operations
+\item {\ttfamily datasets\+\_\+models.\+txt} -\/ Model compatibility matrix for different languages
+\item {\ttfamily \doxylink{local__backup__manager_8py}{local\+\_\+backup\+\_\+manager.\+py}} -\/ {\ttfamily Local\+Backup\+Manager} for disk-\/based batch processing and recovery
+\item {\ttfamily source\+\_\+processors/} -\/ Individual processor implementations\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Processor exports
+\item {\ttfamily \doxylink{milu__processor_8py}{milu\+\_\+processor.\+py}} -\/ MILU examination dataset MCQ processing
+\item {\ttfamily \doxylink{indic__wikibio__processor_8py}{indic\+\_\+wikibio\+\_\+processor.\+py}} -\/ Indic\+Wiki\+Bio biographical data processing
+\item {\ttfamily \doxylink{indowordnet__processor_8py}{indowordnet\+\_\+processor.\+py}} -\/ Indo\+Word\+Net dictionary definition processing ~\newline
+
+\item {\ttfamily \doxylink{bhasha__wiki__processor_8py}{bhasha\+\_\+wiki\+\_\+processor.\+py}} -\/ Bhasha-\/\+Wiki named entity recognition processing
+\end{DoxyItemize}
+\end{DoxyItemize}
+
+{\bfseries{Pipeline Flow}}\+: Raw sources → Source processors → Quality filtering → Context scoring → Deduplication → Hugging\+Face upload\hypertarget{md_README_autotoc_md26}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/models/$<$/tt$>$ -\/ Unified Model Interface}{<tt>buddhi\_pragati/models/</tt> - Unified Model Interface}}\label{md_README_autotoc_md26}
+{\bfseries{Purpose}}\+: Provides a single interface for interacting with multiple LLM providers, handling authentication, parameter mapping, and response parsing.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Interface exports
+\item {\ttfamily \doxylink{model__interface_8py}{model\+\_\+interface.\+py}} -\/ {\ttfamily Unified\+Model\+Interface} main class with provider-\/specific backends ({\ttfamily Open\+AIBackend}, {\ttfamily Anthropic\+Backend}, {\ttfamily Sarvam\+AIBackend}, {\ttfamily Open\+Router\+Backend}, {\ttfamily Hugging\+Face\+Backend})
+\end{DoxyItemize}
+
+{\bfseries{Features}}\+: Auto-\/detection of model providers, reasoning mode support, token tracking, official API client integration.\hypertarget{md_README_autotoc_md27}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/generate/$<$/tt$>$ -\/ Puzzle Generation System}{<tt>buddhi\_pragati/generate/</tt> - Puzzle Generation System}}\label{md_README_autotoc_md27}
+{\bfseries{Purpose}}\+: Advanced crossword puzzle generation using memetic algorithms to achieve high-\/density grids with cultural context optimization.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Generation module exports
+\item {\ttfamily \doxylink{puzzle__entry_8py}{puzzle\+\_\+entry.\+py}} -\/ {\ttfamily Crossword\+Puzzle\+Entry} dataclass for generated puzzles
+\item {\ttfamily \doxylink{corpus__loader_8py}{corpus\+\_\+loader.\+py}} -\/ {\ttfamily Crossword\+Corpus\+Loader} for loading and filtering clue-\/answer datasets
+\item {\ttfamily \doxylink{memetic__generator_8py}{memetic\+\_\+generator.\+py}} -\/ {\ttfamily Memetic\+Crossword\+Generator} implementing genetic algorithms for puzzle generation
+\item {\ttfamily \doxylink{puzzle__builder_8py}{puzzle\+\_\+builder.\+py}} -\/ {\ttfamily Puzzle\+Builder} main orchestrator for batch puzzle generation
+\item {\ttfamily \doxylink{puzzle__visualisation_8py}{puzzle\+\_\+visualisation.\+py}} -\/ Grid visualization and ASCII rendering utilities
+\item {\ttfamily \doxylink{hf__uploader_8py}{hf\+\_\+uploader.\+py}} -\/ {\ttfamily Puzzle\+HFUploader} for uploading generated puzzles to Hugging\+Face Hub
+\end{DoxyItemize}
+
+{\bfseries{Algorithm}}\+: Population-\/based genetic algorithm with crossover, mutation, and local search optimization targeting density, intersections, and cultural coherence.\hypertarget{md_README_autotoc_md28}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/evaluate/$<$/tt$>$ -\/ Evaluation and Experiments}{<tt>buddhi\_pragati/evaluate/</tt> - Evaluation and Experiments}}\label{md_README_autotoc_md28}
+{\bfseries{Purpose}}\+: Comprehensive LLM evaluation system supporting multiple experimental conditions, prompting strategies, and performance analysis.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Evaluation module exports
+\item {\ttfamily \doxylink{evaluator_8py}{evaluator.\+py}} -\/ {\ttfamily Crossword\+Evaluator} main evaluation orchestrator
+\item {\ttfamily \doxylink{dataset__loader_8py}{dataset\+\_\+loader.\+py}} -\/ {\ttfamily Puzzle\+Dataset\+Loader} for loading puzzles from Hugging\+Face datasets
+\item {\ttfamily \doxylink{templates_8py}{templates.\+py}} -\/ {\ttfamily Crossword\+Prompt\+Template} with configurable prompting strategies
+\item {\ttfamily \doxylink{parser_8py}{parser.\+py}} -\/ {\ttfamily Crossword\+Response\+Parser} for extracting answers from LLM responses
+\item {\ttfamily \doxylink{metrics_8py}{metrics.\+py}} -\/ {\ttfamily Enhanced\+Crossword\+Metrics} implementing WCR, LCR, ICR scoring
+\item {\ttfamily \doxylink{model__classifier_8py}{model\+\_\+classifier.\+py}} -\/ {\ttfamily Model\+Classifier} for organizing models by capabilities and language support
+\item {\ttfamily \doxylink{experiment__runner_8py}{experiment\+\_\+runner.\+py}} -\/ {\ttfamily New\+Experiment\+Runner} orchestrating 10+ experimental conditions
+\item {\ttfamily \doxylink{results__manager_8py}{results\+\_\+manager.\+py}} -\/ {\ttfamily Experiment\+Results\+Manager} for analysis and reporting
+\item {\ttfamily prompts/} -\/ JSON configuration files for different prompting strategies
+\end{DoxyItemize}
+
+{\bfseries{Experiments}}\+: Shot variations, chain-\/of-\/thought, reasoning effort levels, self-\/reflection, language families, model types.\hypertarget{md_README_autotoc_md29}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/utils/$<$/tt$>$ -\/ Configuration and Utilities}{<tt>buddhi\_pragati/utils/</tt> - Configuration and Utilities}}\label{md_README_autotoc_md29}
+{\bfseries{Purpose}}\+: Shared utilities, configuration management, and specialized scoring systems.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily \+\_\+\+\_\+init\+\_\+\+\_\+.\+py} -\/ Utility exports ~\newline
+
+\item {\ttfamily \doxylink{config__loader_8py}{config\+\_\+loader.\+py}} -\/ {\ttfamily Config\+Loader} for centralized configuration from {\ttfamily crossword\+\_\+config.\+txt}
+\item {\ttfamily \doxylink{dataset__manager_8py}{dataset\+\_\+manager.\+py}} -\/ {\ttfamily Dataset\+Manager} for Hugging\+Face dataset management operations
+\item {\ttfamily \doxylink{indian__context__scorer_8py}{indian\+\_\+context\+\_\+scorer.\+py}} -\/ {\ttfamily Indian\+Context\+Scorer} implementing multi-\/tier cultural context assessment
+\item {\ttfamily \doxylink{unicode__utils_8py}{unicode\+\_\+utils.\+py}} -\/ Unicode processing utilities with script detection and validation
+\item {\ttfamily \doxylink{create__corpus_8py}{create\+\_\+corpus.\+py}} -\/ Corpus creation utilities for Indian cultural references
+\item {\ttfamily indian\+\_\+corpus.\+json} -\/ Indian cultural reference corpus data
+\item {\ttfamily seed\+\_\+corpus.\+json} -\/ Seed corpus for cultural context scoring
+\end{DoxyItemize}
+
+{\bfseries{Configuration System}}\+: Centralized parameter management with CLI defaults, fallback hierarchy, and type-\/safe validation.\hypertarget{md_README_autotoc_md30}{}\doxysubsection{\texorpdfstring{$<$tt$>$buddhi\+\_\+pragati/scripts/$<$/tt$>$ -\/ Automation and Batch Processing}{<tt>buddhi\_pragati/scripts/</tt> - Automation and Batch Processing}}\label{md_README_autotoc_md30}
+{\bfseries{Purpose}}\+: Shell scripts for batch operations, environment setup, and cluster computing.
+
+{\bfseries{Files}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily README.\+md} -\/ Script documentation
+\item {\ttfamily run\+\_\+all\+\_\+experiments.\+sh} -\/ Complete experimental evaluation pipeline
+\item {\ttfamily run\+\_\+analysis\+\_\+experiments.\+sh} -\/ Analysis-\/specific experiments (language families, model types)
+\item {\ttfamily run\+\_\+dataset\+\_\+creation.\+sh} -\/ Batch dataset creation across languages
+\item {\ttfamily run\+\_\+focused\+\_\+experiments.\+sh} -\/ Subset of core experiments for quick validation
+\item {\ttfamily run\+\_\+generate\+\_\+puzzles.\+sh} -\/ Batch puzzle generation pipeline ~\newline
+
+\item {\ttfamily run\+\_\+master\+\_\+experiment.\+sh} -\/ Master baseline experiment
+\item {\ttfamily submit\+\_\+experiments.\+pbs} -\/ PBS cluster submission script with dependency management
+\item {\ttfamily utils/check\+\_\+results.\+sh} -\/ Result validation and integrity checking
+\item {\ttfamily utils/monitor\+\_\+progress.\+sh} -\/ Real-\/time progress monitoring
+\item {\ttfamily utils/setup\+\_\+environment.\+sh} -\/ Environment initialization and dependency installation
+\item {\ttfamily logs/} -\/ Script execution logs
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md31}{}\doxysection{\texorpdfstring{Installation and Setup}{Installation and Setup}}\label{md_README_autotoc_md31}
+\hypertarget{md_README_autotoc_md32}{}\doxysubsection{\texorpdfstring{Prerequisites}{Prerequisites}}\label{md_README_autotoc_md32}
+
+\begin{DoxyItemize}
+\item Python 3.\+8-\/3.\+11
+\item Access to language model APIs (Open\+AI, Anthropic, etc.)
+\item Hugging\+Face token for dataset access
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md33}{}\doxysubsection{\texorpdfstring{Installation}{Installation}}\label{md_README_autotoc_md33}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Clone\ repository}
+\DoxyCodeLine{git\ clone\ <repository-\/url>}
+\DoxyCodeLine{cd\ irp-\/sbk124}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Create\ conda\ environment\ (recommended)}
+\DoxyCodeLine{conda\ env\ create\ -\/f\ environment.yml}
+\DoxyCodeLine{conda\ activate\ buddhi-\/pragati}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Or\ install\ with\ pip}
+\DoxyCodeLine{pip\ install\ -\/e\ .}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Install\ with\ all\ optional\ dependencies}
+\DoxyCodeLine{pip\ install\ -\/e\ "{}.[all]"{}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Install\ specific\ dependency\ groups}
+\DoxyCodeLine{pip\ install\ -\/e\ "{}.[api]"{}\ \ \ \ \ \#\ API\ clients}
+\DoxyCodeLine{pip\ install\ -\/e\ "{}.[dev]"{}\ \ \ \ \ \#\ Development\ tools}
+\DoxyCodeLine{pip\ install\ -\/e\ "{}.[scoring]"{}\ \#\ Enhanced\ context\ scoring}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md34}{}\doxysubsection{\texorpdfstring{Configuration}{Configuration}}\label{md_README_autotoc_md34}
+Create and configure {\ttfamily crossword\+\_\+config.\+txt} with your parameters\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ API\ Keys\ (optional\ -\/\ can\ use\ environment\ variables)}
+\DoxyCodeLine{DEFAULT\_OPENAI\_API\_KEY=your\_openai\_key}
+\DoxyCodeLine{DEFAULT\_HF\_TOKEN=your\_huggingface\_token}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Dataset\ Parameters\ \ }
+\DoxyCodeLine{DEFAULT\_LANGUAGE=English}
+\DoxyCodeLine{TARGET\_DATASET\_SIZE\_PER\_LANGUAGE=1000}
+\DoxyCodeLine{DEFAULT\_DATASET\_SOURCES=MILU,IndicWikiBio,IndoWordNet,Bhasha-\/Wiki}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Evaluation\ Parameters}
+\DoxyCodeLine{DEFAULT\_MODEL=gpt-\/4o}
+\DoxyCodeLine{DEFAULT\_EVALUATION\_MODELS=gpt-\/4o,claude-\/sonnet-\/4}
+\DoxyCodeLine{DEFAULT\_REASONING\_EFFORT=normal}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md35}{}\doxysection{\texorpdfstring{Usage Guide}{Usage Guide}}\label{md_README_autotoc_md35}
+\hypertarget{md_README_autotoc_md36}{}\doxysubsection{\texorpdfstring{Main Executor\+: $<$tt$>$run\+\_\+crossword\+\_\+benchmark.\+py$<$/tt$>$}{Main Executor: <tt>run\_crossword\_benchmark.py</tt>}}\label{md_README_autotoc_md36}
+The primary interface for all system operations. Supports six main commands\+:\hypertarget{md_README_autotoc_md37}{}\doxysubsubsection{\texorpdfstring{Dataset Creation}{Dataset Creation}}\label{md_README_autotoc_md37}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Create\ datasets\ for\ multiple\ languages\ with\ default\ settings}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ create-\/dataset\ -\/-\/languages\ Hindi\ English\ Bengali\ -\/-\/upload}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Custom\ dataset\ creation\ with\ specific\ sources}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ create-\/dataset\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/languages\ Tamil\ Telugu\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/target-\/size\ 1500\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/sources\ MILU\ IndicWikiBio\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/output-\/path\ ./datasets}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Use\ configuration\ defaults\ (minimal\ command)}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ create-\/dataset\ -\/-\/languages\ English\ -\/-\/upload}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md38}{}\doxysubsubsection{\texorpdfstring{Puzzle Generation}{Puzzle Generation}}\label{md_README_autotoc_md38}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Generate\ crosswords\ using\ config\ defaults}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ generate}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Generate\ for\ specific\ language\ and\ grid\ sizes}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ generate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/language\ Hindi\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/grid-\/sizes\ 8\ 10\ 12\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/count\ 10\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/upload-\/to-\/hf}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Generate\ with\ corpus\ size\ limit}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ generate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/language\ Bengali\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/corpus-\/limit\ 500}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md39}{}\doxysubsubsection{\texorpdfstring{LLM Evaluation}{LLM Evaluation}}\label{md_README_autotoc_md39}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Evaluate\ using\ HuggingFace\ datasets\ (recommended)}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ evaluate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/languages\ Hindi\ English\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/grid-\/sizes\ 7\ 15\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/count\ 20\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/models\ gpt-\/4o\ claude-\/sonnet-\/4}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Enhanced\ evaluation\ with\ reasoning}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ evaluate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/languages\ Tamil\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/reasoning-\/effort\ high\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/self-\/reflection\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/chain-\/of-\/thought}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Legacy\ local\ directory\ evaluation}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ evaluate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/puzzle-\/dir\ generated\_crosswords/hindi/10x10\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/model\ gpt-\/4o}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md40}{}\doxysubsubsection{\texorpdfstring{Experimental Evaluation}{Experimental Evaluation}}\label{md_README_autotoc_md40}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Run\ comprehensive\ experiments}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ evaluate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/experiment-\/mode\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/experiment-\/types\ 0\_master\ 2\_shot\_variations\ 4\_chain\_of\_thought\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/models\ gpt-\/4o\ claude-\/sonnet-\/4}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Language\ family\ analysis}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ evaluate\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/experiment-\/mode\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/experiment-\/types\ 1\_language\_families\ \(\backslash\)}
+\DoxyCodeLine{\ \ -\/-\/master-\/results-\/path\ experiment\_0\_master\_results.json}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md41}{}\doxysubsubsection{\texorpdfstring{Dataset Management}{Dataset Management}}\label{md_README_autotoc_md41}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ List\ all\ language\ configurations}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ manage-\/dataset\ list}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Inspect\ dataset\ structure\ \ }
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ manage-\/dataset\ inspect}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Delete\ specific\ language\ configuration}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ manage-\/dataset\ delete\ -\/-\/config-\/name\ hindi}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Create\ backup\ before\ operations}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ manage-\/dataset\ backup\ -\/-\/config-\/name\ english}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md42}{}\doxysubsection{\texorpdfstring{Configuration System}{Configuration System}}\label{md_README_autotoc_md42}
+The system uses a hierarchical configuration approach\+:
+
+
+\begin{DoxyEnumerate}
+\item {\bfseries{CLI Arguments}} (highest priority)
+\item {\bfseries{crossword\+\_\+config.\+txt}} (fallback)
+\item {\bfseries{Environment Variables}} (fallback)
+\item {\bfseries{Hard-\/coded Defaults}} (lowest priority)
+\end{DoxyEnumerate}
+
+This allows for flexible deployment across different environments while maintaining reproducibility.\hypertarget{md_README_autotoc_md43}{}\doxysection{\texorpdfstring{Root-\/\+Level Files}{Root-Level Files}}\label{md_README_autotoc_md43}
+
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily run\+\_\+crossword\+\_\+benchmark.\+py}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Main CLI interface and system orchestrator
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily crossword\+\_\+config.\+txt}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Centralized configuration file with all system parameters
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily environment.\+yml}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Conda environment specification with Py\+Torch and Hugging\+Face channels
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily pyproject.\+toml}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Python package configuration with optional dependency groups
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily models\+\_\+description.\+txt}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Documentation of supported models and their capabilities
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily References.\+md}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Academic references and related work
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily LICENSE}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Creative Commons Attribution-\/\+Non\+Commercial 4.\+0 International license
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md44}{}\doxysection{\texorpdfstring{Development and Testing}{Development and Testing}}\label{md_README_autotoc_md44}
+\hypertarget{md_README_autotoc_md45}{}\doxysubsection{\texorpdfstring{Running Tests}{Running Tests}}\label{md_README_autotoc_md45}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Run\ all\ tests}
+\DoxyCodeLine{pytest}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Run\ with\ coverage}
+\DoxyCodeLine{pytest\ -\/-\/cov=buddhi\_pragati}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Run\ specific\ module\ tests}
+\DoxyCodeLine{pytest\ tests/test\_evaluator.py}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md46}{}\doxysubsection{\texorpdfstring{Code Quality}{Code Quality}}\label{md_README_autotoc_md46}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Format\ code}
+\DoxyCodeLine{ruff\ buddhi\_pragati/}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Type\ checking}
+\DoxyCodeLine{mypy\ buddhi\_pragati/}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md47}{}\doxysubsection{\texorpdfstring{Logging and Monitoring}{Logging and Monitoring}}\label{md_README_autotoc_md47}
+All operations generate detailed logs with timestamps\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Monitor\ execution\ in\ real-\/time}
+\DoxyCodeLine{tail\ -\/f\ logs/crossword\_benchmark\_YYYYMMDD\_HHMMSS.log}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Enable\ verbose\ output}
+\DoxyCodeLine{python\ run\_crossword\_benchmark.py\ generate\ -\/-\/verbose}
+
+\end{DoxyCode}
+\hypertarget{md_README_autotoc_md48}{}\doxysection{\texorpdfstring{Expected Performance and Design Choices}{Expected Performance and Design Choices}}\label{md_README_autotoc_md48}
+\hypertarget{md_README_autotoc_md49}{}\doxysubsection{\texorpdfstring{Dataset Creation}{Dataset Creation}}\label{md_README_autotoc_md49}
+
+\begin{DoxyItemize}
+\item {\bfseries{Processing Speed}}\+: 15-\/20 entries/second typical throughput (when the {\ttfamily create-\/dataset} command is ran on a standard CPU in a commercial laptop)
+\item {\bfseries{Memory Footprint}}\+: Bounded by batch size regardless of dataset size ~\newline
+
+\item {\bfseries{Scalability}}\+: Supports processing datasets with millions of entries (such as Bhasha-\/\+Wiki)
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md50}{}\doxysubsection{\texorpdfstring{Puzzle Generation}{Puzzle Generation}}\label{md_README_autotoc_md50}
+
+\begin{DoxyItemize}
+\item {\bfseries{Generation Speed}}\+: 5-\/10 puzzles/minute for 10x10 grids
+\item {\bfseries{Density Achievement}}\+: 75\%+ fill rate for most grid sizes
+\item {\bfseries{Success Rate}}\+: 85\%+ successful generation across languages
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md51}{}\doxysubsection{\texorpdfstring{LLM Evaluation}{LLM Evaluation}}\label{md_README_autotoc_md51}
+
+\begin{DoxyItemize}
+\item {\bfseries{Concurrent Support}}\+: Multiple models evaluated in parallel
+\item {\bfseries{Token Tracking}}\+: Comprehensive usage monitoring for cost analysis
+\item {\bfseries{Caching}}\+: Intelligent result caching to avoid redundant API calls
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md52}{}\doxysection{\texorpdfstring{Contributing}{Contributing}}\label{md_README_autotoc_md52}
+This is an academic research project under the Creative Commons Attribution-\/\+Non\+Commercial 4.\+0 International license. The system architecture is designed for extensibility\+:
+
+
+\begin{DoxyItemize}
+\item {\bfseries{New Languages}}\+: Add to source processors and model classifier
+\item {\bfseries{New Puzzle Types}}\+: Implement {\ttfamily Base\+Puzzle} interface
+\item {\bfseries{New Models}}\+: Add backend to {\ttfamily Unified\+Model\+Interface}
+\item {\bfseries{New Evaluation Metrics}}\+: Extend {\ttfamily Enhanced\+Crossword\+Metrics}
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md53}{}\doxysection{\texorpdfstring{Academic Context}{Academic Context}}\label{md_README_autotoc_md53}
+This system was developed as part of an Imperial College London Individual Research Project (IRP). It represents a comprehensive approach to multilingual reasoning evaluation with specific focus on cultural context and crossword puzzle complexity.
+
+For detailed technical documentation, see the generated Doxygen documentation (when available) or examine the comprehensive docstrings throughout the codebase. 

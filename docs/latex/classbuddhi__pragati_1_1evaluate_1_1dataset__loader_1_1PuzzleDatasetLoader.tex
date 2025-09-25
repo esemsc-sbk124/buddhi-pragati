@@ -1,0 +1,300 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader}{}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader}\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ad81e9014487c34458fd2a540b5501d1b}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\+\_\+token}}=None)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6502b3e1e63b3a932e5caed1cde6994b}{load\+\_\+puzzles}} (self, str language, Optional\mbox{[}int\mbox{]} grid\+\_\+size=None, Optional\mbox{[}int\mbox{]} max\+\_\+puzzles=None, bool random\+\_\+sample=True)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aae150dfeefcb1443b63cf5c1322ea22e}{get\+\_\+available\+\_\+languages}} (self)
+\item 
+List\mbox{[}int\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aa37c295e917599851da94cbdc384d0e6}{get\+\_\+grid\+\_\+sizes}} (self, str language)
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6d60ccd9edcbd8098f09b808efe45b6c}{get\+\_\+puzzle\+\_\+count}} (self, str language, Optional\mbox{[}int\mbox{]} grid\+\_\+size=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a4b11bfc05006e2eaf7df0ee5c91a7856}{save\+\_\+puzzles\+\_\+locally}} (self, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} puzzles, str output\+\_\+dir)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a5dce0ccd4b59d41c1e1ae2e578bf098f}{load\+\_\+puzzles\+\_\+from\+\_\+local}} (self, str input\+\_\+dir)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a406cfcf64b5cd89efdf6dd4d8a003754}{clear\+\_\+cache}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a10125fe572808bba04106b953dde802a}{extract\+\_\+number}} (clue)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\+\_\+repo}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\+\_\+token}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ae8268800ecc85e53e771cc7622dc3668}{\+\_\+convert\+\_\+to\+\_\+crossword\+\_\+puzzle}} (self, Dict\mbox{[}str, Any\mbox{]} puzzle\+\_\+dict, int index)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{\+\_\+cache}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a2b88e105600f378303f4976b1bfdf5c0}{\+\_\+temp\+\_\+dir}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Loads crossword puzzles from HuggingFace generated puzzles repository.
+
+Supports filtering by language, grid size, and other criteria.
+Provides local caching for repeated experiments.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00030}{30}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ad81e9014487c34458fd2a540b5501d1b}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ad81e9014487c34458fd2a540b5501d1b} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{hf\+\_\+token = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00038}{38}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ae8268800ecc85e53e771cc7622dc3668}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ae8268800ecc85e53e771cc7622dc3668} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!\_convert\_to\_crossword\_puzzle@{\_convert\_to\_crossword\_puzzle}}
+\index{\_convert\_to\_crossword\_puzzle@{\_convert\_to\_crossword\_puzzle}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{\_convert\_to\_crossword\_puzzle()}{\_convert\_to\_crossword\_puzzle()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+\_\+convert\+\_\+to\+\_\+crossword\+\_\+puzzle (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{puzzle\+\_\+dict,  }\item[{int     }]{index }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Convert HuggingFace dataset entry to CrosswordPuzzle object.
+
+Args:
+    puzzle_dict: Dictionary from HuggingFace dataset
+    index: Index for puzzle ID generation
+
+Returns:
+    CrosswordPuzzle object or None if conversion fails
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00152}{152}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a406cfcf64b5cd89efdf6dd4d8a003754}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a406cfcf64b5cd89efdf6dd4d8a003754} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!clear\_cache@{clear\_cache}}
+\index{clear\_cache@{clear\_cache}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{clear\_cache()}{clear\_cache()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+clear\+\_\+cache (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clear the internal dataset cache.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00453}{453}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a10125fe572808bba04106b953dde802a}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a10125fe572808bba04106b953dde802a} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!extract\_number@{extract\_number}}
+\index{extract\_number@{extract\_number}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{extract\_number()}{extract\_number()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+extract\+\_\+number (\begin{DoxyParamCaption}\item[{}]{clue }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}Extract number from clue text.
+
+Args:
+    clue: Clue text that may contain a number
+
+Returns:
+    Extracted number or None if no number found
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00136}{136}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aae150dfeefcb1443b63cf5c1322ea22e}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aae150dfeefcb1443b63cf5c1322ea22e} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!get\_available\_languages@{get\_available\_languages}}
+\index{get\_available\_languages@{get\_available\_languages}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{get\_available\_languages()}{get\_available\_languages()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+get\+\_\+available\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get list of available languages in the dataset.
+
+Returns:
+    List of language names (config names)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00227}{227}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aa37c295e917599851da94cbdc384d0e6}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aa37c295e917599851da94cbdc384d0e6} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!get\_grid\_sizes@{get\_grid\_sizes}}
+\index{get\_grid\_sizes@{get\_grid\_sizes}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{get\_grid\_sizes()}{get\_grid\_sizes()}}
+{\footnotesize\ttfamily  List\mbox{[}int\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+get\+\_\+grid\+\_\+sizes (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get available grid sizes for a specific language.
+
+Args:
+    language: Target language
+
+Returns:
+    List of available grid sizes
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00308}{308}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6d60ccd9edcbd8098f09b808efe45b6c}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6d60ccd9edcbd8098f09b808efe45b6c} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!get\_puzzle\_count@{get\_puzzle\_count}}
+\index{get\_puzzle\_count@{get\_puzzle\_count}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{get\_puzzle\_count()}{get\_puzzle\_count()}}
+{\footnotesize\ttfamily  int buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+get\+\_\+puzzle\+\_\+count (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{Optional\mbox{[}int\mbox{]} }]{grid\+\_\+size = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get count of available puzzles for specific criteria.
+
+Args:
+    language: Target language
+    grid_size: Optional grid size filter
+
+Returns:
+    Number of available puzzles
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00335}{335}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6502b3e1e63b3a932e5caed1cde6994b}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6502b3e1e63b3a932e5caed1cde6994b} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!load\_puzzles@{load\_puzzles}}
+\index{load\_puzzles@{load\_puzzles}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{load\_puzzles()}{load\_puzzles()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+load\+\_\+puzzles (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{Optional\mbox{[}int\mbox{]} }]{grid\+\_\+size = {\ttfamily None},  }\item[{Optional\mbox{[}int\mbox{]} }]{max\+\_\+puzzles = {\ttfamily None},  }\item[{bool }]{random\+\_\+sample = {\ttfamily True} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load crossword puzzles for a specific language and optional grid size.
+
+Args:
+    language: Target language for puzzles
+    grid_size: Optional grid size filter (e.g., 10 for 10x10 grids)
+    max_puzzles: Maximum number of puzzles to load
+    random_sample: Whether to randomly sample puzzles if limiting count
+
+Returns:
+    List of CrosswordPuzzle objects
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00059}{59}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a5dce0ccd4b59d41c1e1ae2e578bf098f}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a5dce0ccd4b59d41c1e1ae2e578bf098f} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!load\_puzzles\_from\_local@{load\_puzzles\_from\_local}}
+\index{load\_puzzles\_from\_local@{load\_puzzles\_from\_local}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{load\_puzzles\_from\_local()}{load\_puzzles\_from\_local()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+load\+\_\+puzzles\+\_\+from\+\_\+local (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{input\+\_\+dir }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load puzzles from local JSON files.
+
+Args:
+    input_dir: Directory containing puzzle JSON files
+
+Returns:
+    List of CrosswordPuzzle objects
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00400}{400}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a4b11bfc05006e2eaf7df0ee5c91a7856}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a4b11bfc05006e2eaf7df0ee5c91a7856} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!save\_puzzles\_locally@{save\_puzzles\_locally}}
+\index{save\_puzzles\_locally@{save\_puzzles\_locally}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{save\_puzzles\_locally()}{save\_puzzles\_locally()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+save\+\_\+puzzles\+\_\+locally (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]}}]{puzzles,  }\item[{str}]{output\+\_\+dir }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Save puzzles to local JSON files for offline use.
+
+Args:
+    puzzles: List of CrosswordPuzzle objects
+    output_dir: Directory to save puzzle files
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00362}{362}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!\_cache@{\_cache}}
+\index{\_cache@{\_cache}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{\_cache}{\_cache}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+\_\+cache\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00056}{56}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a2b88e105600f378303f4976b1bfdf5c0}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a2b88e105600f378303f4976b1bfdf5c0} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!\_temp\_dir@{\_temp\_dir}}
+\index{\_temp\_dir@{\_temp\_dir}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{\_temp\_dir}{\_temp\_dir}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+\_\+temp\+\_\+dir\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00057}{57}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!config@{config}}
+\index{config@{config}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00047}{47}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!dataset\_repo@{dataset\_repo}}
+\index{dataset\_repo@{dataset\_repo}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{dataset\_repo}{dataset\_repo}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+dataset\+\_\+repo}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00048}{48}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00053}{53}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}\label{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12} 
+\index{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader@{buddhi\_pragati.evaluate.dataset\_loader.PuzzleDatasetLoader}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+dataset\+\_\+loader.\+Puzzle\+Dataset\+Loader.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__loader_8py_source_l00039}{39}} of file \mbox{\hyperlink{dataset__loader_8py_source}{dataset\+\_\+loader.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{dataset__loader_8py}{dataset\+\_\+loader.\+py}}\end{DoxyCompactItemize}

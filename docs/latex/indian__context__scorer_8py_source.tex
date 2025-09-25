@@ -1,0 +1,694 @@
+\doxysection{indian\+\_\+context\+\_\+scorer.\+py}
+\hypertarget{indian__context__scorer_8py_source}{}\label{indian__context__scorer_8py_source}\index{buddhi\_pragati/utils/indian\_context\_scorer.py@{buddhi\_pragati/utils/indian\_context\_scorer.py}}
+\mbox{\hyperlink{indian__context__scorer_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00002}00002\ \textcolor{stringliteral}{Enhanced\ Indian\ Context\ Scorer\ Module}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00004}00004\ \textcolor{stringliteral}{Implements\ sophisticated\ multi-\/tier\ assessment\ of\ "{}Indianness"{}\ for\ clue-\/answer\ pairs}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00005}00005\ \textcolor{stringliteral}{across\ all\ supported\ languages\ using\ semantic\ embeddings,\ named\ entity\ recognition,}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00006}00006\ \textcolor{stringliteral}{and\ cultural\ keyword\ matching.\ Provides\ universal\ coverage\ for\ all\ 20\ supported}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00007}00007\ \textcolor{stringliteral}{languages\ with\ enhanced\ accuracy\ for\ core\ Indic\ languages.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00008}00008\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00009}00009\ \textcolor{stringliteral}{Architecture:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00010}00010\ \textcolor{stringliteral}{-\/\ Tier\ 1:\ Multilingual\ sentence\ transformers\ (universal\ coverage\ for\ all\ 20\ languages)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00011}00011\ \textcolor{stringliteral}{-\/\ Tier\ 2:\ Indic-\/specific\ sentence\ transformers\ (enhanced\ accuracy\ for\ 11\ core\ languages)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00012}00012\ \textcolor{stringliteral}{-\/\ Tier\ 3:\ NER\ +\ keyword\ scoring\ (cultural\ context\ detection\ and\ fallback)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00013}00013\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00014}00014\ \textcolor{stringliteral}{Key\ Features:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00015}00015\ \textcolor{stringliteral}{-\/\ Language-\/aware\ model\ selection\ and\ scoring\ strategies}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00016}00016\ \textcolor{stringliteral}{-\/\ Lazy\ loading\ and\ smart\ caching\ for\ optimal\ performance}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00017}00017\ \textcolor{stringliteral}{-\/\ Cross-\/language\ consistency\ validation\ and\ adaptive\ thresholds}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00018}00018\ \textcolor{stringliteral}{-\/\ Cultural\ reference\ corpus\ for\ semantic\ similarity\ assessment}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00019}00019\ \textcolor{stringliteral}{-\/\ Integration\ with\ existing\ streaming\ pipeline\ architecture}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00020}00020\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00022}00022\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00023}00023\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00024}00024\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ Set,\ List,\ Optional,\ Any}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00025}00025\ \textcolor{keyword}{from}\ functools\ \textcolor{keyword}{import}\ lru\_cache}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00026}00026\ \textcolor{keyword}{import}\ unicodedata}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00027}00027\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00028}00028\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00030}\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer_ae84e1f4e61d1513c7e232e29c628195d}{00030}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00031}00031\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00032}00032\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00033}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{00033}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{IndianContextScorer}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00034}00034\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ Multi-\/tier\ Indian\ cultural\ context\ scorer\ for\ clue-\/answer\ pairs.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00036}00036\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ Provides\ sophisticated\ assessment\ of\ "{}Indianness"{}\ using\ semantic\ embeddings,}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ named\ entity\ recognition,\ and\ cultural\ keyword\ matching.\ Supports\ all\ 20}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ languages\ with\ enhanced\ accuracy\ for\ core\ Indic\ languages.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00041}00041\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00042}00042\ \ \ \ \ \textcolor{comment}{\#\ Language\ tier\ definitions\ based\ on\ model\ availability}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00043}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a80e58f89955c7a6f9c8093e841066a85}{00043}}\ \ \ \ \ TIER\_1\_LANGUAGES\ =\ \{\ \ \textcolor{comment}{\#\ Universal\ coverage\ -\/\ all\ 20\ supported\ languages}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bodo"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kashmiri"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Konkani"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Meitei"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Nepali"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00063}00063\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00065}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23e026639d4da0560f723393621b6771}{00065}}\ \ \ \ \ TIER\_2\_LANGUAGES\ =\ \{\ \ \textcolor{comment}{\#\ Enhanced\ scoring\ with\ Indic-\/specific\ models}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00077}00077\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00078}00078\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00079}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a6aec462a52c0327163a9ffd5e3ff2837}{00079}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a6aec462a52c0327163a9ffd5e3ff2837}{\_\_init\_\_}}(self,\ config:\ Dict[str,\ Any],\ mode:\ str\ =\ \textcolor{stringliteral}{"{}complete"{}}):}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Initialize\ the\ Indian\ context\ scorer\ with\ configuration\ and\ scoring\ mode.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00082}00082\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00083}00083\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ config:\ Configuration\ dictionary\ with\ scoring\ parameters}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ mode:\ Scoring\ mode\ -\/\ "{}fast"{}\ (multilingual\ India\ keywords)\ or\ "{}complete"{}\ (full\ corpus)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00087}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a2df4d32191258ab97d8121fbff72ecfa}{00087}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a2df4d32191258ab97d8121fbff72ecfa}{config}}\ =\ config}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00088}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}{00088}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}{mode}}\ =\ mode}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00089}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}{00089}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}{\_models}}\ =\ \{\}\ \ \textcolor{comment}{\#\ Lazy-\/loaded\ models\ cache}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00090}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}{00090}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}{\_reference\_embeddings}}\ =\ \{\}\ \ \textcolor{comment}{\#\ Cached\ reference\ embeddings\ per\ model}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00091}00091\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Configuration\ parameters\ with\ defaults}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00093}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{00093}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{primary\_model\_name}}\ =\ config.get(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INDIAN\_CONTEXT\_PRIMARY\_MODEL"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sentence-\/transformers/paraphrase-\/multilingual-\/MiniLM-\/L12-\/v2"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00097}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}{00097}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}{indic\_model\_name}}\ =\ config.get(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INDIAN\_CONTEXT\_INDIC\_MODEL"{}},\ \textcolor{stringliteral}{"{}l3cube-\/pune/indic-\/sentence-\/similarity-\/sbert"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00100}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9fd12cddc0904462059cacad61584c6}{00100}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9fd12cddc0904462059cacad61584c6}{enable\_tiered\_scoring}}\ =\ config.get(\textcolor{stringliteral}{"{}ENABLE\_TIERED\_CONTEXT\_SCORING"{}},\ \textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00101}00101\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Scoring\ weights\ for\ different\ tiers}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00103}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04}{00103}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04}{tier1\_weights}}\ =\ config.get(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CONTEXT\_SCORING\_WEIGHTS\_TIER1"{}},\ \{\textcolor{stringliteral}{"{}embedding"{}}:\ 0.85,\ \textcolor{stringliteral}{"{}keyword"{}}:\ 0.15\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00106}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}{00106}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}{tier2\_weights}}\ =\ config.get(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}CONTEXT\_SCORING\_WEIGHTS\_TIER2"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}multilingual"{}}:\ 0.5,\ \textcolor{stringliteral}{"{}indic"{}}:\ 0.4,\ \textcolor{stringliteral}{"{}keyword"{}}:\ 0.1\},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ cultural\ reference\ corpus\ based\ on\ mode}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00112}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8}{00112}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8}{\_cultural\_references}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab4ee1118a44be82138d3fcdd53dfa374}{\_initialize\_cultural\_corpus}}()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ language-\/specific\ expanded\ corpus\ for\ keyword\ matching}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00115}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1}{00115}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1}{\_expanded\_corpus}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23064cbf145aec221d4e07c8745a8449}{\_load\_expanded\_corpus}}()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Initialized\ IndianContextScorer\ with\ mode:\ \{self.mode\},\ tiered\ scoring:\ \{self.enable\_tiered\_scoring\}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00120}00120\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00121}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab4ee1118a44be82138d3fcdd53dfa374}{00121}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab4ee1118a44be82138d3fcdd53dfa374}{\_initialize\_cultural\_corpus}}(self)\ -\/>\ Dict[str,\ List[str]]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00123}00123\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Initialize\ cultural\ reference\ corpus\ based\ on\ selected\ mode.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00124}00124\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00125}00125\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00126}00126\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ mapping\ cultural\ categories\ to\ reference\ texts}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00127}00127\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ -\/\ Fast\ mode:\ Comprehensive\ multilingual\ India\ keywords\ across\ all\ 20\ languages}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00128}00128\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ -\/\ Complete\ mode:\ Full\ expanded\ corpus\ from\ generated\ file\ or\ fallback}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00129}00129\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}{mode}}\ ==\ \textcolor{stringliteral}{"{}fast"{}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fast\ mode:\ comprehensive\ India\ keywords\ across\ all\ supported\ languages}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(\textcolor{stringliteral}{"{}Using\ fast\ mode\ -\/\ comprehensive\ multilingual\ India\ keywords"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ad4c97f72feb4ad17b1313714b6bff882}{\_get\_multilingual\_india\_keywords}}()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}{mode}}\ ==\ \textcolor{stringliteral}{"{}complete"{}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Complete\ mode:\ try\ to\ load\ expanded\ corpus,\ fallback\ to\ manual\ corpus}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ corpus\_file\ =\ Path(\_\_file\_\_).parent\ /\ \textcolor{stringliteral}{"{}indian\_corpus.json"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00138}00138\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ corpus\_file.exists():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ expanded\ cultural\ corpus\ from:\ \{corpus\_file\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(corpus\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expanded\_corpus\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ expanded\ corpus\ with\ \{len(expanded\_corpus)\}\ categories"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ expanded\_corpus}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Failed\ to\ load\ expanded\ corpus:\ \{e\},\ using\ fallback"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Expanded\ corpus\ file\ not\ found,\ using\ manual\ fallback\ corpus"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00156}00156\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ to\ original\ manual\ corpus}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632}{\_get\_manual\_cultural\_corpus}}()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Unknown\ mode\ '\{self.mode\}',\ defaulting\ to\ complete\ mode"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632}{\_get\_manual\_cultural\_corpus}}()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00163}00163\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00164}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ad4c97f72feb4ad17b1313714b6bff882}{00164}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ad4c97f72feb4ad17b1313714b6bff882}{\_get\_multilingual\_india\_keywords}}(self)\ -\/>\ Dict[str,\ List[str]]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00166}00166\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ comprehensive\ India\ keywords\ across\ all\ supported\ languages\ for\ fast\ mode.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00167}00167\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00168}00168\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00169}00169\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ containing\ India-\/related\ keywords\ in\ multiple\ languages}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00170}00170\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}india\_multilingual"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ English\ variants}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Indian"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bharat"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindustan"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Republic\ of\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Hindi\ (Devanagari)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारत"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}इंडिया"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}हिंदुस्तान"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारतीय"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}हिन्दुस्तान"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Bengali}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ভারত"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ইন্ডিয়া"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ভারতীয়"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}হিন্দুস্তান"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Tamil}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}இந்தியா"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}பாரதம்"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}இந்திய"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ஹிந்துஸ்தான்"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Telugu}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}భారతదేశం"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ఇండియా"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}భారతీయ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}హిందూస్థాన్"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Gujarati}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ભારત"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ઇન્ડિયા"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ભારતીય"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}હિંદુસ્તાન"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Kannada}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ಭಾರತ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ಇಂಡಿಯಾ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ಭಾರತೀಯ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ಹಿಂದೂಸ್ಥಾನ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Malayalam}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ഇന്ത്യ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ഭാരതം"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ഇന്ത്യൻ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ഹിന്ദുസ്ഥാൻ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Marathi}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारत"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}इंडिया"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारतीय"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}हिंदुस्थान"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Punjabi\ (Gurmukhi)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ਭਾਰਤ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ਇੰਡੀਆ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ਭਾਰਤੀ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ਹਿੰਦੁਸਤਾਨ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Odia}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ଭାରତ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ଇଣ୍ଡିଆ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ଭାରତୀୟ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ହିନ୍ଦୁସ୍ତାନ"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Assamese}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ভাৰত"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ইণ্ডিয়া"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ভাৰতীয়"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}হিন্দুস্তান"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Urdu\ (Arabic\ script)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ہندوستان"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}انڈیا"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}بھارت"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ہندی"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Sanskrit}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारतवर्ष"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}आर्यावर्त"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}जम्बूद्वीप"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}हिन्दुस्थान"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Nepali}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारत"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}इन्डिया"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}भारतीय"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}हिन्दुस्तान"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Common\ regional/cultural\ variants}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindustan"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindusthan"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bharatvarsha"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Aryavarta"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Jambudvipa"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Golden\ Bird"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sone\ ki\ Chidiya"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Modern\ context}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Republic\ of\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Union\ of\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Indian\ Republic"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Incredible\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Digital\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Make\ in\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00268}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632}{00268}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632}{\_get\_manual\_cultural\_corpus}}(self)\ -\/>\ Dict[str,\ List[str]]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00270}00270\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ the\ original\ manual\ cultural\ corpus\ as\ fallback.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00271}00271\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00272}00272\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00273}00273\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ mapping\ cultural\ categories\ to\ reference\ texts}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00274}00274\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}festivals"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Diwali\ celebration\ lights\ festival\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Holi\ colors\ spring\ festival\ celebration"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Eid\ festivities\ Muslim\ community\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Christmas\ celebration\ Christian\ community"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Durga\ Puja\ Bengali\ festival\ goddess"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Ganesh\ Chaturthi\ Maharashtra\ festival"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Onam\ Kerala\ harvest\ festival"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}geography"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Himalayas\ mountain\ range\ India\ Nepal"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Ganga\ river\ sacred\ Hindu\ religion"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kerala\ backwaters\ tourism\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Rajasthan\ desert\ palaces\ culture"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Mumbai\ financial\ capital\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Delhi\ national\ capital\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Chennai\ Tamil\ Nadu\ south\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}history"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Mahatma\ Gandhi\ freedom\ fighter\ independence"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Jawaharlal\ Nehru\ first\ Prime\ Minister"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Subhas\ Chandra\ Bose\ Azad\ Hind\ Fauj"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}British\ colonial\ rule\ India\ independence"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Mughal\ empire\ Delhi\ Akbar\ Shah\ Jahan"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Chhatrapati\ Shivaji\ Maratha\ empire"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Chandragupta\ Maurya\ ancient\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}culture"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bollywood\ Hindi\ cinema\ Mumbai\ films"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Classical\ dance\ Bharatanatyam\ Kathak\ Odissi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Indian\ classical\ music\ raga\ tala"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Yoga\ meditation\ spiritual\ practice"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Ayurveda\ traditional\ medicine\ system"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit\ ancient\ language\ scriptures"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Vedas\ Upanishads\ Hindu\ philosophy"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}cuisine"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Indian\ curry\ spices\ masala\ cooking"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Biryani\ rice\ dish\ Hyderabadi\ Lucknowi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Dosa\ idli\ South\ Indian\ breakfast"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Roti\ chapati\ Indian\ bread\ staple"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Chai\ tea\ masala\ Indian\ beverage"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sweets\ mithai\ Indian\ desserts"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Regional\ cuisine\ Bengali\ Tamil\ Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}modern\_india"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Information\ technology\ Bangalore\ silicon\ valley"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Indian\ Space\ Research\ Organisation\ ISRO"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bollywood\ entertainment\ film\ industry"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cricket\ national\ sport\ India\ passion"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Indian\ Railways\ largest\ railway\ network"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Diverse\ languages\ multilingual\ India"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Democratic\ republic\ largest\ democracy"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00332}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23064cbf145aec221d4e07c8745a8449}{00332}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23064cbf145aec221d4e07c8745a8449}{\_load\_expanded\_corpus}}(self)\ -\/>\ Dict[str,\ Dict[str,\ List[str]]]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00334}00334\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ language-\/specific\ expanded\ corpus\ from\ generated\ indian\_corpus.json\ file.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00335}00335\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00336}00336\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00337}00337\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ mapping\ categories\ to\ language-\/specific\ keyword\ dictionaries}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00338}00338\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ corpus\_file\ =\ Path(\_\_file\_\_).parent\ /\ \textcolor{stringliteral}{"{}indian\_corpus.json"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ corpus\_file.exists():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ expanded\ corpus\ from:\ \{corpus\_file\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(corpus\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ expanded\_corpus\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ expanded\ corpus\ with\ \{len(expanded\_corpus)\}\ categories"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ expanded\_corpus}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00351}00351\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Failed\ to\ load\ expanded\ corpus:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00354}00354\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ to\ seed\ corpus\ if\ expanded\ corpus\ not\ available}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(\textcolor{stringliteral}{"{}Attempting\ to\ load\ seed\ corpus\ as\ fallback"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ corpus\_file\ =\ Path(\_\_file\_\_).parent\ /\ \textcolor{stringliteral}{"{}seed\_corpus.json"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ corpus\_file.exists():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(corpus\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seed\_corpus\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00363}00363\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Process\ seed\ corpus\ to\ match\ expected\ format}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00365}00365\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structured\_corpus\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ category,\ content\ \textcolor{keywordflow}{in}\ seed\_corpus.items():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(content,\ dict):}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Language-\/specific\ categories}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structured\_corpus[category]\ =\ content}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Global\ categories\ -\/\ make\ available\ for\ all\ languages}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structured\_corpus[category]\ =\ \{\textcolor{stringliteral}{"{}all\_languages"{}}:\ content\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00373}00373\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ seed\ corpus\ fallback\ with\ \{len(structured\_corpus)\}\ categories"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ structured\_corpus}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00378}00378\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Failed\ to\ load\ seed\ corpus\ fallback:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Final\ fallback\ -\/\ empty\ corpus}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ logger.warning(\textcolor{stringliteral}{"{}Using\ empty\ fallback\ corpus"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00385}00385\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00386}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{00386}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{\_load\_model}}(self,\ model\_name:\ str)\ -\/>\ Any:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00388}00388\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Lazy\ load\ sentence\ transformer\ model\ with\ caching.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00389}00389\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00390}00390\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00391}00391\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model\_name:\ Name\ of\ the\ sentence\ transformer\ model}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00392}00392\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00393}00393\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00394}00394\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Loaded\ sentence\ transformer\ model}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00395}00395\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}{\_models}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ sentence\_transformers\ \textcolor{keyword}{import}\ SentenceTransformer}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ sentence\ transformer\ model:\ \{model\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}{\_models}}[model\_name]\ =\ SentenceTransformer(model\_name)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Successfully\ loaded\ model:\ \{model\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Failed\ to\ load\ model\ \{model\_name\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}{\_models}}[model\_name]}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00409}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aee226ad076abfc7e8382cecba7c1b0f7}{00409}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aee226ad076abfc7e8382cecba7c1b0f7}{\_get\_reference\_embeddings}}(self,\ model\_name:\ str)\ -\/>\ Optional[np.ndarray]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00411}00411\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ cached\ reference\ embeddings\ for\ cultural\ corpus.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00412}00412\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00413}00413\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00414}00414\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model\_name:\ Name\ of\ the\ sentence\ transformer\ model}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00415}00415\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00416}00416\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00417}00417\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Numpy\ array\ of\ reference\ embeddings\ or\ None\ if\ model\ unavailable}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00418}00418\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}{\_reference\_embeddings}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ model\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{\_load\_model}}(model\_name)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Flatten\ all\ cultural\ references\ into\ single\ list}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ all\_references\ =\ []}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ category\_refs\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8}{\_cultural\_references}}.values():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_references.extend(category\_refs)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00428}00428\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Computing\ reference\ embeddings\ with\ \{model\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ embeddings\ =\ model.encode(all\_references)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Compute\ centroid\ for\ similarity\ comparison}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}{\_reference\_embeddings}}[model\_name]\ =\ np.mean(embeddings,\ axis=0)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Cached\ reference\ embeddings\ for\ \{model\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Failed\ to\ compute\ reference\ embeddings:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00438}00438\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}{\_reference\_embeddings}}[model\_name]}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00440}00440\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00441}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}{00441}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}{\_calculate\_embedding\_score}}(self,\ text:\ str,\ model\_name:\ str)\ -\/>\ float:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00443}00443\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculate\ semantic\ similarity\ score\ using\ embeddings.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00444}00444\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00445}00445\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00446}00446\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ text:\ Input\ text\ to\ score}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00447}00447\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model\_name:\ Name\ of\ the\ sentence\ transformer\ model}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00448}00448\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00449}00449\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00450}00450\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Similarity\ score\ between\ 0.0\ and\ 1.0}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00451}00451\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ model\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{\_load\_model}}(model\_name)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ reference\_embedding\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aee226ad076abfc7e8382cecba7c1b0f7}{\_get\_reference\_embeddings}}(model\_name)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00454}00454\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ model\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}\ \textcolor{keywordflow}{or}\ reference\_embedding\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Model\ \{model\_name\}\ or\ reference\ embeddings\ unavailable"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00458}00458\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00460}00460\ \ \ \ \ \ \ \ \ \ \ \ \ text\_embedding\ =\ model.encode([text])[0]}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Compute\ cosine\ similarity}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00462}00462\ \ \ \ \ \ \ \ \ \ \ \ \ similarity\ =\ np.dot(text\_embedding,\ reference\_embedding)\ /\ (}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ np.linalg.norm(text\_embedding)\ *\ np.linalg.norm(reference\_embedding)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Discard\ negative\ similarities\ (dissimilarity),\ keep\ only\ positive\ similarities}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ max(0.0,\ float(similarity))}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Failed\ to\ compute\ embedding\ similarity:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00470}00470\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00471}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1}{00471}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1}{\_calculate\_keyword\_score}}(self,\ text:\ str,\ language:\ str\ =\ \textcolor{keywordtype}{None})\ -\/>\ float:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00473}00473\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculate\ language-\/aware\ keyword-\/based\ cultural\ context\ score.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00474}00474\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00475}00475\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00476}00476\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ text:\ Input\ text\ to\ analyze}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00477}00477\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language\ for\ language-\/specific\ keywords\ (optional)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00478}00478\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00479}00479\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00480}00480\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Keyword\ score\ between\ 0.0\ and\ 1.0}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00481}00481\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ text\_lower\ =\ text.lower()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ unicode\ for\ better\ matching}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ text\_normalized\ =\ unicodedata.normalize(\textcolor{stringliteral}{"{}NFKD"{}},\ text\_lower)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00485}00485\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ total\_matches\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ total\_keywords\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00488}00488\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00489}00489\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ language-\/specific\ keywords\ from\ expanded\ corpus\ if\ available}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00490}00490\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1}{\_expanded\_corpus}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ keywords\_to\_check\ =\ []}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00492}00492\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Collect\ language-\/specific\ keywords\ from\ all\ categories}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ category,\ lang\_dict\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1}{\_expanded\_corpus}}.items():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(lang\_dict,\ dict):}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ exact\ language\ match\ first}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{in}\ lang\_dict:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keywords\_to\_check.extend(lang\_dict[language])}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ English\ as\ fallback\ for\ better\ coverage}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}English"{}}\ \textcolor{keywordflow}{in}\ lang\_dict:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keywords\_to\_check.extend(lang\_dict[\textcolor{stringliteral}{"{}English"{}}])}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ global\ keywords}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ \textcolor{stringliteral}{"{}all\_languages"{}}\ \textcolor{keywordflow}{in}\ lang\_dict:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keywords\_to\_check.extend(lang\_dict[\textcolor{stringliteral}{"{}all\_languages"{}}])}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00505}00505\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Process\ language-\/specific\ keywords}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ keyword\_phrase\ \textcolor{keywordflow}{in}\ keywords\_to\_check:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(keyword\_phrase,\ str):}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keywords\_in\_phrase\ =\ keyword\_phrase.lower().split()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00510}00510\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_keywords\ +=\ len(keywords\_in\_phrase)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00511}00511\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ keyword\ \textcolor{keywordflow}{in}\ keywords\_in\_phrase:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keyword\_normalized\ =\ unicodedata.normalize(\textcolor{stringliteral}{"{}NFKD"{}},\ keyword)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00514}00514\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ keyword\_normalized\ \textcolor{keywordflow}{in}\ text\_normalized:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_matches\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00516}00516\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ to\ cultural\ references\ if\ no\ seed\ corpus\ or\ language-\/specific\ keywords}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ total\_keywords\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ matches\ across\ cultural\ references\ (mode-\/based\ corpus)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ keywords\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8}{\_cultural\_references}}.values():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ keyword\_phrase\ \textcolor{keywordflow}{in}\ keywords:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keywords\_in\_phrase\ =\ keyword\_phrase.lower().split()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_keywords\ +=\ len(keywords\_in\_phrase)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00524}00524\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ keyword\ \textcolor{keywordflow}{in}\ keywords\_in\_phrase:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ keyword\_normalized\ =\ unicodedata.normalize(\textcolor{stringliteral}{"{}NFKD"{}},\ keyword)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ keyword\_normalized\ \textcolor{keywordflow}{in}\ text\_normalized:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_matches\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00529}00529\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ by\ text\ length\ to\ avoid\ bias\ toward\ longer\ texts}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ word\_count\ =\ len(text.split())}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ word\_count\ ==\ 0\ \textcolor{keywordflow}{or}\ total\_keywords\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0.0}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Balance\ between\ absolute\ matches\ and\ relative\ density}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ absolute\_score\ =\ total\_matches\ /\ total\_keywords}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ density\_score\ =\ total\_matches\ /\ word\_count}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00538}00538\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ min(1.0,\ (absolute\_score\ +\ density\_score)\ /\ 2.0)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00540}00540\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00541}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a}{00541}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a}{\_get\_scoring\_strategy}}(self,\ language:\ str)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00543}00543\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Determine\ scoring\ strategy\ based\ on\ language\ tier.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00544}00544\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00545}00545\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00546}00546\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00547}00547\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00548}00548\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00549}00549\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Scoring\ strategy\ ('tier1'\ or\ 'tier2')}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00550}00550\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9fd12cddc0904462059cacad61584c6}{enable\_tiered\_scoring}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}tier1"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00553}00553\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00554}00554\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{stringliteral}{"{}tier2"{}}\ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23e026639d4da0560f723393621b6771}{TIER\_2\_LANGUAGES}}\ \textcolor{keywordflow}{else}\ \textcolor{stringliteral}{"{}tier1"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00555}00555\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00556}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a82edd89f6e82fe285a34abdf4efe958b}{00556}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a82edd89f6e82fe285a34abdf4efe958b}{score\_context}}(self,\ clue:\ str,\ answer:\ str,\ language:\ str)\ -\/>\ Dict[str,\ float]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00558}00558\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Calculate\ comprehensive\ Indian\ context\ score\ for\ clue-\/answer\ pair.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00559}00559\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00560}00560\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00561}00561\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ clue:\ Crossword\ clue\ text}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00562}00562\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ answer:\ Answer\ word/phrase}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00563}00563\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language\ for\ scoring}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00564}00564\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00565}00565\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00566}00566\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ containing\ individual\ and\ final\ scores}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00567}00567\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ pair\_text\ =\ f\textcolor{stringliteral}{"{}\{clue\}\ \{answer\}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00569}00569\ \ \ \ \ \ \ \ \ strategy\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a}{\_get\_scoring\_strategy}}(language)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00570}00570\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ strategy\ ==\ \textcolor{stringliteral}{"{}tier2"{}}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Enhanced\ scoring\ with\ dual\ models\ (no\ NER)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ multilingual\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}{\_calculate\_embedding\_score}}(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pair\_text,\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{primary\_model\_name}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ indic\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}{\_calculate\_embedding\_score}}(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pair\_text,\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}{indic\_model\_name}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ keyword\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1}{\_calculate\_keyword\_score}}(pair\_text,\ language)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Weighted\ combination\ for\ tier\ 2}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ \ \ \ \ final\_score\ =\ (}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}{tier2\_weights}}[\textcolor{stringliteral}{"{}multilingual"{}}]\ *\ multilingual\_score}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}{tier2\_weights}}[\textcolor{stringliteral}{"{}indic"{}}]\ *\ indic\_score}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}{tier2\_weights}}[\textcolor{stringliteral}{"{}keyword"{}}]\ *\ keyword\_score}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00587}00587\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}final\_score"{}}:\ final\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00590}00590\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}multilingual\_score"{}}:\ multilingual\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00591}00591\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}indic\_score"{}}:\ indic\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}keyword\_score"{}}:\ keyword\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00593}00593\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}strategy"{}}:\ \textcolor{stringliteral}{"{}tier2"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00595}00595\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Standard\ scoring\ for\ tier\ 1\ (no\ NER)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00598}00598\ \ \ \ \ \ \ \ \ \ \ \ \ embedding\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}{\_calculate\_embedding\_score}}(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pair\_text,\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{primary\_model\_name}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ keyword\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1}{\_calculate\_keyword\_score}}(pair\_text,\ language)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00602}00602\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Weighted\ combination\ for\ tier\ 1}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ final\_score\ =\ (}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04}{tier1\_weights}}[\textcolor{stringliteral}{"{}embedding"{}}]\ *\ embedding\_score}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ +\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04}{tier1\_weights}}[\textcolor{stringliteral}{"{}keyword"{}}]\ *\ keyword\_score}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00607}00607\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00608}00608\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}final\_score"{}}:\ final\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00611}00611\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}embedding\_score"{}}:\ embedding\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00612}00612\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}keyword\_score"{}}:\ keyword\_score,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00613}00613\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}strategy"{}}:\ \textcolor{stringliteral}{"{}tier1"{}},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00614}00614\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00615}00615\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00616}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21683b1a357988e10fabf4aa4982ba58}{00616}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21683b1a357988e10fabf4aa4982ba58}{validate\_cross\_language\_consistency}}(}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00617}00617\ \ \ \ \ \ \ \ \ self,\ scores\_by\_language:\ Dict[str,\ List[float]]}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00618}00618\ \ \ \ \ )\ -\/>\ Dict[str,\ float]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00620}00620\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Validate\ scoring\ consistency\ across\ languages.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00621}00621\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00622}00622\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00623}00623\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ scores\_by\_language:\ Dictionary\ mapping\ language\ to\ list\ of\ scores}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00624}00624\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00625}00625\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00626}00626\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ containing\ consistency\ metrics}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00627}00627\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00628}00628\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ scores\_by\_language:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00629}00629\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}variance"{}}:\ 0.0,\ \textcolor{stringliteral}{"{}std\_dev"{}}:\ 0.0\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00630}00630\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ mean\ scores\ per\ language}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00632}00632\ \ \ \ \ \ \ \ \ language\_means\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00633}00633\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ language,\ scores\ \textcolor{keywordflow}{in}\ scores\_by\_language.items():}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00634}00634\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ scores:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00635}00635\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ language\_means[language]\ =\ np.mean(scores)}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00636}00636\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00637}00637\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ language\_means:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00638}00638\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}variance"{}}:\ 0.0,\ \textcolor{stringliteral}{"{}std\_dev"{}}:\ 0.0\}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00639}00639\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00640}00640\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ variance\ across\ language\ means}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00641}00641\ \ \ \ \ \ \ \ \ overall\_mean\ =\ np.mean(list(language\_means.values()))}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00642}00642\ \ \ \ \ \ \ \ \ variance\ =\ np.var(list(language\_means.values()))}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00643}00643\ \ \ \ \ \ \ \ \ std\_dev\ =\ np.std(list(language\_means.values()))}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00644}00644\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00645}00645\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00646}00646\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}variance"{}}:\ float(variance),}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00647}00647\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}std\_dev"{}}:\ float(std\_dev),}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00648}00648\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}language\_means"{}}:\ language\_means,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00649}00649\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}overall\_mean"{}}:\ float(overall\_mean),}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00650}00650\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00651}00651\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00652}00652\ \ \ \ \ \textcolor{preprocessor}{@lru\_cache(maxsize=1)}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00653}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a752e5a3d2cacd0223452ae87844bf440}{00653}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a752e5a3d2cacd0223452ae87844bf440}{get\_supported\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00654}00654\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00655}00655\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ set\ of\ all\ supported\ languages.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00656}00656\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00657}00657\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00658}00658\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Set\ of\ supported\ language\ names}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00659}00659\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00660}00660\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a80e58f89955c7a6f9c8093e841066a85}{TIER\_1\_LANGUAGES}}.copy()}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00661}00661\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00662}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a40b90ae3557942f7fc87f7ef2c332024}{00662}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a40b90ae3557942f7fc87f7ef2c332024}{get\_language\_tier\_info}}(self,\ language:\ str)\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00663}00663\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00664}00664\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ tier\ information\ for\ specific\ language.}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00665}00665\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00666}00666\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00667}00667\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00668}00668\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00669}00669\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00670}00670\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ with\ tier\ information\ and\ capabilities}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00671}00671\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ tier\ =\ 2\ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23e026639d4da0560f723393621b6771}{TIER\_2\_LANGUAGES}}\ \textcolor{keywordflow}{else}\ 1}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00673}00673\ \ \ \ \ \ \ \ \ models\_available\ =\ []}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00674}00674\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00675}00675\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ model\ availability}}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00676}00676\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{\_load\_model}}(self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{primary\_model\_name}})\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00677}00677\ \ \ \ \ \ \ \ \ \ \ \ \ models\_available.append(self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{primary\_model\_name}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00678}00678\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00679}00679\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ tier\ ==\ 2\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{\_load\_model}}(self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}{indic\_model\_name}})\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00680}00680\ \ \ \ \ \ \ \ \ \ \ \ \ models\_available.append(self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}{indic\_model\_name}})}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00681}00681\ }
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00682}00682\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00683}00683\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}tier"{}}:\ tier,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00684}00684\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}strategy"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a}{\_get\_scoring\_strategy}}(language),}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00685}00685\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}models\_available"{}}:\ models\_available,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00686}00686\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}enhanced\_accuracy"{}}:\ tier\ ==\ 2,}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00687}00687\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}universal\_coverage"{}}:\ \textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{indian__context__scorer_8py_source_l00688}00688\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}

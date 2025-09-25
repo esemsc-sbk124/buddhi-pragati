@@ -1,0 +1,261 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor Class Reference}
+\hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+Inheritance diagram for buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=0.812379cm]{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac0bab857d8cb68dacbd504f5256964a4}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}, Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} context\+\_\+scorer=None)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ad7ae21c80ff0ad7a1e4709746710de5b}{get\+\_\+supported\+\_\+languages}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a3da768df8b6ff82fa1e593cca13205f0}{process\+\_\+batch}} (self, List\mbox{[}Dict\mbox{]} batch\+\_\+data)
+\item 
+Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab7267908c99eb1dc87c5f0d353369170}{load\+\_\+raw\+\_\+data}} (self, int batch\+\_\+size, int offset=0)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\+\_\+single\+\_\+word}} (self, str text)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\+\_\+quality\+\_\+score}} (self, str clue, str answer)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_aa5029592af0e379a5708ea1c5f72ea98}{valid\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab0add796c2b9cabdebcb762907641f70}{\+\_\+load\+\_\+context\+\_\+scorer}} (self)
+\item 
+Dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a6db0db9696d5bf3ce5ccabd721204dfb}{\+\_\+parse\+\_\+scoring\+\_\+config}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_adf852d8b32f6feb8f9254b36ace2ea95}{\+\_\+context\+\_\+scorer}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a631dc0711391faa70d3a361e06f8949a}{\+\_\+enable\+\_\+enhanced\+\_\+scoring}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Abstract base class for source-specific data processors.
+
+Each source (MILU, bhasha-wiki, etc.) implements this interface to provide
+consistent processing of raw data into standardized DatasetEntry objects.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00044}{44}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac0bab857d8cb68dacbd504f5256964a4}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac0bab857d8cb68dacbd504f5256964a4} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{dict}]{config,  }\item[{str}]{language,  }\item[{Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} }]{context\+\_\+scorer = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Reimplemented in \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a1859de391c0a39b5f1a86e4b9fe66667}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+bhasha\+\_\+wiki\+\_\+processor.\+Bhasha\+Wiki\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf89868d08b8905b29b94618f5cf52d1}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor}}, and \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor}}.
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00052}{52}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab0add796c2b9cabdebcb762907641f70}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab0add796c2b9cabdebcb762907641f70} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!\_load\_context\_scorer@{\_load\_context\_scorer}}
+\index{\_load\_context\_scorer@{\_load\_context\_scorer}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{\_load\_context\_scorer()}{\_load\_context\_scorer()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+\_\+load\+\_\+context\+\_\+scorer (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Lazy load the Indian context scorer with proper configuration parsing.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00124}{124}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a6db0db9696d5bf3ce5ccabd721204dfb}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a6db0db9696d5bf3ce5ccabd721204dfb} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!\_parse\_scoring\_config@{\_parse\_scoring\_config}}
+\index{\_parse\_scoring\_config@{\_parse\_scoring\_config}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{\_parse\_scoring\_config()}{\_parse\_scoring\_config()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, any\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+\_\+parse\+\_\+scoring\+\_\+config (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Parse scoring configuration from string format to proper types.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00142}{142}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!calculate\_quality\_score@{calculate\_quality\_score}}
+\index{calculate\_quality\_score@{calculate\_quality\_score}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{calculate\_quality\_score()}{calculate\_quality\_score()}}
+{\footnotesize\ttfamily  float buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+calculate\+\_\+quality\+\_\+score (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{clue,  }\item[{str}]{answer }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate crossword suitability score.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00099}{99}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ad7ae21c80ff0ad7a1e4709746710de5b}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ad7ae21c80ff0ad7a1e4709746710de5b} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return set of languages supported by this source.\end{DoxyVerb}
+ 
+
+Reimplemented in \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a50dfb482dba9f7e5d8009dd947da2a70}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+bhasha\+\_\+wiki\+\_\+processor.\+Bhasha\+Wiki\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a669a455411fc774d1df94ac6881717d7}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a8f1be760dcf375bde6ad894496cc165b}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor}}, and \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aa27fbf27bf580eed50803481cf08229e}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor}}.
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00076}{76}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!is\_single\_word@{is\_single\_word}}
+\index{is\_single\_word@{is\_single\_word}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{is\_single\_word()}{is\_single\_word()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+is\+\_\+single\+\_\+word (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{text }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Check if text is a single word suitable for crossword.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00092}{92}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab7267908c99eb1dc87c5f0d353369170}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab7267908c99eb1dc87c5f0d353369170} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!load\_raw\_data@{load\_raw\_data}}
+\index{load\_raw\_data@{load\_raw\_data}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{load\_raw\_data()}{load\_raw\_data()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+load\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{batch\+\_\+size,  }\item[{int }]{offset = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load raw data batch from source. Returns (data, has_more).\end{DoxyVerb}
+ 
+
+Reimplemented in \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aacd5cf5083fb90fbc3a205aaaac181d0}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+bhasha\+\_\+wiki\+\_\+processor.\+Bhasha\+Wiki\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_adf155bc1eeb61cfbbb531d41dff30275}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a3f73ec146efe311db2b8c5ebd4c066b3}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor}}, and \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_adaef1856591b46a13ce75d886fb5da39}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor}}.
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00086}{86}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a3da768df8b6ff82fa1e593cca13205f0}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a3da768df8b6ff82fa1e593cca13205f0} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Dict\mbox{]}}]{batch\+\_\+data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Process a batch of raw data into standardized entries.\end{DoxyVerb}
+ 
+
+Reimplemented in \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ac82475dba052b77c5b22898fbfb1b3c8}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+bhasha\+\_\+wiki\+\_\+processor.\+Bhasha\+Wiki\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indic__wikibio__processor_1_1IndicWikiBioProcessor_a1e4e398405c30b750e76bfef68ff1f75}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indic\+\_\+wikibio\+\_\+processor.\+Indic\+Wiki\+Bio\+Processor}}, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a07012db220f6851a92c09429c45b542c}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor}}, and \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a4991eabefbfd556cd4048746aa975f73}{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor}}.
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00081}{81}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_adf852d8b32f6feb8f9254b36ace2ea95}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_adf852d8b32f6feb8f9254b36ace2ea95} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!\_context\_scorer@{\_context\_scorer}}
+\index{\_context\_scorer@{\_context\_scorer}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{\_context\_scorer}{\_context\_scorer}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+\_\+context\+\_\+scorer\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00068}{68}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a631dc0711391faa70d3a361e06f8949a}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a631dc0711391faa70d3a361e06f8949a} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!\_enable\_enhanced\_scoring@{\_enable\_enhanced\_scoring}}
+\index{\_enable\_enhanced\_scoring@{\_enable\_enhanced\_scoring}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{\_enable\_enhanced\_scoring}{\_enable\_enhanced\_scoring}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+\_\+enable\+\_\+enhanced\+\_\+scoring\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00071}{71}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}}
+\index{answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{answer\_in\_clue\_rejections}{answer\_in\_clue\_rejections}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+answer\+\_\+in\+\_\+clue\+\_\+rejections}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00064}{64}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!config@{config}}
+\index{config@{config}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00058}{58}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!language@{language}}
+\index{language@{language}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{language}{language}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+language}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00059}{59}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!other\_rejections@{other\_rejections}}
+\index{other\_rejections@{other\_rejections}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{other\_rejections}{other\_rejections}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+other\+\_\+rejections}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00065}{65}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!processed\_count@{processed\_count}}
+\index{processed\_count@{processed\_count}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{processed\_count}{processed\_count}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+processed\+\_\+count}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00060}{60}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_aa5029592af0e379a5708ea1c5f72ea98}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_aa5029592af0e379a5708ea1c5f72ea98} 
+\index{buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}!valid\_count@{valid\_count}}
+\index{valid\_count@{valid\_count}!buddhi\_pragati.data.dataset\_builder.SourceProcessor@{buddhi\_pragati.data.dataset\_builder.SourceProcessor}}
+\doxysubsubsection{\texorpdfstring{valid\_count}{valid\_count}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor.\+valid\+\_\+count}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00061}{61}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/data/\mbox{\hyperlink{dataset__builder_8py}{dataset\+\_\+builder.\+py}}\end{DoxyCompactItemize}

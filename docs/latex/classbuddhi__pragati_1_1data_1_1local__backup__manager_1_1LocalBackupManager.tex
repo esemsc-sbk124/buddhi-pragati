@@ -1,0 +1,164 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager Class Reference}
+\hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aeb2e9b13d0c1f7e2670b3118a3f70e77}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\+\_\+dir}}=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aa55a847f2ae525088a6cdb15fe53e903}{save\+\_\+batch}} (self, str language, str source, int batch\+\_\+num, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} entries)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a679bb5b845f764a6d6b49bf089a6de7d}{load\+\_\+all\+\_\+entries}} (self, str language)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a36b3d32ae46f5c70f35477ba0157d6be}{cleanup\+\_\+language}} (self, str language)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a2beed145f3270318865db3a0c10517c8}{list\+\_\+backup\+\_\+languages}} (self)
+\item 
+Dict\mbox{[}str, int\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a34828e69aa220d7d088f6c682e42f5e8}{get\+\_\+backup\+\_\+stats}} (self, str language)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\+\_\+dir}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Manages local backup files for dataset entries during batch processing.
+
+This class handles the disk persistence of dataset entries as they are processed
+in batches, allowing for memory-efficient processing and single-upload behavior
+to HuggingFace datasets.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00031}{31}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aeb2e9b13d0c1f7e2670b3118a3f70e77}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aeb2e9b13d0c1f7e2670b3118a3f70e77} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{backup\+\_\+dir = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize backup manager with specified directory.
+
+Args:
+    backup_dir: Directory for backup storage. Defaults to buddhi_pragati/data/configs_backup
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00040}{40}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a36b3d32ae46f5c70f35477ba0157d6be}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a36b3d32ae46f5c70f35477ba0157d6be} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!cleanup\_language@{cleanup\_language}}
+\index{cleanup\_language@{cleanup\_language}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{cleanup\_language()}{cleanup\_language()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+cleanup\+\_\+language (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Delete all backup files for a language after successful upload.
+
+Args:
+    language: Language to clean up backup files for
+
+Returns:
+    True if cleanup successful, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00167}{167}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a34828e69aa220d7d088f6c682e42f5e8}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a34828e69aa220d7d088f6c682e42f5e8} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!get\_backup\_stats@{get\_backup\_stats}}
+\index{get\_backup\_stats@{get\_backup\_stats}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{get\_backup\_stats()}{get\_backup\_stats()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, int\mbox{]} buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+get\+\_\+backup\+\_\+stats (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get statistics about backup files for a language.
+
+Args:
+    language: Language to get statistics for
+
+Returns:
+    Dictionary with batch count, total entries, and file size info
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00217}{217}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a2beed145f3270318865db3a0c10517c8}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a2beed145f3270318865db3a0c10517c8} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!list\_backup\_languages@{list\_backup\_languages}}
+\index{list\_backup\_languages@{list\_backup\_languages}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{list\_backup\_languages()}{list\_backup\_languages()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+list\+\_\+backup\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}List all languages that have backup files.
+
+Returns:
+    List of language names with backup files
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00200}{200}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a679bb5b845f764a6d6b49bf089a6de7d}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a679bb5b845f764a6d6b49bf089a6de7d} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!load\_all\_entries@{load\_all\_entries}}
+\index{load\_all\_entries@{load\_all\_entries}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{load\_all\_entries()}{load\_all\_entries()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+load\+\_\+all\+\_\+entries (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load and merge all batch files for a language with deduplication.
+
+Args:
+    language: Target language to load entries for
+
+Returns:
+    List of deduplicated DatasetEntry objects from all batches
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00101}{101}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aa55a847f2ae525088a6cdb15fe53e903}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aa55a847f2ae525088a6cdb15fe53e903} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!save\_batch@{save\_batch}}
+\index{save\_batch@{save\_batch}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{save\_batch()}{save\_batch()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+save\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{str}]{source,  }\item[{int}]{batch\+\_\+num,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]}     }]{entries }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Save a batch of dataset entries to disk.
+
+Args:
+    language: Target language (used as subdirectory)
+    source: Source name (MILU, IndicWikiBio, etc.)
+    batch_num: Batch number for this source
+    entries: List of DatasetEntry objects to save
+
+Returns:
+    Path to the saved batch file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00057}{57}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}\label{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62} 
+\index{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}!backup\_dir@{backup\_dir}}
+\index{backup\_dir@{backup\_dir}!buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager@{buddhi\_pragati.data.local\_backup\_manager.LocalBackupManager}}
+\doxysubsubsection{\texorpdfstring{backup\_dir}{backup\_dir}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+Local\+Backup\+Manager.\+backup\+\_\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00050}{50}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/data/\mbox{\hyperlink{local__backup__manager_8py}{local\+\_\+backup\+\_\+manager.\+py}}\end{DoxyCompactItemize}

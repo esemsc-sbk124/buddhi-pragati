@@ -1,0 +1,11 @@
+{
+  "few_shot_header": {
+    "English": "Here are some examples of solved crossword puzzles:"
+  },
+  "example_template": {
+    "English": "Example {example_num}:\n\nGRID:\n{grid}\n\nCLUES:\n{clues}\n\nSOLUTION:\nWORDS:\n{words}\n\nGRID:\n{solution_grid}\n"
+  },
+  "transition_to_puzzle": {
+    "English": "Now solve this crossword puzzle:"
+  }
+}

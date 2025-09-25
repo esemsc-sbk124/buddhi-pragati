@@ -1,0 +1,355 @@
+\doxysection{corpus\+\_\+loader.\+py}
+\hypertarget{corpus__loader_8py_source}{}\label{corpus__loader_8py_source}\index{buddhi\_pragati/generate/corpus\_loader.py@{buddhi\_pragati/generate/corpus\_loader.py}}
+\mbox{\hyperlink{corpus__loader_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1corpus__loader}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00002}00002\ \textcolor{stringliteral}{Crossword\ Corpus\ Loader\ for\ HuggingFace\ Dataset\ Integration}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ loads\ clue-\/answer\ pairs\ from\ the\ existing\ Buddhi-\/Pragati\ HuggingFace\ dataset}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00005}00005\ \textcolor{stringliteral}{and\ provides\ cultural\ context\ scoring\ with\ language-\/specific\ normalization\ for\ classification.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00008}00008\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00009}00009\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Tuple,\ Dict,\ NamedTuple}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00010}00010\ \textcolor{keyword}{from}\ datasets\ \textcolor{keyword}{import}\ load\_dataset}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00011}00011\ \textcolor{keyword}{from}\ ..utils.config\_loader\ \textcolor{keyword}{import}\ get\_config}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00012}00012\ \textcolor{keyword}{from}\ ..utils.unicode\_utils\ \textcolor{keyword}{import}\ is\_predominantly\_latin\_script}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00014}\mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1corpus__loader_a3bcdd2cea6fd356f8745f7b60c082c0b}{00014}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00017}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry}{00017}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry}{CorpusEntry}}(NamedTuple):}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00018}00018\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Extended\ corpus\ entry\ with\ cultural\ context\ information."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00020}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry_a66dfc267cf3b75c25d5f7c5188259287}{00020}}\ \ \ \ \ clue:\ str}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00021}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry_adfb31ce5d70abd223a72022e4e554f80}{00021}}\ \ \ \ \ answer:\ str}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00022}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry_a823ead665c0828c9dc1ddd017b300c32}{00022}}\ \ \ \ \ context\_score:\ float\ \ \textcolor{comment}{\#\ Raw\ context\ score}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00023}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry_a12fbc5f69f35e5bddba49360daf4e74c}{00023}}\ \ \ \ \ source:\ str}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00024}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry_ac05a5a5d1004b977e157dc07b2ec0a08}{00024}}\ \ \ \ \ source\_id:\ str}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00025}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry_aca059a21fc8fc66332c0aaec52746853}{00025}}\ \ \ \ \ quality\_score:\ float}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00026}00026\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00028}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader}{00028}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader}{CrosswordCorpusLoader}}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00029}00029\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ Loads\ clue-\/answer\ corpus\ from\ HuggingFace\ datasets\ with\ cultural\ context\ scoring.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00031}00031\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ Uses\ raw\ context\ scores\ for\ both\ classification\ and\ puzzle\ entry\ generation.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00035}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a19952738f882997eb9dc5cf369f4f972}{00035}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a19952738f882997eb9dc5cf369f4f972}{\_\_init\_\_}}(self,\ repo\_id:\ str\ =\ \textcolor{keywordtype}{None},\ hf\_token:\ str\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Initialize\ corpus\ loader.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00038}00038\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00039}00039\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00040}00040\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ HuggingFace\ repository\ ID\ (default\ from\ config)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00041}00041\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ hf\_token:\ HuggingFace\ token\ for\ dataset\ access\ (default\ from\ config/env)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00043}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{00043}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}\ =\ get\_config()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00044}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{00044}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{repo\_id}}\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}.get\_string(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}HF\_DATASET\_REPO"{}},\ \textcolor{stringliteral}{"{}selim-\/b-\/kh/buddhi-\/pragati"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00047}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{00047}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\_token}}\ =\ hf\_token\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}.get\_string(\textcolor{stringliteral}{"{}DEFAULT\_HF\_TOKEN"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00048}00048\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00049}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{00049}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}\ =\ \{\}\ \ \textcolor{comment}{\#\ language\ -\/>\ List[CorpusEntry]}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00050}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ab54869ad6940c5cc777929745fdd7068}{00050}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ab54869ad6940c5cc777929745fdd7068}{context\_scorers}}\ =\ \{\}\ \ \textcolor{comment}{\#\ Cache\ context\ scorers\ per\ language}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Initialized\ CrosswordCorpusLoader\ for\ repository:\ \{self.repo\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00053}00053\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00054}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_acb3f47dfa3bf495d4e5a7b5f2a2039de}{00054}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_acb3f47dfa3bf495d4e5a7b5f2a2039de}{\_is\_indic\_language}}(self,\ language:\ str)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00056}00056\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Check\ if\ the\ language\ is\ an\ Indic\ language\ that\ should\ filter\ out\ Latin\ script\ answers.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00057}00057\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ name}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00060}00060\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ True\ if\ this\ is\ an\ Indic\ language\ that\ needs\ script\ filtering}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ script\ filtering\ is\ enabled\ globally}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}.get\_bool(\textcolor{stringliteral}{"{}ENABLE\_SCRIPT\_FILTERING"{}},\ \textcolor{keyword}{True}):}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ configurable\ list\ of\ languages\ requiring\ script\ filtering}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ indic\_languages\_str\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}.get\_string(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}INDIC\_LANGUAGES\_FOR\_FILTERING"{}},}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese,Bengali,Bodo,Gujarati,Hindi,Kannada,Kashmiri,Konkani,Malayalam,Marathi,Meitei,Nepali,Odia,Punjabi,Sanskrit,Tamil,Telugu,Urdu"{}},}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ indic\_languages\ =\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ lang.strip()\ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ indic\_languages\_str.split(\textcolor{stringliteral}{"{},"{}})\ \textcolor{keywordflow}{if}\ lang.strip()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ language\ \textcolor{keywordflow}{in}\ indic\_languages}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00078}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}{00078}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}{load\_scored\_corpus}}(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ self,\ language:\ str,\ max\_entries:\ int\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00080}00080\ \ \ \ \ )\ -\/>\ List[CorpusEntry]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ corpus\ with\ cultural\ context\ scores.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00083}00083\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ to\ load\ (e.g.,\ "{}English"{},\ "{}Hindi"{})}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ max\_entries:\ Maximum\ entries\ to\ load\ (None\ for\ all)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00087}00087\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00088}00088\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00089}00089\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ CorpusEntry\ with\ raw\ context\ scores}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00090}00090\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ config\_name\ =\ language.lower()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ scored\ corpus\ for\ \{language\}\ from\ \{self.repo\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00095}00095\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ dataset\ with\ token\ if\ available}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\_kwargs\ =\ \{\textcolor{stringliteral}{"{}split"{}}:\ \textcolor{stringliteral}{"{}train"{}}\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\_token}}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\_kwargs[\textcolor{stringliteral}{"{}token"{}}]\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{repo\_id}},\ config\_name,\ **dataset\_kwargs)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Process\ entries\ and\ create\ corpus\ with\ raw\ context\ scores}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ corpus\_entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ raw\_scores\ =\ []}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ entries\_processed\ =\ 0}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00107}00107\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ dataset:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ max\_entries\ \textcolor{keywordflow}{and}\ entries\_processed\ >=\ max\_entries:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00111}00111\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue\ =\ entry.get(\textcolor{stringliteral}{"{}clue"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ answer\ =\ entry.get(\textcolor{stringliteral}{"{}answer"{}},\ \textcolor{stringliteral}{"{}"{}}).upper().strip()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ source\ =\ entry.get(\textcolor{stringliteral}{"{}source"{}},\ \textcolor{stringliteral}{"{}unknown"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ source\_id\ =\ entry.get(\textcolor{stringliteral}{"{}source\_id"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score\ =\ entry.get(\textcolor{stringliteral}{"{}quality\_score"{}},\ 0.5)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Basic\ validation}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (clue\ \textcolor{keywordflow}{and}\ answer\ \textcolor{keywordflow}{and}\ len(answer)\ >=\ 2):}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Script\ filtering\ for\ Indic\ languages\ -\/\ reject\ Latin\ script\ answers}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_acb3f47dfa3bf495d4e5a7b5f2a2039de}{\_is\_indic\_language}}(language)\ \textcolor{keywordflow}{and}\ is\_predominantly\_latin\_script(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ answer}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Filtered\ Latin\ script\ answer\ in\ \{language\}:\ \{answer\}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ or\ use\ existing\ context\ score}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}context\_score"{}}\ \textcolor{keywordflow}{in}\ entry:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ pre-\/computed\ score\ from\ dataset}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context\_score\ =\ float(entry[\textcolor{stringliteral}{"{}context\_score"{}}])}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context\_score\ =\ 0.0}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00137}00137\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ corpus\_entry\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry}{CorpusEntry}}(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue=clue,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ answer=answer,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ context\_score=context\_score,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ source=source,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ source\_id=source\_id,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ corpus\_entries.append(corpus\_entry)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ raw\_scores.append(context\_score)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries\_processed\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entries\_processed\ \%\ 100\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Processed\ \{entries\_processed\}\ entries\ for\ \{language\}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ corpus\_entries:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}No\ valid\ entries\ found\ for\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ context\ score\ distribution}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ min\_score\ =\ min(raw\_scores)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ max\_score\ =\ max(raw\_scores)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ mean\_score\ =\ sum(raw\_scores)\ /\ len(raw\_scores)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Context\ score\ distribution\ for\ \{language\}:"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\ \ Min:\ \{min\_score:.4f\},\ Max:\ \{max\_score:.4f\},\ Mean:\ \{mean\_score:.4f\}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loaded\ \{len(corpus\_entries)\}\ scored\ entries\ for\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Cache\ the\ loaded\ corpus}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}[language]\ =\ corpus\_entries}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ corpus\_entries}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ scored\ corpus\ for\ \{language\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00181}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a551c127fe3eb753fc723a27e0d984ad4}{00181}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a551c127fe3eb753fc723a27e0d984ad4}{get\_prioritized\_corpus}}(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ self,\ language:\ str,\ indian\_threshold:\ float\ =\ \textcolor{keywordtype}{None},\ max\_entries:\ int\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00183}00183\ \ \ \ \ )\ -\/>\ Tuple[List[Tuple[str,\ str]],\ Dict[str,\ float]]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00185}00185\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ corpus\ prioritized\ by\ Indian\ cultural\ context\ using\ raw\ context\ scores.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00186}00186\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00187}00187\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00188}00188\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ to\ load}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00189}00189\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ indian\_threshold:\ Threshold\ for\ prioritizing\ Indian\ entries\ (applied\ to\ raw\ context\ scores)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00190}00190\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ max\_entries:\ Maximum\ entries\ to\ load\ (None\ for\ all)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00191}00191\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00192}00192\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00193}00193\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Tuple\ of\ (prioritized\_corpus,\ context\_scores)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00194}00194\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ -\/\ prioritized\_corpus:\ List\ of\ (clue,\ answer)\ pairs}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00195}00195\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ -\/\ context\_scores:\ Dictionary\ mapping\ answer\ -\/>\ context\_score}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00196}00196\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ indian\_threshold\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ indian\_threshold\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}.get\_float(\textcolor{stringliteral}{"{}INDIAN\_CONTEXT\_THRESHOLD"{}},\ 0.4)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ scored\ corpus}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ scored\_corpus\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}{load\_scored\_corpus}}(language,\ max\_entries)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ scored\_corpus:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}No\ corpus\ loaded\ for\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \{\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ return\ formats}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ prioritized\_pairs\ =\ [(entry.clue,\ entry.answer)\ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ scored\_corpus]}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ context\_scores\ =\ \{entry.answer:\ entry.context\_score\ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ scored\_corpus\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ repartition\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ high\_context\_count\ =\ 0}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ classification\ statistics\ using\ raw\ context\ scores}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ scored\_corpus:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entry.context\_score\ >=\ indian\_threshold:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repartition[entry.source]\ =\ repartition.get(entry.source,\ 0)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ high\_context\_count\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Show\ context\ score\ ranges\ for\ debugging}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ all\_scores\ =\ [entry.context\_score\ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ scored\_corpus]}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Prioritized\ corpus\ for\ \{language\}:"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}\ \ Total\ entries:\ \{len(prioritized\_pairs)\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\ \ High\ Indian\ context\ (>=\ \{indian\_threshold\}):\ \{high\_context\_count\}\ (\{high\_context\_count\ /\ len(scored\_corpus)\ *\ 100:.1f\}\%)"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\ \ Context\ scores\ -\/\ Min:\ \{min(all\_scores):.4f\},\ Max:\ \{max(all\_scores):.4f\}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00230}00230\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}\ \ Indian\ source\ repartition:\ \{repartition\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ prioritized\_pairs,\ context\_scores}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00233}00233\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00234}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_aa15b6e1f1701ad7bb821e576fd2a2f3b}{00234}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_aa15b6e1f1701ad7bb821e576fd2a2f3b}{get\_source\_distribution}}(self,\ language:\ str)\ -\/>\ Dict[str,\ int]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00236}00236\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ distribution\ of\ sources\ in\ the\ corpus\ for\ tracking\ source\_mix.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00237}00237\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00238}00238\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00239}00239\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ to\ analyze}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00240}00240\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00241}00241\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00242}00242\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ mapping\ source\ -\/>\ count}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00243}00243\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}{load\_scored\_corpus}}(language)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ source\_counts\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}[language]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ source\_counts[entry.source]\ =\ source\_counts.get(entry.source,\ 0)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ source\_counts}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00256}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ad94df38ba2ae4f18bf43fa46f0e4e1bc}{00256}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ad94df38ba2ae4f18bf43fa46f0e4e1bc}{get\_corpus\_statistics}}(self,\ language:\ str)\ -\/>\ Dict[str,\ any]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00258}00258\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ detailed\ statistics\ about\ the\ corpus.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00259}00259\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00260}00260\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00261}00261\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ to\ analyze}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00262}00262\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00263}00263\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00264}00264\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ with\ comprehensive\ corpus\ statistics}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00265}00265\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}{load\_scored\_corpus}}(language)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00268}00268\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}[language]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}error"{}}:\ \textcolor{stringliteral}{"{}No\ corpus\ loaded"{}}\}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ corpus\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}[language]}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00273}00273\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Basic\ statistics}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ stats\ =\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_entries"{}}:\ len(corpus),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}language"{}}:\ language,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}repository"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{repo\_id}},}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Context\ score\ distribution}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ context\_scores\ =\ [entry.context\_score\ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ corpus]}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ stats[\textcolor{stringliteral}{"{}context\_scores"{}}]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min"{}}:\ min(context\_scores),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max"{}}:\ max(context\_scores),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}avg"{}}:\ sum(context\_scores)\ /\ len(context\_scores),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}range"{}}:\ max(context\_scores)\ -\/\ min(context\_scores),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high\_context\_count"{}}:\ sum(1\ \textcolor{keywordflow}{for}\ score\ \textcolor{keywordflow}{in}\ context\_scores\ \textcolor{keywordflow}{if}\ score\ >=\ 0.4),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}high\_context\_percentage"{}}:\ sum(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \textcolor{keywordflow}{for}\ score\ \textcolor{keywordflow}{in}\ context\_scores\ \textcolor{keywordflow}{if}\ score\ >=\ 0.4}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ /\ len(context\_scores)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ *\ 100,}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00296}00296\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Answer\ length\ distribution\ (for\ grid\ size\ planning)}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ answer\_lengths\ =\ [len(entry.answer)\ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ corpus]}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ stats[\textcolor{stringliteral}{"{}answer\_length"{}}]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min"{}}:\ min(answer\_lengths),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max"{}}:\ max(answer\_lengths),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}avg"{}}:\ sum(answer\_lengths)\ /\ len(answer\_lengths),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}suitable\_for\_small\_grids"{}}:\ sum(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \textcolor{keywordflow}{for}\ length\ \textcolor{keywordflow}{in}\ answer\_lengths\ \textcolor{keywordflow}{if}\ 3\ <=\ length\ <=\ 7}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}suitable\_for\_large\_grids"{}}:\ sum(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \textcolor{keywordflow}{for}\ length\ \textcolor{keywordflow}{in}\ answer\_lengths\ \textcolor{keywordflow}{if}\ 8\ <=\ length\ <=\ 15}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ ),}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Source\ distribution}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ stats[\textcolor{stringliteral}{"{}source\_distribution"{}}]\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_aa15b6e1f1701ad7bb821e576fd2a2f3b}{get\_source\_distribution}}(language)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00313}00313\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stats}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00316}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ae4c70aba7b02e4c1a713653c4b4e22ae}{00316}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ae4c70aba7b02e4c1a713653c4b4e22ae}{clear\_cache}}(self):}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Clear\ cached\ datasets\ and\ scorers\ to\ free\ memory."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\_corpus}}.clear()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ab54869ad6940c5cc777929745fdd7068}{context\_scorers}}.clear()}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ logger.info(\textcolor{stringliteral}{"{}Cleared\ corpus\ loader\ cache"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00321}00321\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00322}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a8402543414447633356d5cca8a797363}{00322}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a8402543414447633356d5cca8a797363}{get\_supported\_languages}}(self)\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00324}00324\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ list\ of\ languages\ available\ in\ the\ repository.}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00325}00325\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00326}00326\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00327}00327\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ available\ language\ configuration\ names}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00328}00328\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ datasets\ \textcolor{keyword}{import}\ get\_dataset\_config\_names}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00331}00331\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ configs\ =\ get\_dataset\_config\_names(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{repo\_id}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\_token}}\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\_token}}\ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ invalid\ configurations}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ valid\_configs\ =\ []}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ config\ \textcolor{keywordflow}{in}\ configs:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ config\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}data"{}},\ \textcolor{stringliteral}{"{}default"{}},\ \textcolor{stringliteral}{"{}train"{}},\ \textcolor{stringliteral}{"{}test"{}},\ \textcolor{stringliteral}{"{}validation"{}}]:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ valid\_configs.append(config.title())\ \ \textcolor{comment}{\#\ Convert\ to\ proper\ case}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Found\ \{len(valid\_configs)\}\ language\ configurations:\ \{valid\_configs\}"{}}}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sorted(valid\_configs)}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00346}00346\ }
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ get\ supported\ languages:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{corpus__loader_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+
+\end{DoxyCode}

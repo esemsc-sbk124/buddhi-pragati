@@ -1,0 +1,355 @@
+\doxysection{milu\+\_\+processor.\+py}
+\hypertarget{milu__processor_8py_source}{}\label{milu__processor_8py_source}\index{buddhi\_pragati/data/source\_processors/milu\_processor.py@{buddhi\_pragati/data/source\_processors/milu\_processor.py}}
+\mbox{\hyperlink{milu__processor_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00002}00002\ \textcolor{stringliteral}{MILU\ Dataset\ Processor}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00004}00004\ \textcolor{stringliteral}{Handles\ processing\ of\ MILU\ (Multi-\/task\ Indic\ Language\ Understanding)\ dataset}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00005}00005\ \textcolor{stringliteral}{for\ crossword\ clue-\/answer\ extraction.\ Filters\ out\ contextual\ MCQ\ questions}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00006}00006\ \textcolor{stringliteral}{that\ require\ multiple\ choice\ options\ to\ answer\ correctly.}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00007}00007\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00009}00009\ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00010}00010\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00011}00011\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Dict,\ Set,\ Tuple}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00012}00012\ \textcolor{keyword}{from}\ datasets\ \textcolor{keyword}{import}\ load\_dataset}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00014}00014\ \textcolor{keyword}{from}\ ..dataset\_builder\ \textcolor{keyword}{import}\ SourceProcessor,\ DatasetEntry}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00015}00015\ \textcolor{keyword}{from}\ ...utils.unicode\_utils\ \textcolor{keyword}{import}\ is\_predominantly\_latin\_script,\ answer\_in\_clue\_check}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00017}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_a8d8bc51f097df5268de231e7b72f53f3}{00017}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00020}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor}{00020}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor}{MILUProcessor}}(\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{SourceProcessor}}):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00021}00021\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ Processor\ for\ MILU\ dataset\ MCQ\ questions.}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00023}00023\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ Filters\ out\ questions\ that\ require\ context\ or\ multiple\ choice\ options,}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ keeping\ only\ questions\ with\ single-\/word\ answers\ that\ work\ as\ crossword\ clues.}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00028}00028\ \ \ \ \ \textcolor{comment}{\#\ Language\ codes\ supported\ by\ MILU}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00029}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a84f1a61f4456fef4c3c737adc9627b85}{00029}}\ \ \ \ \ SUPPORTED\_LANGUAGES\ =\ \{}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00041}00041\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00043}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f}{00043}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f}{\_\_init\_\_}}(self,\ config:\ dict,\ language:\ str,\ context\_scorer=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f}{\_\_init\_\_}}(config,\ language,\ context\_scorer)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00045}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3}{00045}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3}{dataset}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00046}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a632d57213b6807b0f414ef98ba38defe}{00046}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a632d57213b6807b0f414ef98ba38defe}{current\_index}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00047}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a14f16e1216605a7bd1361a48ce4bf288}{00047}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a14f16e1216605a7bd1361a48ce4bf288}{current\_batch\_number}}\ =\ 0\ \ \textcolor{comment}{\#\ Track\ batch\ number\ for\ ID\ generation}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00048}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0}{00048}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0}{valid\_count\_in\_batch}}\ =\ 0\ \ \textcolor{comment}{\#\ Track\ valid\ entries\ within\ current\ batch}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Language-\/specific\ contextual\ question\ patterns}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00051}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a04b5b5fd0db6d67050335d2ab5d13d35}{00051}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a04b5b5fd0db6d67050335d2ab5d13d35}{contextual\_patterns}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a2fc66469936f16dec2a2f0ba358c4ef3}{\_get\_contextual\_patterns}}(language)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00053}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aa27fbf27bf580eed50803481cf08229e}{00053}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aa27fbf27bf580eed50803481cf08229e}{get\_supported\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Return\ set\ of\ languages\ supported\ by\ MILU."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a84f1a61f4456fef4c3c737adc9627b85}{SUPPORTED\_LANGUAGES}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00057}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_abe7d410d4286c377b6bce7ea3ca4d005}{00057}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_abe7d410d4286c377b6bce7ea3ca4d005}{set\_current\_offset}}(self,\ offset:\ int):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Set\ current\ offset\ for\ unique\ ID\ generation\ across\ batches."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00059}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3fcc942779cc70fd69c3a298eb6dcb28}{00059}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3fcc942779cc70fd69c3a298eb6dcb28}{current\_offset}}\ =\ offset}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00061}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a2fc66469936f16dec2a2f0ba358c4ef3}{00061}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a2fc66469936f16dec2a2f0ba358c4ef3}{\_get\_contextual\_patterns}}(self,\ language:\ str)\ -\/>\ List[re.Pattern]:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ compiled\ regex\ patterns\ for\ detecting\ contextual\ questions."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ patterns\ =\ []}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00064}00064\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ English\ patterns\ -\/\ enhanced\ for\ stricter\ filtering}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ language\ ==\ \textcolor{stringliteral}{"{}English"{}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ patterns.extend(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:which|what)(?:\(\backslash\)s+of)?(?:\(\backslash\)s+the)?(?:\(\backslash\)s+following|above|given)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Cc]hoose\(\backslash\)s+(?:the\(\backslash\)s+)?(?:correct|right|best|appropriate)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ss]elect\(\backslash\)s+(?:the\(\backslash\)s+)?(?:correct|right|best|appropriate|one)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)ball\(\backslash\)s+of\(\backslash\)s+the\(\backslash\)s+above\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bnone\(\backslash\)s+of\(\backslash\)s+the\(\backslash\)s+above\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:option|choice)\(\backslash\)s*[A-\/D]\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:options|choices)\(\backslash\)s+[A-\/D]\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ff]rom\(\backslash\)s+(?:the\(\backslash\)s+)?(?:given|above|following)\(\backslash\)s+(?:options|choices)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bis\(\backslash\)s+(?:the\(\backslash\)s+)?correct\(\backslash\)s+(?:option|answer|choice)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bselect\(\backslash\)b.*\(\backslash\)bfrom\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bof\(\backslash\)s+the\(\backslash\)s+following\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bmultiple\(\backslash\)s+choice\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Cc]hoose\(\backslash\)s+from\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ww]hich\(\backslash\)s+one\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Mm]ark\(\backslash\)s+the\(\backslash\)s+correct\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ii]dentify\(\backslash\)s+the\(\backslash\)s+correct\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ss]elect\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:[Oo]f\(\backslash\)s+the\(\backslash\)s+following)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ww]hich\(\backslash\)s+among\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Cc]hoose\(\backslash\)s+the\(\backslash\)s+one\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Ss]elect\(\backslash\)s+one\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Aa]mong\(\backslash\)s+the\(\backslash\)s+following\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Tt]he\(\backslash\)s+correct\(\backslash\)s+option\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Tt]he\(\backslash\)s+correct\(\backslash\)s+answer\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Oo]ut\(\backslash\)s+of\(\backslash\)s+the\(\backslash\)s+following\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Gg]iven\(\backslash\)s+the\(\backslash\)s+following\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Gg]iven\(\backslash\)s+the\(\backslash\)s+options\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Gg]iven\(\backslash\)s+below\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b[Gg]iven\(\backslash\)s+options\(\backslash\)b"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Hindi\ patterns\ (no\ word\ boundaries\ for\ Devanagari)}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ language\ ==\ \textcolor{stringliteral}{"{}Hindi"{}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ patterns.extend(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}(?:कौन\(\backslash\)s*सा|क्या)\(\backslash\)s+(?:निम्नलिखित|विकल्प|दिया\(\backslash\)s+गया)"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}सही\(\backslash\)s+(?:विकल्प|उत्तर)\(\backslash\)s+(?:चुनें|चुनिए)"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}निम्नलिखित\(\backslash\)s+में\(\backslash\)s+से"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}उपरोक्त\(\backslash\)s+सभी"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}इनमें\(\backslash\)s+से\(\backslash\)s+कोई\(\backslash\)s+नहीं"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}दिए\(\backslash\)s+गए\(\backslash\)s+विकल्पों\(\backslash\)s+में\(\backslash\)s+से"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00113}00113\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Bengali\ patterns}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ language\ ==\ \textcolor{stringliteral}{"{}Bengali"{}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ patterns.extend(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:কোনটি|কী)\(\backslash\)s+(?:নিম্নলিখিত|বিকল্প|দেওয়া)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bসঠিক\(\backslash\)s+(?:বিকল্প|উত্তর)\(\backslash\)s+(?:নির্বাচন|বেছে)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bনিম্নলিখিত\(\backslash\)s+থেকে\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bউপরের\(\backslash\)s+সবগুলি\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Tamil\ patterns}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ language\ ==\ \textcolor{stringliteral}{"{}Tamil"{}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ patterns.extend(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:எது|என்ன)\(\backslash\)s+(?:பின்வருவன|விருப்பம்|கொடுக்கப்பட்ட)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bசரியான\(\backslash\)s+(?:விடை|தேர்வு)\(\backslash\)s+(?:தேர்ந்தெடு|தேர்வு)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Telugu\ patterns}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ language\ ==\ \textcolor{stringliteral}{"{}Telugu"{}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ patterns.extend(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)b(?:ఏది|ఏమిటి)\(\backslash\)s+(?:క్రింది|ఎంపిక|ఇవ్వబడిన)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)bసరైన\(\backslash\)s+(?:సమాధానం|ఎంపిక)\(\backslash\)s+(?:ఎంచుకోండి|తేర్చుకోండి)\(\backslash\)b"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00142}00142\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Compile\ patterns}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [re.compile(pattern,\ re.IGNORECASE)\ \textcolor{keywordflow}{for}\ pattern\ \textcolor{keywordflow}{in}\ patterns]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00146}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_adaef1856591b46a13ce75d886fb5da39}{00146}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_adaef1856591b46a13ce75d886fb5da39}{load\_raw\_data}}(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ self,\ batch\_size:\ int,\ offset:\ int\ =\ 0}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00148}00148\ \ \ \ \ )\ -\/>\ Tuple[List[Dict],\ bool]:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ batch\ of\ raw\ MILU\ data\ using\ streaming\ to\ avoid\ loading\ entire\ dataset."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ hasattr(self,\ \textcolor{stringliteral}{"{}\_stream\_initialized"{}}):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Initializing\ MILU\ streaming\ dataset\ for\ \{self.language\}..."{}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ streaming\ dataset\ to\ avoid\ loading\ all\ entries\ into\ memory}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3}{dataset}}\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ai4bharat/MILU"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name=self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ split=\textcolor{stringliteral}{"{}test"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ streaming=\textcolor{keyword}{True},\ \ \textcolor{comment}{\#\ This\ is\ the\ key\ change\ -\/\ streaming\ mode}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00160}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462}{00160}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462}{\_stream\_iterator}}\ =\ iter(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3}{dataset}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00161}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}{00161}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}{\_current\_position}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00162}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac5a7da762817a33f2af6dd3c26aab22d}{00162}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac5a7da762817a33f2af6dd3c26aab22d}{\_stream\_initialized}}\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Initialized\ MILU\ streaming\ dataset\ for\ \{self.language\}"{}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Failed\ to\ load\ MILU\ streaming\ dataset\ for\ \{self.language\}:\ \{e\}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Skip\ to\ desired\ offset\ if\ needed}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}{\_current\_position}}\ <\ offset:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462}{\_stream\_iterator}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}{\_current\_position}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ StopIteration:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Reached\ end\ of\ MILU\ dataset\ at\ position\ \{self.\_current\_position\}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Collect\ batch\_size\ entries}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ batch\ =\ []}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ entries\_collected\ =\ 0}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ entries\_collected\ <\ batch\_size:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item\ =\ next(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462}{\_stream\_iterator}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch.append(dict(item))}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries\_collected\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}{\_current\_position}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ StopIteration:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Reached\ end\ of\ MILU\ dataset\ at\ position\ \{self.\_current\_position\}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ batch\ and\ whether\ more\ data\ is\ available}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ More\ intelligent\ has\_more\ detection\ to\ prevent\ early\ termination}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ has\_more\ =\ entries\_collected\ >=\ min(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ *\ 0.5,\ 50}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ At\ least\ 50\%\ of\ requested\ or\ 50\ entries\ minimum}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}MILU\ batch:\ collected\ \{len(batch)\}\ entries,\ has\_more=\{has\_more\}"{}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ batch,\ has\_more}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00206}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a4991eabefbfd556cd4048746aa975f73}{00206}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a4991eabefbfd556cd4048746aa975f73}{process\_batch}}(self,\ batch\_data:\ List[Dict])\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ batch\ of\ MILU\ data\ into\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ batch\_start\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ batch\_start\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reset\ valid\ count\ for\ new\ batch}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0}{valid\_count\_in\_batch}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a14f16e1216605a7bd1361a48ce4bf288}{current\_batch\_number}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ item\ \textcolor{keywordflow}{in}\ batch\_data:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ before\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entry\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac945c14032230ad6c4ca31f1fccc5d00}{\_process\_single\_item}}(item)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entry:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.append(entry)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0}{valid\_count\_in\_batch}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ answer\_in\_clue\ counter\ didn't\ increase,\ this\ was\ rejected\ for\ other\ reasons}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00225}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{00225}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{answer\_in\_clue\_rejections}}\ ==\ before\_answer\_in\_clue:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Error\ processing\ MILU\ item:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ batch\ statistics}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ batch\_answer\_in\_clue\ =\ (}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{answer\_in\_clue\_rejections}}\ -\/\ batch\_start\_answer\_in\_clue}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ batch\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ -\/\ batch\_start\_other}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}MILU\ batch\ complete:\ processed\ \{len(batch\_data)\},\ valid\ \{len(entries)\},\ "{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}answer-\/in-\/clue\ rejections\ \{batch\_answer\_in\_clue\},\ other\ rejections\ \{batch\_other\}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00243}00243\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00244}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac945c14032230ad6c4ca31f1fccc5d00}{00244}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac945c14032230ad6c4ca31f1fccc5d00}{\_process\_single\_item}}(self,\ item:\ Dict)\ -\/>\ DatasetEntry:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ a\ single\ MILU\ item\ into\ a\ dataset\ entry."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ question\ =\ item.get(\textcolor{stringliteral}{"{}question"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ question:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ this\ is\ a\ contextual\ question\ that\ needs\ options}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MILU\_FILTER\_CONTEXTUAL\_QUESTIONS"{}},\ \textcolor{keyword}{True}):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_af85b7fa74da2aa1040d10f1f2a439247}{\_is\_contextual\_question}}(question):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00254}00254\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ the\ correct\ answer\ (target\ is\ like\ 'option1',\ 'option2',\ etc.)}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ target\ =\ item.get(\textcolor{stringliteral}{"{}target"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ target\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ isinstance(target,\ str)\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ target.startswith(\textcolor{stringliteral}{"{}option"{}}):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ answer\ directly\ using\ the\ target\ field\ name}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ answer\ =\ item.get(target,\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ answer:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00264}00264\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ For\ Indic\ languages,\ filter\ out\ entries\ where\ options/answer\ are\ in\ Latin\ script}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}\ !=\ \textcolor{stringliteral}{"{}English"{}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ answer\ is\ predominantly\ Latin\ script\ (should\ be\ filtered\ out\ for\ Indic\ languages)}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ is\_predominantly\_latin\_script(answer):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Also\ check\ all\ options\ to\ see\ if\ any\ are\ Latin\ script}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(1,\ 5):\ \ \textcolor{comment}{\#\ MILU\ has\ up\ to\ 4\ options}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ option\_key\ =\ f\textcolor{stringliteral}{"{}option\{i\}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ option\_key\ \textcolor{keywordflow}{in}\ item:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ option\_value\ =\ item.get(option\_key,\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ option\_value\ \textcolor{keywordflow}{and}\ is\_predominantly\_latin\_script(option\_value):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ answer\ is\ single\ word}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\_single\_word}}(answer):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ the\ question\ to\ make\ it\ more\ crossword-\/like}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ cleaned\_question\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a8df5a5d27f1b28378277f76d31837a93}{\_clean\_question}}(question)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ cleaned\_question:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Universal\ sanity\ check\ -\/\ ensure\ answer\ not\ in\ clue}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ answer\_in\_clue\_check(cleaned\_question,\ answer):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}MILU\ rejected\ entry:\ answer\ '\{answer\}'\ found\ in\ clue\ '\{cleaned\_question[:100]\}...'"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{answer\_in\_clue\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ word\ length\ for\ crossword\ suitability}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ min\_word\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_WORD\_LENGTH"{}},\ 2)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(answer)\ <\ min\_word\_length:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00300}00300\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ dataset\ entry\ with\ new\ ID\ format:\ milu\_\{language\}\_\{batch\_number\}\_\{count\_in\_batch\}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ entry\_id\ =\ f\textcolor{stringliteral}{"{}milu\_\{self.language\}\_\{self.current\_batch\_number\}\_\{self.valid\_count\_in\_batch\}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ quality\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\_quality\_score}}(cleaned\_question,\ answer)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ context\_score\ will\ be\ computed\ later\ after\ quality\ filtering\ (deferred\ scoring)}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{DatasetEntry}}(}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ id=entry\_id,}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ clue=cleaned\_question,}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ answer=answer.upper(),}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ source=\textcolor{stringliteral}{"{}MILU"{}},}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ source\_id=\textcolor{stringliteral}{"{}N/A"{}},\ \ \textcolor{comment}{\#\ As\ requested,\ MILU\ entries\ have\ no\ source\ ID}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ context\_score\ defaults\ to\ 0.0\ and\ will\ be\ computed\ later}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00316}00316\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00317}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_af85b7fa74da2aa1040d10f1f2a439247}{00317}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_af85b7fa74da2aa1040d10f1f2a439247}{\_is\_contextual\_question}}(self,\ question:\ str)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Check\ if\ question\ requires\ contextual\ knowledge\ or\ multiple\ choice\ options."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ pattern\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a04b5b5fd0db6d67050335d2ab5d13d35}{contextual\_patterns}}:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ pattern.search(question):}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00324}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a8df5a5d27f1b28378277f76d31837a93}{00324}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a8df5a5d27f1b28378277f76d31837a93}{\_clean\_question}}(self,\ question:\ str)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Clean\ question\ to\ make\ it\ more\ suitable\ as\ a\ crossword\ clue."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ MCQ-\/specific\ phrases}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ cleaned\ =\ question}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ common\ MCQ\ introductions}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ mcq\_phrases\ =\ [}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\string^\(\backslash\)s*(?:Q\(\backslash\).?\(\backslash\)s*\(\backslash\)d+\(\backslash\).?\(\backslash\)s*)?"{}},\ \ \textcolor{comment}{\#\ Question\ numbers}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)s*\(\backslash\)([A-\/D]\(\backslash\))\(\backslash\)s*\$"{}},\ \ \textcolor{comment}{\#\ Option\ markers\ at\ end}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{r"{}\(\backslash\)s*[A-\/D][\(\backslash\).\(\backslash\))]\(\backslash\)s*\$"{}},\ \ \textcolor{comment}{\#\ Option\ markers\ at\ end}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00335}00335\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ phrase\ \textcolor{keywordflow}{in}\ mcq\_phrases:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ cleaned\ =\ re.sub(phrase,\ \textcolor{stringliteral}{"{}"{}},\ cleaned,\ flags=re.IGNORECASE)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ whitespace}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ cleaned\ =\ \textcolor{stringliteral}{"{}\ "{}}.join(cleaned.split())}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00341}00341\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ length\ constraints}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ min\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_CLUE\_LENGTH"{}},\ 10)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ max\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MAX\_CLUE\_LENGTH"{}},\ 500)}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(cleaned)\ <\ min\_len\ \textcolor{keywordflow}{or}\ len(cleaned)\ >\ max\_len:}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00348}00348\ }
+\DoxyCodeLine{\Hypertarget{milu__processor_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cleaned}
+
+\end{DoxyCode}

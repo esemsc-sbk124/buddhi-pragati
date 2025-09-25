@@ -1,0 +1,21 @@
+# All lines starting with # should be ignored
+-----------------------
+SOURCES 
+------------------------
+MILU https://huggingface.co/datasets/ai4bharat/MILU
+bhasa-wiki https://huggingface.co/datasets/soketlabs/bhasha-wiki
+IndicWikiBio https://huggingface.co/datasets/ai4bharat/IndicWikiBio
+IndoWordNet https://github.com/cfiltnlp/pyiwn?tab=readme-ov-file
+
+-----------------------
+MODELS 
+------------------------
+IndicNER https://huggingface.co/ai4bharat/IndicNER
+
+
+# -------------- IGNORED -------------------------------
+# IndicQuestionGeneration https://huggingface.co/datasets/ai4bharat/IndicQuestionGeneration
+# Naamapadam https://huggingface.co/datasets/ai4bharat/naamapadam
+# indicMMLU-Pro https://huggingface.co/datasets/LinguaLift/IndicMMLU-Pro
+# wikipedia https://huggingface.co/datasets/NeuML/wikipedia
+# updesh-beta https://huggingface.co/datasets/microsoft/Updesh_beta/viewer/mcq/npi_Deva?views%5B%5D=mcq_npi_deva&row=56

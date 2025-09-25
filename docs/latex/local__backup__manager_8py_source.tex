@@ -1,0 +1,256 @@
+\doxysection{local\+\_\+backup\+\_\+manager.\+py}
+\hypertarget{local__backup__manager_8py_source}{}\label{local__backup__manager_8py_source}\index{buddhi\_pragati/data/local\_backup\_manager.py@{buddhi\_pragati/data/local\_backup\_manager.py}}
+\mbox{\hyperlink{local__backup__manager_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1local__backup__manager}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00002}00002\ \textcolor{stringliteral}{Local\ Backup\ Manager\ for\ Dataset\ Creation}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ provides\ functionality\ for\ saving\ dataset\ entry\ batches\ locally\ during\ processing}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00005}00005\ \textcolor{stringliteral}{and\ loading\ them\ back\ for\ final\ HuggingFace\ upload.\ This\ enables\ memory-\/efficient\ processing}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00006}00006\ \textcolor{stringliteral}{while\ maintaining\ the\ ability\ to\ upload\ complete\ language\ configurations.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00007}00007\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00008}00008\ \textcolor{stringliteral}{Key\ Features:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00009}00009\ \textcolor{stringliteral}{-\/\ Batch-\/level\ disk\ persistence\ during\ processing}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00010}00010\ \textcolor{stringliteral}{-\/\ Language-\/based\ organization\ of\ backup\ files}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00011}00011\ \textcolor{stringliteral}{-\/\ Automatic\ deduplication\ when\ loading\ accumulated\ entries}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00012}00012\ \textcolor{stringliteral}{-\/\ Cleanup\ functionality\ for\ post-\/upload\ maintenance}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00013}00013\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00014}00014\ \textcolor{stringliteral}{Architecture:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00015}00015\ \textcolor{stringliteral}{-\/\ Backup\ files\ stored\ in:\ configs\_backup/\{language\}/batch\_\{source\}\_\{batch\_num\}.json}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00016}00016\ \textcolor{stringliteral}{-\/\ JSON\ serialization\ using\ DatasetEntry\ dataclass\ fields}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00017}00017\ \textcolor{stringliteral}{-\/\ Answer-\/based\ deduplication\ across\ all\ batches\ for\ a\ language}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00018}00018\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00020}00020\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00021}00021\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00022}00022\ \textcolor{keyword}{import}\ shutil}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00023}00023\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00024}00024\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Dict}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00025}00025\ \textcolor{keyword}{from}\ dataclasses\ \textcolor{keyword}{import}\ asdict}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00026}00026\ \textcolor{keyword}{from}\ .data\_structure\ \textcolor{keyword}{import}\ DatasetEntry}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00027}00027\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00028}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1local__backup__manager_a9d12974b283a085c9210317875903941}{00028}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00031}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{00031}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{LocalBackupManager}}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00032}00032\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ Manages\ local\ backup\ files\ for\ dataset\ entries\ during\ batch\ processing.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00034}00034\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ This\ class\ handles\ the\ disk\ persistence\ of\ dataset\ entries\ as\ they\ are\ processed}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ in\ batches,\ allowing\ for\ memory-\/efficient\ processing\ and\ single-\/upload\ behavior}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ to\ HuggingFace\ datasets.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00038}00038\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00040}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aeb2e9b13d0c1f7e2670b3118a3f70e77}{00040}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aeb2e9b13d0c1f7e2670b3118a3f70e77}{\_\_init\_\_}}(self,\ backup\_dir:\ str\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Initialize\ backup\ manager\ with\ specified\ directory.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00043}00043\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00044}00044\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00045}00045\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ backup\_dir:\ Directory\ for\ backup\ storage.\ Defaults\ to\ buddhi\_pragati/data/configs\_backup}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00046}00046\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ backup\_dir\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Default\ to\ configs\_backup\ in\ the\ data\ directory}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ backup\_dir\ =\ Path(\_\_file\_\_).parent\ /\ \textcolor{stringliteral}{"{}configs\_backup"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00050}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{00050}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}\ =\ Path(backup\_dir)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}LocalBackupManager\ initialized\ with\ backup\ directory:\ \{self.backup\_dir\}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00057}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aa55a847f2ae525088a6cdb15fe53e903}{00057}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_aa55a847f2ae525088a6cdb15fe53e903}{save\_batch}}(}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ self,\ language:\ str,\ source:\ str,\ batch\_num:\ int,\ entries:\ List[DatasetEntry]}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00059}00059\ \ \ \ \ )\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Save\ a\ batch\ of\ dataset\ entries\ to\ disk.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00062}00062\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00064}00064\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language\ (used\ as\ subdirectory)}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00065}00065\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ source:\ Source\ name\ (MILU,\ IndicWikiBio,\ etc.)}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00066}00066\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ batch\_num:\ Batch\ number\ for\ this\ source}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ entries:\ List\ of\ DatasetEntry\ objects\ to\ save}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00068}00068\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Path\ to\ the\ saved\ batch\ file}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ entries:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}No\ entries\ to\ save\ for\ \{language\}\ \{source\}\ batch\ \{batch\_num\}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ language\ subdirectory}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ language\_dir\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}\ /\ language.lower()}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ language\_dir.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Generate\ batch\ filename}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ batch\_filename\ =\ f\textcolor{stringliteral}{"{}batch\_\{source\}\_\{batch\_num:03d\}.json"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ batch\_file\ =\ language\_dir\ /\ batch\_filename}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ entries\ to\ JSON-\/serializable\ format}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ entries\_data\ =\ [asdict(entry)\ \textcolor{keywordflow}{for}\ entry\ \textcolor{keywordflow}{in}\ entries]}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ to\ JSON\ file}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(batch\_file,\ \textcolor{stringliteral}{"{}w"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(entries\_data,\ f,\ indent=2,\ ensure\_ascii=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Saved\ \{len(entries)\}\ entries\ to\ \{batch\_file\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(batch\_file)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ save\ batch\ \{batch\_filename\}\ for\ \{language\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00100}00100\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00101}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a679bb5b845f764a6d6b49bf089a6de7d}{00101}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a679bb5b845f764a6d6b49bf089a6de7d}{load\_all\_entries}}(self,\ language:\ str)\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00103}00103\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ and\ merge\ all\ batch\ files\ for\ a\ language\ with\ deduplication.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00104}00104\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language\ to\ load\ entries\ for}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00107}00107\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00108}00108\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ deduplicated\ DatasetEntry\ objects\ from\ all\ batches}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00110}00110\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ language\_dir\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}\ /\ language.lower()}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00112}00112\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ language\_dir.exists():}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}No\ backup\ directory\ found\ for\ language:\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ all\ batch\ files}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ batch\_files\ =\ list(language\_dir.glob(\textcolor{stringliteral}{"{}batch\_*.json"{}}))}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ batch\_files:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}No\ batch\ files\ found\ for\ language:\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00122}00122\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ \{len(batch\_files)\}\ batch\ files\ for\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ all\_entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ seen\_answers\ =\ set()\ \ \textcolor{comment}{\#\ For\ deduplication}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ total\_loaded\ =\ 0}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ duplicates\_removed\ =\ 0}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ batch\_file\ \textcolor{keywordflow}{in}\ sorted(batch\_files):\ \ \textcolor{comment}{\#\ Sort\ for\ consistent\ ordering}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(batch\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_data\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entry\_data\ \textcolor{keywordflow}{in}\ batch\_data:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reconstruct\ DatasetEntry\ from\ dict}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entry\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{DatasetEntry}}(**entry\_data)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ deduplication\ based\ on\ answer\ (case-\/insensitive)}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ answer\_key\ =\ entry.answer.upper()}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ answer\_key\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ seen\_answers:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ seen\_answers.add(answer\_key)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_entries.append(entry)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ duplicates\_removed\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_entries.extend(batch\_entries)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_loaded\ +=\ len(batch\_data)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00150}00150\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ \{len(batch\_entries)\}/\{len(batch\_data)\}\ entries\ from\ \{batch\_file.name\}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ batch\ file\ \{batch\_file\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00158}00158\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ final\_count\ =\ len(all\_entries)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loaded\ \{final\_count\}\ unique\ entries\ for\ \{language\}\ "{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}(processed\ \{total\_loaded\}\ total,\ removed\ \{duplicates\_removed\}\ duplicates)"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00164}00164\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ all\_entries}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00167}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a36b3d32ae46f5c70f35477ba0157d6be}{00167}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a36b3d32ae46f5c70f35477ba0157d6be}{cleanup\_language}}(self,\ language:\ str)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00169}00169\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Delete\ all\ backup\ files\ for\ a\ language\ after\ successful\ upload.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00170}00170\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00171}00171\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00172}00172\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ to\ clean\ up\ backup\ files\ for}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00173}00173\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00175}00175\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ True\ if\ cleanup\ successful,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00176}00176\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ language\_dir\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}\ /\ language.lower()}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ language\_dir.exists():}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}No\ backup\ directory\ to\ clean\ for\ language:\ \{language\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00182}00182\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Count\ files\ before\ deletion}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_files\ =\ list(language\_dir.glob(\textcolor{stringliteral}{"{}batch\_*.json"{}}))}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ file\_count\ =\ len(batch\_files)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ entire\ language\ directory}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ shutil.rmtree(language\_dir,\ ignore\_errors=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Cleaned\ up\ \{file\_count\}\ backup\ files\ for\ language:\ \{language\}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00195}00195\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ cleanup\ backup\ files\ for\ \{language\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00200}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a2beed145f3270318865db3a0c10517c8}{00200}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a2beed145f3270318865db3a0c10517c8}{list\_backup\_languages}}(self)\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00202}00202\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ List\ all\ languages\ that\ have\ backup\ files.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00203}00203\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00204}00204\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00205}00205\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ language\ names\ with\ backup\ files}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00206}00206\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}.exists():}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00209}00209\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ languages\ =\ []}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ item\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}.iterdir():}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ item.is\_dir()\ \textcolor{keywordflow}{and}\ list(item.glob(\textcolor{stringliteral}{"{}batch\_*.json"{}})):}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ languages.append(item.name.title())\ \ \textcolor{comment}{\#\ Capitalize\ language\ name}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sorted(languages)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00216}00216\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00217}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a34828e69aa220d7d088f6c682e42f5e8}{00217}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_a34828e69aa220d7d088f6c682e42f5e8}{get\_backup\_stats}}(self,\ language:\ str)\ -\/>\ Dict[str,\ int]:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00219}00219\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ statistics\ about\ backup\ files\ for\ a\ language.}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00220}00220\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00221}00221\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00222}00222\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Language\ to\ get\ statistics\ for}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00223}00223\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00224}00224\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00225}00225\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ with\ batch\ count,\ total\ entries,\ and\ file\ size\ info}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00226}00226\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ language\_dir\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager_ac51f667020e41d115833e5baa7184b62}{backup\_dir}}\ /\ language.lower()}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ language\_dir.exists():}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}batch\_count"{}}:\ 0,\ \textcolor{stringliteral}{"{}total\_entries"{}}:\ 0,\ \textcolor{stringliteral}{"{}total\_size\_mb"{}}:\ 0.0\}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ batch\_files\ =\ list(language\_dir.glob(\textcolor{stringliteral}{"{}batch\_*.json"{}}))}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ total\_entries\ =\ 0}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ total\_size\ =\ 0}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ batch\_file\ \textcolor{keywordflow}{in}\ batch\_files:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(batch\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch\_data\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_entries\ +=\ len(batch\_data)}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ total\_size\ +=\ batch\_file.stat().st\_size}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Could\ not\ read\ \{batch\_file\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}batch\_count"{}}:\ len(batch\_files),}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_entries"{}}:\ total\_entries,}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_size\_mb"{}}:\ round(total\_size\ /\ (1024\ *\ 1024),\ 2),}
+\DoxyCodeLine{\Hypertarget{local__backup__manager_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \}}
+
+\end{DoxyCode}

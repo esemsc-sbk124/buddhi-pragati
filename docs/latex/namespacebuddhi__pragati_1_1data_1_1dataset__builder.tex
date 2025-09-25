@@ -1,0 +1,49 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1data_1_1dataset__builder}{}\label{namespacebuddhi__pragati_1_1data_1_1dataset__builder}\index{buddhi\_pragati.data.dataset\_builder@{buddhi\_pragati.data.dataset\_builder}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder}{Dataset\+Builder}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{Source\+Processor}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1dataset__builder_a7b003a6c67eecc5162848cccdaf235f7}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Comprehensive Dataset Builder for Buddhi-Pragati Crossword System
+
+This module implements a complete pipeline for creating structured crossword clue-answer
+datasets from multiple Indian language sources including MILU, bhasha-wiki, IndicWikiBio,
+and IndoWordNet.
+
+Key Features:
+- Multi-source data integration with fallback for unsupported languages
+- Batch processing for memory efficiency
+- Quality control and single-word answer enforcement
+- HuggingFace dataset upload capability
+- Progress tracking and resumable processing
+
+Architecture:
+- DatasetBuilder: Main orchestrator class
+- SourceProcessor: Abstract base for source-specific processors
+- Language-aware processing with automatic source selection
+- Configurable parameters from crossword_config.txt
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1data_1_1dataset__builder_a7b003a6c67eecc5162848cccdaf235f7}\label{namespacebuddhi__pragati_1_1data_1_1dataset__builder_a7b003a6c67eecc5162848cccdaf235f7} 
+\index{buddhi\_pragati.data.dataset\_builder@{buddhi\_pragati.data.dataset\_builder}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.data.dataset\_builder@{buddhi\_pragati.data.dataset\_builder}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00041}{41}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+

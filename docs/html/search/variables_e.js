@@ -1,0 +1,18 @@
+var searchData=
+[
+  ['pair_5ftracker_0',['pair_tracker',['../classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder.html#ae2743b9d88b0bd835b26f439b7479427',1,'buddhi_pragati::generate::puzzle_builder::PuzzleBuilder']]],
+  ['pair_5fusage_1',['pair_usage',['../classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker.html#a8730e33a2da7d5fad221d3e9cbca838b',1,'buddhi_pragati::generate::puzzle_builder::UsedPairTracker']]],
+  ['parser_2',['parser',['../classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator.html#a639a18d2befa10ba2ea2f899087f2379',1,'buddhi_pragati::evaluate::evaluator::CrosswordEvaluator']]],
+  ['pipeline_3',['pipeline',['../namespacebuddhi__pragati_1_1models_1_1model__interface.html#a4e27eae9a371822edf436c6eeee3cc46',1,'buddhi_pragati.models.model_interface.pipeline'],['../classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend.html#a077e1a6ec937da286e6f53897ced1bad',1,'buddhi_pragati.models.model_interface.HuggingFaceBackend.pipeline']]],
+  ['placed_5fwords_4',['placed_words',['../classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate.html#ad9c438051596c54701bb036fd56df86f',1,'buddhi_pragati::generate::memetic_generator::CrosswordCandidate']]],
+  ['population_5fsize_5',['population_size',['../classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator.html#a1501bf48e30f3f2a9edb35b0f361599a',1,'buddhi_pragati::generate::memetic_generator::MemeticCrosswordGenerator']]],
+  ['primary_5fmodel_5fname_6',['primary_model_name',['../classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer.html#a1a60ee4113ce5d22b3b3841f3addbe71',1,'buddhi_pragati::utils::indian_context_scorer::IndianContextScorer']]],
+  ['priority_5fgrid_5fsizes_7',['priority_grid_sizes',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#a3294e8d806c1addc45eabec2b63945dc',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['priority_5flanguages_8',['priority_languages',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#ad5d7eead0332898144403f8c01dc8af1',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['priority_5fmodels_9',['priority_models',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#aba925e2fe63b6e1974563b4fa29dff04',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['processed_5fcount_10',['processed_count',['../classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor.html#a153bcbb510048f3b79bb4af3a6a765ad',1,'buddhi_pragati::data::dataset_builder::SourceProcessor']]],
+  ['prompts_5fdir_11',['prompts_dir',['../classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader.html#acac3ee433875006e7b81a8f8d59dc0f4',1,'buddhi_pragati::evaluate::templates::PromptLoader']]],
+  ['provider_12',['provider',['../classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo.html#ad5e84cd2d319f7a2e7e0a00eacf22281',1,'buddhi_pragati::evaluate::model_classifier::ModelInfo']]],
+  ['puzzle_5fid_13',['puzzle_id',['../classbuddhi__pragati_1_1core_1_1base__puzzle_1_1BasePuzzle.html#a6f91f6acdd6e9d05080a0c574e813901',1,'buddhi_pragati.core.base_puzzle.BasePuzzle.puzzle_id'],['../classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle.html#a896e4039e7491067d2a1942bcae96024',1,'buddhi_pragati.core.base_puzzle.CrosswordPuzzle.puzzle_id']]],
+  ['puzzles_5frepo_14',['puzzles_repo',['../classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder.html#aa8a669de99e3a0c22a2116421f4a98f1',1,'buddhi_pragati::generate::puzzle_builder::PuzzleBuilder']]]
+];

@@ -1,0 +1,462 @@
+\doxysection{dataset\+\_\+loader.\+py}
+\hypertarget{dataset__loader_8py_source}{}\label{dataset__loader_8py_source}\index{buddhi\_pragati/evaluate/dataset\_loader.py@{buddhi\_pragati/evaluate/dataset\_loader.py}}
+\mbox{\hyperlink{dataset__loader_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate_1_1dataset__loader}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00002}00002\ \textcolor{stringliteral}{Dataset\ loader\ for\ crossword\ puzzles\ from\ HuggingFace\ datasets.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ loads\ generated\ crossword\ puzzles\ from\ the\ HuggingFace\ repository}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00005}00005\ \textcolor{stringliteral}{and\ converts\ them\ to\ CrosswordPuzzle\ objects\ for\ evaluation.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00008}00008\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00009}00009\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00010}00010\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Optional,\ Dict,\ Any}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00011}00011\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00012}00012\ \textcolor{keyword}{import}\ random}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00013}00013\ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00015}00015\ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00016}00016\ \ \ \ \ \textcolor{keyword}{from}\ datasets\ \textcolor{keyword}{import}\ load\_dataset,\ get\_dataset\_config\_names}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00017}00017\ \ \ \ \ \textcolor{keyword}{from}\ huggingface\_hub\ \textcolor{keyword}{import}\ HfApi}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00018}00018\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00019}\mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate_1_1dataset__loader_a2420e2a7dd8f88e3cc7f72bb701c7298}{00019}}\ \ \ \ \ HF\_AVAILABLE\ =\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00020}00020\ \textcolor{keywordflow}{except}\ ImportError:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00021}00021\ \ \ \ \ HF\_AVAILABLE\ =\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00022}00022\ \ \ \ \ logging.warning(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00023}00023\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}HuggingFace\ datasets\ not\ available.\ Install\ with:\ pip\ install\ datasets\ huggingface\_hub"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00024}00024\ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00025}00025\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00026}00026\ \textcolor{keyword}{from}\ ..core.base\_puzzle\ \textcolor{keyword}{import}\ CrosswordPuzzle,\ CrosswordClue}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00027}00027\ \textcolor{keyword}{from}\ ..utils.config\_loader\ \textcolor{keyword}{import}\ get\_config}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00029}00029\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00030}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader}{00030}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader}{PuzzleDatasetLoader}}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00031}00031\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ Loads\ crossword\ puzzles\ from\ HuggingFace\ generated\ puzzles\ repository.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00033}00033\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ Supports\ filtering\ by\ language,\ grid\ size,\ and\ other\ criteria.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ Provides\ local\ caching\ for\ repeated\ experiments.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00037}00037\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00038}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ad81e9014487c34458fd2a540b5501d1b}{00038}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ad81e9014487c34458fd2a540b5501d1b}{\_\_init\_\_}}(self,\ hf\_token:\ Optional[str]\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00039}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{00039}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}\ =\ logging.getLogger(\textcolor{stringliteral}{"{}PuzzleDatasetLoader"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00040}00040\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ HF\_AVAILABLE:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ImportError(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}HuggingFace\ datasets\ required.\ Install\ with:\ pip\ install\ datasets\ huggingface\_hub"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00045}00045\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00047}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf}{00047}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf}{config}}\ =\ get\_config()}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00048}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{00048}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf}{config}}.get(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}HF\_GENERATED\_PUZZLES\_REPO"{}},\ \textcolor{stringliteral}{"{}selim-\/b-\/kh/buddhi-\/pragati-\/puzzles"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00051}00051\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ HuggingFace\ token}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00053}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{00053}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}}\ =\ hf\_token\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a64594e1f5116cbb3d5eadd266eb837bf}{config}}.get(\textcolor{stringliteral}{"{}DEFAULT\_HF\_TOKEN"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00054}00054\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Local\ cache\ for\ loaded\ datasets}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00056}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{00056}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{\_cache}}\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00057}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a2b88e105600f378303f4976b1bfdf5c0}{00057}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a2b88e105600f378303f4976b1bfdf5c0}{\_temp\_dir}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00059}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6502b3e1e63b3a932e5caed1cde6994b}{00059}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6502b3e1e63b3a932e5caed1cde6994b}{load\_puzzles}}(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ language:\ str,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ grid\_size:\ Optional[int]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ max\_puzzles:\ Optional[int]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ random\_sample:\ bool\ =\ \textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00065}00065\ \ \ \ \ )\ -\/>\ List[CrosswordPuzzle]:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00067}00067\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ crossword\ puzzles\ for\ a\ specific\ language\ and\ optional\ grid\ size.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00068}00068\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00069}00069\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00070}00070\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language\ for\ puzzles}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00071}00071\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ grid\_size:\ Optional\ grid\ size\ filter\ (e.g.,\ 10\ for\ 10x10\ grids)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00072}00072\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ max\_puzzles:\ Maximum\ number\ of\ puzzles\ to\ load}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00073}00073\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ random\_sample:\ Whether\ to\ randomly\ sample\ puzzles\ if\ limiting\ count}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00074}00074\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00075}00075\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00076}00076\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ CrosswordPuzzle\ objects}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00077}00077\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Loading\ puzzles\ for\ language:\ \{language\},\ grid\_size:\ \{grid\_size\}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00081}00081\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ dataset\ for\ the\ language}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ cache\_key\ =\ f\textcolor{stringliteral}{"{}\{language\}\_\{grid\_size\ or\ 'all'\}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00085}00085\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ cache\_key\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{\_cache}}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name=language,\ \ \textcolor{comment}{\#\ Language\ as\ config\ name}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ split=\textcolor{stringliteral}{"{}train"{}},\ \ \textcolor{comment}{\#\ Assuming\ train\ split\ contains\ generated\ puzzles}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00093}00093\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ by\ grid\ size\ if\ specified}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ grid\_size\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ dataset.filter(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{lambda}\ example:\ example.get(\textcolor{stringliteral}{"{}grid\_size"{}})\ ==\ grid\_size}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{\_cache}}[cache\_key]\ =\ dataset}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Loaded\ \{len(dataset)\}\ puzzles\ from\ HuggingFace"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{\_cache}}[cache\_key]}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Using\ cached\ dataset\ with\ \{len(dataset)\}\ puzzles"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00105}00105\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ to\ list\ for\ sampling/limiting}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_data\ =\ list(dataset)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Apply\ sampling/limiting}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ max\_puzzles\ \textcolor{keywordflow}{and}\ len(puzzle\_data)\ >\ max\_puzzles:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ random\_sample:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_data\ =\ random.sample(puzzle\_data,\ max\_puzzles)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_data\ =\ puzzle\_data[:max\_puzzles]}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Limited\ to\ \{max\_puzzles\}\ puzzles"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00116}00116\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ to\ CrosswordPuzzle\ objects}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ puzzles\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ puzzle\_dict\ \textcolor{keywordflow}{in}\ enumerate(puzzle\_data):}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ae8268800ecc85e53e771cc7622dc3668}{\_convert\_to\_crossword\_puzzle}}(puzzle\_dict,\ i)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ puzzle:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzles.append(puzzle)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.warning(f\textcolor{stringliteral}{"{}Failed\ to\ convert\ puzzle\ \{i\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Successfully\ converted\ \{len(puzzles)\}\ puzzles"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ puzzles}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ puzzles:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00135}00135\ \ \ \ \ \textcolor{preprocessor}{@staticmethod}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00136}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a10125fe572808bba04106b953dde802a}{00136}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a10125fe572808bba04106b953dde802a}{extract\_number}}(clue):}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00138}00138\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Extract\ number\ from\ clue\ text.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00139}00139\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00140}00140\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00141}00141\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ clue:\ Clue\ text\ that\ may\ contain\ a\ number}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00142}00142\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00143}00143\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00144}00144\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Extracted\ number\ or\ None\ if\ no\ number\ found}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00145}00145\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ a\ regex\ to\ extract\ the\ leading\ digits}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ match\ =\ re.match(\textcolor{stringliteral}{r"{}(\(\backslash\)d+)"{}},\ clue)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ match:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ int(match.group(1))\ \ \textcolor{comment}{\#\ Convert\ the\ matched\ digits\ to\ an\ integer}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Return\ None\ if\ no\ number\ is\ found}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00152}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ae8268800ecc85e53e771cc7622dc3668}{00152}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ae8268800ecc85e53e771cc7622dc3668}{\_convert\_to\_crossword\_puzzle}}(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ self,\ puzzle\_dict:\ Dict[str,\ Any],\ index:\ int}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00154}00154\ \ \ \ \ )\ -\/>\ Optional[CrosswordPuzzle]:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00156}00156\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Convert\ HuggingFace\ dataset\ entry\ to\ CrosswordPuzzle\ object.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00157}00157\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00158}00158\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00159}00159\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzle\_dict:\ Dictionary\ from\ HuggingFace\ dataset}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00160}00160\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ index:\ Index\ for\ puzzle\ ID\ generation}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00161}00161\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00162}00162\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00163}00163\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ CrosswordPuzzle\ object\ or\ None\ if\ conversion\ fails}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00164}00164\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ basic\ information\ using\ actual\ HF\ dataset\ field\ names}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_id\ =\ puzzle\_dict.get(\textcolor{stringliteral}{"{}id"{}},\ f\textcolor{stringliteral}{"{}hf\_puzzle\_\{index\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ grid\_size\ =\ puzzle\_dict.get(\textcolor{stringliteral}{"{}grid\_size"{}},\ 10)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00169}00169\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ grids\ from\ HF\ dataset}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ empty\_grid\ =\ puzzle\_dict.get(\textcolor{stringliteral}{"{}empty\_grid"{}},\ [])}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ solved\_grid\ =\ puzzle\_dict.get(\textcolor{stringliteral}{"{}solved\_grid"{}},\ [])}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00173}00173\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ grids\ exist}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ empty\_grid\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ solved\_grid:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Missing\ grid\ data\ for\ puzzle\ \{puzzle\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00178}00178\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ clues\ -\/\ already\ structured,\ no\ JSON\ parsing\ needed}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ clues\_data\ =\ puzzle\_dict.get(\textcolor{stringliteral}{"{}clues"{}},\ [])}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ CrosswordClue\ objects\ and\ build\ solution\_words\ dictionary}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ clues\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ solution\_words\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00185}00185\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ clue\_dict\ \textcolor{keywordflow}{in}\ clues\_data:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ number\ from\ clue\ ID\ (e.g.,\ "{}5across"{}\ -\/>\ 5)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue\_id\ =\ clue\_dict.get(\textcolor{stringliteral}{"{}id"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ number\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a10125fe572808bba04106b953dde802a}{extract\_number}}(clue\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ number\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ sequential\ numbering\ if\ no\ number\ found\ in\ clue\ ID}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ number\ =\ len(clues)\ +\ 1}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue}{CrosswordClue}}(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ number=number,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ direction=clue\_dict[\textcolor{stringliteral}{"{}direction"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue\_text=clue\_dict[\textcolor{stringliteral}{"{}clue"{}}],\ \ \textcolor{comment}{\#\ HF\ dataset\ uses\ 'clue'\ field}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ answer=clue\_dict[\textcolor{stringliteral}{"{}answer"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_row=clue\_dict[\textcolor{stringliteral}{"{}start\_row"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_col=clue\_dict[\textcolor{stringliteral}{"{}start\_col"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ length=clue\_dict[\textcolor{stringliteral}{"{}length"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clues.append(clue)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Build\ solution\_words\ dictionary\ for\ evaluator}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solution\_words[clue\_id]\ =\ clue\_dict[\textcolor{stringliteral}{"{}answer"{}}]}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ CrosswordPuzzle\ with\ proper\ grid\ and\ solution\ data}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{CrosswordPuzzle}}(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_id=puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid=empty\_grid,\ \ \textcolor{comment}{\#\ The\ puzzle\ to\ solve\ (empty\ grid)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solution\_grid=solved\_grid,\ \ \textcolor{comment}{\#\ The\ complete\ solution\ (required\ by\ evaluator)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clues=clues,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ size=(grid\_size,\ grid\_size),}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solution\_words=solution\_words,\ \ \textcolor{comment}{\#\ Solution\ dictionary\ (required\ by\ evaluator)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00217}00217\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.debug(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Successfully\ converted\ puzzle\ \{puzzle\_id\}\ with\ \{len(clues)\}\ clues"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ puzzle}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00222}00222\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Error\ converting\ puzzle\ data:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00226}00226\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00227}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aae150dfeefcb1443b63cf5c1322ea22e}{00227}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aae150dfeefcb1443b63cf5c1322ea22e}{get\_available\_languages}}(self)\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00229}00229\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ list\ of\ available\ languages\ in\ the\ dataset.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00230}00230\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00231}00231\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00232}00232\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ language\ names\ (config\ names)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00233}00233\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ configs\ =\ get\_dataset\_config\_names(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ configs:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Found\ \{len(configs)\}\ available\ languages"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ configs}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ configs\ not\ available,\ try\ to\ fetch\ dataset\ info\ directly}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ api\ =\ HfApi()}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\_info\ =\ api.dataset\_info(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ hasattr(dataset\_info,\ \textcolor{stringliteral}{"{}siblings"{}})\ \textcolor{keywordflow}{and}\ dataset\_info.siblings:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ from\ file\ siblings\ (alternative\ approach)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config\_names\ =\ set()}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ sibling\ \textcolor{keywordflow}{in}\ dataset\_info.siblings:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Config\ files\ follow\ pattern:\ \{language\}/*.parquet}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ sibling.rfilename.endswith(\textcolor{stringliteral}{"{}.parquet"{}}):}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parts\ =\ sibling.rfilename.split(\textcolor{stringliteral}{"{}/"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parts)\ >=\ 2:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config\_names.add(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parts[0]}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ Extract\ language\ name\ (first\ part)}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00253}00253\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ config\_names:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ available\_languages\ =\ sorted(list(config\_names))}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Found\ \{len(available\_languages)\}\ languages\ from\ file\ structure"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ available\_languages}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00260}00260\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback:\ try\ common\ languages\ if\ API\ method\ fails}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.warning(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Could\ not\ extract\ configs\ from\ dataset\ info,\ falling\ back\ to\ common\ languages"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ common\_languages\ =\ [}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}english"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}hindi"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bengali"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}tamil"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}telugu"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}kannada"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}malayalam"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}marathi"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}assamese"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}bodo"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}kashmiri"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}konkani"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}meitei"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}nepali"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}odia"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sanskrit"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}urdu"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ ]}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00286}00286\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ available\_languages\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lang\ \textcolor{keywordflow}{in}\ common\_languages:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Quick\ check\ if\ config\ exists\ by\ trying\ to\ load\ dataset\ info\ for\ this\ config}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name=lang,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}},}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ split=\textcolor{stringliteral}{"{}train[:1]"{}},\ \ \textcolor{comment}{\#\ Load\ just\ 1\ example}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(dataset)\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ available\_languages.append(lang)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e1:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Language\ \{lang\}\ not\ available:\ \{e1\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ available\_languages}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00303}00303\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Error\ getting\ available\ languages:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00307}00307\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00308}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aa37c295e917599851da94cbdc384d0e6}{00308}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_aa37c295e917599851da94cbdc384d0e6}{get\_grid\_sizes}}(self,\ language:\ str)\ -\/>\ List[int]:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00310}00310\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ available\ grid\ sizes\ for\ a\ specific\ language.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00311}00311\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00312}00312\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00313}00313\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00314}00314\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00315}00315\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00316}00316\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ available\ grid\ sizes}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00317}00317\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}},\ name=language,\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}},\ split=\textcolor{stringliteral}{"{}train"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ unique\ grid\ sizes}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ grid\_sizes\ =\ set()}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ example\ \textcolor{keywordflow}{in}\ dataset:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}grid\_size"{}}\ \textcolor{keywordflow}{in}\ example:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_sizes.add(example[\textcolor{stringliteral}{"{}grid\_size"{}}])}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ sorted(list(grid\_sizes))}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Error\ getting\ grid\ sizes\ for\ \{language\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00334}00334\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00335}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6d60ccd9edcbd8098f09b808efe45b6c}{00335}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a6d60ccd9edcbd8098f09b808efe45b6c}{get\_puzzle\_count}}(self,\ language:\ str,\ grid\_size:\ Optional[int]\ =\ \textcolor{keywordtype}{None})\ -\/>\ int:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00337}00337\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ count\ of\ available\ puzzles\ for\ specific\ criteria.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00338}00338\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00339}00339\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00340}00340\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ language:\ Target\ language}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00341}00341\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ grid\_size:\ Optional\ grid\ size\ filter}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00342}00342\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00343}00343\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00344}00344\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Number\ of\ available\ puzzles}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00345}00345\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a124a6afeb636c537c0b688dc737ac3a3}{dataset\_repo}},\ name=language,\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_af485414a0eeaf1cc3656516743df1239}{hf\_token}},\ split=\textcolor{stringliteral}{"{}train"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00350}00350\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ grid\_size\ \textcolor{keywordflow}{is}\ \textcolor{keywordflow}{not}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ dataset.filter(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{lambda}\ example:\ example.get(\textcolor{stringliteral}{"{}grid\_size"{}})\ ==\ grid\_size}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ len(dataset)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Error\ getting\ puzzle\ count:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00362}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a4b11bfc05006e2eaf7df0ee5c91a7856}{00362}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a4b11bfc05006e2eaf7df0ee5c91a7856}{save\_puzzles\_locally}}(self,\ puzzles:\ List[CrosswordPuzzle],\ output\_dir:\ str):}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00364}00364\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Save\ puzzles\ to\ local\ JSON\ files\ for\ offline\ use.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00365}00365\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00366}00366\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00367}00367\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzles:\ List\ of\ CrosswordPuzzle\ objects}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00368}00368\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ output\_dir:\ Directory\ to\ save\ puzzle\ files}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00369}00369\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ output\_path\ =\ Path(output\_dir)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ output\_path.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ puzzle\ \textcolor{keywordflow}{in}\ puzzles:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_data\ =\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}size"{}}:\ puzzle.size,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}grid"{}}:\ puzzle.get\_grid(),}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}solution\_grid"{}}:\ puzzle.get\_solution\_grid(),}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}clues"{}}:\ [}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}number"{}}:\ clue.number,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}direction"{}}:\ clue.direction,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}clue\_text"{}}:\ clue.clue\_text,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}answer"{}}:\ clue.answer,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}start\_row"{}}:\ clue.start\_row,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}start\_col"{}}:\ clue.start\_col,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}length"{}}:\ clue.length,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ clue\ \textcolor{keywordflow}{in}\ puzzle.get\_clues()}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}solution\_words"{}}:\ puzzle.get\_solution\_words(),}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00393}00393\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ filepath\ =\ output\_path\ /\ f\textcolor{stringliteral}{"{}\{puzzle.puzzle\_id\}.json"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(filepath,\ \textcolor{stringliteral}{"{}w"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(puzzle\_data,\ f,\ ensure\_ascii=\textcolor{keyword}{False},\ indent=2)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00397}00397\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Saved\ \{len(puzzles)\}\ puzzles\ to\ \{output\_dir\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00399}00399\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00400}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a5dce0ccd4b59d41c1e1ae2e578bf098f}{00400}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a5dce0ccd4b59d41c1e1ae2e578bf098f}{load\_puzzles\_from\_local}}(self,\ input\_dir:\ str)\ -\/>\ List[CrosswordPuzzle]:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00402}00402\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Load\ puzzles\ from\ local\ JSON\ files.}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00403}00403\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00404}00404\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00405}00405\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ input\_dir:\ Directory\ containing\ puzzle\ JSON\ files}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00406}00406\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00407}00407\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00408}00408\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ CrosswordPuzzle\ objects}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00409}00409\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ input\_path\ =\ Path(input\_dir)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ input\_path.exists():}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.error(f\textcolor{stringliteral}{"{}Input\ directory\ does\ not\ exist:\ \{input\_dir\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00414}00414\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ puzzles\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00416}00416\ \ \ \ \ \ \ \ \ json\_files\ =\ list(input\_path.glob(\textcolor{stringliteral}{"{}*.json"{}}))}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00417}00417\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ json\_file\ \textcolor{keywordflow}{in}\ json\_files:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(json\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_data\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00422}00422\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00423}00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ back\ to\ CrosswordPuzzle}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clues\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ clue\_data\ \textcolor{keywordflow}{in}\ puzzle\_data[\textcolor{stringliteral}{"{}clues"{}}]:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00426}00426\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue}{CrosswordClue}}(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ number=clue\_data[\textcolor{stringliteral}{"{}number"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ direction=clue\_data[\textcolor{stringliteral}{"{}direction"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00429}00429\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue\_text=clue\_data[\textcolor{stringliteral}{"{}clue\_text"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ answer=clue\_data[\textcolor{stringliteral}{"{}answer"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_row=clue\_data[\textcolor{stringliteral}{"{}start\_row"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00432}00432\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_col=clue\_data[\textcolor{stringliteral}{"{}start\_col"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ length=clue\_data[\textcolor{stringliteral}{"{}length"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clues.append(clue)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00436}00436\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{CrosswordPuzzle}}(}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle\_id=puzzle\_data[\textcolor{stringliteral}{"{}puzzle\_id"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00439}00439\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ size=tuple(puzzle\_data[\textcolor{stringliteral}{"{}size"{}}]),}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clues=clues,}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid=puzzle\_data[\textcolor{stringliteral}{"{}grid"{}}],}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00443}00443\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzles.append(puzzle)}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00445}00445\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.warning(f\textcolor{stringliteral}{"{}Failed\ to\ load\ puzzle\ from\ \{json\_file\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00449}00449\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(f\textcolor{stringliteral}{"{}Loaded\ \{len(puzzles)\}\ puzzles\ from\ \{input\_dir\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ puzzles}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00452}00452\ }
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00453}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a406cfcf64b5cd89efdf6dd4d8a003754}{00453}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_a406cfcf64b5cd89efdf6dd4d8a003754}{clear\_cache}}(self):}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Clear\ the\ internal\ dataset\ cache."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_ac577f4e16ca28461e54f890a8812a174}{\_cache}}.clear()}
+\DoxyCodeLine{\Hypertarget{dataset__loader_8py_source_l00456}00456\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1dataset__loader_1_1PuzzleDatasetLoader_afffb140e5a957d0d2b87211f947bbd12}{logger}}.info(\textcolor{stringliteral}{"{}Dataset\ cache\ cleared"{}})}
+
+\end{DoxyCode}

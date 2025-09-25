@@ -1,0 +1,11 @@
+{
+  "base_instruction": {
+    "English": "You are given a crossword puzzle in **{language}** to solve. Specifically you are given a grid and a set of clues. You need to solve the puzzle accurately by forming answers that fit each clue, and filling each unblocked cell with the correct letter, while ensuring to respect the grid structure, including intersecting words and blocked cells"
+  },
+  "grid_header": {
+    "English": "GRID - This is a 2D array where the numbers are the clue numbers and show where the word starts. To know which direction this word is in, refer to the direction written next to the clue number in the set of clues provided below. # are blocked cells.):"
+  },
+  "clues_header": {
+    "English": "CLUES - Each clue contains the clue number and direction (1 across, 2 down, etc.), the clue text, the length of the answer as well as where the answer should start on the grid and what cells it should fill:"
+  }
+}

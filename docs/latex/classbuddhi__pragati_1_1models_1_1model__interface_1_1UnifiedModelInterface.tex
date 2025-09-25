@@ -1,0 +1,207 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface Class Reference}
+\hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface}{}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface}\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a524a7490aca002f6449ab1e7da0a5bae}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a4e43ecd8081ae061ca9051c5c5cb6300}{model\+\_\+name}}, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_af1632f0869260a51703e4f45c3fc3d13}{source}}=None, bool \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a383e32c73254b15985e2b9e55aed6d36}{reasoning\+\_\+mode}}=False, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac54092143d19826216216c634ff57187}{reasoning\+\_\+effort}}="{}normal"{}, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a5ea5b42f587d596461ef814e3fa59733}{generate\+\_\+response}} (self, str prompt, int max\+\_\+completion\+\_\+tokens=1000, int max\+\_\+tokens=1000, Optional\mbox{[}bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a383e32c73254b15985e2b9e55aed6d36}{reasoning\+\_\+mode}}=None, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac54092143d19826216216c634ff57187}{reasoning\+\_\+effort}}=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_aba5fedad243161a1ed972c0d0b55c0b0}{get\+\_\+last\+\_\+token\+\_\+usage}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_afa07bc349a282f445248e140cedd8148}{cleanup\+\_\+model}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a4e43ecd8081ae061ca9051c5c5cb6300}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a383e32c73254b15985e2b9e55aed6d36}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac54092143d19826216216c634ff57187}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac8b20181802f41f72ef2472798d9e1ec}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a844d27fbab1e34a589ef5cd0546d226a}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_af1632f0869260a51703e4f45c3fc3d13}{source}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a0b67749d17c37221889d5d9b18e5ceb5}{backend}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a38d069e278923b02c80dd1c358149553}{\+\_\+detect\+\_\+model\+\_\+source}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a4e43ecd8081ae061ca9051c5c5cb6300}{model\+\_\+name}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Unified interface that can handle multiple model sources with reasoning support.
+
+Usage examples:
+# OpenAI with reasoning mode
+model = UnifiedModelInterface("o1", source="openai", reasoning_mode=True)
+
+# Anthropic with thinking mode
+model = UnifiedModelInterface("claude-sonnet-4", source="anthropic", reasoning_mode=True)
+
+# SarvamAI for Indic languages
+model = UnifiedModelInterface("sarvam-m", source="sarvamai", reasoning_mode=True)
+
+# OpenRouter proxy
+model = UnifiedModelInterface("mistralai/mistral-small", source="openrouter")
+
+# HuggingFace local model
+model = UnifiedModelInterface("ai4bharat/Airavata", source="huggingface", device="cpu")
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00206}{206}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a524a7490aca002f6449ab1e7da0a5bae}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a524a7490aca002f6449ab1e7da0a5bae} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{source = {\ttfamily None},  }\item[{bool }]{reasoning\+\_\+mode = {\ttfamily False},  }\item[{str }]{reasoning\+\_\+effort = {\ttfamily "{}normal"{}},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize unified model interface.
+
+Args:
+    model_name: Name of the model
+    source: Provider source ("openai", "anthropic", "openrouter", "huggingface", "sarvamai")
+    reasoning_mode: Enable reasoning mode for supported models
+    reasoning_effort: Reasoning effort level ("low", "normal", "high")
+    **kwargs: Additional arguments (api_key, device, temperature, etc.)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00227}{227}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a38d069e278923b02c80dd1c358149553}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a38d069e278923b02c80dd1c358149553} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!\_detect\_model\_source@{\_detect\_model\_source}}
+\index{\_detect\_model\_source@{\_detect\_model\_source}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{\_detect\_model\_source()}{\_detect\_model\_source()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+\_\+detect\+\_\+model\+\_\+source (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Auto-detect model source from model name patterns.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00307}{307}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_afa07bc349a282f445248e140cedd8148}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_afa07bc349a282f445248e140cedd8148} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!cleanup\_model@{cleanup\_model}}
+\index{cleanup\_model@{cleanup\_model}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{cleanup\_model()}{cleanup\_model()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+cleanup\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clean up model and free memory resources.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00368}{368}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a5ea5b42f587d596461ef814e3fa59733}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a5ea5b42f587d596461ef814e3fa59733} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!generate\_response@{generate\_response}}
+\index{generate\_response@{generate\_response}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{generate\_response()}{generate\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+generate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int }]{max\+\_\+completion\+\_\+tokens = {\ttfamily 1000},  }\item[{int }]{max\+\_\+tokens = {\ttfamily 1000},  }\item[{Optional\mbox{[}bool\mbox{]} }]{reasoning\+\_\+mode = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{reasoning\+\_\+effort = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate response using the configured backend.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00347}{347}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_aba5fedad243161a1ed972c0d0b55c0b0}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_aba5fedad243161a1ed972c0d0b55c0b0} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!get\_last\_token\_usage@{get\_last\_token\_usage}}
+\index{get\_last\_token\_usage@{get\_last\_token\_usage}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{get\_last\_token\_usage()}{get\_last\_token\_usage()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+get\+\_\+last\+\_\+token\+\_\+usage (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get token usage from last API call.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00364}{364}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a0b67749d17c37221889d5d9b18e5ceb5}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a0b67749d17c37221889d5d9b18e5ceb5} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!backend@{backend}}
+\index{backend@{backend}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{backend}{backend}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+backend}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00259}{259}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a844d27fbab1e34a589ef5cd0546d226a}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a844d27fbab1e34a589ef5cd0546d226a} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!config@{config}}
+\index{config@{config}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00249}{249}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac8b20181802f41f72ef2472798d9e1ec}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac8b20181802f41f72ef2472798d9e1ec} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00248}{248}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a4e43ecd8081ae061ca9051c5c5cb6300}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a4e43ecd8081ae061ca9051c5c5cb6300} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!model\_name@{model\_name}}
+\index{model\_name@{model\_name}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{model\_name}{model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00245}{245}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac54092143d19826216216c634ff57187}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_ac54092143d19826216216c634ff57187} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!reasoning\_effort@{reasoning\_effort}}
+\index{reasoning\_effort@{reasoning\_effort}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{reasoning\_effort}{reasoning\_effort}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+reasoning\+\_\+effort}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00247}{247}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a383e32c73254b15985e2b9e55aed6d36}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_a383e32c73254b15985e2b9e55aed6d36} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!reasoning\_mode@{reasoning\_mode}}
+\index{reasoning\_mode@{reasoning\_mode}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{reasoning\_mode}{reasoning\_mode}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+reasoning\+\_\+mode}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00246}{246}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_af1632f0869260a51703e4f45c3fc3d13}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface_af1632f0869260a51703e4f45c3fc3d13} 
+\index{buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}!source@{source}}
+\index{source@{source}!buddhi\_pragati.models.model\_interface.UnifiedModelInterface@{buddhi\_pragati.models.model\_interface.UnifiedModelInterface}}
+\doxysubsubsection{\texorpdfstring{source}{source}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Unified\+Model\+Interface.\+source}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00255}{255}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/models/\mbox{\hyperlink{model__interface_8py}{model\+\_\+interface.\+py}}\end{DoxyCompactItemize}

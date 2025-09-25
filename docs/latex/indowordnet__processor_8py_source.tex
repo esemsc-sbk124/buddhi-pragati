@@ -1,0 +1,366 @@
+\doxysection{indowordnet\+\_\+processor.\+py}
+\hypertarget{indowordnet__processor_8py_source}{}\label{indowordnet__processor_8py_source}\index{buddhi\_pragati/data/source\_processors/indowordnet\_processor.py@{buddhi\_pragati/data/source\_processors/indowordnet\_processor.py}}
+\mbox{\hyperlink{indowordnet__processor_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00002}00002\ \textcolor{stringliteral}{IndoWordNet\ Dictionary\ Processor}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00004}00004\ \textcolor{stringliteral}{Handles\ processing\ of\ IndoWordNet\ dictionary\ data\ using\ pyiwn\ library}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00005}00005\ \textcolor{stringliteral}{to\ extract\ word-\/definition\ pairs\ for\ crossword\ clue-\/answer\ creation.}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00008}00008\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00009}00009\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Dict,\ Set,\ Tuple,\ Optional}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00010}00010\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00011}00011\ \textcolor{keyword}{from}\ ..dataset\_builder\ \textcolor{keyword}{import}\ SourceProcessor,\ DatasetEntry}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00012}00012\ \textcolor{keyword}{from}\ ...utils.unicode\_utils\ \textcolor{keyword}{import}\ answer\_in\_clue\_check}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00014}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_a619b21a8af7992ff992ede87f4e51fa7}{00014}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00016}00016\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00017}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor}{00017}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor}{IndoWordNetProcessor}}(\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{SourceProcessor}}):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00018}00018\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ Processor\ for\ IndoWordNet\ dictionary\ data.}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00020}00020\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ Uses\ pyiwn\ library\ to\ access\ word\ definitions\ across\ Indian\ languages}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ and\ creates\ crossword\ clue-\/answer\ pairs.}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00023}00023\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00025}00025\ \ \ \ \ \textcolor{comment}{\#\ Languages\ supported\ by\ IndoWordNet\ (18\ languages\ from\ the\ notebook)}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00026}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_af2bfcffa4e9300c596cd4f6d9c498fea}{00026}}\ \ \ \ \ SUPPORTED\_LANGUAGES\ =\ \{}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00027}00027\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00028}00028\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00029}00029\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bodo"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kashmiri"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Konkani"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Meitei"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Nepali"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ English\ not\ in\ pyiwn\ language\ list}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00046}00046\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00048}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04}{00048}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04}{\_\_init\_\_}}(self,\ config:\ dict,\ language:\ str,\ context\_scorer=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04}{\_\_init\_\_}}(config,\ language,\ context\_scorer)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00050}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{00050}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00051}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ac49e3b43555431dbe2cb88c42633393c}{00051}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ac49e3b43555431dbe2cb88c42633393c}{synsets}}\ =\ []}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00052}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{00052}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00053}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{00053}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}\ =\ 0\ \ \textcolor{comment}{\#\ Track\ total\ count\ without\ loading\ all}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00054}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{00054}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ =\ \textcolor{keywordtype}{None}\ \ \textcolor{comment}{\#\ Lazy\ iterator\ for\ synsets}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00055}00055\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00056}00056\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ pyiwn}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ae183f1319e00c386d3e39fe443a40d89}{\_initialize\_wordnet}}()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00058}00058\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00059}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a8f1be760dcf375bde6ad894496cc165b}{00059}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a8f1be760dcf375bde6ad894496cc165b}{get\_supported\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Return\ set\ of\ languages\ supported\ by\ IndoWordNet."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_af2bfcffa4e9300c596cd4f6d9c498fea}{SUPPORTED\_LANGUAGES}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00063}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ae183f1319e00c386d3e39fe443a40d89}{00063}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ae183f1319e00c386d3e39fe443a40d89}{\_initialize\_wordnet}}(self):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Initialize\ pyiwn\ WordNet\ interface\ with\ memory-\/efficient\ lazy\ loading."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ pyiwn}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00067}00067\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Map\ our\ language\ names\ to\ pyiwn\ Language\ enum}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ lang\_map\ =\ \{}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}}:\ pyiwn.Language.ASSAMESE,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}}:\ pyiwn.Language.BENGALI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bodo"{}}:\ pyiwn.Language.BODO,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}}:\ pyiwn.Language.GUJARATI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}}:\ pyiwn.Language.HINDI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}}:\ pyiwn.Language.KANNADA,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kashmiri"{}}:\ pyiwn.Language.KASHMIRI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Konkani"{}}:\ pyiwn.Language.KONKANI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}}:\ pyiwn.Language.MALAYALAM,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}}:\ pyiwn.Language.MARATHI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Meitei"{}}:\ pyiwn.Language.MEITEI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Nepali"{}}:\ pyiwn.Language.NEPALI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}}:\ pyiwn.Language.ORIYA,\ \ \textcolor{comment}{\#\ Note:\ ORIYA\ in\ pyiwn}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}}:\ pyiwn.Language.PUNJABI,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit"{}}:\ pyiwn.Language.SANSKRIT,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}}:\ pyiwn.Language.TAMIL,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}}:\ pyiwn.Language.TELUGU,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}}:\ pyiwn.Language.URDU,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ lang\_enum\ =\ lang\_map.get(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ lang\_enum:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Unsupported\ language\ for\ IndoWordNet:\ \{self.language\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00094}00094\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}\ =\ pyiwn.IndoWordNet(lang=lang\_enum)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Initialized\ IndoWordNet\ for\ \{self.language\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ count\ without\ loading\ all\ synsets\ for\ memory\ efficiency}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ First\ try\ to\ get\ noun\ synsets\ count}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ noun\_synsets\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}.all\_synsets(pos=pyiwn.PosTag.NOUN)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}\ =\ len(noun\_synsets)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ =\ iter(noun\_synsets)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00104}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9}{00104}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9}{\_synset\_type}}\ =\ \textcolor{stringliteral}{"{}noun"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Initialized\ \{self.total\_synsets\}\ noun\ synsets\ for\ \{self.language\}\ (lazy\ loading)"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Don't\ store\ the\ synsets\ -\/\ let\ them\ be\ garbage\ collected}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ del\ noun\_synsets}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Could\ not\ access\ noun\ synsets,\ trying\ all\ synsets:\ \{e\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_synsets\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}.all\_synsets()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}\ =\ len(all\_synsets)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ =\ iter(all\_synsets)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9}{\_synset\_type}}\ =\ \textcolor{stringliteral}{"{}all"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Initialized\ \{self.total\_synsets\}\ total\ synsets\ for\ \{self.language\}\ (lazy\ loading)"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Don't\ store\ the\ synsets\ -\/\ let\ them\ be\ garbage\ collected}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ del\ all\_synsets}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e2:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Could\ not\ access\ any\ synsets:\ \{e2\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00128}00128\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ ImportError:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(\textcolor{stringliteral}{"{}pyiwn\ library\ not\ found.\ Install\ with:\ pip\ install\ pyiwn"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ initialize\ IndoWordNet:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00135}00135\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00136}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a3f73ec146efe311db2b8c5ebd4c066b3}{00136}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a3f73ec146efe311db2b8c5ebd4c066b3}{load\_raw\_data}}(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ self,\ batch\_size:\ int,\ offset:\ int\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00138}00138\ \ \ \ \ )\ -\/>\ Tuple[List[Dict],\ bool]:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ batch\ of\ raw\ IndoWordNet\ data\ using\ memory-\/efficient\ streaming."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}\ ==\ 0:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(\textcolor{stringliteral}{"{}IndoWordNet\ not\ available\ or\ no\ synsets\ initialized"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00143}00143\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Reset\ iterator\ if\ we\ need\ to\ seek\ to\ a\ specific\ offset}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ offset\ !=\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7f17d8881e1dea4101fb0464693ec79d}{\_reset\_iterator\_to\_offset}}(offset)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00147}00147\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Collect\ batch\_size\ entries\ from\ iterator}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ batch\ =\ []}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ entries\_collected\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00151}00151\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ entries\_collected\ <\ batch\_size\ \textcolor{keywordflow}{and}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ <\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ synset\ =\ next(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00157}00157\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ definition\ (gloss)\ for\ this\ synset}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ gloss\ =\ synset.gloss()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ list\ of\ words\ (lemma\ names)\ for\ this\ synset}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lemma\_names\ =\ synset.lemma\_names()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch.append(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}synset"{}}:\ synset,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}gloss"{}}:\ gloss,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}lemma\_names"{}}:\ lemma\_names,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}synset\_id"{}}:\ str(synset.synset\_id()),}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries\_collected\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00174}00174\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ StopIteration:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Reached\ end\ of\ IndoWordNet\ synsets\ at\ position\ \{self.current\_index\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Error\ processing\ synset\ at\ position\ \{self.current\_index\}:\ \{e\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Determine\ if\ there's\ more\ data}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ has\_more\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ <\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\_synsets}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}IndoWordNet\ batch:\ collected\ \{len(batch)\}\ entries,\ position\ \{self.current\_index\}/\{self.total\_synsets\},\ has\_more=\{has\_more\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ batch,\ has\_more}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00194}00194\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00195}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7f17d8881e1dea4101fb0464693ec79d}{00195}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7f17d8881e1dea4101fb0464693ec79d}{\_reset\_iterator\_to\_offset}}(self,\ offset:\ int):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Reset\ synset\ iterator\ to\ specific\ offset\ for\ seeking."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ pyiwn}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00199}00199\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Recreate\ iterator\ from\ the\ beginning}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9}{\_synset\_type}}\ ==\ \textcolor{stringliteral}{"{}noun"{}}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ synsets\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}.all\_synsets(pos=pyiwn.PosTag.NOUN)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ synsets\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}.all\_synsets()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00205}00205\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ =\ iter(synsets)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ =\ 0}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00208}00208\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Skip\ to\ offset\ position}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ <\ offset:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\_index}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ StopIteration:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Reached\ end\ of\ synsets\ while\ seeking\ to\ offset\ \{offset\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Reset\ IndoWordNet\ iterator\ to\ offset\ \{offset\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Release\ synsets\ from\ memory}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ del\ synsets}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00224}00224\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ reset\ IndoWordNet\ iterator:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\_synset\_iterator}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00228}00228\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00229}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a07012db220f6851a92c09429c45b542c}{00229}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a07012db220f6851a92c09429c45b542c}{process\_batch}}(self,\ batch\_data:\ List[Dict])\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ batch\ of\ IndoWordNet\ data\ into\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00231}00231\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ batch\_start\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ batch\_start\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00234}00234\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ item\ \textcolor{keywordflow}{in}\ batch\_data:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ before\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item\_entries\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a09f668b15046e951d6aa2cfdffddc23f}{\_process\_single\_item}}(item)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ item\_entries:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.extend(item\_entries)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ answer\_in\_clue\ counter\ didn't\ increase,\ this\ was\ rejected\ for\ other\ reasons}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00243}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{00243}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{answer\_in\_clue\_rejections}}\ ==\ before\_answer\_in\_clue:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Error\ processing\ IndoWordNet\ item:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00249}00249\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ batch\ statistics}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ batch\_answer\_in\_clue\ =\ (}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{answer\_in\_clue\_rejections}}\ -\/\ batch\_start\_answer\_in\_clue}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ batch\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ -\/\ batch\_start\_other}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}IndoWordNet\ batch\ complete:\ processed\ \{len(batch\_data)\},\ valid\ \{len(entries)\},\ "{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}answer-\/in-\/clue\ rejections\ \{batch\_answer\_in\_clue\},\ other\ rejections\ \{batch\_other\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00259}00259\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00261}00261\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00262}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a09f668b15046e951d6aa2cfdffddc23f}{00262}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a09f668b15046e951d6aa2cfdffddc23f}{\_process\_single\_item}}(self,\ item:\ Dict)\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ a\ single\ synset\ into\ multiple\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ gloss\ =\ item.get(\textcolor{stringliteral}{"{}gloss"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ lemma\_names\ =\ item.get(\textcolor{stringliteral}{"{}lemma\_names"{}},\ [])}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ synset\_id\ =\ item.get(\textcolor{stringliteral}{"{}synset\_id"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00267}00267\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ gloss\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ lemma\_names:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00270}00270\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ definition\ length}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ min\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}INDOWORDNET\_MIN\_DEFINITION\_LENGTH"{}},\ 5)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(gloss)\ <\ min\_length:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ entries\ for\ each\ word\ (lemma)\ in\ the\ synset}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ lemma\_idx,\ word\ \textcolor{keywordflow}{in}\ enumerate(lemma\_names):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ word\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ word.strip():}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00283}00283\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ word\ =\ word.strip()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00285}00285\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ word\ is\ single\ word}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\_single\_word}}(word):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00289}00289\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entry\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a398c1aad84a4bb63f242740cad4aeecb}{\_create\_entry\_from\_word\_definition}}(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ word,\ gloss,\ synset\_id,\ lemma\_idx}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entry:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.append(entry)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Error\ processing\ lemma:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00302}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a398c1aad84a4bb63f242740cad4aeecb}{00302}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a398c1aad84a4bb63f242740cad4aeecb}{\_create\_entry\_from\_word\_definition}}(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ self,\ word:\ str,\ gloss:\ str,\ synset\_id:\ str,\ lemma\_idx:\ int}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00304}00304\ \ \ \ \ )\ -\/>\ Optional[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Create\ a\ dataset\ entry\ from\ word\ and\ definition."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ the\ gloss\ to\ make\ it\ crossword-\/appropriate}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ cleaned\_gloss\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a1aed35109cc7c2b3914ab18b2d518398}{\_clean\_definition}}(gloss,\ word)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ cleaned\_gloss:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ gloss\ length\ constraints}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ min\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_CLUE\_LENGTH"{}},\ 10)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ max\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MAX\_CLUE\_LENGTH"{}},\ 500)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00314}00314\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(cleaned\_gloss)\ <\ min\_len\ \textcolor{keywordflow}{or}\ len(cleaned\_gloss)\ >\ max\_len:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00317}00317\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ word\ length\ for\ crossword\ suitability}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ min\_word\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_WORD\_LENGTH"{}},\ 2)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(word)\ <\ min\_word\_length:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Universal\ sanity\ check\ -\/\ ensure\ answer\ not\ in\ clue}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ answer\_in\_clue\_check(cleaned\_gloss,\ word):}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}IndoWordNet\ rejected\ entry:\ answer\ '\{word\}'\ found\ in\ clue\ '\{cleaned\_gloss[:100]\}...'"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{answer\_in\_clue\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00330}00330\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ quality\ score}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ quality\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\_quality\_score}}(cleaned\_gloss,\ word)}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00333}00333\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ unique\ entry\ ID}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ entry\_id\ =\ f\textcolor{stringliteral}{"{}indowordnet\_\{self.language\}\_\{synset\_id\}\_\{lemma\_idx\}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ context\_score\ will\ be\ computed\ later\ after\ quality\ filtering\ (deferred\ scoring)}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{DatasetEntry}}(}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ id=entry\_id,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ clue=cleaned\_gloss,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ answer=word.upper(),}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ source=\textcolor{stringliteral}{"{}IndoWordNet"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ source\_id=f\textcolor{stringliteral}{"{}\{synset\_id\}\_\{lemma\_idx\}"{}},}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ context\_score\ defaults\ to\ 0.0\ and\ will\ be\ computed\ later}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00348}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a1aed35109cc7c2b3914ab18b2d518398}{00348}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a1aed35109cc7c2b3914ab18b2d518398}{\_clean\_definition}}(self,\ gloss:\ str,\ word:\ str)\ -\/>\ Optional[str]:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Clean\ definition\ to\ make\ it\ suitable\ as\ crossword\ clue."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ the\ word\ itself\ from\ definition\ to\ avoid\ giving\ away\ the\ answer}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ cleaned\ =\ gloss.replace(word,\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ extra\ whitespace}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ cleaned\ =\ \textcolor{stringliteral}{"{}\ "{}}.join(cleaned.split())}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00355}00355\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Make\ sure\ we\ still\ have\ meaningful\ content}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00357}00357\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(cleaned)\ <\ 5:}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00359}00359\ }
+\DoxyCodeLine{\Hypertarget{indowordnet__processor_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cleaned}
+
+\end{DoxyCode}

@@ -1,0 +1,40 @@
+\doxysection{buddhi\+\_\+pragati.\+generate Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1generate}{}\label{namespacebuddhi__pragati_1_1generate}\index{buddhi\_pragati.generate@{buddhi\_pragati.generate}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1corpus__loader}{corpus\+\_\+loader}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1hf__uploader}{hf\+\_\+uploader}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1memetic__generator}{memetic\+\_\+generator}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1puzzle__builder}{puzzle\+\_\+builder}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1puzzle__entry}{puzzle\+\_\+entry}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1puzzle__visualisation}{puzzle\+\_\+visualisation}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Crossword Puzzle Generation Module
+
+This module implements enhanced crossword puzzle generation with memetic algorithms
+to achieve high grid density (75%+) across grid sizes from 3x3 to 30x30.
+
+Architecture:
+- puzzle_entry: CrosswordPuzzleEntry dataclass for HF dataset format
+- corpus_loader: Load and classify clue-answer corpus from existing HF datasets
+- memetic_generator: Enhanced generator using genetic/memetic algorithms
+- puzzle_builder: Main orchestrator for batch puzzle generation
+- hf_uploader: Upload generated puzzles to HuggingFace Hub
+
+Key Features:
+- Memetic algorithm optimization for high density grids
+- Indian/non-Indian cultural context classification
+- Multi-attempt generation with quality selection
+- Support for wide range of grid sizes (3x3 to 30x30)
+- Integration with existing evaluation pipeline
+\end{DoxyVerb}
+ 

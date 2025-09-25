@@ -1,0 +1,167 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics}{}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics}\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a1d31e984495ffcbb5a1d84959ce954cc}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a62571b9d82b692030ca3bbc74605aee7}{compute\+\_\+metrics}} (self, parsed\+\_\+grid, Dict\mbox{[}str, str\mbox{]} parsed\+\_\+words, expected\+\_\+grid, Dict\mbox{[}str, str\mbox{]} expected\+\_\+words, puzzle)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a6f74337c4f6ba886fb86951488526111}{logger}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a08b5a203dea9d9c3173fea07543bf2af}{\+\_\+compute\+\_\+word\+\_\+accuracy\+\_\+by\+\_\+direction}} (self, Dict\mbox{[}str, str\mbox{]} parsed\+\_\+words, Dict\mbox{[}str, str\mbox{]} expected\+\_\+words, puzzle)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a09fb366745cd4eee6819c47b8973caf9}{\+\_\+compute\+\_\+intersection\+\_\+accuracy}} (self, np.\+ndarray parsed\+\_\+grid, np.\+ndarray expected\+\_\+grid, puzzle)
+\item 
+Set\mbox{[}Tuple\mbox{[}int, int\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a2678456fd9d0bb9fa5f7094104dd4e65}{\+\_\+find\+\_\+intersection\+\_\+positions}} (self, puzzle)
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_abc7b0add8ccd2ffe8dc7bcc2445e5bbe}{\+\_\+empty\+\_\+metrics}} (self)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Computes comprehensive crossword puzzle evaluation metrics.
+
+Provides all metrics (WCR, LCR, ICR) plus enhanced accuracy
+measures including direction-specific word accuracy and proper intersection
+detection for accurate ICR calculation.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00014}{14}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a1d31e984495ffcbb5a1d84959ce954cc}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a1d31e984495ffcbb5a1d84959ce954cc} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00023}{23}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a09fb366745cd4eee6819c47b8973caf9}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a09fb366745cd4eee6819c47b8973caf9} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!\_compute\_intersection\_accuracy@{\_compute\_intersection\_accuracy}}
+\index{\_compute\_intersection\_accuracy@{\_compute\_intersection\_accuracy}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{\_compute\_intersection\_accuracy()}{\_compute\_intersection\_accuracy()}}
+{\footnotesize\ttfamily  float buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+\_\+compute\+\_\+intersection\+\_\+accuracy (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{np.\+ndarray}]{parsed\+\_\+grid,  }\item[{np.\+ndarray}]{expected\+\_\+grid,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Compute accuracy specifically for intersection cells.
+
+Args:
+    parsed_grid: Model's grid
+    expected_grid: Ground truth grid
+    puzzle: CrosswordPuzzle for intersection detection
+
+Returns:
+    Intersection accuracy as float
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00191}{191}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a08b5a203dea9d9c3173fea07543bf2af}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a08b5a203dea9d9c3173fea07543bf2af} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!\_compute\_word\_accuracy\_by\_direction@{\_compute\_word\_accuracy\_by\_direction}}
+\index{\_compute\_word\_accuracy\_by\_direction@{\_compute\_word\_accuracy\_by\_direction}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{\_compute\_word\_accuracy\_by\_direction()}{\_compute\_word\_accuracy\_by\_direction()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+\_\+compute\+\_\+word\+\_\+accuracy\+\_\+by\+\_\+direction (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, str\mbox{]}}]{parsed\+\_\+words,  }\item[{Dict\mbox{[}str, str\mbox{]}}]{expected\+\_\+words,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Compute word accuracy broken down by direction (across/down).
+
+Args:
+    parsed_words: Model's answers
+    expected_words: Ground truth answers
+    puzzle: CrosswordPuzzle for clue direction information
+
+Returns:
+    Dict with accuracy metrics by direction
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00118}{118}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_abc7b0add8ccd2ffe8dc7bcc2445e5bbe}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_abc7b0add8ccd2ffe8dc7bcc2445e5bbe} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!\_empty\_metrics@{\_empty\_metrics}}
+\index{\_empty\_metrics@{\_empty\_metrics}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{\_empty\_metrics()}{\_empty\_metrics()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+\_\+empty\+\_\+metrics (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Return empty metrics dict for error cases.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00258}{258}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a2678456fd9d0bb9fa5f7094104dd4e65}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a2678456fd9d0bb9fa5f7094104dd4e65} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!\_find\_intersection\_positions@{\_find\_intersection\_positions}}
+\index{\_find\_intersection\_positions@{\_find\_intersection\_positions}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{\_find\_intersection\_positions()}{\_find\_intersection\_positions()}}
+{\footnotesize\ttfamily  Set\mbox{[}Tuple\mbox{[}int, int\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+\_\+find\+\_\+intersection\+\_\+positions (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Find all intersection positions in the crossword grid.
+
+Args:
+    puzzle: CrosswordPuzzle object
+
+Returns:
+    Set of (row, col) tuples representing intersection positions
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00222}{222}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a62571b9d82b692030ca3bbc74605aee7}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a62571b9d82b692030ca3bbc74605aee7} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!compute\_metrics@{compute\_metrics}}
+\index{compute\_metrics@{compute\_metrics}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{compute\_metrics()}{compute\_metrics()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+compute\+\_\+metrics (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{parsed\+\_\+grid,  }\item[{Dict\mbox{[}str, str\mbox{]}}]{parsed\+\_\+words,  }\item[{}]{expected\+\_\+grid,  }\item[{Dict\mbox{[}str, str\mbox{]}}]{expected\+\_\+words,  }\item[{}]{puzzle }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Score how well the model solved the crossword with comprehensive metrics.
+
+Args:
+    parsed_grid: Model's grid solution (list or np.ndarray)
+    parsed_words: Model's word answers as dict
+    expected_grid: Ground truth grid (list or np.ndarray)
+    expected_words: Ground truth words as dict
+    puzzle: CrosswordPuzzle object for structure information
+
+Returns:
+    Dict with computed metrics including:
+    - Word accuracy (global, across, down)
+    - Letter accuracy (correct cells in grid)
+    - Intersection accuracy (correct intersection cells)
+    - All metrics (WCR, LCR, ICR)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00026}{26}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a6f74337c4f6ba886fb86951488526111}\label{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics_a6f74337c4f6ba886fb86951488526111} 
+\index{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics@{buddhi\_pragati.evaluate.metrics.EnhancedCrosswordMetrics}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+metrics.\+Enhanced\+Crossword\+Metrics.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{metrics_8py_source_l00024}{24}} of file \mbox{\hyperlink{metrics_8py_source}{metrics.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{metrics_8py}{metrics.\+py}}\end{DoxyCompactItemize}

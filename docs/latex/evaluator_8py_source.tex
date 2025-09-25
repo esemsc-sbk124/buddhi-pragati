@@ -1,0 +1,678 @@
+\doxysection{evaluator.\+py}
+\hypertarget{evaluator_8py_source}{}\label{evaluator_8py_source}\index{buddhi\_pragati/evaluate/evaluator.py@{buddhi\_pragati/evaluate/evaluator.py}}
+\mbox{\hyperlink{evaluator_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate_1_1evaluator}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00002}00002\ \textcolor{stringliteral}{Enhanced\ crossword\ evaluator\ for\ experimental\ evaluation\ pipeline.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ provides\ comprehensive\ crossword\ evaluation\ with\ support\ for}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00005}00005\ \textcolor{stringliteral}{all\ experimental\ conditions\ including\ token\ tracking,\ cost\ analysis,}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00006}00006\ \textcolor{stringliteral}{and\ various\ prompting\ strategies.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00007}00007\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00008}00008\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00009}00009\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00010}00010\ \textcolor{keyword}{import}\ time}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00011}00011\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ List,\ Any,\ Optional}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00012}00012\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00014}00014\ \textcolor{keyword}{from}\ .parser\ \textcolor{keyword}{import}\ CrosswordResponseParser}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00015}00015\ \textcolor{keyword}{from}\ .templates\ \textcolor{keyword}{import}\ CrosswordPromptTemplate}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00016}00016\ \textcolor{keyword}{from}\ .metrics\ \textcolor{keyword}{import}\ EnhancedCrosswordMetrics}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00017}00017\ \textcolor{keyword}{from}\ ..core.base\_evaluator\ \textcolor{keyword}{import}\ BaseEvaluator}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00018}00018\ \textcolor{keyword}{from}\ ..utils.config\_loader\ \textcolor{keyword}{import}\ get\_config}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00019}00019\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00020}00020\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00021}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator}{00021}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator}{CrosswordEvaluator}}(\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator}{BaseEvaluator}}):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00022}00022\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00023}00023\ \textcolor{stringliteral}{\ \ \ \ Enhanced\ crossword\ puzzle\ evaluator\ with\ experimental\ support.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00024}00024\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ Provides\ comprehensive\ evaluation\ capabilities\ including:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ -\/\ Standard\ single/batch\ evaluation}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ -\/\ Token\ usage\ tracking}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ -\/\ Cost\ analysis}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ -\/\ Few-\/shot\ example\ support}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ -\/\ Self-\/reflection\ capabilities}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ -\/\ Multi-\/iteration\ evaluation}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00034}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0200ef04596e85e86537cb99491e3365}{00034}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0200ef04596e85e86537cb99491e3365}{\_\_init\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Initialize\ evaluator\ with\ integrated\ components."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00036}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{00036}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}\ =\ logging.getLogger(\textcolor{stringliteral}{"{}CrosswordEvaluator"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00037}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0}{00037}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0}{config}}\ =\ get\_config()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ components}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00040}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}{00040}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}{parser}}\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser}{CrosswordResponseParser}}()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00041}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}{00041}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}{metrics}}\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1metrics_1_1EnhancedCrosswordMetrics}{EnhancedCrosswordMetrics}}()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00042}00042\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Configuration\ flags}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00044}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a799abaebd592d16c0aa54ee4844de9b6}{00044}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a799abaebd592d16c0aa54ee4844de9b6}{token\_tracking\_enabled}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0}{config}}.get\_bool(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}ENABLE\_TOKEN\_TRACKING"{}},\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(\textcolor{stringliteral}{"{}CrosswordEvaluator\ initialized\ with\ enhanced\ components"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00050}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{00050}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{evaluate\_single}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ self,\ model,\ puzzle,\ template:\ Optional[CrosswordPromptTemplate]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00052}00052\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Evaluate\ model\ on\ a\ single\ crossword\ puzzle.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00055}00055\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00056}00056\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00057}00057\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model:\ Model\ interface\ with\ generate\_response\ method}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00058}00058\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzle:\ CrosswordPuzzle\ object}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00059}00059\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ template:\ Optional\ CrosswordPromptTemplate\ for\ custom\ prompting}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00060}00060\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00061}00061\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00062}00062\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dict\ with\ comprehensive\ evaluation\ results}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00063}00063\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(f\textcolor{stringliteral}{"{}Evaluating\ puzzle:\ \{puzzle.puzzle\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ provided\ template\ or\ create\ default}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ template\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ template\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{CrosswordPromptTemplate}}()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Format\ puzzle\ for\ model}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ prompt\ =\ template.format\_puzzle\_for\_model(puzzle)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Track\ evaluation\ time}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \ \ \ \ start\_time\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(f\textcolor{stringliteral}{"{}Generated\ prompt:\ \{prompt[:500]\}..."{}}\ \textcolor{keywordflow}{if}\ len(prompt)\ >\ 500\ \textcolor{keywordflow}{else}\ f\textcolor{stringliteral}{"{}Generated\ prompt:\ \{prompt\}"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ model\ response}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ response\ =\ model.generate\_response(prompt)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00079}00079\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ end\_time\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ evaluation\_time\ =\ end\_time\ -\/\ start\_time}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00082}00082\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Enhanced\ response\ processing\ and\ validation}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ processed\_response\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3}{\_process\_and\_validate\_response}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ response,\ puzzle.puzzle\_id}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ response\ processing\ failed}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ processed\_response\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}prompt"{}}:\ prompt,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}response"{}}:\ response,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_grid"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_words"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metrics"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{stringliteral}{"{}Response\ processing\ failed"{}},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}word\_accuracy\_global"{}}:\ 0.0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}letter\_accuracy"{}}:\ 0.0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}intersection\_accuracy"{}}:\ 0.0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_time"{}}:\ evaluation\_time,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}token\_info"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{\_extract\_token\_info}}(model,\ response),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(template),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{stringliteral}{"{}Response\ processing\ failed"{}},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00109}00109\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ the\ processed\ response}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid,\ parsed\_words\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}{parser}}.parse\_model\_response(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle,\ processed\_response}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ solution\ grid\ and\ words}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ solution\_grid\ =\ puzzle.get\_solution\_grid()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ solution\_words\ =\ puzzle.get\_solution\_words()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00118}00118\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Compute\ comprehensive\ metrics}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ metrics\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}{metrics}}.compute\_metrics(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid,\ parsed\_words,\ solution\_grid,\ solution\_words,\ puzzle}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00123}00123\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ token\ usage\ if\ available}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ token\_info\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{\_extract\_token\_info}}(model,\ response)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00126}00126\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Evaluation\ complete.\ Key\ metrics:\ WA=\{metrics.get('word\_accuracy\_global',\ 0):.3f\},\ LA=\{metrics.get('letter\_accuracy',\ 0):.3f\},\ IA=\{metrics.get('intersection\_accuracy',\ 0):.3f\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ comprehensive\ results}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ metrics.get(\textcolor{stringliteral}{"{}success"{}},\ \textcolor{keyword}{False}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}prompt"{}}:\ prompt,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}response"{}}:\ response,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_grid"{}}:\ parsed\_grid,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_words"{}}:\ parsed\_words,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metrics"{}}:\ metrics,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_time"{}}:\ evaluation\_time,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}token\_info"{}}:\ token\_info,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(template),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00145}00145\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.error(f\textcolor{stringliteral}{"{}Evaluation\ failed:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}prompt"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}response"{}}:\ \textcolor{stringliteral}{"{}"{}},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_grid"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_words"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metrics"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_time"{}}:\ 0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}token\_info"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ str(e),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00161}00161\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00162}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ad02ea0eefd2326c2f6042662acf2dea1}{00162}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ad02ea0eefd2326c2f6042662acf2dea1}{evaluate\_batch}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ self,\ model,\ puzzles:\ List,\ template:\ Optional[CrosswordPromptTemplate]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00164}00164\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00166}00166\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Evaluate\ model\ on\ multiple\ puzzles.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00167}00167\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00168}00168\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00169}00169\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model:\ Model\ interface}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00170}00170\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzles:\ List\ of\ CrosswordPuzzle\ objects}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00171}00171\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ template:\ Optional\ CrosswordPromptTemplate\ for\ custom\ prompting}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00172}00172\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00173}00173\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dict\ with\ batch\ evaluation\ results}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00175}00175\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(f\textcolor{stringliteral}{"{}Starting\ batch\ evaluation\ of\ \{len(puzzles)\}\ puzzles"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ results\ =\ []}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ total\_tokens\ =\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ total\_time\ =\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00181}00181\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ puzzle\ \textcolor{keywordflow}{in}\ enumerate(puzzles):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Evaluating\ puzzle\ \{i\ +\ 1\}/\{len(puzzles)\}:\ \{puzzle.puzzle\_id\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847}{evaluate\_single}}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{evaluate\_single}}(model,\ puzzle,\ template)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ \ \ \ \ results.append(result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00188}00188\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Accumulate\ resource\ usage}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ total\_time\ +=\ result.get(\textcolor{stringliteral}{"{}evaluation\_time"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ token\_info\ =\ result.get(\textcolor{stringliteral}{"{}token\_info"{}},\ \{\})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ total\_tokens\ +=\ token\_info.get(\textcolor{stringliteral}{"{}total\_tokens"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ summary\ metrics}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ summary\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{\_calculate\_summary}}(results)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ resource\ usage\ summary}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}total\_evaluation\_time"{}}]\ =\ total\_time}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}total\_tokens"{}}]\ =\ total\_tokens}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}average\_time\_per\_puzzle"{}}]\ =\ total\_time\ /\ len(puzzles)\ \textcolor{keywordflow}{if}\ puzzles\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}average\_tokens\_per\_puzzle"{}}]\ =\ (}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ total\_tokens\ /\ len(puzzles)\ \textcolor{keywordflow}{if}\ puzzles\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00204}00204\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model\_name"{}}:\ getattr(model,\ \textcolor{stringliteral}{"{}model\_name"{}},\ \textcolor{stringliteral}{"{}unknown"{}}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_puzzles"{}}:\ len(puzzles),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}individual\_results"{}}:\ results,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_metrics"{}}:\ summary,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(template)\ \textcolor{keywordflow}{if}\ template\ \textcolor{keywordflow}{else}\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00212}00212\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00213}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa92d3896a59e1a76768381dbd54ffd35}{00213}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa92d3896a59e1a76768381dbd54ffd35}{evaluate\_batch\_with\_examples}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ model,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ puzzles:\ List,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ template:\ CrosswordPromptTemplate,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ examples:\ Optional[List]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00219}00219\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00221}00221\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Evaluate\ batch\ with\ few-\/shot\ examples.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00222}00222\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00223}00223\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00224}00224\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model:\ Model\ interface}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00225}00225\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzles:\ List\ of\ puzzles\ to\ evaluate}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00226}00226\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ template:\ Configured\ template\ with\ shot\ type}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00227}00227\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ examples:\ Few-\/shot\ example\ puzzles}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00228}00228\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00229}00229\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00230}00230\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Batch\ evaluation\ results}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00231}00231\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Batch\ evaluation\ with\ few-\/shot\ examples:\ \{len(examples\ or\ [])\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00235}00235\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ results\ =\ []}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00237}00237\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ puzzle\ \textcolor{keywordflow}{in}\ puzzles:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Generate\ prompt\ with\ examples}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \ \ \ \ prompt\ =\ template.format\_puzzle\_for\_model(puzzle,\ examples)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00241}00241\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ start\_time\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ response\ =\ model.generate\_response(prompt)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ end\_time\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ and\ evaluate}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid,\ parsed\_words\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}{parser}}.parse\_model\_response(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle,\ response}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metrics\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}{metrics}}.compute\_metrics(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_words,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle.get\_solution\_grid(),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle.get\_solution\_words(),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ metrics.get(\textcolor{stringliteral}{"{}success"{}},\ \textcolor{keyword}{False}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}prompt"{}}:\ prompt,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}response"{}}:\ response,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_grid"{}}:\ parsed\_grid,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_words"{}}:\ parsed\_words,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metrics"{}}:\ metrics,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_time"{}}:\ end\_time\ -\/\ start\_time,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}token\_info"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{\_extract\_token\_info}}(model,\ response),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00275}00275\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ str(e),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ results.append(result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00280}00280\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ summary\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{\_calculate\_summary}}(results)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model\_name"{}}:\ getattr(model,\ \textcolor{stringliteral}{"{}model\_name"{}},\ \textcolor{stringliteral}{"{}unknown"{}}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_puzzles"{}}:\ len(puzzles),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}individual\_results"{}}:\ results,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_metrics"{}}:\ summary,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(template),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}few\_shot\_examples"{}}:\ len(examples\ \textcolor{keywordflow}{or}\ []),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00291}00291\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00292}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a861e5fa2be7722a627135177ae04f7c3}{00292}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a861e5fa2be7722a627135177ae04f7c3}{evaluate\_single\_with\_prompt}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ self,\ model,\ puzzle,\ custom\_prompt:\ str}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00294}00294\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00296}00296\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Evaluate\ with\ a\ custom\ prompt\ (for\ self-\/reflection).}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00297}00297\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00298}00298\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00299}00299\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model:\ Model\ interface}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00300}00300\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzle:\ CrosswordPuzzle\ object}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00301}00301\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ custom\_prompt:\ Pre-\/formatted\ prompt\ string}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00302}00302\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00303}00303\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00304}00304\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Evaluation\ result\ dictionary}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00305}00305\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ start\_time\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ response\ =\ model.generate\_response(custom\_prompt)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ end\_time\ =\ time.time()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Enhanced\ response\ processing}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ processed\_response\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3}{\_process\_and\_validate\_response}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ response,\ puzzle.puzzle\_id}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ processed\_response\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}prompt"{}}:\ custom\_prompt,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}response"{}}:\ response,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_grid"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_words"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metrics"{}}:\ \{\textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},\ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{stringliteral}{"{}Response\ processing\ failed"{}}\},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_time"{}}:\ end\_time\ -\/\ start\_time,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{stringliteral}{"{}Response\ processing\ failed"{}},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ and\ evaluate}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid,\ parsed\_words\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}{parser}}.parse\_model\_response(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle,\ processed\_response}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ metrics\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}{metrics}}.compute\_metrics(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_words,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00336}00336\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle.get\_solution\_grid(),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle.get\_solution\_words(),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}success"{}}:\ metrics.get(\textcolor{stringliteral}{"{}success"{}},\ \textcolor{keyword}{False}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}prompt"{}}:\ custom\_prompt,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}response"{}}:\ response,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_grid"{}}:\ parsed\_grid,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}parsed\_words"{}}:\ parsed\_words,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metrics"{}}:\ metrics,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_time"{}}:\ end\_time\ -\/\ start\_time,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}token\_info"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{\_extract\_token\_info}}(model,\ response),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}error"{}}:\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00352}00352\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00353}00353\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}puzzle\_id"{}}:\ puzzle.puzzle\_id,\ \textcolor{stringliteral}{"{}success"{}}:\ \textcolor{keyword}{False},\ \textcolor{stringliteral}{"{}error"{}}:\ str(e)\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00356}00356\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00357}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a992186c9ed574853ee298b1a4fb24a4b}{00357}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a992186c9ed574853ee298b1a4fb24a4b}{evaluate\_batch\_with\_tracking}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ self,\ model,\ puzzles:\ List,\ template:\ CrosswordPromptTemplate}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00359}00359\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00361}00361\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Evaluate\ batch\ with\ detailed\ resource\ tracking\ for\ efficiency\ analysis.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00362}00362\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00363}00363\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00364}00364\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model:\ Model\ interface}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00365}00365\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzles:\ List\ of\ puzzles}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00366}00366\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ template:\ Template\ configuration}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00367}00367\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00368}00368\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00369}00369\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Results\ with\ detailed\ resource\ usage\ tracking}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00370}00370\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00371}00371\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(f\textcolor{stringliteral}{"{}Starting\ tracked\ batch\ evaluation\ of\ \{len(puzzles)\}\ puzzles"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00372}00372\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ results\ =\ []}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ total\_input\_tokens\ =\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ total\_output\_tokens\ =\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ total\_time\ =\ 0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00377}00377\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ puzzle\ \textcolor{keywordflow}{in}\ puzzles:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ result\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847}{evaluate\_single}}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{evaluate\_single}}(model,\ puzzle,\ template)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ results.append(result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Track\ detailed\ token\ usage}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ token\_info\ =\ result.get(\textcolor{stringliteral}{"{}token\_info"{}},\ \{\})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ total\_input\_tokens\ +=\ token\_info.get(\textcolor{stringliteral}{"{}input\_tokens"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \ \ \ \ total\_output\_tokens\ +=\ token\_info.get(\textcolor{stringliteral}{"{}output\_tokens"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ total\_time\ +=\ result.get(\textcolor{stringliteral}{"{}evaluation\_time"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00387}00387\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ summary\ with\ detailed\ tracking}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ summary\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{\_calculate\_summary}}(results)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ detailed\ resource\ tracking}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ summary.update(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_input\_tokens"{}}:\ total\_input\_tokens,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_output\_tokens"{}}:\ total\_output\_tokens,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_tokens"{}}:\ total\_input\_tokens\ +\ total\_output\_tokens,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_evaluation\_time"{}}:\ total\_time,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}tokens\_per\_puzzle"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}input"{}}:\ total\_input\_tokens\ /\ len(puzzles)\ \textcolor{keywordflow}{if}\ puzzles\ \textcolor{keywordflow}{else}\ 0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00400}00400\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}output"{}}:\ total\_output\_tokens\ /\ len(puzzles)\ \textcolor{keywordflow}{if}\ puzzles\ \textcolor{keywordflow}{else}\ 0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total"{}}:\ (total\_input\_tokens\ +\ total\_output\_tokens)\ /\ len(puzzles)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ puzzles}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00403}00403\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ 0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}time\_per\_puzzle"{}}:\ total\_time\ /\ len(puzzles)\ \textcolor{keywordflow}{if}\ puzzles\ \textcolor{keywordflow}{else}\ 0,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00406}00406\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00408}00408\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00410}00410\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model\_name"{}}:\ getattr(model,\ \textcolor{stringliteral}{"{}model\_name"{}},\ \textcolor{stringliteral}{"{}unknown"{}}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_puzzles"{}}:\ len(puzzles),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}individual\_results"{}}:\ results,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_metrics"{}}:\ summary,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(template),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00415}00415\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00416}00416\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00417}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{00417}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{\_calculate\_summary}}(self,\ results:\ List[Dict])\ -\/>\ Dict[str,\ float]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Calculate\ summary\ metrics\ across\ all\ results."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ results:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00420}00420\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00421}00421\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00422}00422\ \ \ \ \ \ \ \ \ successful\_results\ =\ [r\ \textcolor{keywordflow}{for}\ r\ \textcolor{keywordflow}{in}\ results\ \textcolor{keywordflow}{if}\ r.get(\textcolor{stringliteral}{"{}success"{}},\ \textcolor{keyword}{False})]}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00423}00423\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00424}00424\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ successful\_results:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00425}00425\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}success\_rate"{}}:\ 0.0\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00426}00426\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00427}00427\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ averages\ for\ each\ metric}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00428}00428\ \ \ \ \ \ \ \ \ summary\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00429}00429\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00430}00430\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Success\ rate}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00431}00431\ \ \ \ \ \ \ \ \ summary[\textcolor{stringliteral}{"{}success\_rate"{}}]\ =\ len(successful\_results)\ /\ len(results)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00432}00432\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00433}00433\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Average\ metrics\ across\ successful\ evaluations}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00434}00434\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ successful\_results:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00435}00435\ \ \ \ \ \ \ \ \ \ \ \ \ all\_metric\_names\ =\ set()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00436}00436\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ result\ \textcolor{keywordflow}{in}\ successful\_results:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00437}00437\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ result.get(\textcolor{stringliteral}{"{}metrics"{}}):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00438}00438\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ all\_metric\_names.update(result[\textcolor{stringliteral}{"{}metrics"{}}].keys())}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00439}00439\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00440}00440\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ metric\_name\ \textcolor{keywordflow}{in}\ all\_metric\_names:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00441}00441\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values\ =\ []}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00442}00442\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ result\ \textcolor{keywordflow}{in}\ successful\_results:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00443}00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ result.get(\textcolor{stringliteral}{"{}metrics"{}})\ \textcolor{keywordflow}{and}\ metric\_name\ \textcolor{keywordflow}{in}\ result[\textcolor{stringliteral}{"{}metrics"{}}]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00444}00444\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ value\ =\ result[\textcolor{stringliteral}{"{}metrics"{}}][metric\_name]}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(value,\ (int,\ float)):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ values.append(value)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00447}00447\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00448}00448\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ values:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ summary[f\textcolor{stringliteral}{"{}average\_\{metric\_name\}"{}}]\ =\ sum(values)\ /\ len(values)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ summary[f\textcolor{stringliteral}{"{}std\_\{metric\_name\}"{}}]\ =\ (}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00451}00451\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ np.std(values)\ \textcolor{keywordflow}{if}\ len(values)\ >\ 1\ \textcolor{keywordflow}{else}\ 0.0}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00452}00452\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00453}00453\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00454}00454\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ summary}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00455}00455\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00456}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{00456}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{\_extract\_token\_info}}(self,\ model,\ response:\ str)\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00457}00457\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Extract\ token\ usage\ information\ from\ model\ if\ available."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00458}00458\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a799abaebd592d16c0aa54ee4844de9b6}{token\_tracking\_enabled}}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00459}00459\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00460}00460\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00461}00461\ \ \ \ \ \ \ \ \ token\_info\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00462}00462\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00463}00463\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Try\ to\ get\ token\ usage\ from\ model}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00464}00464\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ hasattr(model,\ \textcolor{stringliteral}{"{}last\_token\_usage"{}}):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ \ \ \ \ token\_info\ =\ model.last\_token\_usage}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ hasattr(model,\ \textcolor{stringliteral}{"{}get\_last\_token\_usage"{}}):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00467}00467\ \ \ \ \ \ \ \ \ \ \ \ \ token\_info\ =\ model.get\_last\_token\_usage()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00468}00468\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback:\ estimate\ tokens\ from\ response\ length}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ token\_info:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00471}00471\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Rough\ approximation:\ 1\ token\ ≈\ 4\ characters}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \ \ \ \ estimated\_output\_tokens\ =\ len(response)\ //\ 4}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ token\_info\ =\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}output\_tokens"{}}:\ estimated\_output\_tokens,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_tokens"{}}:\ estimated\_output\_tokens,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}estimated"{}}:\ \textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00477}00477\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00478}00478\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ token\_info}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00481}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa382b6babc6b262e9cb0dae60add327c}{00481}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa382b6babc6b262e9cb0dae60add327c}{evaluate\_batch\_with\_reflection}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ self,\ model,\ puzzles:\ List,\ template:\ CrosswordPromptTemplate}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00483}00483\ \ \ \ \ )\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00484}00484\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00485}00485\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Evaluate\ batch\ with\ self-\/reflection\ capabilities.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00486}00486\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00487}00487\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00488}00488\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ model:\ Model\ interface}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00489}00489\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzles:\ List\ of\ puzzles\ to\ evaluate}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00490}00490\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ template:\ Template\ configured\ with\ self\_reflection=True}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00491}00491\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00492}00492\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00493}00493\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Batch\ evaluation\ results\ with\ reflection\ iterations}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00494}00494\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00495}00495\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Starting\ self-\/reflection\ evaluation\ on\ \{len(puzzles)\}\ puzzles"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00498}00498\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00499}00499\ \ \ \ \ \ \ \ \ results\ =\ []}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00500}00500\ \ \ \ \ \ \ \ \ max\_iterations\ =\ int(self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0}{config}}.get(\textcolor{stringliteral}{"{}SELF\_REFLECTION\_MAX\_ITERATIONS"{}},\ \textcolor{stringliteral}{"{}3"{}}))}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00501}00501\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00502}00502\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ puzzle\ \textcolor{keywordflow}{in}\ puzzles:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initial\ attempt}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00504}00504\ \ \ \ \ \ \ \ \ \ \ \ \ initial\_result\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847}{evaluate\_single}}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{evaluate\_single}}(model,\ puzzle,\ template)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00505}00505\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00506}00506\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ initial\_result.get(\textcolor{stringliteral}{"{}success"{}},\ \textcolor{keyword}{False})\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ template.self\_reflection:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00507}00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Success\ or\ no\ reflection\ configured\ -\/\ use\ initial\ result}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00508}00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ results.append(initial\_result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00509}00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00510}00510\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00511}00511\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Self-\/reflection\ iterations}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00512}00512\ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_results\ =\ [initial\_result]}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ \ \ \ \ current\_response\ =\ initial\_result.get(\textcolor{stringliteral}{"{}response"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ iteration\ \textcolor{keywordflow}{in}\ range(max\_iterations):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Generate\ error\ feedback\ (simplified\ -\/\ could\ be\ more\ sophisticated)}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ errors\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a22e98823795b6262d8af96f3a92f92c6}{\_generate\_error\_feedback}}(puzzle,\ initial\_result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00519}00519\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00520}00520\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ errors:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}\ \ \textcolor{comment}{\#\ No\ clear\ errors\ identified}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00522}00522\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Generate\ reflection\ prompt}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_prompt\ =\ template.generate\_self\_reflection\_prompt(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ puzzle,\ current\_response,\ errors}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00527}00527\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Evaluate\ with\ reflection\ prompt}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_result\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a861e5fa2be7722a627135177ae04f7c3}{evaluate\_single\_with\_prompt}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model,\ puzzle,\ reflection\_prompt}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_result[\textcolor{stringliteral}{"{}reflection\_iteration"{}}]\ =\ iteration\ +\ 1}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_result[\textcolor{stringliteral}{"{}errors\_addressed"{}}]\ =\ errors}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00534}00534\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_results.append(reflection\_result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00536}00536\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ reflection\ improved\ the\ result}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ reflection\_result.get(\textcolor{stringliteral}{"{}success"{}},\ \textcolor{keyword}{False}):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00540}00540\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_response\ =\ reflection\_result.get(\textcolor{stringliteral}{"{}response"{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00542}00542\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.error(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Error\ in\ reflection\ iteration\ \{iteration\ +\ 1\}:\ \{e\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00548}00548\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ best\ result\ from\ all\ iterations}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ best\_result\ =\ max(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ reflection\_results,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00552}00552\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ key=\textcolor{keyword}{lambda}\ r:\ r.get(\textcolor{stringliteral}{"{}metrics"{}},\ \{\}).get(\textcolor{stringliteral}{"{}word\_accuracy\_global"{}},\ 0),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00554}00554\ \ \ \ \ \ \ \ \ \ \ \ \ best\_result[\textcolor{stringliteral}{"{}reflection\_attempts"{}}]\ =\ len(reflection\_results)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ \ \ \ \ best\_result[\textcolor{stringliteral}{"{}all\_iterations"{}}]\ =\ reflection\_results}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00556}00556\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ results.append(best\_result)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00558}00558\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00559}00559\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ summary}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ summary\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{\_calculate\_summary}}(results)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00561}00561\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00562}00562\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}model\_name"{}}:\ getattr(model,\ \textcolor{stringliteral}{"{}model\_name"{}},\ \textcolor{stringliteral}{"{}unknown"{}}),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_puzzles"{}}:\ len(puzzles),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}individual\_results"{}}:\ results,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00566}00566\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}summary\_metrics"{}}:\ summary,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}template\_config"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(template),}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}evaluation\_mode"{}}:\ \textcolor{stringliteral}{"{}self\_reflection"{}},}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00569}00569\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max\_reflection\_iterations"{}}:\ max\_iterations,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00570}00570\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00571}00571\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00572}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a22e98823795b6262d8af96f3a92f92c6}{00572}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a22e98823795b6262d8af96f3a92f92c6}{\_generate\_error\_feedback}}(self,\ puzzle,\ result:\ Dict[str,\ Any])\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Generate\ error\ feedback\ for\ self-\/reflection."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ errors\ =\ []}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00575}00575\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ metrics\ for\ specific\ error\ types}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ metrics\ =\ result.get(\textcolor{stringliteral}{"{}metrics"{}},\ \{\})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ parsed\_words\ =\ result.get(\textcolor{stringliteral}{"{}parsed\_words"{}},\ \{\})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ expected\_words\ =\ puzzle.get\_solution\_words()}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Word\ accuracy\ errors}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ word\_accuracy\ =\ metrics.get(\textcolor{stringliteral}{"{}word\_accuracy\_global"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ word\_accuracy\ <\ 1.0:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ incorrect\_count\ =\ len(expected\_words)\ -\/\ (}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ len(expected\_words)\ *\ word\_accuracy}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ errors.append(f\textcolor{stringliteral}{"{}Approximately\ \{int(incorrect\_count)\}\ words\ are\ incorrect"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00588}00588\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00589}00589\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Letter\ accuracy\ errors}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00590}00590\ \ \ \ \ \ \ \ \ letter\_accuracy\ =\ metrics.get(\textcolor{stringliteral}{"{}letter\_accuracy"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00591}00591\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ letter\_accuracy\ <\ 0.8:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00592}00592\ \ \ \ \ \ \ \ \ \ \ \ \ errors.append(\textcolor{stringliteral}{"{}Many\ letters\ in\ the\ grid\ don't\ match\ the\ expected\ solution"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00593}00593\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00594}00594\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Intersection\ errors}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00595}00595\ \ \ \ \ \ \ \ \ intersection\_accuracy\ =\ metrics.get(\textcolor{stringliteral}{"{}intersection\_accuracy"{}},\ 0)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00596}00596\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ intersection\_accuracy\ <\ 0.7:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00597}00597\ \ \ \ \ \ \ \ \ \ \ \ \ errors.append(\textcolor{stringliteral}{"{}Letters\ at\ word\ intersections\ don't\ align\ correctly"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00598}00598\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00599}00599\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Missing\ or\ extra\ words}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00600}00600\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parsed\_words)\ !=\ len(expected\_words):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00601}00601\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parsed\_words)\ <\ len(expected\_words):}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00602}00602\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ missing\_count\ =\ len(expected\_words)\ -\/\ len(parsed\_words)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00603}00603\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ errors.append(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00604}00604\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}\{missing\_count\}\ clue\ answers\ are\ missing\ from\ your\ response"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00605}00605\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00606}00606\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00607}00607\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ extra\_count\ =\ len(parsed\_words)\ -\/\ len(expected\_words)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00608}00608\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ errors.append(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00609}00609\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}You\ provided\ \{extra\_count\}\ extra\ answers\ beyond\ the\ expected\ clues"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00610}00610\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00611}00611\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00612}00612\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ errors[:3]\ \ \textcolor{comment}{\#\ Limit\ to\ top\ 3\ errors\ for\ clarity}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00613}00613\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00614}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{00614}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\_get\_template\_config}}(self,\ template:\ CrosswordPromptTemplate)\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00615}00615\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Extract\ template\ configuration\ for\ result\ tracking."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00616}00616\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ template:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00617}00617\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00618}00618\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00619}00619\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00620}00620\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}language"{}}:\ template.target\_language,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00621}00621\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}shot\_type"{}}:\ template.shot\_type,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00622}00622\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}chain\_of\_thought"{}}:\ template.chain\_of\_thought,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00623}00623\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}reasoning\_effort"{}}:\ template.reasoning\_effort,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00624}00624\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}self\_reflection"{}}:\ template.self\_reflection,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00625}00625\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}batch\_size"{}}:\ template.batch\_size,}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00626}00626\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00627}00627\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00628}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3}{00628}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3}{\_process\_and\_validate\_response}}(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00629}00629\ \ \ \ \ \ \ \ \ self,\ response:\ str,\ puzzle\_id:\ str}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00630}00630\ \ \ \ \ )\ -\/>\ Optional[str]:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00631}00631\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00632}00632\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Enhanced\ response\ processing\ and\ validation\ for\ crossword\ evaluation.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00633}00633\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00634}00634\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Provides\ additional\ validation\ and\ error\ handling\ on\ top\ of\ backend}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00635}00635\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ normalization\ to\ ensure\ robust\ evaluation\ pipeline\ performance.}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00636}00636\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00637}00637\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00638}00638\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ response:\ Raw\ model\ response}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00639}00639\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzle\_id:\ Puzzle\ identifier\ for\ logging}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00640}00640\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00641}00641\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00642}00642\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Processed\ response\ string\ or\ None\ if\ processing\ fails}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00643}00643\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00644}00644\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ empty\ response}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00645}00645\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ response\ \textcolor{keywordflow}{or}\ response.strip()\ ==\ \textcolor{stringliteral}{"{}"{}}:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00646}00646\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.error(f\textcolor{stringliteral}{"{}Empty\ response\ from\ model\ for\ puzzle\ \{puzzle\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00647}00647\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00648}00648\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00649}00649\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ extremely\ short\ responses\ (likely\ incomplete)}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00650}00650\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(response.strip())\ <\ 20:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00651}00651\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.warning(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00652}00652\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Very\ short\ response\ (\{len(response.strip())\}\ chars)\ for\ puzzle\ \{puzzle\_id\}:\ \{response[:50]\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00653}00653\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00654}00654\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00655}00655\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ for\ crossword-\/specific\ content}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00656}00656\ \ \ \ \ \ \ \ \ has\_grid\_marker\ =\ any(marker\ \textcolor{keywordflow}{in}\ response.upper()\ \textcolor{keywordflow}{for}\ marker\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}GRID:"{}},\ \textcolor{stringliteral}{"{}WORDS:"{}},\ \textcolor{stringliteral}{"{}ACROSS"{}},\ \textcolor{stringliteral}{"{}DOWN"{}}])}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00657}00657\ \ \ \ \ \ \ \ \ has\_letters\ =\ any(char.isalpha()\ \textcolor{keywordflow}{for}\ char\ \textcolor{keywordflow}{in}\ response)}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00658}00658\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00659}00659\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ has\_grid\_marker\ \textcolor{keywordflow}{and}\ \textcolor{keywordflow}{not}\ has\_letters:}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00660}00660\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.warning(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00661}00661\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Response\ lacks\ crossword\ structure\ markers\ for\ puzzle\ \{puzzle\_id\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00662}00662\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00663}00663\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00664}00664\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ response\ characteristics\ for\ debugging}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00665}00665\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}.debug(}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00666}00666\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Response\ processing\ for\ \{puzzle\_id\}:\ "{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00667}00667\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}length=\{len(response)\},\ has\_grid\_marker=\{has\_grid\_marker\},\ "{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00668}00668\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}has\_letters=\{has\_letters\}"{}}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00669}00669\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00670}00670\ }
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00671}00671\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Return\ processed\ response\ (normalized\ by\ backend)}}
+\DoxyCodeLine{\Hypertarget{evaluator_8py_source_l00672}00672\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ response.strip()}
+
+\end{DoxyCode}

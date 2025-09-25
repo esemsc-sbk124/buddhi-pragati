@@ -1,0 +1,165 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend Class Reference}
+\hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend}{}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend}\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+Inheritance diagram for buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a3df035d7cf29a3295c3615baee99ee14}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a983335be96f1774e3766f5b903860dd2}{model\+\_\+name}}, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_afe44f254b9ef6a6321317cdb71671f49}{api\+\_\+key}}=None, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a1e8c1fa1b4ccbeb62ee726f202a91fe9}{generate\+\_\+response}} (self, str prompt, int max\+\_\+completion\+\_\+tokens=1000, int max\+\_\+tokens=1000, Optional\mbox{[}bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}=None, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a91bd0422868b5aea93bce1ca5c7951f5}{get\+\_\+reasoning\+\_\+token\+\_\+limit}} (self, Optional\mbox{[}str\mbox{]} effort=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a54d105c7f19daaf3fa31ccd5566712ca}{get\+\_\+last\+\_\+token\+\_\+usage}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_afe44f254b9ef6a6321317cdb71671f49}{api\+\_\+key}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a140171b14993c118e26280832a1ad4fc}{api\+\_\+url}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a7116dd785ef679987633f300e35dbaf1}{supports\+\_\+thinking}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_acdecbb458e0c153f88b5adcf703d4e6d}{client}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a983335be96f1774e3766f5b903860dd2}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a641bf4e702aef6296b9b62f5bfacd07b}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a1cdf4177d3a43db6b1f432c6b53bfc25}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a872d583047f5888008ef9e67b3b811c9}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_ac64f735d00604bf6915e7b64c656c853}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a46220218796cc16206b87bbc14f2cc67}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a5b0e4a9be06b6c99e468fcd3366805f6}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Anthropic API backend with Claude thinking mode support.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01416}{1416}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a3df035d7cf29a3295c3615baee99ee14}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a3df035d7cf29a3295c3615baee99ee14} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{api\+\_\+key = {\ttfamily None},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a020ebe0e3f56628a73401fd23acaa015}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01419}{1419}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a1e8c1fa1b4ccbeb62ee726f202a91fe9}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a1e8c1fa1b4ccbeb62ee726f202a91fe9} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!generate\_response@{generate\_response}}
+\index{generate\_response@{generate\_response}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{generate\_response()}{generate\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+generate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int }]{max\+\_\+completion\+\_\+tokens = {\ttfamily 1000},  }\item[{int }]{max\+\_\+tokens = {\ttfamily 1000},  }\item[{Optional\mbox{[}bool\mbox{]} }]{reasoning\+\_\+mode = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{reasoning\+\_\+effort = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate response using Anthropic API with thinking mode support.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_aab76e566366a7038db3a22d9a87e7e96}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01452}{1452}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_afe44f254b9ef6a6321317cdb71671f49}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_afe44f254b9ef6a6321317cdb71671f49} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!api\_key@{api\_key}}
+\index{api\_key@{api\_key}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{api\_key}{api\_key}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+api\+\_\+key}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01423}{1423}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a140171b14993c118e26280832a1ad4fc}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a140171b14993c118e26280832a1ad4fc} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!api\_url@{api\_url}}
+\index{api\_url@{api\_url}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{api\_url}{api\_url}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+api\+\_\+url}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01429}{1429}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_acdecbb458e0c153f88b5adcf703d4e6d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_acdecbb458e0c153f88b5adcf703d4e6d} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!client@{client}}
+\index{client@{client}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{client}{client}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+client}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01435}{1435}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a641bf4e702aef6296b9b62f5bfacd07b}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a641bf4e702aef6296b9b62f5bfacd07b} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!last\_token\_usage@{last\_token\_usage}}
+\index{last\_token\_usage@{last\_token\_usage}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{last\_token\_usage}{last\_token\_usage}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+last\+\_\+token\+\_\+usage}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01509}{1509}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a983335be96f1774e3766f5b903860dd2}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a983335be96f1774e3766f5b903860dd2} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!model\_name@{model\_name}}
+\index{model\_name@{model\_name}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{model\_name}{model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01470}{1470}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a7116dd785ef679987633f300e35dbaf1}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend_a7116dd785ef679987633f300e35dbaf1} 
+\index{buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}!supports\_thinking@{supports\_thinking}}
+\index{supports\_thinking@{supports\_thinking}!buddhi\_pragati.models.model\_interface.AnthropicBackend@{buddhi\_pragati.models.model\_interface.AnthropicBackend}}
+\doxysubsubsection{\texorpdfstring{supports\_thinking}{supports\_thinking}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Anthropic\+Backend.\+supports\+\_\+thinking}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01432}{1432}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/models/\mbox{\hyperlink{model__interface_8py}{model\+\_\+interface.\+py}}\end{DoxyCompactItemize}

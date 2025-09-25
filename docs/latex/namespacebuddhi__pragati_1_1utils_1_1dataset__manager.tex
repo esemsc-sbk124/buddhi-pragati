@@ -1,0 +1,50 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1utils_1_1dataset__manager}{}\label{namespacebuddhi__pragati_1_1utils_1_1dataset__manager}\index{buddhi\_pragati.utils.dataset\_manager@{buddhi\_pragati.utils.dataset\_manager}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager}{Dataset\+Manager}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1dataset__manager_a30456887bcead09e366fc43470f69116}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Dataset Management Utility for Buddhi-Pragati HuggingFace Operations
+
+This module provides utilities for managing HuggingFace datasets including deletion
+of specific language configurations (subsets), dataset inspection, and maintenance
+operations.
+
+Key Features:
+- Delete specific language configurations from multi-config datasets
+- List and inspect dataset configurations and file structure
+- Update dataset cards and metadata
+- Backup and restore functionality for dataset configurations
+
+Architecture:
+- DatasetManager: Main orchestrator for dataset operations
+- Configuration-aware operations using crossword_config.txt
+- Safe deletion with backup options
+- Comprehensive logging and error handling
+
+Note: Since HuggingFace Hub doesn't directly support subset deletion via API,
+this utility implements workarounds by manually managing dataset files and
+configurations.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1dataset__manager_a30456887bcead09e366fc43470f69116}\label{namespacebuddhi__pragati_1_1utils_1_1dataset__manager_a30456887bcead09e366fc43470f69116} 
+\index{buddhi\_pragati.utils.dataset\_manager@{buddhi\_pragati.utils.dataset\_manager}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.utils.dataset\_manager@{buddhi\_pragati.utils.dataset\_manager}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00037}{37}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+

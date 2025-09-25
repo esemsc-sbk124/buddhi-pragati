@@ -1,0 +1,405 @@
+\doxysection{bhasha\+\_\+wiki\+\_\+processor.\+py}
+\hypertarget{bhasha__wiki__processor_8py_source}{}\label{bhasha__wiki__processor_8py_source}\index{buddhi\_pragati/data/source\_processors/bhasha\_wiki\_processor.py@{buddhi\_pragati/data/source\_processors/bhasha\_wiki\_processor.py}}
+\mbox{\hyperlink{bhasha__wiki__processor_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00002}00002\ \textcolor{stringliteral}{Bhasha-\/Wiki\ Dataset\ Processor}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00004}00004\ \textcolor{stringliteral}{Handles\ processing\ of\ Bhasha-\/Wiki\ translated\ Wikipedia\ articles\ using}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00005}00005\ \textcolor{stringliteral}{IndicNER\ for\ named\ entity\ extraction\ to\ create\ crossword\ clue-\/answer\ pairs.}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00008}00008\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00009}00009\ \textcolor{keyword}{import}\ re}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00010}00010\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ List,\ Dict,\ Set,\ Tuple,\ Optional}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00011}00011\ \textcolor{keyword}{from}\ datasets\ \textcolor{keyword}{import}\ load\_dataset}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00012}00012\ \textcolor{keyword}{from}\ transformers\ \textcolor{keyword}{import}\ pipeline}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00013}00013\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00014}00014\ \textcolor{keyword}{from}\ ..dataset\_builder\ \textcolor{keyword}{import}\ SourceProcessor,\ DatasetEntry}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00015}00015\ \textcolor{keyword}{from}\ ...utils.unicode\_utils\ \textcolor{keyword}{import}\ (}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00016}00016\ \ \ \ \ contains\_latin\_script,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00017}00017\ \ \ \ \ extract\_first\_sentence,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00018}00018\ \ \ \ \ has\_multiple\_words,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00019}00019\ \ \ \ \ answer\_in\_clue\_check,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00020}00020\ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00021}00021\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00022}\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_a538a1074bf6aa7e09a724ce2b2889ae7}{00022}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00023}00023\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00025}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor}{00025}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor}{BhashaWikiProcessor}}(\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{SourceProcessor}}):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00026}00026\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ Processor\ for\ Bhasha-\/Wiki\ dataset.}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00028}00028\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ Uses\ IndicNER\ to\ extract\ named\ entities\ from\ Wikipedia\ articles,}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ then\ creates\ clue-\/answer\ pairs\ where\ the\ entity\ is\ the\ answer\ and}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ the\ remaining\ text\ serves\ as\ the\ clue.}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00033}00033\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00034}00034\ \ \ \ \ \textcolor{comment}{\#\ Languages\ supported\ by\ Bhasha-\/Wiki}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00035}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a27b5b3cd5835a4228b92e12d2834c330}{00035}}\ \ \ \ \ SUPPORTED\_LANGUAGES\ =\ \{}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00043}00043\ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00044}00044\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00045}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a1859de391c0a39b5f1a86e4b9fe66667}{00045}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a1859de391c0a39b5f1a86e4b9fe66667}{\_\_init\_\_}}(self,\ config:\ dict,\ language:\ str,\ context\_scorer=\textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ super().\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a1859de391c0a39b5f1a86e4b9fe66667}{\_\_init\_\_}}(config,\ language,\ context\_scorer)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00047}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a5c65e94b4ec715b042d438c29dd7f306}{00047}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a5c65e94b4ec715b042d438c29dd7f306}{dataset}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00048}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a19c20c4e09468b84a26c30a1afba75b8}{00048}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a19c20c4e09468b84a26c30a1afba75b8}{ner\_pipeline}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00049}00049\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00050}00050\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ NER\ model}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00051}00051\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aaee6b14a40b88f12859e15193cdd6ac3}{\_initialize\_ner\_model}}()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00052}00052\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00053}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a50dfb482dba9f7e5d8009dd947da2a70}{00053}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a50dfb482dba9f7e5d8009dd947da2a70}{get\_supported\_languages}}(self)\ -\/>\ Set[str]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Return\ set\ of\ languages\ supported\ by\ Bhasha-\/Wiki."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a27b5b3cd5835a4228b92e12d2834c330}{SUPPORTED\_LANGUAGES}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00057}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aaee6b14a40b88f12859e15193cdd6ac3}{00057}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aaee6b14a40b88f12859e15193cdd6ac3}{\_initialize\_ner\_model}}(self):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Initialize\ IndicNER\ model\ for\ named\ entity\ recognition."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ model\_name\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}NER\_MODEL\_NAME"{}},\ \textcolor{stringliteral}{"{}ai4bharat/IndicNER"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ NER\ model:\ \{model\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a19c20c4e09468b84a26c30a1afba75b8}{ner\_pipeline}}\ =\ pipeline(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}token-\/classification"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ model=model\_name,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tokenizer=model\_name,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ aggregation\_strategy=\textcolor{stringliteral}{"{}max"{}},\ \ \textcolor{comment}{\#\ Properly\ aggregates\ BIO-\/tagged\ tokens\ into\ complete\ entities}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(\textcolor{stringliteral}{"{}NER\ model\ loaded\ successfully"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ NER\ model:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a19c20c4e09468b84a26c30a1afba75b8}{ner\_pipeline}}\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00075}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aacd5cf5083fb90fbc3a205aaaac181d0}{00075}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aacd5cf5083fb90fbc3a205aaaac181d0}{load\_raw\_data}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ self,\ batch\_size:\ int,\ offset:\ int\ =\ 0}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00077}00077\ \ \ \ \ )\ -\/>\ Tuple[List[Dict],\ bool]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ batch\ of\ raw\ Bhasha-\/Wiki\ data."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a5c65e94b4ec715b042d438c29dd7f306}{dataset}}\ \textcolor{keywordflow}{is}\ \textcolor{keywordtype}{None}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loading\ Bhasha-\/Wiki\ dataset\ for\ \{self.language\}..."{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Map\ language\ to\ bhasha-\/wiki\ config\ name\ (includes\ date\ prefix)}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lang\_map\ =\ \{}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}}:\ \textcolor{stringliteral}{"{}20231101.bn"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}}:\ \textcolor{stringliteral}{"{}20231101.en"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}}:\ \textcolor{stringliteral}{"{}20231101.gu"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}}:\ \textcolor{stringliteral}{"{}20231101.hi"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}}:\ \textcolor{stringliteral}{"{}20231101.kn"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}}:\ \textcolor{stringliteral}{"{}20231101.ta"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}}:\ \textcolor{stringliteral}{"{}20231101.ur"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00092}00092\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ lang\_code\ =\ lang\_map.get(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a26bb2db08e498a31a1b33eb8fd496d9d}{language}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ lang\_code:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Unsupported\ language:\ \{self.language\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00097}00097\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ streaming\ to\ avoid\ downloading\ all\ 318\ parquet\ files}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00099}00099\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a5c65e94b4ec715b042d438c29dd7f306}{dataset}}\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}soketlabs/bhasha-\/wiki"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ name=lang\_code,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00102}00102\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ split=\textcolor{stringliteral}{"{}train"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00103}00103\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ streaming=\textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00105}00105\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Loaded\ Bhasha-\/Wiki\ \{self.language\}\ in\ streaming\ mode"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00106}00106\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ Bhasha-\/Wiki\ for\ \{self.language\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00110}00110\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ batch\ from\ streaming\ dataset}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a5c65e94b4ec715b042d438c29dd7f306}{dataset}}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ batch\ =\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Skip\ to\ the\ offset\ position}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\_iter\ =\ iter(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a5c65e94b4ec715b042d438c29dd7f306}{dataset}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(offset):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ next(dataset\_iter)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Take\ batch\_size\ items}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(batch\_size):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item\ =\ next(dataset\_iter)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ batch.append(dict(item))}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ StopIteration:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00129}00129\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Error\ reading\ streaming\ dataset:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [],\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00133}00133\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ More\ intelligent\ has\_more\ detection\ to\ prevent\ early\ termination}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Only\ assume\ has\_more=False\ if\ we\ get\ significantly\ fewer\ entries\ than\ requested}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ has\_more\ =\ len(batch)\ >=\ min(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ batch\_size\ *\ 0.5,\ 50}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ )\ \ \textcolor{comment}{\#\ At\ least\ 50\%\ of\ requested\ or\ 50\ entries\ minimum}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ batch,\ has\_more}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00140}00140\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00141}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ac82475dba052b77c5b22898fbfb1b3c8}{00141}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ac82475dba052b77c5b22898fbfb1b3c8}{process\_batch}}(self,\ batch\_data:\ List[Dict])\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ batch\ of\ Bhasha-\/Wiki\ data\ into\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ batch\_start\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ batch\_start\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a19c20c4e09468b84a26c30a1afba75b8}{ner\_pipeline}}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}NER\ pipeline\ not\ available,\ skipping\ Bhasha-\/Wiki\ processing"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00152}00152\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ item\ \textcolor{keywordflow}{in}\ batch\_data:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ before\_answer\_in\_clue\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{answer\_in\_clue\_rejections}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ item\_entries\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aa36f8d6e7da137dba104ad482690aa0d}{\_process\_single\_item}}(item)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ item\_entries:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.extend(item\_entries)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ answer\_in\_clue\ counter\ didn't\ increase,\ this\ was\ rejected\ for\ other\ reasons}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00161}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{00161}}\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{answer\_in\_clue\_rejections}}\ ==\ before\_answer\_in\_clue:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}Error\ processing\ Bhasha-\/Wiki\ item:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00167}00167\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Log\ batch\ statistics}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ batch\_answer\_in\_clue\ =\ (}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{answer\_in\_clue\_rejections}}\ -\/\ batch\_start\_answer\_in\_clue}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ batch\_other\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\_rejections}}\ -\/\ batch\_start\_other}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Bhasha-\/Wiki\ batch\ complete:\ processed\ \{len(batch\_data)\},\ valid\ \{len(entries)\},\ "{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}answer-\/in-\/clue\ rejections\ \{batch\_answer\_in\_clue\},\ other\ rejections\ \{batch\_other\}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00177}00177\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00180}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aa36f8d6e7da137dba104ad482690aa0d}{00180}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_aa36f8d6e7da137dba104ad482690aa0d}{\_process\_single\_item}}(self,\ item:\ Dict)\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ a\ single\ Bhasha-\/Wiki\ item\ into\ multiple\ dataset\ entries."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ text\ =\ item.get(\textcolor{stringliteral}{"{}text"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ title\ =\ item.get(\textcolor{stringliteral}{"{}title"{}},\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ text\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ title:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ multi-\/word\ titles\ for\ all\ languages}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ has\_multiple\_words(title):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00191}00191\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ text\ length}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ min\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}BHASHA\_WIKI\_MIN\_TEXT\_LENGTH"{}},\ 50)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(text)\ <\ min\_length:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00197}00197\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ first\ sentence\ only}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ first\_sentence\ =\ extract\_first\_sentence(text)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ first\_sentence\ \textcolor{keywordflow}{or}\ len(first\_sentence)\ <\ min\_length:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00201}00201\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Handle\ different\ processing\ for\ English\ vs\ Indic\ languages}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00203}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a26bb2db08e498a31a1b33eb8fd496d9d}{00203}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a26bb2db08e498a31a1b33eb8fd496d9d}{language}}\ ==\ \textcolor{stringliteral}{"{}English"{}}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ad22ba6794dda6215d4f749f3aedcdeb4}{\_process\_english\_entry}}(first\_sentence,\ title,\ item)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a04b0aa87ab2c8e0d9955c9a1e5b375dd}{\_process\_indic\_entry}}(first\_sentence,\ title,\ item)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00207}00207\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00208}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ad22ba6794dda6215d4f749f3aedcdeb4}{00208}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ad22ba6794dda6215d4f749f3aedcdeb4}{\_process\_english\_entry}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ self,\ first\_sentence:\ str,\ title:\ str,\ item:\ Dict}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00210}00210\ \ \ \ \ )\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ English\ Bhasha-\/wiki\ entry\ without\ NER."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ For\ English,\ we\ don't\ use\ NER\ -\/\ we\ use\ title\ as\ answer\ and\ remove\ it\ from\ text}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ source\_id\ =\ item.get(\textcolor{stringliteral}{"{}id"{}},\ str(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\_count}}))}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00214}00214\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ title\ from\ first\ sentence\ to\ create\ clue}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ clue\ =\ first\_sentence.replace(title,\ \textcolor{stringliteral}{"{}"{}}).strip()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ clue\ =\ \textcolor{stringliteral}{"{}\ "{}}.join(clue.split())\ \ \textcolor{comment}{\#\ Clean\ up\ extra\ spaces}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00218}00218\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00219}00219\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ we\ have\ meaningful\ clue\ after\ removing\ title}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ min\_clue\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_CLUE\_LENGTH"{}},\ 10)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(clue)\ <\ min\_clue\_length:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00223}00223\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ title\ as\ answer}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00225}00225\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\_single\_word}}(title):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00227}00227\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ min\_word\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_WORD\_LENGTH"{}},\ 2)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00229}00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(title)\ <\ min\_word\_length:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00231}00231\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Universal\ sanity\ check}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ answer\_in\_clue\_check(clue,\ title):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00235}00235\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Bhasha-\/Wiki\ (English)\ rejected\ entry:\ answer\ '\{title\}'\ found\ in\ clue\ '\{clue[:100]\}...'"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{answer\_in\_clue\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00238}00238\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00239}00239\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ quality\ score}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ quality\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\_quality\_score}}(clue,\ title)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00242}00242\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ entry}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ entry\_id\ =\ f\textcolor{stringliteral}{"{}bhasha\_wiki\_\{self.language\}\_\{source\_id\}\_0"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00245}00245\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ context\_score\ will\ be\ computed\ later\ after\ quality\ filtering\ (deferred\ scoring)}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ entry\ =\ \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{DatasetEntry}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ id=entry\_id,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ clue=clue,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ answer=title.upper(),}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ source=\textcolor{stringliteral}{"{}Bhasha-\/Wiki"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ source\_id=f\textcolor{stringliteral}{"{}\{source\_id\}\_0"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ context\_score\ defaults\ to\ 0.0\ and\ will\ be\ computed\ later}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00255}00255\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00256}00256\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [entry]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00258}00258\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00259}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a04b0aa87ab2c8e0d9955c9a1e5b375dd}{00259}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a04b0aa87ab2c8e0d9955c9a1e5b375dd}{\_process\_indic\_entry}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ self,\ first\_sentence:\ str,\ title:\ str,\ item:\ Dict}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00261}00261\ \ \ \ \ )\ -\/>\ List[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Process\ Indic\ language\ Bhasha-\/wiki\ entry\ using\ NER."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ out\ entries\ with\ Latin\ script\ entities\ (NER\ will\ miss\ them)}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ contains\_latin\_script(first\_sentence):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00265}00265\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00266}00266\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ named\ entities\ using\ NER}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ entities\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a172fa5f3d048895a5293eee8179c38de}{\_extract\_entities}}(first\_sentence)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00269}00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ entities:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00271}00271\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ entries\ for\ each\ valid\ entity}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ entries\ =\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ source\_id\ =\ item.get(\textcolor{stringliteral}{"{}id"{}},\ str(self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\_count}}))}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entity\_idx,\ entity\_info\ \textcolor{keywordflow}{in}\ enumerate(entities):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ entry\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ae51a9e9b6ef2a0bcde2e8a814a636897}{\_create\_entry\_from\_entity}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00278}00278\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ first\_sentence,\ entity\_info,\ source\_id,\ entity\_idx}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entry:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entries.append(entry)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00282}00282\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ entries}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00284}00284\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00285}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a172fa5f3d048895a5293eee8179c38de}{00285}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a172fa5f3d048895a5293eee8179c38de}{\_extract\_entities}}(self,\ text:\ str)\ -\/>\ List[Dict]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Extract\ named\ entities\ from\ text\ using\ IndicNER."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00287}00287\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Limit\ text\ length\ to\ avoid\ memory\ issues}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ max\_length\ =\ 512\ \ \textcolor{comment}{\#\ BERT\ token\ limit}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(text)\ >\ max\_length:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ text\ =\ text[:max\_length]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00292}00292\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00293}00293\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Run\ NER}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ entities\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a19c20c4e09468b84a26c30a1afba75b8}{ner\_pipeline}}(text)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00295}00295\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Filter\ for\ person\ and\ location\ entities\ (most\ suitable\ for\ crosswords)}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00297}00297\ \ \ \ \ \ \ \ \ \ \ \ \ valid\_labels\ =\ \{\textcolor{stringliteral}{"{}PER"{}},\ \textcolor{stringliteral}{"{}LOC"{}},\ \textcolor{stringliteral}{"{}ORG"{}}\}\ \ \textcolor{comment}{\#\ Person,\ Location,\ Organization}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_entities\ =\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00299}00299\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ max\_entities\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MAX\_ENTITIES\_PER\_TEXT"{}},\ 5)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00301}00301\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ entity\ \textcolor{keywordflow}{in}\ entities:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ entity[\textcolor{stringliteral}{"{}entity\_group"{}}]\ \textcolor{keywordflow}{in}\ valid\_labels:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ entity\_text\ =\ entity[\textcolor{stringliteral}{"{}word"{}}].strip()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00305}00305\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ if\ entity\ is\ single\ word\ (if\ required)}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}REQUIRE\_SINGLE\_WORD\_ENTITIES"{}},\ \textcolor{keyword}{True}):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00308}00308\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\_single\_word}}(entity\_text):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00310}00310\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filtered\_entities.append(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00312}00312\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}text"{}}:\ entity\_text,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}start"{}}:\ entity[\textcolor{stringliteral}{"{}start"{}}],}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00315}00315\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}end"{}}:\ entity[\textcolor{stringliteral}{"{}end"{}}],}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}score"{}}:\ entity[\textcolor{stringliteral}{"{}score"{}}],}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00319}00319\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(filtered\_entities)\ >=\ max\_entities:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00322}00322\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00323}00323\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ filtered\_entities}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00324}00324\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00326}00326\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(f\textcolor{stringliteral}{"{}NER\ extraction\ failed:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00328}00328\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00329}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ae51a9e9b6ef2a0bcde2e8a814a636897}{00329}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_ae51a9e9b6ef2a0bcde2e8a814a636897}{\_create\_entry\_from\_entity}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ self,\ text:\ str,\ entity\_info:\ Dict,\ source\_id:\ str,\ entity\_idx:\ int}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00331}00331\ \ \ \ \ )\ -\/>\ Optional[DatasetEntry]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Create\ a\ dataset\ entry\ from\ text\ and\ entity\ information."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ entity\_text\ =\ entity\_info[\textcolor{stringliteral}{"{}text"{}}]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ start\_pos\ =\ entity\_info[\textcolor{stringliteral}{"{}start"{}}]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ end\_pos\ =\ entity\_info[\textcolor{stringliteral}{"{}end"{}}]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ clue\ by\ removing\ the\ entity\ from\ the\ text}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00338}00338\ \ \ \ \ \ \ \ \ clue\ =\ text[:start\_pos]\ +\ text[end\_pos:]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ clue\ =\ \textcolor{stringliteral}{"{}\ "{}}.join(clue.split())\ \ \textcolor{comment}{\#\ Clean\ up\ whitespace}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00340}00340\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ clue\ length\ constraints}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00342}00342\ \ \ \ \ \ \ \ \ min\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_CLUE\_LENGTH"{}},\ 10)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ max\_len\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MAX\_CLUE\_LENGTH"{}},\ 500)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00344}00344\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00345}00345\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(clue)\ <\ min\_len\ \textcolor{keywordflow}{or}\ len(clue)\ >\ max\_len:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00346}00346\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00347}00347\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00348}00348\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Clean\ up\ entity\ text}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ answer\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_acd93a466ba2fcc01e4bcf8f415f02724}{\_clean\_entity}}(entity\_text)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00350}00350\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ answer:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00351}00351\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00352}00352\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00353}00353\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Check\ minimum\ word\ length\ for\ crossword\ suitability}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ min\_word\_length\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}MIN\_WORD\_LENGTH"{}},\ 2)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(answer)\ <\ min\_word\_length:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Universal\ sanity\ check\ -\/\ ensure\ answer\ not\ in\ clue}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ answer\_in\_clue\_check(clue,\ answer):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ logger.debug(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00361}00361\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Bhasha-\/Wiki\ (Indic)\ rejected\ entry:\ answer\ '\{answer\}'\ found\ in\ clue\ '\{clue[:100]\}...'"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\_in\_clue\_rejections}}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_a09194faec719dd0582125d08c04015dc}{answer\_in\_clue\_rejections}}\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ quality\ score}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00367}00367\ \ \ \ \ \ \ \ \ quality\_score\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\_quality\_score}}(clue,\ answer)}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00368}00368\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ unique\ entry\ ID}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ entry\_id\ =\ f\textcolor{stringliteral}{"{}bhasha\_wiki\_\{self.language\}\_\{source\_id\}\_\{entity\_idx\}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00372}00372\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ context\_score\ will\ be\ computed\ later\ after\ quality\ filtering\ (deferred\ scoring)}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{DatasetEntry}}(}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ id=entry\_id,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ clue=clue,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00376}00376\ \ \ \ \ \ \ \ \ \ \ \ \ answer=answer.upper(),}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ source=\textcolor{stringliteral}{"{}Bhasha-\/Wiki"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ source\_id=f\textcolor{stringliteral}{"{}\{source\_id\}\_\{entity\_idx\}"{}},}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ context\_score\ defaults\ to\ 0.0\ and\ will\ be\ computed\ later}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00381}00381\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00382}00382\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00383}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_acd93a466ba2fcc01e4bcf8f415f02724}{00383}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1bhasha__wiki__processor_1_1BhashaWikiProcessor_acd93a466ba2fcc01e4bcf8f415f02724}{\_clean\_entity}}(self,\ entity:\ str)\ -\/>\ Optional[str]:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Clean\ and\ validate\ entity\ text."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00385}00385\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ extra\ whitespace\ and\ punctuation}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ cleaned\ =\ re.sub(\textcolor{stringliteral}{r"{}[\string^\(\backslash\)w\(\backslash\)s]"{}},\ \textcolor{stringliteral}{"{}"{}},\ entity).strip()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ cleaned\ =\ \textcolor{stringliteral}{"{}\ "{}}.join(cleaned.split())}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00388}00388\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ cleaned:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00390}00390\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00391}00391\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ For\ single\ word\ requirement,\ take\ only\ first\ word}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}.get(\textcolor{stringliteral}{"{}REQUIRE\_SINGLE\_WORD\_ENTITIES"{}},\ \textcolor{keyword}{True}):}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00394}00394\ \ \ \ \ \ \ \ \ \ \ \ \ words\ =\ cleaned.split()}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00395}00395\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ words:}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ words[0]}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00398}00398\ }
+\DoxyCodeLine{\Hypertarget{bhasha__wiki__processor_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cleaned}
+
+\end{DoxyCode}

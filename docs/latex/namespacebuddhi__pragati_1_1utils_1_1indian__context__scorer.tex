@@ -1,0 +1,47 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer}{}\label{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer}\index{buddhi\_pragati.utils.indian\_context\_scorer@{buddhi\_pragati.utils.indian\_context\_scorer}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer_ae84e1f4e61d1513c7e232e29c628195d}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Enhanced Indian Context Scorer Module
+
+Implements sophisticated multi-tier assessment of "Indianness" for clue-answer pairs
+across all supported languages using semantic embeddings, named entity recognition,
+and cultural keyword matching. Provides universal coverage for all 20 supported
+languages with enhanced accuracy for core Indic languages.
+
+Architecture:
+- Tier 1: Multilingual sentence transformers (universal coverage for all 20 languages)
+- Tier 2: Indic-specific sentence transformers (enhanced accuracy for 11 core languages)
+- Tier 3: NER + keyword scoring (cultural context detection and fallback)
+
+Key Features:
+- Language-aware model selection and scoring strategies
+- Lazy loading and smart caching for optimal performance
+- Cross-language consistency validation and adaptive thresholds
+- Cultural reference corpus for semantic similarity assessment
+- Integration with existing streaming pipeline architecture
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer_ae84e1f4e61d1513c7e232e29c628195d}\label{namespacebuddhi__pragati_1_1utils_1_1indian__context__scorer_ae84e1f4e61d1513c7e232e29c628195d} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer@{buddhi\_pragati.utils.indian\_context\_scorer}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.utils.indian\_context\_scorer@{buddhi\_pragati.utils.indian\_context\_scorer}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00030}{30}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+

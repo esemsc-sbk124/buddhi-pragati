@@ -1,0 +1,301 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager Class Reference}
+\hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager}{}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager}\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac52a830ec8179a7518639e9112d1ecdd}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\+\_\+token}}=None)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}{list\+\_\+dataset\+\_\+configurations}} (self, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None)
+\item 
+Dict \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b}{inspect\+\_\+dataset\+\_\+structure}} (self, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a11dfaeda51ca8d252d13205212806a49}{backup\+\_\+configuration}} (self, str config\+\_\+name, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None, Optional\mbox{[}str\mbox{]} backup\+\_\+dir=None)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a52ecd806224e2f38a5663fe90d416c5d}{delete\+\_\+configuration}} (self, str config\+\_\+name, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None, bool create\+\_\+backup=True)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a2dfaa3357f995f2e840cc69729139656}{restore\+\_\+configuration}} (self, str backup\+\_\+path, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None)
+\item 
+Dict \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_acb210f19869228f0d7945b2981117305}{get\+\_\+configuration\+\_\+stats}} (self, str config\+\_\+name, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a7303816748104e052c67cc536a093b2d}{print\+\_\+repository\+\_\+overview}} (self, Optional\mbox{[}str\mbox{]} repo\+\_\+id=None)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac7a7c37f2fc0b5eca7d538279c58ae4e}{dataset\+\_\+config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\+\_\+token}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a67e4d4ba62a62e258f0f83df8783fd1d}{hf\+\_\+api}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\+\_\+repo}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a5a6216acef80fe97e0a8260623a8f640}{\+\_\+rebuild\+\_\+dataset\+\_\+without\+\_\+config}} (self, str config\+\_\+to\+\_\+exclude, str repo\+\_\+id, List\mbox{[}str\mbox{]} existing\+\_\+configs)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ae517307215db4ea68273f2579f314128}{\+\_\+update\+\_\+dataset\+\_\+card\+\_\+after\+\_\+deletion}} (self, str deleted\+\_\+config, str repo\+\_\+id)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ad5c5b225dbc67757d4180dfea53c659b}{\+\_\+create\+\_\+empty\+\_\+repository\+\_\+readme}} (self, str repo\+\_\+id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Comprehensive dataset management utility for HuggingFace operations.
+
+Handles deletion, inspection, and maintenance of multi-configuration
+datasets with language-specific subsets.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00040}{40}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac52a830ec8179a7518639e9112d1ecdd}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac52a830ec8179a7518639e9112d1ecdd} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{hf\+\_\+token = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize dataset manager with HuggingFace credentials.
+
+Args:
+    hf_token: HuggingFace token for authentication
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00048}{48}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ad5c5b225dbc67757d4180dfea53c659b}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ad5c5b225dbc67757d4180dfea53c659b} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!\_create\_empty\_repository\_readme@{\_create\_empty\_repository\_readme}}
+\index{\_create\_empty\_repository\_readme@{\_create\_empty\_repository\_readme}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{\_create\_empty\_repository\_readme()}{\_create\_empty\_repository\_readme()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+\_\+create\+\_\+empty\+\_\+repository\+\_\+readme (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create a clean README for empty repository as fallback.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00416}{416}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a5a6216acef80fe97e0a8260623a8f640}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a5a6216acef80fe97e0a8260623a8f640} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!\_rebuild\_dataset\_without\_config@{\_rebuild\_dataset\_without\_config}}
+\index{\_rebuild\_dataset\_without\_config@{\_rebuild\_dataset\_without\_config}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{\_rebuild\_dataset\_without\_config()}{\_rebuild\_dataset\_without\_config()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+\_\+rebuild\+\_\+dataset\+\_\+without\+\_\+config (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{config\+\_\+to\+\_\+exclude,  }\item[{str}]{repo\+\_\+id,  }\item[{List\mbox{[}str\mbox{]}     }]{existing\+\_\+configs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Rebuild entire dataset excluding a specific configuration.
+
+This is a fallback method when file-by-file deletion doesn't work.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00346}{346}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ae517307215db4ea68273f2579f314128}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ae517307215db4ea68273f2579f314128} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!\_update\_dataset\_card\_after\_deletion@{\_update\_dataset\_card\_after\_deletion}}
+\index{\_update\_dataset\_card\_after\_deletion@{\_update\_dataset\_card\_after\_deletion}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{\_update\_dataset\_card\_after\_deletion()}{\_update\_dataset\_card\_after\_deletion()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+\_\+update\+\_\+dataset\+\_\+card\+\_\+after\+\_\+deletion (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{deleted\+\_\+config,  }\item[{str}]{repo\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Update dataset card with dynamic README system after configuration deletion.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00395}{395}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a11dfaeda51ca8d252d13205212806a49}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a11dfaeda51ca8d252d13205212806a49} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!backup\_configuration@{backup\_configuration}}
+\index{backup\_configuration@{backup\_configuration}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{backup\_configuration()}{backup\_configuration()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+backup\+\_\+configuration (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{config\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{backup\+\_\+dir = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Create a backup of a specific configuration before deletion.
+
+Args:
+    config_name: Configuration name to backup
+    repo_id: Repository ID (default from config)
+    backup_dir: Local directory for backup (default: ./backups)
+
+Returns:
+    Path to backup directory
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00160}{160}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a52ecd806224e2f38a5663fe90d416c5d}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a52ecd806224e2f38a5663fe90d416c5d} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!delete\_configuration@{delete\_configuration}}
+\index{delete\_configuration@{delete\_configuration}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{delete\_configuration()}{delete\_configuration()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+delete\+\_\+configuration (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{config\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None},  }\item[{bool }]{create\+\_\+backup = {\ttfamily True} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Delete a specific configuration (language subset) from the dataset.
+
+Since HuggingFace doesn't support direct subset deletion, this method:
+1. Creates a backup if requested
+2. Identifies all files associated with the configuration
+3. Deletes those files from the repository
+4. Updates dataset metadata
+
+Args:
+    config_name: Configuration name to delete (e.g., 'hindi')
+    repo_id: Repository ID (default from config)
+    create_backup: Whether to create backup before deletion
+
+Returns:
+    True if deletion successful, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00220}{220}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_acb210f19869228f0d7945b2981117305}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_acb210f19869228f0d7945b2981117305} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!get\_configuration\_stats@{get\_configuration\_stats}}
+\index{get\_configuration\_stats@{get\_configuration\_stats}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{get\_configuration\_stats()}{get\_configuration\_stats()}}
+{\footnotesize\ttfamily  Dict buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+get\+\_\+configuration\+\_\+stats (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{config\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get detailed statistics for a specific configuration.
+
+Args:
+    config_name: Configuration name
+    repo_id: Repository ID
+
+Returns:
+    Dictionary with configuration statistics
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00500}{500}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!inspect\_dataset\_structure@{inspect\_dataset\_structure}}
+\index{inspect\_dataset\_structure@{inspect\_dataset\_structure}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{inspect\_dataset\_structure()}{inspect\_dataset\_structure()}}
+{\footnotesize\ttfamily  Dict buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+inspect\+\_\+dataset\+\_\+structure (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Inspect complete dataset structure including files and configurations.
+
+Args:
+    repo_id: Repository ID (default from config)
+
+Returns:
+    Dictionary with dataset structure information
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00097}{97}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!list\_dataset\_configurations@{list\_dataset\_configurations}}
+\index{list\_dataset\_configurations@{list\_dataset\_configurations}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{list\_dataset\_configurations()}{list\_dataset\_configurations()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+list\+\_\+dataset\+\_\+configurations (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}List all available configurations (language subsets) in the dataset.
+
+Args:
+    repo_id: Repository ID (default from config)
+
+Returns:
+    List of configuration names
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00077}{77}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a7303816748104e052c67cc536a093b2d}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a7303816748104e052c67cc536a093b2d} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!print\_repository\_overview@{print\_repository\_overview}}
+\index{print\_repository\_overview@{print\_repository\_overview}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{print\_repository\_overview()}{print\_repository\_overview()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+print\+\_\+repository\+\_\+overview (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Print a comprehensive overview of the repository.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00559}{559}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a2dfaa3357f995f2e840cc69729139656}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a2dfaa3357f995f2e840cc69729139656} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!restore\_configuration@{restore\_configuration}}
+\index{restore\_configuration@{restore\_configuration}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{restore\_configuration()}{restore\_configuration()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+restore\+\_\+configuration (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{backup\+\_\+path,  }\item[{Optional\mbox{[}str\mbox{]} }]{repo\+\_\+id = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Restore a configuration from backup.
+
+Args:
+    backup_path: Path to backup directory
+    repo_id: Target repository ID
+
+Returns:
+    True if restoration successful
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00452}{452}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!config@{config}}
+\index{config@{config}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00055}{55}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac7a7c37f2fc0b5eca7d538279c58ae4e}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac7a7c37f2fc0b5eca7d538279c58ae4e} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!dataset\_config@{dataset\_config}}
+\index{dataset\_config@{dataset\_config}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{dataset\_config}{dataset\_config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+dataset\+\_\+config}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00056}{56}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!default\_repo@{default\_repo}}
+\index{default\_repo@{default\_repo}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{default\_repo}{default\_repo}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+default\+\_\+repo}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00071}{71}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a67e4d4ba62a62e258f0f83df8783fd1d}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a67e4d4ba62a62e258f0f83df8783fd1d} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!hf\_api@{hf\_api}}
+\index{hf\_api@{hf\_api}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{hf\_api}{hf\_api}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+hf\+\_\+api}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00068}{68}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}\label{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13} 
+\index{buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.utils.dataset\_manager.DatasetManager@{buddhi\_pragati.utils.dataset\_manager.DatasetManager}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+dataset\+\_\+manager.\+Dataset\+Manager.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__manager_8py_source_l00057}{57}} of file \mbox{\hyperlink{dataset__manager_8py_source}{dataset\+\_\+manager.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/utils/\mbox{\hyperlink{dataset__manager_8py}{dataset\+\_\+manager.\+py}}\end{DoxyCompactItemize}

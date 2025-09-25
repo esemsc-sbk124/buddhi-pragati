@@ -1,0 +1,149 @@
+#!/bin/bash
+
+# PBS directives for Imperial College HPC
+#PBS -N buddhi_pragati_experiments
+#PBS -l walltime=48:00:00
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -j oe
+#PBS -m abe
+#PBS -M selim.khouaja24@imperial.ac.uk
+
+# Change to the directory from which the job was submitted
+cd $PBS_O_WORKDIR
+
+# Load required modules for Imperial HPC
+module load tools/prod
+module load Python/3.11.3-GCCcore-12.3.0
+module load Python-bundle-PyPI/2023.06-GCCcore-12.3.0
+
+# Set up project paths
+PROJECT_ROOT=$PBS_O_WORKDIR
+EXPERIMENTS_DIR="${PROJECT_ROOT}/buddhi_pragati/experiments"
+LOGS_DIR="${PROJECT_ROOT}/buddhi_pragati/scripts/logs"
+
+echo "=== Job Info ==="
+echo "Job ID: $PBS_JOBID" 
+echo "Job Name: $PBS_JOBNAME"
+echo "Node: $(hostname)"
+echo "Start Time: $(date)"
+echo "Working Directory: $PWD"
+echo "Project Root: $PROJECT_ROOT"
+echo "Experiments Output: $EXPERIMENTS_DIR"
+echo "================"
+
+# Create necessary directories
+mkdir -p "$EXPERIMENTS_DIR"
+mkdir -p "$LOGS_DIR"
+
+# Install package with all dependencies
+echo "Installing Buddhi-Pragati package with all dependencies..."
+echo "Python version: $(python --version)"
+echo "Pip version: $(pip --version)"
+echo "Python path: $(which python)"
+echo "Pip path: $(which pip)"
+
+# Upgrade pip first
+echo "Upgrading pip..."
+python -m pip install --upgrade pip
+
+# Install critical packages first with verbose output
+echo "Installing critical packages individually..."
+python -m pip install torch>=1.13.0 --verbose || exit 1
+python -m pip install transformers>=4.21.0 --verbose || exit 1
+python -m pip install openai>=1.0.0 --verbose || exit 1
+python -m pip install anthropic>=0.3.0 --verbose || exit 1
+python -m pip install huggingface-hub>=0.16.0 --verbose || exit 1
+python -m pip install sarvamai>=0.1.0 --verbose || exit 1
+
+# Install with all extras to ensure HuggingFace transformers is included
+echo "Installing Buddhi-Pragati with [all] extras..."
+python -m pip install -e ".[all]" --verbose || exit 1
+
+# Show what's actually installed
+echo "Installed packages:"
+python -m pip list | grep -E "(torch|transformers|openai|anthropic|sarvamai)"
+
+# Verify critical dependencies are installed
+echo ""
+echo "=== Dependency Verification ==="
+python -c "
+import sys
+try:
+    import torch
+    print(f'✅ torch: {torch.__version__}')
+except ImportError:
+    print('❌ torch: NOT INSTALLED')
+    sys.exit(1)
+
+try:
+    import transformers
+    print(f'✅ transformers: {transformers.__version__}')
+except ImportError:
+    print('❌ transformers: NOT INSTALLED')
+    sys.exit(1)
+
+try:
+    import openai
+    print(f'✅ openai: {openai.__version__}')
+except ImportError:
+    print('❌ openai: NOT INSTALLED')
+
+try:
+    import anthropic
+    print(f'✅ anthropic: {anthropic.__version__}')
+except ImportError:
+    print('❌ anthropic: NOT INSTALLED')
+
+try:
+    from buddhi_pragati.models.model_interface import UnifiedModelInterface
+    print('✅ buddhi_pragati: Model interface available')
+except ImportError as e:
+    print(f'❌ buddhi_pragati: {e}')
+    sys.exit(1)
+
+try:
+    import sarvamai
+    print(f'✅ sarvamai: {sarvamai.__version__}')
+except ImportError:
+    print('❌ sarvamai: NOT INSTALLED')
+
+print('All critical dependencies verified successfully!')
+"
+
+echo "=============================="
+
+echo "Starting Buddhi-Pragati All Experiments..."
+echo "All API keys and HF token will be read from crossword_config.txt"
+echo "Results will be saved to: $EXPERIMENTS_DIR"
+
+# Execute all experiments with explicit output directory
+if bash buddhi_pragati/scripts/run_all_experiments.sh; then
+    echo "✅ All experiments completed successfully!"
+    
+    # List generated results
+    echo ""
+    echo "=== Generated Results ==="
+    if [ -d "$EXPERIMENTS_DIR" ]; then
+        ls -la "$EXPERIMENTS_DIR"
+        echo "Total files created: $(find "$EXPERIMENTS_DIR" -type f | wc -l)"
+    fi
+    
+else
+    echo "❌ Experiments failed with exit code $?"
+    
+    # Show any error logs for debugging
+    echo ""
+    echo "=== Recent Log Files ==="
+    if [ -d "$LOGS_DIR" ]; then
+        ls -t "$LOGS_DIR"/*.log | head -3 | xargs tail -20
+    fi
+    
+    exit 1
+fi
+
+echo ""
+echo "=== Job Summary ==="
+echo "Completed at: $(date)"
+echo "Results location: $EXPERIMENTS_DIR"
+echo "Log files location: $LOGS_DIR"
+echo "==================="

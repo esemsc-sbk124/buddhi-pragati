@@ -1,0 +1,41 @@
+\doxysection{buddhi\+\_\+pragati Namespace Reference}
+\hypertarget{namespacebuddhi__pragati}{}\label{namespacebuddhi__pragati}\index{buddhi\_pragati@{buddhi\_pragati}}
+\doxysubsubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1core}{core}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1data}{data}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate}{evaluate}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1experiments}{experiments}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1generate}{generate}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1models}{models}}
+\item 
+namespace \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils}{utils}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Buddhi-Pragati: LLM Reasoning Benchmark System
+
+A clean, modular benchmark system for evaluating language model reasoning
+across crossword puzzles and other puzzle types.
+
+Main Components:
+- core: Base interfaces for puzzles and evaluators
+- models: Unified model interface (OpenAI, HuggingFace, OpenRouter)
+- puzzles: Puzzle-specific implementations (crossword, logic, math)
+
+Quick Start:
+    from buddhi_pragati.puzzles.crossword.evaluator import CrosswordEvaluator
+    from buddhi_pragati.models.model_interface import UnifiedModelInterface
+
+    evaluator = CrosswordEvaluator()
+    model = UnifiedModelInterface("gpt-4o", source="openai", api_key="...")
+    result = evaluator.evaluate_single(model, puzzle)
+\end{DoxyVerb}
+ 

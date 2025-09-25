@@ -1,0 +1,539 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder Class Reference}
+\hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder}{}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder}\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_adbaf5461f57b0148cd55ffffe4bb2ff0}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae7c24d2d5cedc90bff85f9e8c4b978ee}{hf\+\_\+token}}=None, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a5754576846c0d1d0305f6b45902b78c1}{context\+\_\+scoring\+\_\+mode}}="{}complete"{}, Optional\mbox{[}int\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a22933f6cf034f7aa69d8bf9c13b7fbb9}{custom\+\_\+batch\+\_\+size}}=None)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a9a16b02d16167ec2161067e672805750}{get\+\_\+available\+\_\+sources\+\_\+for\+\_\+language}} (self, str language)
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ab9508ba923e1f2a6d444fefeb4b77688}{calculate\+\_\+source\+\_\+batch\+\_\+size}} (self, str source\+\_\+name, int target\+\_\+size)
+\item 
+Dict\mbox{[}str, int\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a8e193eef65eda5f71b5a7ec6e199fd92}{calculate\+\_\+target\+\_\+per\+\_\+source}} (self, str language, int total\+\_\+target, List\mbox{[}str\mbox{]} requested\+\_\+sources=None)
+\item 
+Tuple\mbox{[}int, object\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_aa0c11755ee778e687fc67acb60db3cfa}{process\+\_\+source\+\_\+streaming}} (self, str source\+\_\+name, str language, int target\+\_\+count, int start\+\_\+offset=0, backup\+\_\+manager=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{Local\+Backup\+Manager}} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a62d6b48f786a831480411958c0ed88b0}{build\+\_\+dataset}} (self, str language, int total\+\_\+target=None, List\mbox{[}str\mbox{]} sources=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_acf12626056f96048609a3497143f7522}{upload\+\_\+to\+\_\+huggingface}} (self, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} entries, str language)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a792ff43ce31f5612452eec06c254c1e2}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7587ff77e5846c065c9f4738ede43d3b}{dataset\+\_\+config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae7c24d2d5cedc90bff85f9e8c4b978ee}{hf\+\_\+token}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a5754576846c0d1d0305f6b45902b78c1}{context\+\_\+scoring\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a22933f6cf034f7aa69d8bf9c13b7fbb9}{custom\+\_\+batch\+\_\+size}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a88039ba12e279a3ece12a3825cef8b9c}{stats}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a2c30f9b478d87d2df4bc3faacb1510b3}{initial\+\_\+memory}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a45f7f070e7d794682b950c7729f87703}{shared\+\_\+context\+\_\+scorers}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ace7bb0522415787a2f4c753a17d876dc}{SOURCE\+\_\+\+PROCESSORS}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a6b163206709d70cc38b1debc6c882d1d}{hf\+\_\+api}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7421a55818207ad9b52df55bf0d6d251}{\+\_\+get\+\_\+memory\+\_\+usage}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a30400cbd694b580ac5ec0ec8bf7d8a92}{\+\_\+log\+\_\+memory\+\_\+usage}} (self, str context)
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a173a12e99fa94790040b909289e5a40d}{\+\_\+get\+\_\+shared\+\_\+context\+\_\+scorer}} (self, str language)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ad919354d3558340395dbbb1143a420f0}{\+\_\+cleanup\+\_\+shared\+\_\+scorers}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_af48ac3fc1427774f6c12ef2305b60d30}{\+\_\+cleanup\+\_\+after\+\_\+upload}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ac9d26f9811e7a14dba6abe2ea5b9e8ca}{\+\_\+compute\+\_\+deferred\+\_\+context\+\_\+scores}} (self, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} entries, str language)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a74da1cbb4d447889962cda6ab887003d}{\+\_\+redistribute\+\_\+shortfall\+\_\+disk\+\_\+based}} (self, str language, List\mbox{[}str\mbox{]} sources, Dict\mbox{[}str, int\mbox{]} actual\+\_\+counts, Dict\mbox{[}str, int\mbox{]} original\+\_\+targets, int shortfall\+\_\+total, \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{Local\+Backup\+Manager}} backup\+\_\+manager)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a9cac924cede7827431cc9717776371d2}{\+\_\+scan\+\_\+repository\+\_\+configurations}} (self, str repo\+\_\+id)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae30fb785e6dd623e541a6a0fcef74e73}{\+\_\+clear\+\_\+dataset\+\_\+cache}} (self, str repo\+\_\+id, str config\+\_\+name=None)
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a16c9642ce90a83bc4af836fe79bed247}{\+\_\+get\+\_\+configuration\+\_\+stats}} (self, str repo\+\_\+id, str config\+\_\+name, bool force\+\_\+refresh=False)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7a6aae82f4dc09ddb92dfc6055c83b4c}{\+\_\+generate\+\_\+dynamic\+\_\+yaml\+\_\+header}} (self, str repo\+\_\+id, List\mbox{[}str\mbox{]} all\+\_\+configs, str active\+\_\+language=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a732274f8941ecb482c1444ec0bbd45b6}{\+\_\+generate\+\_\+clean\+\_\+yaml\+\_\+header}} (self)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a0950020a15d9aeb5c1959c7b47b996a4}{\+\_\+generate\+\_\+clean\+\_\+readme\+\_\+content}} (self)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a70e3b8e07fe0e6de7c8ba78ef5dcd595}{\+\_\+generate\+\_\+dynamic\+\_\+readme\+\_\+content}} (self, str repo\+\_\+id, List\mbox{[}str\mbox{]} all\+\_\+configs, str active\+\_\+language=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7a20a5160b166d6474cc9a2081c46a29}{\+\_\+update\+\_\+dataset\+\_\+card\+\_\+incremental}} (self, str language, str repo\+\_\+id, bool force\+\_\+full\+\_\+stats=False)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a17606662d79f3c958b3dcf6a77a13d8c}{\+\_\+validate\+\_\+dataset\+\_\+entries}} (self, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} entries)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Main orchestrator for building structured crossword datasets.
+
+Coordinates multiple source processors to create a unified dataset
+with configurable size and quality controls.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00172}{172}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_adbaf5461f57b0148cd55ffffe4bb2ff0}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_adbaf5461f57b0148cd55ffffe4bb2ff0} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{hf\+\_\+token = {\ttfamily None},  }\item[{str }]{context\+\_\+scoring\+\_\+mode = {\ttfamily "{}complete"{}},  }\item[{Optional\mbox{[}int\mbox{]} }]{custom\+\_\+batch\+\_\+size = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00180}{180}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_af48ac3fc1427774f6c12ef2305b60d30}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_af48ac3fc1427774f6c12ef2305b60d30} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_cleanup\_after\_upload@{\_cleanup\_after\_upload}}
+\index{\_cleanup\_after\_upload@{\_cleanup\_after\_upload}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_cleanup\_after\_upload()}{\_cleanup\_after\_upload()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+cleanup\+\_\+after\+\_\+upload (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Comprehensive cleanup after upload to free memory.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00332}{332}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ad919354d3558340395dbbb1143a420f0}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ad919354d3558340395dbbb1143a420f0} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_cleanup\_shared\_scorers@{\_cleanup\_shared\_scorers}}
+\index{\_cleanup\_shared\_scorers@{\_cleanup\_shared\_scorers}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_cleanup\_shared\_scorers()}{\_cleanup\_shared\_scorers()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+cleanup\+\_\+shared\+\_\+scorers (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Clean up shared context scorers to free memory.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00323}{323}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae30fb785e6dd623e541a6a0fcef74e73}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae30fb785e6dd623e541a6a0fcef74e73} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_clear\_dataset\_cache@{\_clear\_dataset\_cache}}
+\index{\_clear\_dataset\_cache@{\_clear\_dataset\_cache}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_clear\_dataset\_cache()}{\_clear\_dataset\_cache()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+clear\+\_\+dataset\+\_\+cache (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{str }]{config\+\_\+name = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Clear HuggingFace dataset cache for a specific repository.
+
+Args:
+    repo_id: Repository ID (e.g., 'selim-b-kh/buddhi-pragati')
+    config_name: Optional language configuration to clear specifically.
+                If None, clears entire repository cache.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00970}{970}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ac9d26f9811e7a14dba6abe2ea5b9e8ca}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ac9d26f9811e7a14dba6abe2ea5b9e8ca} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_compute\_deferred\_context\_scores@{\_compute\_deferred\_context\_scores}}
+\index{\_compute\_deferred\_context\_scores@{\_compute\_deferred\_context\_scores}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_compute\_deferred\_context\_scores()}{\_compute\_deferred\_context\_scores()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+compute\+\_\+deferred\+\_\+context\+\_\+scores (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]}}]{entries,  }\item[{str     }]{language }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Compute context scores for entries that have passed quality filtering.
+
+This method implements deferred context scoring to avoid expensive ML model
+computations for entries that will be filtered out due to low quality scores.
+
+Args:
+    entries: List of dataset entries that have passed quality filtering
+    language: Target language for context scoring
+
+Returns:
+    List of entries with updated context scores
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00350}{350}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a0950020a15d9aeb5c1959c7b47b996a4}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a0950020a15d9aeb5c1959c7b47b996a4} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_generate\_clean\_readme\_content@{\_generate\_clean\_readme\_content}}
+\index{\_generate\_clean\_readme\_content@{\_generate\_clean\_readme\_content}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_generate\_clean\_readme\_content()}{\_generate\_clean\_readme\_content()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+generate\+\_\+clean\+\_\+readme\+\_\+content (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate README content for clean repository (no configurations).\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01238}{1238}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a732274f8941ecb482c1444ec0bbd45b6}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a732274f8941ecb482c1444ec0bbd45b6} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_generate\_clean\_yaml\_header@{\_generate\_clean\_yaml\_header}}
+\index{\_generate\_clean\_yaml\_header@{\_generate\_clean\_yaml\_header}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_generate\_clean\_yaml\_header()}{\_generate\_clean\_yaml\_header()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+generate\+\_\+clean\+\_\+yaml\+\_\+header (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate YAML header for clean repository (no configurations).\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01230}{1230}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a70e3b8e07fe0e6de7c8ba78ef5dcd595}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a70e3b8e07fe0e6de7c8ba78ef5dcd595} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_generate\_dynamic\_readme\_content@{\_generate\_dynamic\_readme\_content}}
+\index{\_generate\_dynamic\_readme\_content@{\_generate\_dynamic\_readme\_content}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_generate\_dynamic\_readme\_content()}{\_generate\_dynamic\_readme\_content()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+generate\+\_\+dynamic\+\_\+readme\+\_\+content (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{List\mbox{[}str\mbox{]}}]{all\+\_\+configs,  }\item[{str }]{active\+\_\+language = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate unified README content with real statistics for all languages.
+
+Args:
+    repo_id: Repository ID
+    all_configs: List of all language configurations
+    active_language: Language currently being updated (gets fresh stats, others use cache)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01266}{1266}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7a6aae82f4dc09ddb92dfc6055c83b4c}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7a6aae82f4dc09ddb92dfc6055c83b4c} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_generate\_dynamic\_yaml\_header@{\_generate\_dynamic\_yaml\_header}}
+\index{\_generate\_dynamic\_yaml\_header@{\_generate\_dynamic\_yaml\_header}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_generate\_dynamic\_yaml\_header()}{\_generate\_dynamic\_yaml\_header()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+generate\+\_\+dynamic\+\_\+yaml\+\_\+header (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{List\mbox{[}str\mbox{]}}]{all\+\_\+configs,  }\item[{str }]{active\+\_\+language = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate accurate YAML header with real dataset statistics.
+
+Args:
+    repo_id: Repository ID
+    all_configs: List of all language configurations
+    active_language: Language currently being updated (gets fresh stats, others use cache)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01168}{1168}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a16c9642ce90a83bc4af836fe79bed247}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a16c9642ce90a83bc4af836fe79bed247} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_get\_configuration\_stats@{\_get\_configuration\_stats}}
+\index{\_get\_configuration\_stats@{\_get\_configuration\_stats}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_get\_configuration\_stats()}{\_get\_configuration\_stats()}}
+{\footnotesize\ttfamily  dict buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+get\+\_\+configuration\+\_\+stats (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{str}]{config\+\_\+name,  }\item[{bool }]{force\+\_\+refresh = {\ttfamily False} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get statistics for a specific language configuration.
+
+Args:
+    repo_id: Repository ID (e.g., 'selim-b-kh/buddhi-pragati')
+    config_name: Language configuration name (e.g., 'english', 'hindi')
+    force_refresh: If True, force download fresh data. If False, reuse cache when possible.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01081}{1081}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7421a55818207ad9b52df55bf0d6d251}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7421a55818207ad9b52df55bf0d6d251} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_get\_memory\_usage@{\_get\_memory\_usage}}
+\index{\_get\_memory\_usage@{\_get\_memory\_usage}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_get\_memory\_usage()}{\_get\_memory\_usage()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+get\+\_\+memory\+\_\+usage (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get current memory usage statistics.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00223}{223}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a173a12e99fa94790040b909289e5a40d}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a173a12e99fa94790040b909289e5a40d} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_get\_shared\_context\_scorer@{\_get\_shared\_context\_scorer}}
+\index{\_get\_shared\_context\_scorer@{\_get\_shared\_context\_scorer}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_get\_shared\_context\_scorer()}{\_get\_shared\_context\_scorer()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+get\+\_\+shared\+\_\+context\+\_\+scorer (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str     }]{language }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get or create shared IndianContextScorer for a language.
+
+This method ensures that sentence transformer models are loaded only once per language,
+rather than once per source processor, significantly reducing model loading overhead.
+
+Args:
+    language: Target language for context scoring
+
+Returns:
+    Shared IndianContextScorer instance for the language, or None if scorer disabled/failed
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00252}{252}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a30400cbd694b580ac5ec0ec8bf7d8a92}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a30400cbd694b580ac5ec0ec8bf7d8a92} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_log\_memory\_usage@{\_log\_memory\_usage}}
+\index{\_log\_memory\_usage@{\_log\_memory\_usage}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_log\_memory\_usage()}{\_log\_memory\_usage()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+log\+\_\+memory\+\_\+usage (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{context }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Log current memory usage with context.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00237}{237}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a74da1cbb4d447889962cda6ab887003d}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a74da1cbb4d447889962cda6ab887003d} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_redistribute\_shortfall\_disk\_based@{\_redistribute\_shortfall\_disk\_based}}
+\index{\_redistribute\_shortfall\_disk\_based@{\_redistribute\_shortfall\_disk\_based}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_redistribute\_shortfall\_disk\_based()}{\_redistribute\_shortfall\_disk\_based()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+redistribute\+\_\+shortfall\+\_\+disk\+\_\+based (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{List\mbox{[}str\mbox{]}}]{sources,  }\item[{Dict\mbox{[}str, int\mbox{]}}]{actual\+\_\+counts,  }\item[{Dict\mbox{[}str, int\mbox{]}}]{original\+\_\+targets,  }\item[{int}]{shortfall\+\_\+total,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{Local\+Backup\+Manager}}}]{backup\+\_\+manager }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Redistribute shortfall entries to sources using disk-based backup manager.
+
+When sources can't meet their targets, redistribute the missing entries
+to other sources that have capacity for additional processing.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00787}{787}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a9cac924cede7827431cc9717776371d2}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a9cac924cede7827431cc9717776371d2} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_scan\_repository\_configurations@{\_scan\_repository\_configurations}}
+\index{\_scan\_repository\_configurations@{\_scan\_repository\_configurations}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_scan\_repository\_configurations()}{\_scan\_repository\_configurations()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+scan\+\_\+repository\+\_\+configurations (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Scan HuggingFace repository to find all existing language configurations.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00885}{885}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7a20a5160b166d6474cc9a2081c46a29}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7a20a5160b166d6474cc9a2081c46a29} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_update\_dataset\_card\_incremental@{\_update\_dataset\_card\_incremental}}
+\index{\_update\_dataset\_card\_incremental@{\_update\_dataset\_card\_incremental}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_update\_dataset\_card\_incremental()}{\_update\_dataset\_card\_incremental()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+update\+\_\+dataset\+\_\+card\+\_\+incremental (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{str}]{repo\+\_\+id,  }\item[{bool }]{force\+\_\+full\+\_\+stats = {\ttfamily False} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Update dataset README.md with current real statistics after incremental upload.
+
+Args:
+    language: Language that was just uploaded
+    repo_id: Repository ID
+    force_full_stats: If True, collect fresh statistics for all languages.
+                    If False, only refresh stats for the uploaded language.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01355}{1355}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a17606662d79f3c958b3dcf6a77a13d8c}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a17606662d79f3c958b3dcf6a77a13d8c} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!\_validate\_dataset\_entries@{\_validate\_dataset\_entries}}
+\index{\_validate\_dataset\_entries@{\_validate\_dataset\_entries}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{\_validate\_dataset\_entries()}{\_validate\_dataset\_entries()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+\_\+validate\+\_\+dataset\+\_\+entries (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]}     }]{entries }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Validate DatasetEntry types and values before upload to prevent type conversion errors.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01429}{1429}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a62d6b48f786a831480411958c0ed88b0}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a62d6b48f786a831480411958c0ed88b0} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!build\_dataset@{build\_dataset}}
+\index{build\_dataset@{build\_dataset}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{build\_dataset()}{build\_dataset()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{Local\+Backup\+Manager}} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+build\+\_\+dataset (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int }]{total\+\_\+target = {\ttfamily None},  }\item[{List\mbox{[}str\mbox{]} }]{sources = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Build complete dataset for a language with disk-based batch accumulation.
+
+Args:
+    language: Target language
+    total_target: Total entries to generate (default from config)
+    sources: List of sources to use (default from config)
+
+Returns:
+    LocalBackupManager instance with accumulated batch files
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00691}{691}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ab9508ba923e1f2a6d444fefeb4b77688}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ab9508ba923e1f2a6d444fefeb4b77688} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!calculate\_source\_batch\_size@{calculate\_source\_batch\_size}}
+\index{calculate\_source\_batch\_size@{calculate\_source\_batch\_size}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{calculate\_source\_batch\_size()}{calculate\_source\_batch\_size()}}
+{\footnotesize\ttfamily  int buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+calculate\+\_\+source\+\_\+batch\+\_\+size (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{source\+\_\+name,  }\item[{int}]{target\+\_\+size }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate optimal batch size for a specific source based on source characteristics and target size.
+
+Args:
+    source_name: Name of the data source (MILU, IndicWikiBio, IndoWordNet, Bhasha-Wiki)
+    target_size: Target number of entries for this source
+
+Returns:
+    Optimal batch size for this source
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00439}{439}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a8e193eef65eda5f71b5a7ec6e199fd92}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a8e193eef65eda5f71b5a7ec6e199fd92} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!calculate\_target\_per\_source@{calculate\_target\_per\_source}}
+\index{calculate\_target\_per\_source@{calculate\_target\_per\_source}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{calculate\_target\_per\_source()}{calculate\_target\_per\_source()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, int\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+calculate\+\_\+target\+\_\+per\+\_\+source (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int}]{total\+\_\+target,  }\item[{List\mbox{[}str\mbox{]} }]{requested\+\_\+sources = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate how many entries to generate per source for uniform distribution.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00485}{485}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a9a16b02d16167ec2161067e672805750}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a9a16b02d16167ec2161067e672805750} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!get\_available\_sources\_for\_language@{get\_available\_sources\_for\_language}}
+\index{get\_available\_sources\_for\_language@{get\_available\_sources\_for\_language}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{get\_available\_sources\_for\_language()}{get\_available\_sources\_for\_language()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+get\+\_\+available\+\_\+sources\+\_\+for\+\_\+language (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get list of sources that support the given language.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00429}{429}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_aa0c11755ee778e687fc67acb60db3cfa}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_aa0c11755ee778e687fc67acb60db3cfa} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!process\_source\_streaming@{process\_source\_streaming}}
+\index{process\_source\_streaming@{process\_source\_streaming}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{process\_source\_streaming()}{process\_source\_streaming()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}int, object\mbox{]} buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+process\+\_\+source\+\_\+streaming (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{source\+\_\+name,  }\item[{str}]{language,  }\item[{int}]{target\+\_\+count,  }\item[{int }]{start\+\_\+offset = {\ttfamily 0},  }\item[{}]{backup\+\_\+manager = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Process a single source and accumulate entries to disk via backup manager.
+
+Args:
+    source_name: Name of the data source to process
+    language: Target language
+    target_count: Number of entries to process
+    start_offset: Starting offset for processing
+    backup_manager: LocalBackupManager instance for saving batches to disk
+
+Returns:
+    Tuple[int, LocalBackupManager]: (total entries saved, backup manager instance)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00519}{519}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_acf12626056f96048609a3497143f7522}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_acf12626056f96048609a3497143f7522} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!upload\_to\_huggingface@{upload\_to\_huggingface}}
+\index{upload\_to\_huggingface@{upload\_to\_huggingface}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{upload\_to\_huggingface()}{upload\_to\_huggingface()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+upload\+\_\+to\+\_\+huggingface (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]}}]{entries,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Upload processed entries to HuggingFace dataset.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l01499}{1499}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a792ff43ce31f5612452eec06c254c1e2}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a792ff43ce31f5612452eec06c254c1e2} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!config@{config}}
+\index{config@{config}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00193}{193}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a5754576846c0d1d0305f6b45902b78c1}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a5754576846c0d1d0305f6b45902b78c1} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!context\_scoring\_mode@{context\_scoring\_mode}}
+\index{context\_scoring\_mode@{context\_scoring\_mode}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{context\_scoring\_mode}{context\_scoring\_mode}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+context\+\_\+scoring\+\_\+mode}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00196}{196}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a22933f6cf034f7aa69d8bf9c13b7fbb9}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a22933f6cf034f7aa69d8bf9c13b7fbb9} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!custom\_batch\_size@{custom\_batch\_size}}
+\index{custom\_batch\_size@{custom\_batch\_size}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{custom\_batch\_size}{custom\_batch\_size}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+custom\+\_\+batch\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00199}{199}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7587ff77e5846c065c9f4738ede43d3b}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a7587ff77e5846c065c9f4738ede43d3b} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!dataset\_config@{dataset\_config}}
+\index{dataset\_config@{dataset\_config}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{dataset\_config}{dataset\_config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+dataset\+\_\+config}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00194}{194}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a6b163206709d70cc38b1debc6c882d1d}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a6b163206709d70cc38b1debc6c882d1d} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!hf\_api@{hf\_api}}
+\index{hf\_api@{hf\_api}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{hf\_api}{hf\_api}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+hf\+\_\+api}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00219}{219}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae7c24d2d5cedc90bff85f9e8c4b978ee}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ae7c24d2d5cedc90bff85f9e8c4b978ee} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00195}{195}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a2c30f9b478d87d2df4bc3faacb1510b3}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a2c30f9b478d87d2df4bc3faacb1510b3} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!initial\_memory@{initial\_memory}}
+\index{initial\_memory@{initial\_memory}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{initial\_memory}{initial\_memory}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+initial\+\_\+memory}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00203}{203}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a45f7f070e7d794682b950c7729f87703}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a45f7f070e7d794682b950c7729f87703} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!shared\_context\_scorers@{shared\_context\_scorers}}
+\index{shared\_context\_scorers@{shared\_context\_scorers}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{shared\_context\_scorers}{shared\_context\_scorers}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+shared\+\_\+context\+\_\+scorers}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00206}{206}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ace7bb0522415787a2f4c753a17d876dc}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_ace7bb0522415787a2f4c753a17d876dc} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!SOURCE\_PROCESSORS@{SOURCE\_PROCESSORS}}
+\index{SOURCE\_PROCESSORS@{SOURCE\_PROCESSORS}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{SOURCE\_PROCESSORS}{SOURCE\_PROCESSORS}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+SOURCE\+\_\+\+PROCESSORS}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00209}{209}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a88039ba12e279a3ece12a3825cef8b9c}\label{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1DatasetBuilder_a88039ba12e279a3ece12a3825cef8b9c} 
+\index{buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}!stats@{stats}}
+\index{stats@{stats}!buddhi\_pragati.data.dataset\_builder.DatasetBuilder@{buddhi\_pragati.data.dataset\_builder.DatasetBuilder}}
+\doxysubsubsection{\texorpdfstring{stats}{stats}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Dataset\+Builder.\+stats}
+
+
+
+Definition at line \mbox{\hyperlink{dataset__builder_8py_source_l00200}{200}} of file \mbox{\hyperlink{dataset__builder_8py_source}{dataset\+\_\+builder.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/data/\mbox{\hyperlink{dataset__builder_8py}{dataset\+\_\+builder.\+py}}\end{DoxyCompactItemize}

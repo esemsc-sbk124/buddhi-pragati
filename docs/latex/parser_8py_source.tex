@@ -1,0 +1,199 @@
+\doxysection{parser.\+py}
+\hypertarget{parser_8py_source}{}\label{parser_8py_source}\index{buddhi\_pragati/evaluate/parser.py@{buddhi\_pragati/evaluate/parser.py}}
+\mbox{\hyperlink{parser_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1evaluate_1_1parser}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00002}00002\ \textcolor{stringliteral}{Crossword\ response\ parser\ for\ model\ output\ processing.}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ handles\ parsing\ of\ model\ responses\ for\ crossword\ puzzles}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00005}00005\ \textcolor{stringliteral}{with\ robust\ fallback\ strategies\ and\ Unicode\ support.}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00008}00008\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00009}00009\ \textcolor{keyword}{import}\ unicodedata}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00010}00010\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ Tuple}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00011}00011\ \textcolor{keyword}{import}\ numpy\ \textcolor{keyword}{as}\ np}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00012}00012\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00013}00013\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00016}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser}{00016}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser}{CrosswordResponseParser}}:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00017}00017\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00018}00018\ \textcolor{stringliteral}{\ \ \ \ Parses\ model\ responses\ for\ crossword\ puzzles.}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00019}00019\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00020}00020\ \textcolor{stringliteral}{\ \ \ \ Handles\ various\ response\ formats\ and\ provides\ fallback\ strategies}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ for\ robust\ parsing\ across\ different\ model\ outputs.}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ Uses\ configurable\ markers\ from\ parser\_markers.json.}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00023}00023\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00025}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a310e368524963eb328d206d06b2269de}{00025}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a310e368524963eb328d206d06b2269de}{\_\_init\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00026}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{00026}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}\ =\ logging.getLogger(\textcolor{stringliteral}{"{}CrosswordResponseParser"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00027}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ad3f39c7138b1a00ed1ef20022579131a}{00027}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ad3f39c7138b1a00ed1ef20022579131a}{markers}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ab7c9b3f3ff058a0ca47c0f485a1c263e}{\_load\_parser\_markers}}()}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00028}00028\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00029}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ab7c9b3f3ff058a0ca47c0f485a1c263e}{00029}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ab7c9b3f3ff058a0ca47c0f485a1c263e}{\_load\_parser\_markers}}(self)\ -\/>\ Dict[str,\ str]:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00030}00030\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Load\ parsing\ markers\ from\ parser\_markers.json."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00031}00031\ \ \ \ \ \ \ \ \ markers\_file\ =\ Path(\_\_file\_\_).parent\ /\ \textcolor{stringliteral}{"{}prompts"{}}\ /\ \textcolor{stringliteral}{"{}parser\_markers.json"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00032}00032\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00033}00033\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(markers\_file,\ \textcolor{stringliteral}{"{}r"{}},\ encoding=\textcolor{stringliteral}{"{}utf-\/8"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00034}00034\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ markers\_data\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00035}00035\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Extract\ English\ markers\ (all\ prompts\ are\ English-\/only\ now)}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00036}00036\ \ \ \ \ \ \ \ \ \ \ \ \ markers\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00037}00037\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ key,\ value\ \textcolor{keywordflow}{in}\ markers\_data.items():}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00038}00038\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ markers[key]\ =\ value[\textcolor{stringliteral}{"{}English"{}}]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00039}00039\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.debug(f\textcolor{stringliteral}{"{}Loaded\ parser\ markers:\ \{markers\}"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00040}00040\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ markers}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00041}00041\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00042}00042\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.error(f\textcolor{stringliteral}{"{}Failed\ to\ load\ parser\ markers:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00043}00043\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ to\ hardcoded\ markers}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00044}00044\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00045}00045\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}words\_marker"{}}:\ \textcolor{stringliteral}{"{}WORDS:"{}},}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00046}00046\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}grid\_marker"{}}:\ \textcolor{stringliteral}{"{}GRID:"{}},}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00047}00047\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}across\_marker"{}}:\ \textcolor{stringliteral}{"{}across"{}},}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00048}00048\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}down\_marker"{}}:\ \textcolor{stringliteral}{"{}down"{}},}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00051}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_aa6b5931addda4a2a4eb4ac1628107089}{00051}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_aa6b5931addda4a2a4eb4ac1628107089}{\_normalize\_grid\_shape}}(self,\ parsed\_grid,\ target\_rows,\ target\_cols):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Normalize\ grid\ to\ exact\ target\ dimensions."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Normalizing\ grid\ from\ \{len(parsed\_grid)\}x\{len(parsed\_grid[0])\ if\ parsed\_grid\ else\ 0\}\ to\ \{target\_rows\}x\{target\_cols\}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Handle\ empty\ grid}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ parsed\_grid:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.warning(\textcolor{stringliteral}{"{}Empty\ grid\ detected,\ creating\ default\ grid"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [[\textcolor{stringliteral}{"{}\_"{}}\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(target\_cols)]\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(target\_rows)]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00061}00061\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fix\ row\ count}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parsed\_grid)\ <\ target\_rows:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ missing\ rows}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ rows\_to\_add\ =\ target\_rows\ -\/\ len(parsed\_grid)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(f\textcolor{stringliteral}{"{}Adding\ \{rows\_to\_add\}\ missing\ rows"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(rows\_to\_add):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid.append([\textcolor{stringliteral}{"{}\_"{}}\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(target\_cols)])}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ len(parsed\_grid)\ >\ target\_rows:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ excess\ rows}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \ \ \ \ rows\_to\_remove\ =\ len(parsed\_grid)\ -\/\ target\_rows}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(f\textcolor{stringliteral}{"{}Removing\ \{rows\_to\_remove\}\ excess\ rows"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid\ =\ parsed\_grid[:target\_rows]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fix\ column\ count\ for\ each\ row}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(parsed\_grid)):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00077}00077\ \ \ \ \ \ \ \ \ \ \ \ \ row\ =\ parsed\_grid[i]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(row)\ <\ target\_cols:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ missing\ columns}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00080}00080\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cols\_to\_add\ =\ target\_cols\ -\/\ len(row)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.debug(f\textcolor{stringliteral}{"{}Row\ \{i\}:\ adding\ \{cols\_to\_add\}\ missing\ columns"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ row.extend([\textcolor{stringliteral}{"{}\_"{}}]\ *\ cols\_to\_add)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00083}00083\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ len(row)\ >\ target\_cols:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ excess\ columns}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ cols\_to\_remove\ =\ len(row)\ -\/\ target\_cols}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.debug(f\textcolor{stringliteral}{"{}Row\ \{i\}:\ removing\ \{cols\_to\_remove\}\ excess\ columns"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ row\ =\ row[:target\_cols]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00088}00088\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid[i]\ =\ row}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00089}00089\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Verify\ final\ dimensions}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ actual\_rows\ =\ len(parsed\_grid)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ actual\_cols\ =\ len(parsed\_grid[0])\ \textcolor{keywordflow}{if}\ parsed\_grid\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ actual\_rows\ !=\ target\_rows\ \textcolor{keywordflow}{or}\ actual\_cols\ !=\ target\_cols:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.error(}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Grid\ normalization\ failed:\ got\ \{actual\_rows\}x\{actual\_cols\},\ expected\ \{target\_rows\}x\{target\_cols\}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00097}00097\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ to\ empty\ grid}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ [[\textcolor{stringliteral}{"{}\_"{}}\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(target\_cols)]\ \textcolor{keywordflow}{for}\ \_\ \textcolor{keywordflow}{in}\ range(target\_rows)]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00099}00099\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00100}00100\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(f\textcolor{stringliteral}{"{}Grid\ normalization\ successful:\ \{actual\_rows\}x\{actual\_cols\}"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00101}00101\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ parsed\_grid}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00102}00102\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00103}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_accf401ccd718806366daeb1d5e6c7af0}{00103}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_accf401ccd718806366daeb1d5e6c7af0}{parse\_model\_response}}(}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00104}00104\ \ \ \ \ \ \ \ \ self,\ puzzle,\ response:\ str}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00105}00105\ \ \ \ \ )\ -\/>\ Tuple[np.ndarray,\ Dict[str,\ str]]:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00106}00106\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Extract\ the\ filled\ grid\ from\ model's\ response\ and\ convert\ it\ to\ a\ NumPy\ array.}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00108}00108\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00109}00109\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00110}00110\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzle:\ CrosswordPuzzle\ object\ for\ context}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00111}00111\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ response:\ Raw\ model\ response\ string}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00112}00112\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00113}00113\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00114}00114\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Tuple\ of\ (parsed\_grid\ as\ np.ndarray,\ parsed\_words\ as\ dict)}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00115}00115\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ lines\ =\ response.strip().split(\textcolor{stringliteral}{"{}\(\backslash\)n"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ parsed\_grid\ =\ []}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ parsed\_words\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Response\ will\ be\ logged\ in\ main\ evaluation\ flow\ to\ avoid\ duplication}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00121}00121\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ nbr\_rows\ =\ puzzle.get\_size()[0]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ nbr\_cols\ =\ puzzle.get\_size()[1]}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00124}00124\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(f\textcolor{stringliteral}{"{}Parsing\ puzzle:\ \{puzzle.puzzle\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(f\textcolor{stringliteral}{"{}Model\ response:\ \{response\}"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00127}00127\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ words\_marker\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ad3f39c7138b1a00ed1ef20022579131a}{markers}}.get(\textcolor{stringliteral}{"{}words\_marker"{}},\ \textcolor{stringliteral}{"{}WORDS:"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ grid\_marker\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_ad3f39c7138b1a00ed1ef20022579131a}{markers}}.get(\textcolor{stringliteral}{"{}grid\_marker"{}},\ \textcolor{stringliteral}{"{}GRID:"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i\ \textcolor{keywordflow}{in}\ range(len(lines)):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ lines[i].strip().startswith(words\_marker):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ the\ words\ section}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(i\ +\ 1,\ len(lines)):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ lines[j].strip().startswith(grid\_marker):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ lines[j].strip()\ ==\ \textcolor{stringliteral}{"{}"{}}:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parts\ =\ lines[j].split(\textcolor{stringliteral}{"{}:"{}},\ 1)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(parts)\ ==\ 2:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ clue,\ word\ =\ parts}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ clue\ key\ by\ removing\ spaces\ to\ match\ expected\ format}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ normalized\_clue\ =\ clue.strip().replace(\textcolor{stringliteral}{"{}\ "{}},\ \textcolor{stringliteral}{"{}"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ Unicode\ word\ for\ consistent\ representation}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ normalized\_word\ =\ unicodedata.normalize(\textcolor{stringliteral}{"{}NFC"{}},\ word.strip())}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_words[normalized\_clue]\ =\ normalized\_word}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ lines[i].strip().startswith(grid\_marker):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Find\ the\ actual\ grid\ data\ (skip\ empty\ lines\ after\ "{}GRID:"{})}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_start\_idx\ =\ i\ +\ 1}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{while}\ (}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_start\_idx\ <\ len(lines)\ \textcolor{keywordflow}{and}\ lines[grid\_start\_idx].strip()\ ==\ \textcolor{stringliteral}{"{}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_start\_idx\ +=\ 1}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00154}00154\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Parse\ grid\ rows\ with\ better\ Unicode\ handling}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j\ \textcolor{keywordflow}{in}\ range(}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ grid\_start\_idx,\ min(grid\_start\_idx\ +\ nbr\_rows,\ len(lines))}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ j\ >=\ len(lines):}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ line\ =\ lines[j].strip()}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ line\ ==\ \textcolor{stringliteral}{"{}"{}}:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ empty\ row\ to\ maintain\ structure}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid.append([\textcolor{stringliteral}{"{}\_"{}}]\ *\ nbr\_cols)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Split\ by\ whitespace\ and\ handle\ Unicode\ characters}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ row\_cells\ =\ line.split()}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Keep\ original\ characters,\ don't\ convert\ to\ '\_'\ unless\ actually\ '\_'}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_row\ =\ []}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00171}00171\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ cell\ \textcolor{keywordflow}{in}\ row\_cells:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ Unicode\ to\ ensure\ consistent\ representation}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ normalized\_cell\ =\ unicodedata.normalize(\textcolor{stringliteral}{"{}NFC"{}},\ cell)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_row.append(normalized\_cell)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ parsed\_grid.append(parsed\_row)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00176}00176\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(f\textcolor{stringliteral}{"{}Parsed\ \{len(parsed\_grid)\}\ rows\ from\ grid\ section"{}})}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{continue}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00180}00180\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Normalize\ grid\ shape\ to\ ensure\ it\ matches\ puzzle\ dimensions}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ parsed\_grid\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_aa6b5931addda4a2a4eb4ac1628107089}{\_normalize\_grid\_shape}}(parsed\_grid,\ nbr\_rows,\ nbr\_cols)}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00183}00183\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Final\ validation}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Final\ parsed\ grid\ dimensions:\ \{len(parsed\_grid)\}x\{len(parsed\_grid[0])\ if\ parsed\_grid\ else\ 0\}"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1parser_1_1CrosswordResponseParser_a6f4d6f2f8ee78d03b58add0ba87daddf}{logger}}.info(}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Normalized\ \{len(parsed\_words)\}\ word\ keys\ (spaces\ removed\ for\ matching)"{}}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Detailed\ parsed\ data\ will\ be\ logged\ in\ main\ evaluation\ flow}}
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{parser_8py_source_l00193}00193\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ np.array(parsed\_grid),\ parsed\_words}
+
+\end{DoxyCode}

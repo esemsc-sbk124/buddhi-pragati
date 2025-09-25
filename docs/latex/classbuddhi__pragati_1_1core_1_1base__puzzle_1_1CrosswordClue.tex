@@ -1,0 +1,147 @@
+\doxysection{buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue Class Reference}
+\hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue}{}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue}\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a4e8fff301c6503ed9f3434d0352b7aa6}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, int \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a25f939a1e9e556995116153190a71f4e}{number}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a85c533c2d7fefc93cda1ea4ae9cf797d}{direction}}, int \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a395ae0dc63cacf1cebda05734535d17e}{length}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a12cdccba462a793cf1e49f6d6d3be23d}{clue\+\_\+text}}, int \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_ae7c8f4b19593046971194d33d33824c2}{start\+\_\+row}}, int \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_afae0ad34f26915ecfb3b00a5819e85db}{start\+\_\+col}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a71b3294ada0381cd4e71a9e44c0f821c}{answer}}="{}"{})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a25f939a1e9e556995116153190a71f4e}{number}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a85c533c2d7fefc93cda1ea4ae9cf797d}{direction}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a395ae0dc63cacf1cebda05734535d17e}{length}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a12cdccba462a793cf1e49f6d6d3be23d}{clue\+\_\+text}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_ae7c8f4b19593046971194d33d33824c2}{start\+\_\+row}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_afae0ad34f26915ecfb3b00a5819e85db}{start\+\_\+col}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a71b3294ada0381cd4e71a9e44c0f821c}{answer}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Crossword clue representation with position and direction information.
+
+Represents a single clue in a crossword puzzle with all necessary
+positioning and metadata for puzzle construction and evaluation.
+
+Attributes:
+    number: Clue number in the puzzle
+    direction: "across" or "down" direction
+    length: Length of the answer in characters
+    clue_text: Human-readable clue text
+    start_row: Starting row position in grid
+    start_col: Starting column position in grid
+    answer: Expected answer (empty string if unknown)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00035}{35}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a4e8fff301c6503ed9f3434d0352b7aa6}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a4e8fff301c6503ed9f3434d0352b7aa6} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{number,  }\item[{str}]{direction,  }\item[{int}]{length,  }\item[{str}]{clue\+\_\+text,  }\item[{int}]{start\+\_\+row,  }\item[{int}]{start\+\_\+col,  }\item[{str }]{answer = {\ttfamily "{}"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize a crossword clue.
+
+Args:
+    number: Clue number in the puzzle (1-based)
+    direction: Direction of the answer ("across" or "down")
+    length: Expected length of the answer in characters
+    clue_text: Human-readable clue text
+    start_row: Starting row position in grid (0-based)
+    start_col: Starting column position in grid (0-based)
+    answer: Expected answer string (optional, defaults to empty)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00052}{52}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a71b3294ada0381cd4e71a9e44c0f821c}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a71b3294ada0381cd4e71a9e44c0f821c} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!answer@{answer}}
+\index{answer@{answer}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{answer}{answer}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+answer}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00080}{80}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a12cdccba462a793cf1e49f6d6d3be23d}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a12cdccba462a793cf1e49f6d6d3be23d} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!clue\_text@{clue\_text}}
+\index{clue\_text@{clue\_text}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{clue\_text}{clue\_text}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+clue\+\_\+text}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00077}{77}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a85c533c2d7fefc93cda1ea4ae9cf797d}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a85c533c2d7fefc93cda1ea4ae9cf797d} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!direction@{direction}}
+\index{direction@{direction}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{direction}{direction}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+direction}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00075}{75}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a395ae0dc63cacf1cebda05734535d17e}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a395ae0dc63cacf1cebda05734535d17e} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!length@{length}}
+\index{length@{length}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{length}{length}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+length}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00076}{76}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a25f939a1e9e556995116153190a71f4e}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_a25f939a1e9e556995116153190a71f4e} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!number@{number}}
+\index{number@{number}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{number}{number}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+number}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00074}{74}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_afae0ad34f26915ecfb3b00a5819e85db}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_afae0ad34f26915ecfb3b00a5819e85db} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!start\_col@{start\_col}}
+\index{start\_col@{start\_col}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{start\_col}{start\_col}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+start\+\_\+col}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00079}{79}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_ae7c8f4b19593046971194d33d33824c2}\label{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordClue_ae7c8f4b19593046971194d33d33824c2} 
+\index{buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}!start\_row@{start\_row}}
+\index{start\_row@{start\_row}!buddhi\_pragati.core.base\_puzzle.CrosswordClue@{buddhi\_pragati.core.base\_puzzle.CrosswordClue}}
+\doxysubsubsection{\texorpdfstring{start\_row}{start\_row}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+core.\+base\+\_\+puzzle.\+Crossword\+Clue.\+start\+\_\+row}
+
+
+
+Definition at line \mbox{\hyperlink{base__puzzle_8py_source_l00078}{78}} of file \mbox{\hyperlink{base__puzzle_8py_source}{base\+\_\+puzzle.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/core/\mbox{\hyperlink{base__puzzle_8py}{base\+\_\+puzzle.\+py}}\end{DoxyCompactItemize}

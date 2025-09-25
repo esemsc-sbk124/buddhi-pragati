@@ -1,0 +1,11 @@
+{
+  "task_description": {
+    "English": "TASK: For each clue, determine the answer and specify where each letter goes. Here are some rules and tips you can follow:\n - You cannot change the shape and format of the grid. It must stay as the square grid provided to you and you have to stick to the number of cells presented to you \n - You cannot block unblocked cells or unblock blocked cells \n Each cell of the grid has one corresponding letter and intersecting letters must match \n Answers must be a single word with no spaces \n Some clues ask you to solve logical games: in these cases the answer may not be a sensical word \n down words are filled top to bottom, across words from left to right \n Always confirm that intersecting words remain valid after you have placed them and that the intersecting cell(s) has the correct letter "
+  },
+  "response_format": {
+    "English": "Strictly follow this format for your final solution:"
+  },
+  "response_example": {
+    "English": "```\nWORDS:\n1 across: ABCD\n2 down: IM\netc.\n\nGRID:\nA B C D\nE # F #\nG H # I\nJ K L M\netc.\n```"
+  }
+}

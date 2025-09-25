@@ -1,0 +1,405 @@
+\doxysection{buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator Class Reference}
+\hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator}{}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator}\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a57f7f9be0d26e7c6c369a3f314bcb1d1}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, int \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ae286b4ca69453aa1459802560ada6aa4}{size}})
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a4cbff9b1458e6fc7750ce9218e4e2e26}{generate\+\_\+puzzle\+\_\+with\+\_\+prioritization}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} prioritized\+\_\+corpus, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores, str puzzle\+\_\+id, float indian\+\_\+threshold=None)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ae286b4ca69453aa1459802560ada6aa4}{size}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a0114fec7164122a61e7a302694c44838}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ad7796940f0f93dd858d45bd9608fe82e}{generation\+\_\+config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a1501bf48e30f3f2a9edb35b0f361599a}{population\+\_\+size}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ab6e2734c6b7bd24f704f28a5c7cb8fe2}{max\+\_\+generations}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ab4cb2995d0b39e82157d450f6016995f}{elite\+\_\+size}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a955bbbcf7366bd02cb46982b1fe1264b}{mutation\+\_\+rate}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a0a65e2b67f8fc68472bba588def6cf91}{crossover\+\_\+rate}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a13e3814aafef6bb6f9a5108b2e48bbcd}{local\+\_\+search\+\_\+probability}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a6a94644508ef4c48753b12bedb2d9a1b}{fitness\+\_\+weights}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5cb1f91fa068b8210bb91a136b162d36}{\+\_\+filter\+\_\+valid\+\_\+pairs}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} corpus)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a6b3459ff833f006957b812c8caaddee9}{\+\_\+initialize\+\_\+population}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} valid\+\_\+pairs, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores)
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a30ac810b45078fe0e1ab837e6844b3ea}{\+\_\+create\+\_\+random\+\_\+candidate}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} valid\+\_\+pairs, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores)
+\item 
+Tuple\mbox{[}str, str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_af4d457b5368b912e91d5e55e4cb56cf9}{\+\_\+weighted\+\_\+word\+\_\+selection}} (self, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} pairs, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5ce93d1538cec616b2e86faf4bf2fe39}{\+\_\+place\+\_\+first\+\_\+word}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, str clue, str answer, float context\+\_\+score)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a292b51b072b2be71b8aaeff9aa5cd2df}{\+\_\+place\+\_\+intersecting\+\_\+word}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, str clue, str answer, float context\+\_\+score)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a7abf2ddc6c7ef26d1ea93af6a53a506f}{\+\_\+can\+\_\+place\+\_\+word}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, str word, int row, int col, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1Direction}{Direction}} direction)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aaeb77c19a89b008759a905d21512f398}{\+\_\+is\+\_\+valid\+\_\+placement}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement}{Word\+Placement}} placement)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a498ff9d514e24017390772b2d363fb64}{\+\_\+place\+\_\+word\+\_\+on\+\_\+grid}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement}{Word\+Placement}} placement)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a8433a86224397e2c46e6afd354499041}{\+\_\+tournament\+\_\+selection}} (self, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} population, int tournament\+\_\+size)
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a91f98d7526df44c20b69c4ba0ebaa3eb}{\+\_\+crossover}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} parent1, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} parent2, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} valid\+\_\+pairs, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aec612015421c12fb3ed9bfe256ee035f}{\+\_\+mutate}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} valid\+\_\+pairs, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a71a3e161569702b3b391d1d2b86a88aa}{\+\_\+remove\+\_\+word}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement}{Word\+Placement}} word\+\_\+to\+\_\+remove)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aec2ece1d6636f652b9346d1369fb8f36}{\+\_\+local\+\_\+search}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} valid\+\_\+pairs, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a9bb755f2785bae34fc3aa9c1aa62e362}{\+\_\+candidate\+\_\+to\+\_\+puzzle}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate, str puzzle\+\_\+id)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5fc2071169329f32590c7b54e070a3c1}{\+\_\+assign\+\_\+word\+\_\+numbers}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} candidate)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Enhanced crossword generator using memetic algorithms for high density optimization.
+
+Combines genetic algorithm population evolution with local search optimization
+to achieve target grid density while prioritizing Indian cultural context.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00147}{147}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a57f7f9be0d26e7c6c369a3f314bcb1d1}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a57f7f9be0d26e7c6c369a3f314bcb1d1} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{size }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize memetic generator.
+
+Args:
+    size: Grid size (square grid assumed)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00155}{155}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5fc2071169329f32590c7b54e070a3c1}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5fc2071169329f32590c7b54e070a3c1} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_assign\_word\_numbers@{\_assign\_word\_numbers}}
+\index{\_assign\_word\_numbers@{\_assign\_word\_numbers}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_assign\_word\_numbers()}{\_assign\_word\_numbers()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+assign\+\_\+word\+\_\+numbers (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Assign numbers to words based on reading order.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00801}{801}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a7abf2ddc6c7ef26d1ea93af6a53a506f}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a7abf2ddc6c7ef26d1ea93af6a53a506f} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_can\_place\_word@{\_can\_place\_word}}
+\index{\_can\_place\_word@{\_can\_place\_word}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_can\_place\_word()}{\_can\_place\_word()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+can\+\_\+place\+\_\+word (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{str}]{word,  }\item[{int}]{row,  }\item[{int}]{col,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1Direction}{Direction}}}]{direction }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Check if word fits within grid boundaries.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00521}{521}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a9bb755f2785bae34fc3aa9c1aa62e362}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a9bb755f2785bae34fc3aa9c1aa62e362} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_candidate\_to\_puzzle@{\_candidate\_to\_puzzle}}
+\index{\_candidate\_to\_puzzle@{\_candidate\_to\_puzzle}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_candidate\_to\_puzzle()}{\_candidate\_to\_puzzle()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+candidate\+\_\+to\+\_\+puzzle (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{str     }]{puzzle\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Convert CrosswordCandidate to CrosswordPuzzle for evaluation compatibility.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00746}{746}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a30ac810b45078fe0e1ab837e6844b3ea}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a30ac810b45078fe0e1ab837e6844b3ea} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_create\_random\_candidate@{\_create\_random\_candidate}}
+\index{\_create\_random\_candidate@{\_create\_random\_candidate}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_create\_random\_candidate()}{\_create\_random\_candidate()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+create\+\_\+random\+\_\+candidate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{valid\+\_\+pairs,  }\item[{Dict\mbox{[}str, float\mbox{]}     }]{context\+\_\+scores }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create a random candidate using greedy word placement with cultural bias.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00365}{365}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a91f98d7526df44c20b69c4ba0ebaa3eb}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a91f98d7526df44c20b69c4ba0ebaa3eb} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_crossover@{\_crossover}}
+\index{\_crossover@{\_crossover}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_crossover()}{\_crossover()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+crossover (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{parent1,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{parent2,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{valid\+\_\+pairs,  }\item[{Dict\mbox{[}str, float\mbox{]}}]{context\+\_\+scores }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create offspring by combining successful word placements from parents.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00592}{592}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5cb1f91fa068b8210bb91a136b162d36}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5cb1f91fa068b8210bb91a136b162d36} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_filter\_valid\_pairs@{\_filter\_valid\_pairs}}
+\index{\_filter\_valid\_pairs@{\_filter\_valid\_pairs}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_filter\_valid\_pairs()}{\_filter\_valid\_pairs()}}
+{\footnotesize\ttfamily  List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+filter\+\_\+valid\+\_\+pairs (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}     }]{corpus }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Filter corpus for valid crossword words for this grid size.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00337}{337}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a6b3459ff833f006957b812c8caaddee9}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a6b3459ff833f006957b812c8caaddee9} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_initialize\_population@{\_initialize\_population}}
+\index{\_initialize\_population@{\_initialize\_population}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_initialize\_population()}{\_initialize\_population()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+initialize\+\_\+population (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{valid\+\_\+pairs,  }\item[{Dict\mbox{[}str, float\mbox{]}     }]{context\+\_\+scores }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Initialize population with diverse candidates.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00351}{351}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aaeb77c19a89b008759a905d21512f398}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aaeb77c19a89b008759a905d21512f398} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_is\_valid\_placement@{\_is\_valid\_placement}}
+\index{\_is\_valid\_placement@{\_is\_valid\_placement}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_is\_valid\_placement()}{\_is\_valid\_placement()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+is\+\_\+valid\+\_\+placement (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement}{Word\+Placement}}     }]{placement }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Check if word placement is valid (no conflicts, proper intersections, no duplicate clues).\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00535}{535}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aec2ece1d6636f652b9346d1369fb8f36}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aec2ece1d6636f652b9346d1369fb8f36} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_local\_search@{\_local\_search}}
+\index{\_local\_search@{\_local\_search}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_local\_search()}{\_local\_search()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+local\+\_\+search (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{valid\+\_\+pairs,  }\item[{Dict\mbox{[}str, float\mbox{]}}]{context\+\_\+scores }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Apply local search to improve candidate.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00712}{712}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aec612015421c12fb3ed9bfe256ee035f}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_aec612015421c12fb3ed9bfe256ee035f} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_mutate@{\_mutate}}
+\index{\_mutate@{\_mutate}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_mutate()}{\_mutate()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+mutate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{valid\+\_\+pairs,  }\item[{Dict\mbox{[}str, float\mbox{]}}]{context\+\_\+scores }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Apply mutation by replacing or repositioning words.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00649}{649}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5ce93d1538cec616b2e86faf4bf2fe39}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a5ce93d1538cec616b2e86faf4bf2fe39} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_place\_first\_word@{\_place\_first\_word}}
+\index{\_place\_first\_word@{\_place\_first\_word}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_place\_first\_word()}{\_place\_first\_word()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+place\+\_\+first\+\_\+word (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{str}]{clue,  }\item[{str}]{answer,  }\item[{float}]{context\+\_\+score }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Place first word in center of grid.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00438}{438}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a292b51b072b2be71b8aaeff9aa5cd2df}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a292b51b072b2be71b8aaeff9aa5cd2df} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_place\_intersecting\_word@{\_place\_intersecting\_word}}
+\index{\_place\_intersecting\_word@{\_place\_intersecting\_word}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_place\_intersecting\_word()}{\_place\_intersecting\_word()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+place\+\_\+intersecting\+\_\+word (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{str}]{clue,  }\item[{str}]{answer,  }\item[{float}]{context\+\_\+score }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Try to place word that intersects with existing words.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00473}{473}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a498ff9d514e24017390772b2d363fb64}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a498ff9d514e24017390772b2d363fb64} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_place\_word\_on\_grid@{\_place\_word\_on\_grid}}
+\index{\_place\_word\_on\_grid@{\_place\_word\_on\_grid}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_place\_word\_on\_grid()}{\_place\_word\_on\_grid()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+place\+\_\+word\+\_\+on\+\_\+grid (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement}{Word\+Placement}}     }]{placement }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Place word on candidate's grid and track clue usage.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00572}{572}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a71a3e161569702b3b391d1d2b86a88aa}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a71a3e161569702b3b391d1d2b86a88aa} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_remove\_word@{\_remove\_word}}
+\index{\_remove\_word@{\_remove\_word}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_remove\_word()}{\_remove\_word()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+remove\+\_\+word (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}}]{candidate,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement}{Word\+Placement}}     }]{word\+\_\+to\+\_\+remove }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Remove word from candidate grid and word list.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00692}{692}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a8433a86224397e2c46e6afd354499041}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a8433a86224397e2c46e6afd354499041} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_tournament\_selection@{\_tournament\_selection}}
+\index{\_tournament\_selection@{\_tournament\_selection}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_tournament\_selection()}{\_tournament\_selection()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+tournament\+\_\+selection (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1CrosswordCandidate}{Crossword\+Candidate}}\mbox{]}}]{population,  }\item[{int     }]{tournament\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Select candidate using tournament selection.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00585}{585}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_af4d457b5368b912e91d5e55e4cb56cf9}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_af4d457b5368b912e91d5e55e4cb56cf9} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!\_weighted\_word\_selection@{\_weighted\_word\_selection}}
+\index{\_weighted\_word\_selection@{\_weighted\_word\_selection}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{\_weighted\_word\_selection()}{\_weighted\_word\_selection()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}str, str\mbox{]} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+\_\+weighted\+\_\+word\+\_\+selection (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{pairs,  }\item[{Dict\mbox{[}str, float\mbox{]}     }]{context\+\_\+scores }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Select word with bias towards high context scores.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00416}{416}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a4cbff9b1458e6fc7750ce9218e4e2e26}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a4cbff9b1458e6fc7750ce9218e4e2e26} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!generate\_puzzle\_with\_prioritization@{generate\_puzzle\_with\_prioritization}}
+\index{generate\_puzzle\_with\_prioritization@{generate\_puzzle\_with\_prioritization}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{generate\_puzzle\_with\_prioritization()}{generate\_puzzle\_with\_prioritization()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle}{Crossword\+Puzzle}}\mbox{]} buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+generate\+\_\+puzzle\+\_\+with\+\_\+prioritization (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}}]{prioritized\+\_\+corpus,  }\item[{Dict\mbox{[}str, float\mbox{]}}]{context\+\_\+scores,  }\item[{str}]{puzzle\+\_\+id,  }\item[{float }]{indian\+\_\+threshold = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate crossword using memetic algorithm with cultural prioritization.
+
+Args:
+    prioritized_corpus: Corpus sorted by Indian context (high to low)
+    context_scores: Dictionary mapping answer -> raw context_score
+    puzzle_id: Unique identifier for puzzle
+    indian_threshold: Threshold for Indian classification (for reporting)
+
+Returns:
+    CrosswordPuzzle instance or None if generation failed
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00193}{193}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a0114fec7164122a61e7a302694c44838}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a0114fec7164122a61e7a302694c44838} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!config@{config}}
+\index{config@{config}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00168}{168}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a0a65e2b67f8fc68472bba588def6cf91}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a0a65e2b67f8fc68472bba588def6cf91} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!crossover\_rate@{crossover\_rate}}
+\index{crossover\_rate@{crossover\_rate}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{crossover\_rate}{crossover\_rate}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+crossover\+\_\+rate}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00176}{176}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ab4cb2995d0b39e82157d450f6016995f}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ab4cb2995d0b39e82157d450f6016995f} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!elite\_size@{elite\_size}}
+\index{elite\_size@{elite\_size}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{elite\_size}{elite\_size}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+elite\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00174}{174}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a6a94644508ef4c48753b12bedb2d9a1b}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a6a94644508ef4c48753b12bedb2d9a1b} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!fitness\_weights@{fitness\_weights}}
+\index{fitness\_weights@{fitness\_weights}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{fitness\_weights}{fitness\_weights}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+fitness\+\_\+weights}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00180}{180}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ad7796940f0f93dd858d45bd9608fe82e}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ad7796940f0f93dd858d45bd9608fe82e} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!generation\_config@{generation\_config}}
+\index{generation\_config@{generation\_config}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{generation\_config}{generation\_config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+generation\+\_\+config}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00169}{169}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a13e3814aafef6bb6f9a5108b2e48bbcd}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a13e3814aafef6bb6f9a5108b2e48bbcd} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!local\_search\_probability@{local\_search\_probability}}
+\index{local\_search\_probability@{local\_search\_probability}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{local\_search\_probability}{local\_search\_probability}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+local\+\_\+search\+\_\+probability}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00177}{177}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ab6e2734c6b7bd24f704f28a5c7cb8fe2}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ab6e2734c6b7bd24f704f28a5c7cb8fe2} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!max\_generations@{max\_generations}}
+\index{max\_generations@{max\_generations}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{max\_generations}{max\_generations}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+max\+\_\+generations}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00173}{173}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a955bbbcf7366bd02cb46982b1fe1264b}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a955bbbcf7366bd02cb46982b1fe1264b} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!mutation\_rate@{mutation\_rate}}
+\index{mutation\_rate@{mutation\_rate}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{mutation\_rate}{mutation\_rate}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+mutation\+\_\+rate}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00175}{175}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a1501bf48e30f3f2a9edb35b0f361599a}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_a1501bf48e30f3f2a9edb35b0f361599a} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!population\_size@{population\_size}}
+\index{population\_size@{population\_size}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{population\_size}{population\_size}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+population\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00172}{172}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ae286b4ca69453aa1459802560ada6aa4}\label{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator_ae286b4ca69453aa1459802560ada6aa4} 
+\index{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}!size@{size}}
+\index{size@{size}!buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator@{buddhi\_pragati.generate.memetic\_generator.MemeticCrosswordGenerator}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+memetic\+\_\+generator.\+Memetic\+Crossword\+Generator.\+size}
+
+
+
+Definition at line \mbox{\hyperlink{memetic__generator_8py_source_l00167}{167}} of file \mbox{\hyperlink{memetic__generator_8py_source}{memetic\+\_\+generator.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/generate/\mbox{\hyperlink{memetic__generator_8py}{memetic\+\_\+generator.\+py}}\end{DoxyCompactItemize}

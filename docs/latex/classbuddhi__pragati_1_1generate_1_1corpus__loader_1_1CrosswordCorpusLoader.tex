@@ -1,0 +1,249 @@
+\doxysection{buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader Class Reference}
+\hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader}{}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader}\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a19952738f882997eb9dc5cf369f4f972}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{repo\+\_\+id}}=None, str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\+\_\+token}}=None)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry}{Corpus\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}{load\+\_\+scored\+\_\+corpus}} (self, str language, int max\+\_\+entries=None)
+\item 
+Tuple\mbox{[}List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}, Dict\mbox{[}str, float\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a551c127fe3eb753fc723a27e0d984ad4}{get\+\_\+prioritized\+\_\+corpus}} (self, str language, float indian\+\_\+threshold=None, int max\+\_\+entries=None)
+\item 
+Dict\mbox{[}str, int\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_aa15b6e1f1701ad7bb821e576fd2a2f3b}{get\+\_\+source\+\_\+distribution}} (self, str language)
+\item 
+Dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ad94df38ba2ae4f18bf43fa46f0e4e1bc}{get\+\_\+corpus\+\_\+statistics}} (self, str language)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ae4c70aba7b02e4c1a713653c4b4e22ae}{clear\+\_\+cache}} (self)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a8402543414447633356d5cca8a797363}{get\+\_\+supported\+\_\+languages}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}{repo\+\_\+id}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}{hf\+\_\+token}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}{loaded\+\_\+corpus}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ab54869ad6940c5cc777929745fdd7068}{context\+\_\+scorers}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_acb3f47dfa3bf495d4e5a7b5f2a2039de}{\+\_\+is\+\_\+indic\+\_\+language}} (self, str language)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Loads clue-answer corpus from HuggingFace datasets with cultural context scoring.
+
+Uses raw context scores for both classification and puzzle entry generation.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00028}{28}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a19952738f882997eb9dc5cf369f4f972}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a19952738f882997eb9dc5cf369f4f972} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{repo\+\_\+id = {\ttfamily None},  }\item[{str }]{hf\+\_\+token = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize corpus loader.
+
+Args:
+    repo_id: HuggingFace repository ID (default from config)
+    hf_token: HuggingFace token for dataset access (default from config/env)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00035}{35}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_acb3f47dfa3bf495d4e5a7b5f2a2039de}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_acb3f47dfa3bf495d4e5a7b5f2a2039de} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!\_is\_indic\_language@{\_is\_indic\_language}}
+\index{\_is\_indic\_language@{\_is\_indic\_language}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{\_is\_indic\_language()}{\_is\_indic\_language()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+\_\+is\+\_\+indic\+\_\+language (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Check if the language is an Indic language that should filter out Latin script answers.
+
+Args:
+    language: Language name
+
+Returns:
+    True if this is an Indic language that needs script filtering
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00054}{54}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ae4c70aba7b02e4c1a713653c4b4e22ae}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ae4c70aba7b02e4c1a713653c4b4e22ae} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!clear\_cache@{clear\_cache}}
+\index{clear\_cache@{clear\_cache}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{clear\_cache()}{clear\_cache()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+clear\+\_\+cache (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clear cached datasets and scorers to free memory.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00316}{316}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ad94df38ba2ae4f18bf43fa46f0e4e1bc}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ad94df38ba2ae4f18bf43fa46f0e4e1bc} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!get\_corpus\_statistics@{get\_corpus\_statistics}}
+\index{get\_corpus\_statistics@{get\_corpus\_statistics}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{get\_corpus\_statistics()}{get\_corpus\_statistics()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, any\mbox{]} buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+get\+\_\+corpus\+\_\+statistics (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get detailed statistics about the corpus.
+
+Args:
+    language: Language to analyze
+
+Returns:
+    Dictionary with comprehensive corpus statistics
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00256}{256}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a551c127fe3eb753fc723a27e0d984ad4}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a551c127fe3eb753fc723a27e0d984ad4} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!get\_prioritized\_corpus@{get\_prioritized\_corpus}}
+\index{get\_prioritized\_corpus@{get\_prioritized\_corpus}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{get\_prioritized\_corpus()}{get\_prioritized\_corpus()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}, Dict\mbox{[}str, float\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+get\+\_\+prioritized\+\_\+corpus (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{float }]{indian\+\_\+threshold = {\ttfamily None},  }\item[{int }]{max\+\_\+entries = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get corpus prioritized by Indian cultural context using raw context scores.
+
+Args:
+    language: Language to load
+    indian_threshold: Threshold for prioritizing Indian entries (applied to raw context scores)
+    max_entries: Maximum entries to load (None for all)
+
+Returns:
+    Tuple of (prioritized_corpus, context_scores)
+    - prioritized_corpus: List of (clue, answer) pairs
+    - context_scores: Dictionary mapping answer -> context_score
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00181}{181}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_aa15b6e1f1701ad7bb821e576fd2a2f3b}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_aa15b6e1f1701ad7bb821e576fd2a2f3b} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!get\_source\_distribution@{get\_source\_distribution}}
+\index{get\_source\_distribution@{get\_source\_distribution}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{get\_source\_distribution()}{get\_source\_distribution()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, int\mbox{]} buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+get\+\_\+source\+\_\+distribution (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get distribution of sources in the corpus for tracking source_mix.
+
+Args:
+    language: Language to analyze
+
+Returns:
+    Dictionary mapping source -> count
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00234}{234}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a8402543414447633356d5cca8a797363}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a8402543414447633356d5cca8a797363} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get list of languages available in the repository.
+
+Returns:
+    List of available language configuration names
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00322}{322}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a56d430e015956e1726fbf310a5ac6eed} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!load\_scored\_corpus@{load\_scored\_corpus}}
+\index{load\_scored\_corpus@{load\_scored\_corpus}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{load\_scored\_corpus()}{load\_scored\_corpus()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CorpusEntry}{Corpus\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+load\+\_\+scored\+\_\+corpus (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int }]{max\+\_\+entries = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load corpus with cultural context scores.
+
+Args:
+    language: Language to load (e.g., "English", "Hindi")
+    max_entries: Maximum entries to load (None for all)
+
+Returns:
+    List of CorpusEntry with raw context scores
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00078}{78}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a1a18b8602e6919f7f0e1de6d8021bb77} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!config@{config}}
+\index{config@{config}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00043}{43}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ab54869ad6940c5cc777929745fdd7068}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_ab54869ad6940c5cc777929745fdd7068} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!context\_scorers@{context\_scorers}}
+\index{context\_scorers@{context\_scorers}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{context\_scorers}{context\_scorers}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+context\+\_\+scorers}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00050}{50}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a640e5454cf04974ada0d9ba5b17df581} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00047}{47}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a439417b02fa4806b533b4bd83d401387} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!loaded\_corpus@{loaded\_corpus}}
+\index{loaded\_corpus@{loaded\_corpus}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{loaded\_corpus}{loaded\_corpus}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+loaded\+\_\+corpus}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00049}{49}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07}\label{classbuddhi__pragati_1_1generate_1_1corpus__loader_1_1CrosswordCorpusLoader_a99791ca4846b2a19688b03d35d852a07} 
+\index{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}!repo\_id@{repo\_id}}
+\index{repo\_id@{repo\_id}!buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader@{buddhi\_pragati.generate.corpus\_loader.CrosswordCorpusLoader}}
+\doxysubsubsection{\texorpdfstring{repo\_id}{repo\_id}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+corpus\+\_\+loader.\+Crossword\+Corpus\+Loader.\+repo\+\_\+id}
+
+
+
+Definition at line \mbox{\hyperlink{corpus__loader_8py_source_l00044}{44}} of file \mbox{\hyperlink{corpus__loader_8py_source}{corpus\+\_\+loader.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/generate/\mbox{\hyperlink{corpus__loader_8py}{corpus\+\_\+loader.\+py}}\end{DoxyCompactItemize}

@@ -1,0 +1,80 @@
+\doxysection{buddhi\+\_\+pragati.\+core.\+base\+\_\+evaluator.\+Base\+Evaluator Class Reference}
+\hypertarget{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator}{}\label{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator}\index{buddhi\_pragati.core.base\_evaluator.BaseEvaluator@{buddhi\_pragati.core.base\_evaluator.BaseEvaluator}}
+Inheritance diagram for buddhi\+\_\+pragati.\+core.\+base\+\_\+evaluator.\+Base\+Evaluator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847}{evaluate\+\_\+single}} (self, model, puzzle)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a4bfaa7b863e638c6684625e5ccc83751}{evaluate\+\_\+batch}} (self, model, List puzzles)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Base class for all puzzle evaluators.
+
+Provides the minimal interface needed for puzzle evaluation.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{base__evaluator_8py_source_l00011}{11}} of file \mbox{\hyperlink{base__evaluator_8py_source}{base\+\_\+evaluator.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a4bfaa7b863e638c6684625e5ccc83751}\label{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a4bfaa7b863e638c6684625e5ccc83751} 
+\index{buddhi\_pragati.core.base\_evaluator.BaseEvaluator@{buddhi\_pragati.core.base\_evaluator.BaseEvaluator}!evaluate\_batch@{evaluate\_batch}}
+\index{evaluate\_batch@{evaluate\_batch}!buddhi\_pragati.core.base\_evaluator.BaseEvaluator@{buddhi\_pragati.core.base\_evaluator.BaseEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_batch()}{evaluate\_batch()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+core.\+base\+\_\+evaluator.\+Base\+Evaluator.\+evaluate\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{List}]{puzzles }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate model on multiple puzzles.
+
+Args:
+    model: Model interface
+    puzzles: List of puzzle objects
+    
+Returns:
+    Dict with batch evaluation results and summary metrics
+\end{DoxyVerb}
+ 
+
+Reimplemented in \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ad02ea0eefd2326c2f6042662acf2dea1}{buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator}}.
+
+
+
+Definition at line \mbox{\hyperlink{base__evaluator_8py_source_l00033}{33}} of file \mbox{\hyperlink{base__evaluator_8py_source}{base\+\_\+evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847}\label{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847} 
+\index{buddhi\_pragati.core.base\_evaluator.BaseEvaluator@{buddhi\_pragati.core.base\_evaluator.BaseEvaluator}!evaluate\_single@{evaluate\_single}}
+\index{evaluate\_single@{evaluate\_single}!buddhi\_pragati.core.base\_evaluator.BaseEvaluator@{buddhi\_pragati.core.base\_evaluator.BaseEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_single()}{evaluate\_single()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+core.\+base\+\_\+evaluator.\+Base\+Evaluator.\+evaluate\+\_\+single (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{puzzle }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate model on a single puzzle.
+
+Args:
+    model: Model interface with generate_response method
+    puzzle: Puzzle object to evaluate
+    
+Returns:
+    Dict with evaluation results including success, metrics, etc.
+\end{DoxyVerb}
+ 
+
+Reimplemented in \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator}}.
+
+
+
+Definition at line \mbox{\hyperlink{base__evaluator_8py_source_l00019}{19}} of file \mbox{\hyperlink{base__evaluator_8py_source}{base\+\_\+evaluator.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/core/\mbox{\hyperlink{base__evaluator_8py}{base\+\_\+evaluator.\+py}}\end{DoxyCompactItemize}

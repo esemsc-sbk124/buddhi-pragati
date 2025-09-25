@@ -1,0 +1,430 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier}{}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier}\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9c9cad4b48eab9cef19f420ea8ce51bb}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f}{models\+\_\+file}}=None)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab08115ce1a95ad7482543c603eeb3163}{get\+\_\+reasoning\+\_\+models}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_add0250ccfcd18b3fb7c39f3ed62946b2}{get\+\_\+non\+\_\+reasoning\+\_\+models}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9da4a01dcf4a01f505b96999303a4215}{get\+\_\+indic\+\_\+finetuned\+\_\+models}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a460863cfcd1d74ab42f1ac9b5ba4192a}{get\+\_\+general\+\_\+multilingual\+\_\+models}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a1898b7c966885595814bf528892f79d6}{get\+\_\+models\+\_\+for\+\_\+language}} (self, str language)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac736e21ceb227183730125cc4027f221}{get\+\_\+models\+\_\+by\+\_\+provider}} (self, str provider)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9e9cee210158c2c3ef6d96a20f9b67df}{classify\+\_\+language\+\_\+family}} (self, str language)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a3db05a49d044e1a732e53a47a4f93d80}{get\+\_\+dravidian\+\_\+languages}} (self)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab96f44708e451f6adc6bf1da5390d2e9}{get\+\_\+indo\+\_\+aryan\+\_\+languages}} (self)
+\item 
+Optional\mbox{[}float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a2ee59d6966d00c1b21853c95de45fab4}{calculate\+\_\+evaluation\+\_\+cost}} (self, str model\+\_\+name, int input\+\_\+tokens, int output\+\_\+tokens)
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_afec0104ac6347861a554c01870c8edb5}{get\+\_\+model\+\_\+info}} (self, str model\+\_\+name)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aa713406e43dd73c7cae141c1caefdc87}{list\+\_\+all\+\_\+models}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_af26f2b4589f081ae0a539bd8822a7f66}{get\+\_\+priority\+\_\+models}} (self)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae2e386f6a81a030a47a1f5fb509080af}{get\+\_\+priority\+\_\+models\+\_\+by\+\_\+type}} (self, str model\+\_\+type)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a5825e881dcde9e976f837f4a9bed7376}{get\+\_\+priority\+\_\+models\+\_\+by\+\_\+provider}} (self, str provider)
+\item 
+Dict\mbox{[}str, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a857dafa7091f4820fd22dc3d2dc4080a}{get\+\_\+experiment\+\_\+model\+\_\+pairs}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab8d8557196e2698b3828cffe814dc5d7}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f}{models\+\_\+file}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac9d822c4f8adc36c28df0a42112a6734}{cost\+\_\+tracking\+\_\+enabled}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c}{dravidian\+\_\+languages}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0}{indo\+\_\+aryan\+\_\+languages}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a08e50a10b140ee414fd248fea64f73b6}{other\+\_\+languages}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ad25df507c9f9b363ab40567a94b866d2}{\+\_\+load\+\_\+models}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a216feeae11109a8328d4fd6c3bd87bb8}{\+\_\+parse\+\_\+model\+\_\+line}} (self, str line, str provider)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}{\+\_\+normalize\+\_\+language\+\_\+name}} (self, str language)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a15f7e07f38260bdfc291bdc6504b4cca}{\+\_\+parse\+\_\+language\+\_\+list}} (self, str languages\+\_\+text)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Classifies and filters models for evaluation experiments.
+
+Provides utilities for:
+- Loading model information from models.txt
+- Filtering by reasoning capability
+- Filtering by Indic fine-tuning status
+- Calculating evaluation costs
+- Language support queries
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00032}{32}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9c9cad4b48eab9cef19f420ea8ce51bb}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9c9cad4b48eab9cef19f420ea8ce51bb} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{models\+\_\+file = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00044}{44}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ad25df507c9f9b363ab40567a94b866d2}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ad25df507c9f9b363ab40567a94b866d2} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!\_load\_models@{\_load\_models}}
+\index{\_load\_models@{\_load\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{\_load\_models()}{\_load\_models()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+\_\+load\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Load model information from models_description.txt file.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00077}{77}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a362a653ec7da0cc88e13049458ebe93c} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!\_normalize\_language\_name@{\_normalize\_language\_name}}
+\index{\_normalize\_language\_name@{\_normalize\_language\_name}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{\_normalize\_language\_name()}{\_normalize\_language\_name()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+\_\+normalize\+\_\+language\+\_\+name (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Normalize language name for case-insensitive comparison.
+
+Args:
+    language: Language name in any case format
+
+Returns:
+    Lowercase language name for comparison
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00169}{169}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a15f7e07f38260bdfc291bdc6504b4cca}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a15f7e07f38260bdfc291bdc6504b4cca} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!\_parse\_language\_list@{\_parse\_language\_list}}
+\index{\_parse\_language\_list@{\_parse\_language\_list}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{\_parse\_language\_list()}{\_parse\_language\_list()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+\_\+parse\+\_\+language\+\_\+list (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{languages\+\_\+text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Parse comma and space separated language list.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00279}{279}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a216feeae11109a8328d4fd6c3bd87bb8}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a216feeae11109a8328d4fd6c3bd87bb8} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!\_parse\_model\_line@{\_parse\_model\_line}}
+\index{\_parse\_model\_line@{\_parse\_model\_line}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{\_parse\_model\_line()}{\_parse\_model\_line()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+\_\+parse\+\_\+model\+\_\+line (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{line,  }\item[{str}]{provider }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Parse a single model line from the CSV format.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00122}{122}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a2ee59d6966d00c1b21853c95de45fab4}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a2ee59d6966d00c1b21853c95de45fab4} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!calculate\_evaluation\_cost@{calculate\_evaluation\_cost}}
+\index{calculate\_evaluation\_cost@{calculate\_evaluation\_cost}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{calculate\_evaluation\_cost()}{calculate\_evaluation\_cost()}}
+{\footnotesize\ttfamily  Optional\mbox{[}float\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+calculate\+\_\+evaluation\+\_\+cost (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{int}]{input\+\_\+tokens,  }\item[{int     }]{output\+\_\+tokens }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate cost for evaluating with a specific model.
+
+Returns None if cost tracking is disabled or cost information is not available.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00248}{248}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9e9cee210158c2c3ef6d96a20f9b67df}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9e9cee210158c2c3ef6d96a20f9b67df} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!classify\_language\_family@{classify\_language\_family}}
+\index{classify\_language\_family@{classify\_language\_family}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{classify\_language\_family()}{classify\_language\_family()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+classify\+\_\+language\+\_\+family (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Classify language into Dravidian, Indo-Aryan, or Other family.
+
+Uses case-insensitive matching to handle different language name formats.
+
+Args:
+    language: Language name (case-insensitive)
+
+Returns:
+    Language family classification string
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00206}{206}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a3db05a49d044e1a732e53a47a4f93d80}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a3db05a49d044e1a732e53a47a4f93d80} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_dravidian\_languages@{get\_dravidian\_languages}}
+\index{get\_dravidian\_languages@{get\_dravidian\_languages}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_dravidian\_languages()}{get\_dravidian\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+dravidian\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all Dravidian languages for experiments.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00240}{240}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a857dafa7091f4820fd22dc3d2dc4080a}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a857dafa7091f4820fd22dc3d2dc4080a} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_experiment\_model\_pairs@{get\_experiment\_model\_pairs}}
+\index{get\_experiment\_model\_pairs@{get\_experiment\_model\_pairs}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_experiment\_model\_pairs()}{get\_experiment\_model\_pairs()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, List\mbox{[}Tuple\mbox{[}str, str\mbox{]}\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+experiment\+\_\+model\+\_\+pairs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get model pairs for comparison experiments.
+
+Returns:
+    Dict mapping experiment type to list of (model1, model2) comparison pairs
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00305}{305}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a460863cfcd1d74ab42f1ac9b5ba4192a}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a460863cfcd1d74ab42f1ac9b5ba4192a} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_general\_multilingual\_models@{get\_general\_multilingual\_models}}
+\index{get\_general\_multilingual\_models@{get\_general\_multilingual\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_general\_multilingual\_models()}{get\_general\_multilingual\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+general\+\_\+multilingual\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all general multilingual models.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00165}{165}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9da4a01dcf4a01f505b96999303a4215}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a9da4a01dcf4a01f505b96999303a4215} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_indic\_finetuned\_models@{get\_indic\_finetuned\_models}}
+\index{get\_indic\_finetuned\_models@{get\_indic\_finetuned\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_indic\_finetuned\_models()}{get\_indic\_finetuned\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+indic\+\_\+finetuned\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all Indic fine-tuned models.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00161}{161}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab96f44708e451f6adc6bf1da5390d2e9}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab96f44708e451f6adc6bf1da5390d2e9} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_indo\_aryan\_languages@{get\_indo\_aryan\_languages}}
+\index{get\_indo\_aryan\_languages@{get\_indo\_aryan\_languages}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_indo\_aryan\_languages()}{get\_indo\_aryan\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+indo\+\_\+aryan\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all Indo-Aryan languages for experiments.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00244}{244}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_afec0104ac6347861a554c01870c8edb5}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_afec0104ac6347861a554c01870c8edb5} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_model\_info@{get\_model\_info}}
+\index{get\_model\_info@{get\_model\_info}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_model\_info()}{get\_model\_info()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+model\+\_\+info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get detailed information about a specific model.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00271}{271}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac736e21ceb227183730125cc4027f221}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac736e21ceb227183730125cc4027f221} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_models\_by\_provider@{get\_models\_by\_provider}}
+\index{get\_models\_by\_provider@{get\_models\_by\_provider}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_models\_by\_provider()}{get\_models\_by\_provider()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+models\+\_\+by\+\_\+provider (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{provider }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all models from a specific provider.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00202}{202}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a1898b7c966885595814bf528892f79d6}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a1898b7c966885595814bf528892f79d6} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_models\_for\_language@{get\_models\_for\_language}}
+\index{get\_models\_for\_language@{get\_models\_for\_language}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_models\_for\_language()}{get\_models\_for\_language()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+models\+\_\+for\+\_\+language (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get models that support a specific language.
+
+Uses case-insensitive matching to handle different language name formats
+from various data sources (HuggingFace configs vs model definitions).
+
+Args:
+    language: Language name (case-insensitive)
+
+Returns:
+    List of ModelInfo objects that support the language
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00181}{181}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_add0250ccfcd18b3fb7c39f3ed62946b2}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_add0250ccfcd18b3fb7c39f3ed62946b2} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_non\_reasoning\_models@{get\_non\_reasoning\_models}}
+\index{get\_non\_reasoning\_models@{get\_non\_reasoning\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_non\_reasoning\_models()}{get\_non\_reasoning\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+non\+\_\+reasoning\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all non-reasoning models.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00157}{157}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_af26f2b4589f081ae0a539bd8822a7f66}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_af26f2b4589f081ae0a539bd8822a7f66} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_priority\_models@{get\_priority\_models}}
+\index{get\_priority\_models@{get\_priority\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_priority\_models()}{get\_priority\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+priority\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all priority models.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00285}{285}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a5825e881dcde9e976f837f4a9bed7376}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a5825e881dcde9e976f837f4a9bed7376} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_priority\_models\_by\_provider@{get\_priority\_models\_by\_provider}}
+\index{get\_priority\_models\_by\_provider@{get\_priority\_models\_by\_provider}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_priority\_models\_by\_provider()}{get\_priority\_models\_by\_provider()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+priority\+\_\+models\+\_\+by\+\_\+provider (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{provider }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get priority models from a specific provider.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00297}{297}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae2e386f6a81a030a47a1f5fb509080af}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae2e386f6a81a030a47a1f5fb509080af} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_priority\_models\_by\_type@{get\_priority\_models\_by\_type}}
+\index{get\_priority\_models\_by\_type@{get\_priority\_models\_by\_type}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_priority\_models\_by\_type()}{get\_priority\_models\_by\_type()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+priority\+\_\+models\+\_\+by\+\_\+type (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+type }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get priority models of a specific type.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00289}{289}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab08115ce1a95ad7482543c603eeb3163}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab08115ce1a95ad7482543c603eeb3163} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!get\_reasoning\_models@{get\_reasoning\_models}}
+\index{get\_reasoning\_models@{get\_reasoning\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{get\_reasoning\_models()}{get\_reasoning\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelInfo}{Model\+Info}}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+get\+\_\+reasoning\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get all reasoning-capable models.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00153}{153}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aa713406e43dd73c7cae141c1caefdc87}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aa713406e43dd73c7cae141c1caefdc87} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!list\_all\_models@{list\_all\_models}}
+\index{list\_all\_models@{list\_all\_models}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{list\_all\_models()}{list\_all\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+list\+\_\+all\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}List all available model names.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00275}{275}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab8d8557196e2698b3828cffe814dc5d7}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ab8d8557196e2698b3828cffe814dc5d7} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!config@{config}}
+\index{config@{config}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00046}{46}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac9d822c4f8adc36c28df0a42112a6734}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ac9d822c4f8adc36c28df0a42112a6734} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!cost\_tracking\_enabled@{cost\_tracking\_enabled}}
+\index{cost\_tracking\_enabled@{cost\_tracking\_enabled}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{cost\_tracking\_enabled}{cost\_tracking\_enabled}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+cost\+\_\+tracking\+\_\+enabled}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00055}{55}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_aeea91db11e5b89073822801426d32f3c} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!dravidian\_languages@{dravidian\_languages}}
+\index{dravidian\_languages@{dravidian\_languages}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{dravidian\_languages}{dravidian\_languages}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+dravidian\+\_\+languages}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00060}{60}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_ae26b73a2f3b41d6a0e93e8716992f3e0} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!indo\_aryan\_languages@{indo\_aryan\_languages}}
+\index{indo\_aryan\_languages@{indo\_aryan\_languages}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{indo\_aryan\_languages}{indo\_aryan\_languages}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+indo\+\_\+aryan\+\_\+languages}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00061}{61}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a52f042f4e793f897e9b544a62f0f2534} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00045}{45}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a45c780e1c3c01db7a5b3aa1b822ab92f} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!models\_file@{models\_file}}
+\index{models\_file@{models\_file}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{models\_file}{models\_file}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+models\+\_\+file}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00052}{52}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a08e50a10b140ee414fd248fea64f73b6}\label{classbuddhi__pragati_1_1evaluate_1_1model__classifier_1_1ModelClassifier_a08e50a10b140ee414fd248fea64f73b6} 
+\index{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}!other\_languages@{other\_languages}}
+\index{other\_languages@{other\_languages}!buddhi\_pragati.evaluate.model\_classifier.ModelClassifier@{buddhi\_pragati.evaluate.model\_classifier.ModelClassifier}}
+\doxysubsubsection{\texorpdfstring{other\_languages}{other\_languages}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+model\+\_\+classifier.\+Model\+Classifier.\+other\+\_\+languages}
+
+
+
+Definition at line \mbox{\hyperlink{model__classifier_8py_source_l00075}{75}} of file \mbox{\hyperlink{model__classifier_8py_source}{model\+\_\+classifier.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{model__classifier_8py}{model\+\_\+classifier.\+py}}\end{DoxyCompactItemize}

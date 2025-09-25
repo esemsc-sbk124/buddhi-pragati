@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# PBS directives for Imperial College HPC - Safe Experiments (No OpenRouter)
+#PBS -N safe_experiments
+#PBS -l walltime=24:00:00
+#PBS -l select=1:ncpus=8:mem=32gb
+#PBS -j oe
+#PBS -m abe
+#PBS -M selim.khouaja24@imperial.ac.uk
+
+# Change to the directory from which the job was submitted
+cd $PBS_O_WORKDIR
+
+# Load required modules for Imperial HPC
+module load tools/prod
+module load Python/3.11.3-GCCcore-12.3.0
+module load Python-bundle-PyPI/2023.06-GCCcore-12.3.0
+
+# Set up project paths
+PROJECT_ROOT=$PBS_O_WORKDIR
+EXPERIMENTS_DIR="${PROJECT_ROOT}/buddhi_pragati/experiments"
+LOGS_DIR="${PROJECT_ROOT}/buddhi_pragati/scripts/logs"
+
+echo "=== Safe Experiments Job Info ==="
+echo "Job ID: $PBS_JOBID" 
+echo "Job Name: $PBS_JOBNAME"
+echo "Node: $(hostname)"
+echo "Start Time: $(date)"
+echo "Working Directory: $PWD"
+echo "Project Root: $PROJECT_ROOT"
+echo "Experiments Output: $EXPERIMENTS_DIR"
+echo "================================="
+
+# Create necessary directories
+mkdir -p "$EXPERIMENTS_DIR"
+mkdir -p "$LOGS_DIR"
+
+# Install package with all dependencies (should already be installed)
+echo "Verifying Buddhi-Pragati installation..."
+python -c "
+try:
+    from buddhi_pragati.models.model_interface import UnifiedModelInterface
+    print('✅ buddhi_pragati: Model interface available')
+except ImportError as e:
+    print(f'❌ buddhi_pragati: {e}')
+    exit(1)
+"
+
+echo "Starting Safe Experiments (No OpenRouter models)..."
+echo "Models to test: OpenAI, Anthropic, SarvamAI, HuggingFace"
+echo "All API keys will be read from crossword_config.txt"
+echo "Results will be saved to: $EXPERIMENTS_DIR"
+
+# Run focused experiments only to avoid rate limits
+echo "Running Master Experiment with safe models..."
+python ${PROJECT_ROOT}/run_crossword_benchmark.py evaluate \
+    --experiment-mode \
+    --experiment-types 0_master \
+    --output-dir $EXPERIMENTS_DIR \
+    --max-puzzles 20
+
+if [ $? -eq 0 ]; then
+    echo "✅ Safe experiments completed successfully!"
+    
+    # List generated results
+    echo ""
+    echo "=== Generated Results ==="
+    if [ -d "$EXPERIMENTS_DIR" ]; then
+        ls -la "$EXPERIMENTS_DIR"
+        echo "Total files created: $(find "$EXPERIMENTS_DIR" -type f | wc -l)"
+    fi
+    
+else
+    echo "❌ Safe experiments failed with exit code $?"
+    exit 1
+fi
+
+echo ""
+echo "=== Job Summary ==="
+echo "Completed at: $(date)"
+echo "Results location: $EXPERIMENTS_DIR"
+echo "Log files location: $LOGS_DIR"
+echo "==================="

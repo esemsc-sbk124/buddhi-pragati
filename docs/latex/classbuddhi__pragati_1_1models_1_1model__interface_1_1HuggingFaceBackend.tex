@@ -1,0 +1,362 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend Class Reference}
+\hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend}{}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend}\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+Inheritance diagram for buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a0d7170bfe09165c79eae573d176711ee}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab464e32dd4451ac56e60d780fb5ee65d}{model\+\_\+name}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab92a7fca35c8c479fa8af0b718ac61b0}{device}}="{}auto"{}, Optional\mbox{[}str\mbox{]} api\+\_\+key=None, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_afaace83317dde039f158684b598c5eeb}{generate\+\_\+response}} (self, str prompt, int max\+\_\+tokens=1000, int max\+\_\+completion\+\_\+tokens=1000, Optional\mbox{[}bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}=None, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a67dbc38400e489b9caecb856c54a49b5}{cleanup\+\_\+model}} (self)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a91bd0422868b5aea93bce1ca5c7951f5}{get\+\_\+reasoning\+\_\+token\+\_\+limit}} (self, Optional\mbox{[}str\mbox{]} effort=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a54d105c7f19daaf3fa31ccd5566712ca}{get\+\_\+last\+\_\+token\+\_\+usage}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a8d69901a8c8e8f561a69f91caf841605}{hf\+\_\+token}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab92a7fca35c8c479fa8af0b718ac61b0}{device}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a077e1a6ec937da286e6f53897ced1bad}{pipeline}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ae643010a6142d96f973b6b7e1fc9428a}{model\+\_\+type}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a705661d149e17272a338d5bedb0db1e4}{max\+\_\+input\+\_\+length}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aa6667192491d4cd6c47a86288e66b32e}{architecture}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab464e32dd4451ac56e60d780fb5ee65d}{model\+\_\+name}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a1cdf4177d3a43db6b1f432c6b53bfc25}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a872d583047f5888008ef9e67b3b811c9}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_ac64f735d00604bf6915e7b64c656c853}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a46220218796cc16206b87bbc14f2cc67}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a5b0e4a9be06b6c99e468fcd3366805f6}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a08cbb51d1d38c0495087f52344613b43}{\+\_\+determine\+\_\+device}} (self, str requested\+\_\+device)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab5e736765e0d06f2c2c9fe948d3ddf1d}{\+\_\+detect\+\_\+model\+\_\+architecture}} (self)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aebb9ad33f2370656e3304216ace76081}{\+\_\+detect\+\_\+model\+\_\+type}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a57b082f664e987b3156dc348b931bb77}{\+\_\+load\+\_\+model}} (self)
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a713a21cc137316651154bc31d54f87de}{\+\_\+prepare\+\_\+model\+\_\+kwargs}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a43da523297ee80331d4eed5cf2263633}{\+\_\+load\+\_\+tokenizer}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a85889aee909b1e68c709cfd122bf8879}{\+\_\+create\+\_\+pipeline}} (self, tokenizer, model\+\_\+kwargs)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aeefdb6ebb2eeea6c94215a44872d057b}{\+\_\+create\+\_\+fallback\+\_\+pipeline}} (self, tokenizer)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a384ae372ee5f280c9537558b9023a801}{\+\_\+apply\+\_\+chat\+\_\+template}} (self, str prompt)
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ad867321da2f35c94f4021da8fced692a}{\+\_\+get\+\_\+model\+\_\+specific\+\_\+params}} (self, bool use\+\_\+reasoning, str effort, int max\+\_\+tokens)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a30158d8ec0cc8b40443fdb96c10f1802}{\+\_\+post\+\_\+process\+\_\+response}} (self, str generated\+\_\+text, str original\+\_\+prompt)
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab100bef15c9d2be26b2c285ec2c2c20d}{\+\_\+validate\+\_\+generation\+\_\+parameters}} (self, dict gen\+\_\+kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a5611de77135927588dc45c4d1ec793e7}{\+\_\+handle\+\_\+sequence\+\_\+length}} (self, str formatted\+\_\+prompt)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}HuggingFace model backend with automatic architecture detection and pipeline support.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00376}{376}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a0d7170bfe09165c79eae573d176711ee}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a0d7170bfe09165c79eae573d176711ee} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{str }]{device = {\ttfamily "{}auto"{}},  }\item[{Optional\mbox{[}str\mbox{]} }]{api\+\_\+key = {\ttfamily None},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a020ebe0e3f56628a73401fd23acaa015}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00379}{379}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a384ae372ee5f280c9537558b9023a801}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a384ae372ee5f280c9537558b9023a801} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_apply\_chat\_template@{\_apply\_chat\_template}}
+\index{\_apply\_chat\_template@{\_apply\_chat\_template}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_apply\_chat\_template()}{\_apply\_chat\_template()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+apply\+\_\+chat\+\_\+template (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Apply chat template based on model-specific requirements.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00686}{686}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aeefdb6ebb2eeea6c94215a44872d057b}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aeefdb6ebb2eeea6c94215a44872d057b} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_create\_fallback\_pipeline@{\_create\_fallback\_pipeline}}
+\index{\_create\_fallback\_pipeline@{\_create\_fallback\_pipeline}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_create\_fallback\_pipeline()}{\_create\_fallback\_pipeline()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+create\+\_\+fallback\+\_\+pipeline (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{tokenizer }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create fallback pipeline with minimal configuration.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00666}{666}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a85889aee909b1e68c709cfd122bf8879}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a85889aee909b1e68c709cfd122bf8879} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_create\_pipeline@{\_create\_pipeline}}
+\index{\_create\_pipeline@{\_create\_pipeline}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_create\_pipeline()}{\_create\_pipeline()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+create\+\_\+pipeline (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{tokenizer,  }\item[{}]{model\+\_\+kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create pipeline with architecture-specific configuration.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00620}{620}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab5e736765e0d06f2c2c9fe948d3ddf1d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab5e736765e0d06f2c2c9fe948d3ddf1d} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_detect\_model\_architecture@{\_detect\_model\_architecture}}
+\index{\_detect\_model\_architecture@{\_detect\_model\_architecture}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_detect\_model\_architecture()}{\_detect\_model\_architecture()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+detect\+\_\+model\+\_\+architecture (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Detect the specific model architecture for specialized loading.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00430}{430}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aebb9ad33f2370656e3304216ace76081}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aebb9ad33f2370656e3304216ace76081} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_detect\_model\_type@{\_detect\_model\_type}}
+\index{\_detect\_model\_type@{\_detect\_model\_type}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_detect\_model\_type()}{\_detect\_model\_type()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+detect\+\_\+model\+\_\+type (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Detect the model architecture type for pipeline creation.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00442}{442}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a08cbb51d1d38c0495087f52344613b43}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a08cbb51d1d38c0495087f52344613b43} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_determine\_device@{\_determine\_device}}
+\index{\_determine\_device@{\_determine\_device}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_determine\_device()}{\_determine\_device()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+determine\+\_\+device (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{requested\+\_\+device }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Determine the best available device for model execution.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00413}{413}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ad867321da2f35c94f4021da8fced692a}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ad867321da2f35c94f4021da8fced692a} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_get\_model\_specific\_params@{\_get\_model\_specific\_params}}
+\index{\_get\_model\_specific\_params@{\_get\_model\_specific\_params}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_get\_model\_specific\_params()}{\_get\_model\_specific\_params()}}
+{\footnotesize\ttfamily  dict buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+get\+\_\+model\+\_\+specific\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort,  }\item[{int}]{max\+\_\+tokens }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get model-specific generation parameters based on research findings.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00719}{719}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a5611de77135927588dc45c4d1ec793e7}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a5611de77135927588dc45c4d1ec793e7} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_handle\_sequence\_length@{\_handle\_sequence\_length}}
+\index{\_handle\_sequence\_length@{\_handle\_sequence\_length}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_handle\_sequence\_length()}{\_handle\_sequence\_length()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+handle\+\_\+sequence\+\_\+length (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{formatted\+\_\+prompt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Handle sequence length limits with intelligent truncation.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00875}{875}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a57b082f664e987b3156dc348b931bb77}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a57b082f664e987b3156dc348b931bb77} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_load\_model@{\_load\_model}}
+\index{\_load\_model@{\_load\_model}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_load\_model()}{\_load\_model()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+load\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Load HuggingFace model using pipeline with enhanced architecture handling.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00468}{468}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a43da523297ee80331d4eed5cf2263633}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a43da523297ee80331d4eed5cf2263633} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_load\_tokenizer@{\_load\_tokenizer}}
+\index{\_load\_tokenizer@{\_load\_tokenizer}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_load\_tokenizer()}{\_load\_tokenizer()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+load\+\_\+tokenizer (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Load tokenizer with architecture-specific handling and sequence length management.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00568}{568}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a30158d8ec0cc8b40443fdb96c10f1802}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a30158d8ec0cc8b40443fdb96c10f1802} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_post\_process\_response@{\_post\_process\_response}}
+\index{\_post\_process\_response@{\_post\_process\_response}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_post\_process\_response()}{\_post\_process\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+post\+\_\+process\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{generated\+\_\+text,  }\item[{str}]{original\+\_\+prompt }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Post-process generated response based on model-specific patterns.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00789}{789}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a713a21cc137316651154bc31d54f87de}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a713a21cc137316651154bc31d54f87de} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_prepare\_model\_kwargs@{\_prepare\_model\_kwargs}}
+\index{\_prepare\_model\_kwargs@{\_prepare\_model\_kwargs}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_prepare\_model\_kwargs()}{\_prepare\_model\_kwargs()}}
+{\footnotesize\ttfamily  dict buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+prepare\+\_\+model\+\_\+kwargs (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Prepare model loading arguments based on architecture and device.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00513}{513}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab100bef15c9d2be26b2c285ec2c2c20d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab100bef15c9d2be26b2c285ec2c2c20d} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!\_validate\_generation\_parameters@{\_validate\_generation\_parameters}}
+\index{\_validate\_generation\_parameters@{\_validate\_generation\_parameters}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{\_validate\_generation\_parameters()}{\_validate\_generation\_parameters()}}
+{\footnotesize\ttfamily  dict buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+\_\+validate\+\_\+generation\+\_\+parameters (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{dict}]{gen\+\_\+kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Validate and fix generation parameters for compatibility.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00821}{821}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a67dbc38400e489b9caecb856c54a49b5}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a67dbc38400e489b9caecb856c54a49b5} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!cleanup\_model@{cleanup\_model}}
+\index{cleanup\_model@{cleanup\_model}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{cleanup\_model()}{cleanup\_model()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+cleanup\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clean up model and free memory resources.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01060}{1060}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_afaace83317dde039f158684b598c5eeb}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_afaace83317dde039f158684b598c5eeb} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!generate\_response@{generate\_response}}
+\index{generate\_response@{generate\_response}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{generate\_response()}{generate\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+generate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int }]{max\+\_\+tokens = {\ttfamily 1000},  }\item[{int }]{max\+\_\+completion\+\_\+tokens = {\ttfamily 1000},  }\item[{Optional\mbox{[}bool\mbox{]} }]{reasoning\+\_\+mode = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{reasoning\+\_\+effort = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate response using HuggingFace pipeline with enhanced model-specific handling.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_aab76e566366a7038db3a22d9a87e7e96}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00923}{923}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aa6667192491d4cd6c47a86288e66b32e}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_aa6667192491d4cd6c47a86288e66b32e} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!architecture@{architecture}}
+\index{architecture@{architecture}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{architecture}{architecture}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+architecture}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00478}{478}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab92a7fca35c8c479fa8af0b718ac61b0}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab92a7fca35c8c479fa8af0b718ac61b0} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!device@{device}}
+\index{device@{device}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{device}{device}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+device}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00407}{407}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a8d69901a8c8e8f561a69f91caf841605}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a8d69901a8c8e8f561a69f91caf841605} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00389}{389}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a705661d149e17272a338d5bedb0db1e4}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a705661d149e17272a338d5bedb0db1e4} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!max\_input\_length@{max\_input\_length}}
+\index{max\_input\_length@{max\_input\_length}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{max\_input\_length}{max\_input\_length}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+max\+\_\+input\+\_\+length}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00410}{410}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab464e32dd4451ac56e60d780fb5ee65d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ab464e32dd4451ac56e60d780fb5ee65d} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!model\_name@{model\_name}}
+\index{model\_name@{model\_name}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{model\_name}{model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00576}{576}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ae643010a6142d96f973b6b7e1fc9428a}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_ae643010a6142d96f973b6b7e1fc9428a} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!model\_type@{model\_type}}
+\index{model\_type@{model\_type}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{model\_type}{model\_type}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+model\+\_\+type}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00409}{409}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a077e1a6ec937da286e6f53897ced1bad}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend_a077e1a6ec937da286e6f53897ced1bad} 
+\index{buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}!pipeline@{pipeline}}
+\index{pipeline@{pipeline}!buddhi\_pragati.models.model\_interface.HuggingFaceBackend@{buddhi\_pragati.models.model\_interface.HuggingFaceBackend}}
+\doxysubsubsection{\texorpdfstring{pipeline}{pipeline}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Hugging\+Face\+Backend.\+pipeline}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00408}{408}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/models/\mbox{\hyperlink{model__interface_8py}{model\+\_\+interface.\+py}}\end{DoxyCompactItemize}

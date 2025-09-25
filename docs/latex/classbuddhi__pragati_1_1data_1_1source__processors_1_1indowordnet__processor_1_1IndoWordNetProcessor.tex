@@ -1,0 +1,338 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor Class Reference}
+\hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor}{}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor}\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+Inheritance diagram for buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}, context\+\_\+scorer=None)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a8f1be760dcf375bde6ad894496cc165b}{get\+\_\+supported\+\_\+languages}} (self)
+\item 
+Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a3f73ec146efe311db2b8c5ebd4c066b3}{load\+\_\+raw\+\_\+data}} (self, int batch\+\_\+size, int offset=0)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a07012db220f6851a92c09429c45b542c}{process\+\_\+batch}} (self, List\mbox{[}Dict\mbox{]} batch\+\_\+data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\+\_\+single\+\_\+word}} (self, str text)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\+\_\+quality\+\_\+score}} (self, str clue, str answer)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}{iwn}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ac49e3b43555431dbe2cb88c42633393c}{synsets}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}{current\+\_\+index}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}{total\+\_\+synsets}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_aa5029592af0e379a5708ea1c5f72ea98}{valid\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_af2bfcffa4e9300c596cd4f6d9c498fea}{SUPPORTED\+\_\+\+LANGUAGES}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ae183f1319e00c386d3e39fe443a40d89}{\+\_\+initialize\+\_\+wordnet}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7f17d8881e1dea4101fb0464693ec79d}{\+\_\+reset\+\_\+iterator\+\_\+to\+\_\+offset}} (self, int offset)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a09f668b15046e951d6aa2cfdffddc23f}{\+\_\+process\+\_\+single\+\_\+item}} (self, Dict item)
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a398c1aad84a4bb63f242740cad4aeecb}{\+\_\+create\+\_\+entry\+\_\+from\+\_\+word\+\_\+definition}} (self, str word, str gloss, str synset\+\_\+id, int lemma\+\_\+idx)
+\item 
+Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a1aed35109cc7c2b3914ab18b2d518398}{\+\_\+clean\+\_\+definition}} (self, str gloss, str word)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab0add796c2b9cabdebcb762907641f70}{\+\_\+load\+\_\+context\+\_\+scorer}} (self)
+\item 
+Dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a6db0db9696d5bf3ce5ccabd721204dfb}{\+\_\+parse\+\_\+scoring\+\_\+config}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}{\+\_\+synset\+\_\+iterator}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9}{\+\_\+synset\+\_\+type}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_adf852d8b32f6feb8f9254b36ace2ea95}{\+\_\+context\+\_\+scorer}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a631dc0711391faa70d3a361e06f8949a}{\+\_\+enable\+\_\+enhanced\+\_\+scoring}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Processor for IndoWordNet dictionary data.
+
+Uses pyiwn library to access word definitions across Indian languages
+and creates crossword clue-answer pairs.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00017}{17}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a847cfc40c6c36770fd44afc63b02fc04} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{dict}]{config,  }\item[{str}]{language,  }\item[{}]{context\+\_\+scorer = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac0bab857d8cb68dacbd504f5256964a4}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00048}{48}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a1aed35109cc7c2b3914ab18b2d518398}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a1aed35109cc7c2b3914ab18b2d518398} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_clean\_definition@{\_clean\_definition}}
+\index{\_clean\_definition@{\_clean\_definition}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_clean\_definition()}{\_clean\_definition()}}
+{\footnotesize\ttfamily  Optional\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+clean\+\_\+definition (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{gloss,  }\item[{str}]{word }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Clean definition to make it suitable as crossword clue.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00348}{348}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a398c1aad84a4bb63f242740cad4aeecb}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a398c1aad84a4bb63f242740cad4aeecb} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_create\_entry\_from\_word\_definition@{\_create\_entry\_from\_word\_definition}}
+\index{\_create\_entry\_from\_word\_definition@{\_create\_entry\_from\_word\_definition}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_create\_entry\_from\_word\_definition()}{\_create\_entry\_from\_word\_definition()}}
+{\footnotesize\ttfamily  Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+create\+\_\+entry\+\_\+from\+\_\+word\+\_\+definition (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{word,  }\item[{str}]{gloss,  }\item[{str}]{synset\+\_\+id,  }\item[{int     }]{lemma\+\_\+idx }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create a dataset entry from word and definition.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00302}{302}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ae183f1319e00c386d3e39fe443a40d89}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ae183f1319e00c386d3e39fe443a40d89} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_initialize\_wordnet@{\_initialize\_wordnet}}
+\index{\_initialize\_wordnet@{\_initialize\_wordnet}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_initialize\_wordnet()}{\_initialize\_wordnet()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+initialize\+\_\+wordnet (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Initialize pyiwn WordNet interface with memory-efficient lazy loading.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00063}{63}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a09f668b15046e951d6aa2cfdffddc23f}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a09f668b15046e951d6aa2cfdffddc23f} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_process\_single\_item@{\_process\_single\_item}}
+\index{\_process\_single\_item@{\_process\_single\_item}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_process\_single\_item()}{\_process\_single\_item()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+process\+\_\+single\+\_\+item (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict}]{item }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Process a single synset into multiple dataset entries.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00262}{262}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7f17d8881e1dea4101fb0464693ec79d}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7f17d8881e1dea4101fb0464693ec79d} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_reset\_iterator\_to\_offset@{\_reset\_iterator\_to\_offset}}
+\index{\_reset\_iterator\_to\_offset@{\_reset\_iterator\_to\_offset}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_reset\_iterator\_to\_offset()}{\_reset\_iterator\_to\_offset()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+reset\+\_\+iterator\+\_\+to\+\_\+offset (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{offset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Reset synset iterator to specific offset for seeking.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00195}{195}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a8f1be760dcf375bde6ad894496cc165b}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a8f1be760dcf375bde6ad894496cc165b} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return set of languages supported by IndoWordNet.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ad7ae21c80ff0ad7a1e4709746710de5b}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00059}{59}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a3f73ec146efe311db2b8c5ebd4c066b3}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a3f73ec146efe311db2b8c5ebd4c066b3} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!load\_raw\_data@{load\_raw\_data}}
+\index{load\_raw\_data@{load\_raw\_data}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{load\_raw\_data()}{load\_raw\_data()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+load\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{batch\+\_\+size,  }\item[{int }]{offset = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load batch of raw IndoWordNet data using memory-efficient streaming.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab7267908c99eb1dc87c5f0d353369170}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00136}{136}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a07012db220f6851a92c09429c45b542c}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a07012db220f6851a92c09429c45b542c} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Dict\mbox{]}}]{batch\+\_\+data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Process batch of IndoWordNet data into dataset entries.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a3da768df8b6ff82fa1e593cca13205f0}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00229}{229}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a7e372c9d4dcc5b81586b7f163667cf30} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_synset\_iterator@{\_synset\_iterator}}
+\index{\_synset\_iterator@{\_synset\_iterator}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_synset\_iterator}{\_synset\_iterator}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+synset\+\_\+iterator\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00054}{54}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a24b9cca2ff12a883a20b1f26aeba94a9} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!\_synset\_type@{\_synset\_type}}
+\index{\_synset\_type@{\_synset\_type}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{\_synset\_type}{\_synset\_type}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+\_\+synset\+\_\+type\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00104}{104}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_abe58430aa97e8136f40a7d592a678e94} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}}
+\index{answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{answer\_in\_clue\_rejections}{answer\_in\_clue\_rejections}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+answer\+\_\+in\+\_\+clue\+\_\+rejections}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00243}{243}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a2df4cab4f06541839ac207af0b75252f} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!current\_index@{current\_index}}
+\index{current\_index@{current\_index}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{current\_index}{current\_index}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+current\+\_\+index}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00052}{52}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ace451ca7587f0a4386ab54b0fd9c067e} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!iwn@{iwn}}
+\index{iwn@{iwn}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{iwn}{iwn}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+iwn}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00050}{50}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_af2bfcffa4e9300c596cd4f6d9c498fea}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_af2bfcffa4e9300c596cd4f6d9c498fea} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!SUPPORTED\_LANGUAGES@{SUPPORTED\_LANGUAGES}}
+\index{SUPPORTED\_LANGUAGES@{SUPPORTED\_LANGUAGES}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{SUPPORTED\_LANGUAGES}{SUPPORTED\_LANGUAGES}}
+{\footnotesize\ttfamily dict buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+SUPPORTED\+\_\+\+LANGUAGES\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bodo"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kashmiri"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Konkani"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Meitei"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Nepali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Note:\ English\ not\ in\ pyiwn\ language\ list}}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00026}{26}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ac49e3b43555431dbe2cb88c42633393c}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_ac49e3b43555431dbe2cb88c42633393c} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!synsets@{synsets}}
+\index{synsets@{synsets}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{synsets}{synsets}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+synsets}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00051}{51}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor_a36da0023c82967514324303df5b92fdb} 
+\index{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}!total\_synsets@{total\_synsets}}
+\index{total\_synsets@{total\_synsets}!buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor@{buddhi\_pragati.data.source\_processors.indowordnet\_processor.IndoWordNetProcessor}}
+\doxysubsubsection{\texorpdfstring{total\_synsets}{total\_synsets}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+indowordnet\+\_\+processor.\+Indo\+Word\+Net\+Processor.\+total\+\_\+synsets}
+
+
+
+Definition at line \mbox{\hyperlink{indowordnet__processor_8py_source_l00053}{53}} of file \mbox{\hyperlink{indowordnet__processor_8py_source}{indowordnet\+\_\+processor.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/data/source\+\_\+processors/\mbox{\hyperlink{indowordnet__processor_8py}{indowordnet\+\_\+processor.\+py}}\end{DoxyCompactItemize}

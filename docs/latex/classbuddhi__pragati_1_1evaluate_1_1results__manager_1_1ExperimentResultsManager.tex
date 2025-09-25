@@ -1,0 +1,405 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager}{}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager}\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a9c8462c845c0e9faa409839226e81b2f}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\+\_\+dir}}=None)
+\item 
+List\mbox{[}Dict\mbox{[}str, Any\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}{load\+\_\+experiment\+\_\+results}} (self, str experiment\+\_\+id, Optional\mbox{[}int\mbox{]} limit=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}{aggregate\+\_\+experiment\+\_\+metrics}} (self, List\mbox{[}Dict\mbox{[}str, Any\mbox{]}\mbox{]} experiment\+\_\+results)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa113733d0c7bfed19166cf3c43737283}{compare\+\_\+experiments}} (self, List\mbox{[}str\mbox{]} experiment\+\_\+ids)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6c08e24c13c859881cf6ffd90f205134}{generate\+\_\+experiment\+\_\+report}} (self, str experiment\+\_\+id, str output\+\_\+format="{}json"{})
+\item 
+List\mbox{[}Tuple\mbox{[}str, float\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad16f3e4d068dfd259e43904b906a5d4c}{find\+\_\+best\+\_\+performing\+\_\+models}} (self, str experiment\+\_\+id, str metric\+\_\+name="{}word\+\_\+accuracy\+\_\+global"{})
+\item 
+Dict\mbox{[}str, int\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a0aadb918e469c0478084749422ca5fe8}{list\+\_\+available\+\_\+experiments}} (self)
+\item 
+Optional\mbox{[}Dict\mbox{[}str, Any\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a85b07d4343e85209a075448104e2b27b}{load\+\_\+master\+\_\+experiment\+\_\+results}} (self, Optional\mbox{[}int\mbox{]} limit=1)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adc224e5137ade0ec40c7c6911cea5d79}{filter\+\_\+results\+\_\+by\+\_\+priority\+\_\+subset}} (self, Dict\mbox{[}str, Any\mbox{]} results, List\mbox{[}str\mbox{]} priority\+\_\+models=None, List\mbox{[}str\mbox{]} priority\+\_\+languages=None, List\mbox{[}int\mbox{]} priority\+\_\+grid\+\_\+sizes=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acdef6ef8bde3156dce49fa7276607586}{extract\+\_\+visualization\+\_\+data}} (self, Dict\mbox{[}str, Any\mbox{]} experiment\+\_\+results, str metric\+\_\+name="{}average\+\_\+word\+\_\+accuracy\+\_\+global"{})
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a842a5366622ee907c3b26888c0211911}{compare\+\_\+parameter\+\_\+experiments}} (self, List\mbox{[}str\mbox{]} experiment\+\_\+ids, str metric\+\_\+name="{}average\+\_\+word\+\_\+accuracy\+\_\+global"{})
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_abfdbc29a639338b36146932ed599744b}{generate\+\_\+experiment\+\_\+summary\+\_\+report}} (self, Optional\mbox{[}List\mbox{[}str\mbox{]}\mbox{]} experiment\+\_\+ids=None, str output\+\_\+format="{}json"{})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ab79a7c5befe2fbd3ee1f8d073031b3a8}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}{results\+\_\+dir}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a8cdddc06b6fca6ac680a8adf934707ce}{\+\_\+extract\+\_\+metrics\+\_\+from\+\_\+result}} (self, Dict\mbox{[}str, Any\mbox{]} result)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a173e6d3d15c9f222257735ebd9486514}{\+\_\+compare\+\_\+metrics\+\_\+across\+\_\+experiments}} (self, Dict\mbox{[}str, Dict\mbox{]} all\+\_\+metrics)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a5be3153673ec89ca753a9eeec44dcedc}{\+\_\+write\+\_\+markdown\+\_\+report}} (self, file\+\_\+obj, str experiment\+\_\+id, Dict\mbox{[}str, Any\mbox{]} aggregated)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad8236bbd024df56cbeeb0d76e7ac2ded}{\+\_\+write\+\_\+csv\+\_\+report}} (self, Path filepath, Dict\mbox{[}str, Any\mbox{]} aggregated)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa04706b9d2a8de8e7bff1d931dc99b89}{\+\_\+extract\+\_\+key\+\_\+findings}} (self, Dict\mbox{[}str, Any\mbox{]} experiment\+\_\+stats)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a26332301c60a5a905728a50fb40c608b}{\+\_\+generate\+\_\+recommendations}} (self, Dict\mbox{[}str, Any\mbox{]} experiment\+\_\+stats)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aca2d25055ce934630f386827acd417e4}{\+\_\+write\+\_\+markdown\+\_\+summary\+\_\+report}} (self, file\+\_\+obj, Dict\mbox{[}str, Any\mbox{]} summary)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Manages experiment results including saving, loading, and analysis.
+
+Provides utilities for:
+- Saving experiment results to JSON
+- Loading and aggregating results
+- Statistical analysis across experiments
+- Generating summary reports
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00022}{22}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a9c8462c845c0e9faa409839226e81b2f}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a9c8462c845c0e9faa409839226e81b2f} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}str\mbox{]} }]{results\+\_\+dir = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00033}{33}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a173e6d3d15c9f222257735ebd9486514}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a173e6d3d15c9f222257735ebd9486514} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_compare\_metrics\_across\_experiments@{\_compare\_metrics\_across\_experiments}}
+\index{\_compare\_metrics\_across\_experiments@{\_compare\_metrics\_across\_experiments}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_compare\_metrics\_across\_experiments()}{\_compare\_metrics\_across\_experiments()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+compare\+\_\+metrics\+\_\+across\+\_\+experiments (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Dict\mbox{]}     }]{all\+\_\+metrics }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Compare the same metrics across different experiments.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00217}{217}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa04706b9d2a8de8e7bff1d931dc99b89}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa04706b9d2a8de8e7bff1d931dc99b89} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_extract\_key\_findings@{\_extract\_key\_findings}}
+\index{\_extract\_key\_findings@{\_extract\_key\_findings}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_extract\_key\_findings()}{\_extract\_key\_findings()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+extract\+\_\+key\+\_\+findings (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{experiment\+\_\+stats }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Extract key findings from experiment statistics.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00839}{839}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a8cdddc06b6fca6ac680a8adf934707ce}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a8cdddc06b6fca6ac680a8adf934707ce} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_extract\_metrics\_from\_result@{\_extract\_metrics\_from\_result}}
+\index{\_extract\_metrics\_from\_result@{\_extract\_metrics\_from\_result}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_extract\_metrics\_from\_result()}{\_extract\_metrics\_from\_result()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+extract\+\_\+metrics\+\_\+from\+\_\+result (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{result }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Extract numeric metrics from a result dictionary.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00155}{155}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a26332301c60a5a905728a50fb40c608b}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a26332301c60a5a905728a50fb40c608b} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_generate\_recommendations@{\_generate\_recommendations}}
+\index{\_generate\_recommendations@{\_generate\_recommendations}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_generate\_recommendations()}{\_generate\_recommendations()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+generate\+\_\+recommendations (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{experiment\+\_\+stats }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate recommendations based on experiment statistics.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00871}{871}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad8236bbd024df56cbeeb0d76e7ac2ded}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad8236bbd024df56cbeeb0d76e7ac2ded} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_write\_csv\_report@{\_write\_csv\_report}}
+\index{\_write\_csv\_report@{\_write\_csv\_report}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_write\_csv\_report()}{\_write\_csv\_report()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+write\+\_\+csv\+\_\+report (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Path}]{filepath,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{aggregated }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Write a CSV format report.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00333}{333}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a5be3153673ec89ca753a9eeec44dcedc}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a5be3153673ec89ca753a9eeec44dcedc} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_write\_markdown\_report@{\_write\_markdown\_report}}
+\index{\_write\_markdown\_report@{\_write\_markdown\_report}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_write\_markdown\_report()}{\_write\_markdown\_report()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+write\+\_\+markdown\+\_\+report (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+\_\+obj,  }\item[{str}]{experiment\+\_\+id,  }\item[{Dict\mbox{[}str, Any\mbox{]}     }]{aggregated }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Write a markdown format report.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00298}{298}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aca2d25055ce934630f386827acd417e4}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aca2d25055ce934630f386827acd417e4} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!\_write\_markdown\_summary\_report@{\_write\_markdown\_summary\_report}}
+\index{\_write\_markdown\_summary\_report@{\_write\_markdown\_summary\_report}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{\_write\_markdown\_summary\_report()}{\_write\_markdown\_summary\_report()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+\_\+write\+\_\+markdown\+\_\+summary\+\_\+report (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{file\+\_\+obj,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{summary }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Write a markdown format summary report.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00889}{889}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ae98bdd2233a905da8f7b368e953ad803} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!aggregate\_experiment\_metrics@{aggregate\_experiment\_metrics}}
+\index{aggregate\_experiment\_metrics@{aggregate\_experiment\_metrics}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{aggregate\_experiment\_metrics()}{aggregate\_experiment\_metrics()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+aggregate\+\_\+experiment\+\_\+metrics (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Dict\mbox{[}str, Any\mbox{]}\mbox{]}     }]{experiment\+\_\+results }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Aggregate metrics across multiple experiment runs.
+
+Args:
+    experiment_results: List of experiment result dictionaries
+
+Returns:
+    Aggregated metrics with mean, std, min, max across runs
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00084}{84}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa113733d0c7bfed19166cf3c43737283}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_aa113733d0c7bfed19166cf3c43737283} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!compare\_experiments@{compare\_experiments}}
+\index{compare\_experiments@{compare\_experiments}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{compare\_experiments()}{compare\_experiments()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+compare\+\_\+experiments (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}str\mbox{]}}]{experiment\+\_\+ids }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Compare results across different experiment types.
+
+Args:
+    experiment_ids: List of experiment identifiers to compare
+
+Returns:
+    Comparison analysis dictionary
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00180}{180}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a842a5366622ee907c3b26888c0211911}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a842a5366622ee907c3b26888c0211911} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!compare\_parameter\_experiments@{compare\_parameter\_experiments}}
+\index{compare\_parameter\_experiments@{compare\_parameter\_experiments}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{compare\_parameter\_experiments()}{compare\_parameter\_experiments()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+compare\+\_\+parameter\+\_\+experiments (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}str\mbox{]}}]{experiment\+\_\+ids,  }\item[{str }]{metric\+\_\+name = {\ttfamily "{}average\+\_\+word\+\_\+accuracy\+\_\+global"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Compare results across parameter variation experiments (2-7).
+
+Args:
+    experiment_ids: List of experiment IDs to compare (e.g., ["2_shot_variations", "4_chain_of_thought"])
+    metric_name: Metric to use for comparison
+
+Returns:
+    Comparison analysis with parameter sensitivity data
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00594}{594}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acdef6ef8bde3156dce49fa7276607586}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acdef6ef8bde3156dce49fa7276607586} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!extract\_visualization\_data@{extract\_visualization\_data}}
+\index{extract\_visualization\_data@{extract\_visualization\_data}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{extract\_visualization\_data()}{extract\_visualization\_data()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+extract\+\_\+visualization\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{experiment\+\_\+results,  }\item[{str }]{metric\+\_\+name = {\ttfamily "{}average\+\_\+word\+\_\+accuracy\+\_\+global"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Extract data in format suitable for matplotlib/seaborn visualization.
+
+Args:
+    experiment_results: Experiment results dictionary
+    metric_name: Metric to extract for visualization
+
+Returns:
+    Dictionary with visualization-ready data structures
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00507}{507}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adc224e5137ade0ec40c7c6911cea5d79}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adc224e5137ade0ec40c7c6911cea5d79} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!filter\_results\_by\_priority\_subset@{filter\_results\_by\_priority\_subset}}
+\index{filter\_results\_by\_priority\_subset@{filter\_results\_by\_priority\_subset}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{filter\_results\_by\_priority\_subset()}{filter\_results\_by\_priority\_subset()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+filter\+\_\+results\+\_\+by\+\_\+priority\+\_\+subset (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{results,  }\item[{List\mbox{[}str\mbox{]} }]{priority\+\_\+models = {\ttfamily None},  }\item[{List\mbox{[}str\mbox{]} }]{priority\+\_\+languages = {\ttfamily None},  }\item[{List\mbox{[}int\mbox{]} }]{priority\+\_\+grid\+\_\+sizes = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Filter experiment results to only include priority subset.
+
+Args:
+    results: Full experiment results
+    priority_models: Models to include (None = all)
+    priority_languages: Languages to include (None = all)
+    priority_grid_sizes: Grid sizes to include (None = all)
+
+Returns:
+    Filtered results containing only priority subset
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00427}{427}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad16f3e4d068dfd259e43904b906a5d4c}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ad16f3e4d068dfd259e43904b906a5d4c} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!find\_best\_performing\_models@{find\_best\_performing\_models}}
+\index{find\_best\_performing\_models@{find\_best\_performing\_models}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{find\_best\_performing\_models()}{find\_best\_performing\_models()}}
+{\footnotesize\ttfamily  List\mbox{[}Tuple\mbox{[}str, float\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+find\+\_\+best\+\_\+performing\+\_\+models (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{experiment\+\_\+id,  }\item[{str }]{metric\+\_\+name = {\ttfamily "{}word\+\_\+accuracy\+\_\+global"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Find the best performing models for a specific metric.
+
+Args:
+    experiment_id: Experiment identifier
+    metric_name: Metric to rank by
+
+Returns:
+    List of (model_name, score) tuples sorted by performance
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00360}{360}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6c08e24c13c859881cf6ffd90f205134}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6c08e24c13c859881cf6ffd90f205134} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!generate\_experiment\_report@{generate\_experiment\_report}}
+\index{generate\_experiment\_report@{generate\_experiment\_report}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{generate\_experiment\_report()}{generate\_experiment\_report()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+generate\+\_\+experiment\+\_\+report (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{experiment\+\_\+id,  }\item[{str }]{output\+\_\+format = {\ttfamily "{}json"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate a comprehensive report for an experiment.
+
+Args:
+    experiment_id: Experiment identifier
+    output_format: Output format ('json', 'markdown', 'csv')
+
+Returns:
+    Path to generated report file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00257}{257}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_abfdbc29a639338b36146932ed599744b}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_abfdbc29a639338b36146932ed599744b} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!generate\_experiment\_summary\_report@{generate\_experiment\_summary\_report}}
+\index{generate\_experiment\_summary\_report@{generate\_experiment\_summary\_report}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{generate\_experiment\_summary\_report()}{generate\_experiment\_summary\_report()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+generate\+\_\+experiment\+\_\+summary\+\_\+report (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}List\mbox{[}str\mbox{]}\mbox{]} }]{experiment\+\_\+ids = {\ttfamily None},  }\item[{str }]{output\+\_\+format = {\ttfamily "{}json"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate comprehensive summary report across multiple experiments.
+
+Args:
+    experiment_ids: List of experiments to include (None = all available)
+    output_format: Output format ('json', 'markdown')
+
+Returns:
+    Path to generated report file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00714}{714}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a0aadb918e469c0478084749422ca5fe8}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a0aadb918e469c0478084749422ca5fe8} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!list\_available\_experiments@{list\_available\_experiments}}
+\index{list\_available\_experiments@{list\_available\_experiments}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{list\_available\_experiments()}{list\_available\_experiments()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, int\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+list\+\_\+available\+\_\+experiments (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}List all available experiment types and their result counts.
+
+Returns:
+    Dictionary mapping experiment_id to result count
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00387}{387}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a6ee510acce7fbc0185c301c6b191156e} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!load\_experiment\_results@{load\_experiment\_results}}
+\index{load\_experiment\_results@{load\_experiment\_results}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{load\_experiment\_results()}{load\_experiment\_results()}}
+{\footnotesize\ttfamily  List\mbox{[}Dict\mbox{[}str, Any\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+load\+\_\+experiment\+\_\+results (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{experiment\+\_\+id,  }\item[{Optional\mbox{[}int\mbox{]} }]{limit = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load all results for a specific experiment type.
+
+Args:
+    experiment_id: Experiment identifier to load
+    limit: Optional limit on number of results to load (most recent first)
+
+Returns:
+    List of experiment result dictionaries
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00046}{46}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a85b07d4343e85209a075448104e2b27b}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_a85b07d4343e85209a075448104e2b27b} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!load\_master\_experiment\_results@{load\_master\_experiment\_results}}
+\index{load\_master\_experiment\_results@{load\_master\_experiment\_results}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{load\_master\_experiment\_results()}{load\_master\_experiment\_results()}}
+{\footnotesize\ttfamily  Optional\mbox{[}Dict\mbox{[}str, Any\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+load\+\_\+master\+\_\+experiment\+\_\+results (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Optional\mbox{[}int\mbox{]} }]{limit = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load the most recent master experiment (experiment 0) results.
+
+Args:
+    limit: Number of most recent results to load (default: 1 for latest only)
+
+Returns:
+    Master experiment results dictionary or None if not found
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00412}{412}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ab79a7c5befe2fbd3ee1f8d073031b3a8}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_ab79a7c5befe2fbd3ee1f8d073031b3a8} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!config@{config}}
+\index{config@{config}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00035}{35}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_adf734e428bf3a46b6e30c84fed912c92} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00034}{34}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb}\label{classbuddhi__pragati_1_1evaluate_1_1results__manager_1_1ExperimentResultsManager_acb9fee96525ef73f504f48be308452bb} 
+\index{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}!results\_dir@{results\_dir}}
+\index{results\_dir@{results\_dir}!buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager@{buddhi\_pragati.evaluate.results\_manager.ExperimentResultsManager}}
+\doxysubsubsection{\texorpdfstring{results\_dir}{results\_dir}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+results\+\_\+manager.\+Experiment\+Results\+Manager.\+results\+\_\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{results__manager_8py_source_l00043}{43}} of file \mbox{\hyperlink{results__manager_8py_source}{results\+\_\+manager.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{results__manager_8py}{results\+\_\+manager.\+py}}\end{DoxyCompactItemize}

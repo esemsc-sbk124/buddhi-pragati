@@ -1,0 +1,262 @@
+\doxysection{puzzle\+\_\+entry.\+py}
+\hypertarget{puzzle__entry_8py_source}{}\label{puzzle__entry_8py_source}\index{buddhi\_pragati/generate/puzzle\_entry.py@{buddhi\_pragati/generate/puzzle\_entry.py}}
+\mbox{\hyperlink{puzzle__entry_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1puzzle__entry}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00002}00002\ \textcolor{stringliteral}{CrosswordPuzzleEntry\ format\ for\ HuggingFace\ dataset\ storage.}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ defines\ the\ data\ structure\ for\ storing\ generated\ crossword\ puzzles}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00005}00005\ \textcolor{stringliteral}{in\ HuggingFace\ datasets,\ different\ from\ the\ evaluation-\/focused\ CrosswordPuzzle\ class.}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00006}00006\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00007}00007\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00008}00008\ \textcolor{keyword}{from}\ dataclasses\ \textcolor{keyword}{import}\ dataclass,\ asdict}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00009}00009\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ List,\ Any,\ Union}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00010}00010\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00011}00011\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00012}00012\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00013}\mbox{\hyperlink{namespacebuddhi__pragati_1_1generate_1_1puzzle__entry_a63cc4f0a51b13e64261083c35a8a0a75}{00013}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00014}00014\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00015}00015\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00016}00016\ \textcolor{preprocessor}{@dataclass}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00017}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{00017}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{CrosswordPuzzleEntry}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00018}00018\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00019}00019\ \textcolor{stringliteral}{\ \ \ \ HuggingFace\ dataset\ entry\ for\ generated\ crossword\ puzzles.}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00020}00020\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00021}00021\ \textcolor{stringliteral}{\ \ \ \ This\ format\ is\ optimized\ for\ dataset\ storage\ and\ differs\ from\ the}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00022}00022\ \textcolor{stringliteral}{\ \ \ \ CrosswordPuzzle\ class\ used\ in\ evaluation\ pipeline.}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00023}00023\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00024}00024\ \textcolor{stringliteral}{\ \ \ \ Attributes:}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00025}00025\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ id:\ Unique\ puzzle\ identifier\ (e.g.,\ "{}puzzle\_hindi\_15x15\_001"{})}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00026}00026\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ clues\_with\_answer:\ Dictionary\ mapping\ clue\ identifiers\ to\ clue\ data}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00027}00027\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Format:\ \{"{}1across"{}:\ \{"{}clue"{}:\ "{}..."{},\ "{}answer"{}:\ "{}..."{},\ "{}start"{}:\ [row,\ col]\}\}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00028}00028\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ empty\_grid:\ Grid\ with\ numbers\ and\ blocked\ cells\ for\ solving}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00029}00029\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ solved\_grid:\ Complete\ solution\ grid\ with\ all\ letters}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00030}00030\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ context\_score:\ Mean\ indian\_context\_score\ of\ all\ placed\ words\ (0.0-\/1.0)}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00031}00031\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ quality\_score:\ Overall\ puzzle\ quality\ metric\ (0.0-\/1.0)}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00032}00032\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ source\_mix:\ Dictionary\ of\ source\ percentages\ (e.g.,\ \{"{}MILU"{}:\ 45.67,\ "{}IndicWikiBio"{}:\ 25.33,\ "{}IndoWordNet"{}:\ 29.00,\ "{}Bhasha-\/Wiki"{}:\ 0.00\})}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00033}00033\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ grid\_size:\ Grid\ size\ as\ integer\ for\ square\ grids\ (e.g.,\ 10\ for\ 10x10)}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00034}00034\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ density:\ Actual\ grid\ fill\ density\ achieved\ (0.0-\/1.0)}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00035}00035\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ word\_count:\ Number\ of\ words\ placed\ in\ puzzle}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00036}00036\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ generation\_metadata:\ Additional\ generation\ information}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00037}00037\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00039}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ac091074563d5d2b9dd318832bb4edd9c}{00039}}\ \ \ \ \ id:\ str}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00040}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a23ea47df5c558e5f8fc5755a0ac0080d}{00040}}\ \ \ \ \ clues\_with\_answer:\ Dict[str,\ Dict[str,\ Union[str,\ List[int]]]]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00041}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{00041}}\ \ \ \ \ empty\_grid:\ List[List[Union[str,\ int,\ \textcolor{keywordtype}{None}]]]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00042}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a539d9460bfe1994c25870912209b8a8e}{00042}}\ \ \ \ \ solved\_grid:\ List[List[str]]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00043}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a6a6f8a729f3514463f2a567339debe98}{00043}}\ \ \ \ \ context\_score:\ float}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00044}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ad11c3812b8bda6a0df437fedc26ea25f}{00044}}\ \ \ \ \ quality\_score:\ float}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00045}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a84e0e0ae2e08af2be46859bf67654c08}{00045}}\ \ \ \ \ source\_mix:\ Dict[str,\ float]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00046}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ab850b67230beffcd6c73346bf1e5dda1}{00046}}\ \ \ \ \ grid\_size:\ int}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00047}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a1f8fbbf3cd718e522f0bcd36dcc2f2e6}{00047}}\ \ \ \ \ density:\ float}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00048}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_acc2441564883ad85addc58f0378ce6b6}{00048}}\ \ \ \ \ word\_count:\ int}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00049}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a92b95483355c13947ce7cdf6d78bff55}{00049}}\ \ \ \ \ generation\_metadata:\ Dict[str,\ Any]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00050}00050\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00051}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_acd11a84a73905ed645f17f0358821a4c}{00051}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_acd11a84a73905ed645f17f0358821a4c}{\_\_post\_init\_\_}}(self):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00052}00052\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Validate\ puzzle\ entry\ after\ initialization."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00053}00053\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ required\ fields}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00054}00054\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ac091074563d5d2b9dd318832bb4edd9c}{id}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_abd9047d179f4bf9fc9b39effd75de308}{id}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00055}00055\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Puzzle\ ID\ cannot\ be\ empty"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00056}00056\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00057}00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a23ea47df5c558e5f8fc5755a0ac0080d}{clues\_with\_answer}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Puzzle\ must\ have\ at\ least\ one\ clue"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00059}00059\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00060}00060\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}}\ \textcolor{keywordflow}{or}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a539d9460bfe1994c25870912209b8a8e}{solved\_grid}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Both\ empty\_grid\ and\ solved\_grid\ are\ required"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00062}00062\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ grid\ dimensions\ consistency}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00064}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{00064}}\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}})\ !=\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a539d9460bfe1994c25870912209b8a8e}{solved\_grid}}):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00065}00065\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Empty\ grid\ and\ solved\ grid\ must\ have\ same\ dimensions"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00066}00066\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ grid\ size\ for\ square\ grids}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00068}00068\ \ \ \ \ \ \ \ \ actual\_rows\ =\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00069}00069\ \ \ \ \ \ \ \ \ actual\_cols\ =\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}}[0])\ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}}\ \textcolor{keywordflow}{else}\ 0}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00070}00070\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00071}00071\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ actual\_rows\ !=\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ab850b67230beffcd6c73346bf1e5dda1}{grid\_size}}\ \textcolor{keywordflow}{or}\ actual\_cols\ !=\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ab850b67230beffcd6c73346bf1e5dda1}{grid\_size}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(f\textcolor{stringliteral}{"{}Grid\ size\ must\ match\ actual\ grid\ dimensions:\ expected\ \{self.grid\_size\}x\{self.grid\_size\},\ got\ \{actual\_rows\}x\{actual\_cols\}"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00073}00073\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00074}00074\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ score\ ranges}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (0.0\ <=\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a6a6f8a729f3514463f2a567339debe98}{context\_score}}\ <=\ 1.0):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00076}00076\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Context\ score\ must\ be\ between\ 0.0\ and\ 1.0"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00077}00077\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (0.0\ <=\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ad11c3812b8bda6a0df437fedc26ea25f}{quality\_score}}\ <=\ 1.0):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00079}00079\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Quality\ score\ must\ be\ between\ 0.0\ and\ 1.0"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00080}00080\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00081}00081\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (0.0\ <=\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a1f8fbbf3cd718e522f0bcd36dcc2f2e6}{density}}\ <=\ 1.0):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00082}00082\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Density\ must\ be\ between\ 0.0\ and\ 1.0"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00083}00083\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00084}00084\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Validate\ word\ count\ matches\ clues}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00085}00085\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_acc2441564883ad85addc58f0378ce6b6}{word\_count}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ae36e301f54cef178c454dad62e82c9e0}{word\_count}}\ !=\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a23ea47df5c558e5f8fc5755a0ac0080d}{clues\_with\_answer}}):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00086}00086\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(\textcolor{stringliteral}{"{}Word\ count\ must\ match\ number\ of\ clues"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00087}00087\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00088}00088\ \ \ \ \ \textcolor{preprocessor}{@classmethod}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00089}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a3215b5b09af4acf2b0a2e4c1863408de}{00089}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a3215b5b09af4acf2b0a2e4c1863408de}{from\_crossword\_puzzle}}(}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ cls,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ puzzle,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ context\_scores:\ Dict[str,\ float],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ source\_counts:\ Dict[str,\ int],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ generation\_info:\ Dict[str,\ Any],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00095}00095\ \ \ \ \ ):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00096}00096\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00097}00097\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Create\ CrosswordPuzzleEntry\ from\ CrosswordPuzzle\ (evaluation\ format).}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00098}00098\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00099}00099\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00100}00100\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ puzzle:\ CrosswordPuzzle\ instance\ from\ generator}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00101}00101\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ context\_scores:\ Dictionary\ mapping\ word-\/>context\_score}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00102}00102\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ source\_counts:\ Dictionary\ mapping\ source-\/>count}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00103}00103\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ generation\_info:\ Additional\ generation\ metadata}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00104}00104\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ CrosswordPuzzleEntry\ instance}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00107}00107\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00108}00108\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ clues\ to\ HF\ format}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ clues\_with\_answer\ =\ \{\}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ clue\ \textcolor{keywordflow}{in}\ puzzle.get\_clues():}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ clue\_id\ =\ f\textcolor{stringliteral}{"{}\{clue.number\}\{clue.direction\}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ clues\_with\_answer[clue\_id]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}clue"{}}:\ clue.clue\_text,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00114}00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}answer"{}}:\ clue.answer,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}start"{}}:\ [clue.start\_row,\ clue.start\_col],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}length"{}}:\ clue.length,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00117}00117\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}direction"{}}:\ clue.direction,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00119}00119\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ mean\ context\ score}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ context\_scores:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ mean\_context\ =\ sum(context\_scores.values())\ /\ len(context\_scores)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ mean\_context\ =\ 0.0}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00125}00125\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ density\ from\ solved\ grid}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ solved\_grid\ =\ puzzle.get\_solution\_grid()}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ solved\_grid:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ filled\_cells\ =\ sum(}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00130}00130\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 1\ \textcolor{keywordflow}{for}\ row\ \textcolor{keywordflow}{in}\ solved\_grid\ \textcolor{keywordflow}{for}\ cell\ \textcolor{keywordflow}{in}\ row\ \textcolor{keywordflow}{if}\ cell\ \textcolor{keywordflow}{and}\ cell\ !=\ \textcolor{stringliteral}{"{}\#"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ total\_cells\ =\ len(solved\_grid)\ *\ len(solved\_grid[0])}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ density\ =\ filled\_cells\ /\ total\_cells\ \textcolor{keywordflow}{if}\ total\_cells\ >\ 0\ \textcolor{keywordflow}{else}\ 0.0}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00134}00134\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ density\ =\ 0.0}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00136}00136\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Calculate\ quality\ score\ (can\ be\ enhanced\ later)}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ quality\_score\ =\ min(1.0,\ density\ *\ 1.2\ +\ mean\_context\ *\ 0.3)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00139}00139\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ grid\ size\ -\/\ assume\ square\ grids}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00141}00141\ \ \ \ \ \ \ \ \ puzzle\_size\ =\ puzzle.get\_size()}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(puzzle\_size,\ (list,\ tuple)):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ grid\_size\ =\ puzzle\_size[0]\ \ \textcolor{comment}{\#\ Use\ first\ dimension\ for\ square\ grids}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ grid\_size\ =\ puzzle\_size}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00146}00146\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ cls(}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00148}00148\ \ \ \ \ \ \ \ \ \ \ \ \ id=puzzle.puzzle\_id,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ clues\_with\_answer=clues\_with\_answer,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ empty\_grid=puzzle.get\_grid().tolist()}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ hasattr(puzzle.get\_grid(),\ \textcolor{stringliteral}{"{}tolist"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ puzzle.get\_grid(),}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00153}00153\ \ \ \ \ \ \ \ \ \ \ \ \ solved\_grid=solved\_grid,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ context\_score=mean\_context,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00155}00155\ \ \ \ \ \ \ \ \ \ \ \ \ quality\_score=quality\_score,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \ \ \ \ source\_mix=source\_counts,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ grid\_size=grid\_size,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ density=density,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00159}00159\ \ \ \ \ \ \ \ \ \ \ \ \ word\_count=len(puzzle.get\_clues()),}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00160}00160\ \ \ \ \ \ \ \ \ \ \ \ \ generation\_metadata=generation\_info,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00162}00162\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00163}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ac2fae0fa0b525ca5f6fbc9bfddd38642}{00163}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ac2fae0fa0b525ca5f6fbc9bfddd38642}{to\_dict}}(self)\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Convert\ to\ dictionary\ for\ HuggingFace\ dataset\ with\ consistent\ schema."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00165}00165\ \ \ \ \ \ \ \ \ data\ =\ asdict(self)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00166}00166\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00167}00167\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ grid\ values\ to\ strings\ for\ HuggingFace\ compatibility}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00168}00168\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ This\ fixes\ the\ mixed\ type\ issue\ where\ grids\ contain\ both\ integers\ and\ strings}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00169}00169\ \ \ \ \ \ \ \ \ data[\textcolor{stringliteral}{"{}empty\_grid"{}}]\ =\ [[str(cell)\ \textcolor{keywordflow}{for}\ cell\ \textcolor{keywordflow}{in}\ row]\ \textcolor{keywordflow}{for}\ row\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}}]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00170}00170\ \ \ \ \ \ \ \ \ data[\textcolor{stringliteral}{"{}solved\_grid"{}}]\ =\ [[str(cell)\ \textcolor{keywordflow}{for}\ cell\ \textcolor{keywordflow}{in}\ row]\ \textcolor{keywordflow}{for}\ row\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a539d9460bfe1994c25870912209b8a8e}{solved\_grid}}]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00171}00171\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00172}00172\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fix\ clues\ schema\ inconsistency\ by\ converting\ to\ list\ format}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00173}00173\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ This\ ensures\ consistent\ schema\ across\ all\ puzzles\ regardless\ of\ clue\ IDs}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00174}00174\ \ \ \ \ \ \ \ \ clues\_list\ =\ []}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00175}00175\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ clue\_id,\ clue\_info\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a23ea47df5c558e5f8fc5755a0ac0080d}{clues\_with\_answer}}.items():}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00176}00176\ \ \ \ \ \ \ \ \ \ \ \ \ clue\_entry\ =\ \{}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}id"{}}:\ clue\_id,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}clue"{}}:\ clue\_info[\textcolor{stringliteral}{"{}clue"{}}],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00179}00179\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}answer"{}}:\ clue\_info[\textcolor{stringliteral}{"{}answer"{}}],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}direction"{}}:\ clue\_info[\textcolor{stringliteral}{"{}direction"{}}],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}start\_row"{}}:\ clue\_info[\textcolor{stringliteral}{"{}start"{}}][0],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}start\_col"{}}:\ clue\_info[\textcolor{stringliteral}{"{}start"{}}][1],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}length"{}}:\ clue\_info[\textcolor{stringliteral}{"{}length"{}}],}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00184}00184\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \ \ \ \ clues\_list.append(clue\_entry)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00186}00186\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00187}00187\ \ \ \ \ \ \ \ \ data[\textcolor{stringliteral}{"{}clues"{}}]\ =\ clues\_list}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Remove\ the\ original\ inconsistent\ field}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ del\ data[\textcolor{stringliteral}{"{}clues\_with\_answer"{}}]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00190}00190\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ data}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00192}00192\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00193}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7e9155adac0c0fb714a13c3aa364d7f2}{00193}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7e9155adac0c0fb714a13c3aa364d7f2}{to\_json}}(self,\ indent:\ int\ =\ 2)\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Convert\ to\ JSON\ string."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ json.dumps(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ac2fae0fa0b525ca5f6fbc9bfddd38642}{to\_dict}}(),\ indent=indent,\ ensure\_ascii=\textcolor{keyword}{False})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00196}00196\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00197}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a9cfae3a3dcbc8d80338bd8a2a7495c15}{00197}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a9cfae3a3dcbc8d80338bd8a2a7495c15}{validate\_grid\_consistency}}(self)\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Validate\ that\ empty\_grid\ and\ solved\_grid\ are\ consistent."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ i,\ row\ \textcolor{keywordflow}{in}\ enumerate(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a7406ca8d2043a40d192397407ece68b6}{empty\_grid}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a25762196e750f09ab0f713f0bcc53e26}{empty\_grid}}):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ j,\ cell\ \textcolor{keywordflow}{in}\ enumerate(row):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ solved\_cell\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a539d9460bfe1994c25870912209b8a8e}{solved\_grid}}[i][j]}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00203}00203\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ empty\ grid\ has\ a\ number,\ solved\ grid\ should\ have\ a\ letter}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ isinstance(cell,\ int)\ \textcolor{keywordflow}{and}\ cell\ >\ 0:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00206}00206\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ (isinstance(solved\_cell,\ str)\ \textcolor{keywordflow}{and}\ solved\_cell.isalpha()):}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Inconsistency\ at\ [\{i\},\{j\}]:\ empty\ has\ number\ \{cell\},\ solved\ has\ '\{solved\_cell\}'"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00210}00210\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00211}00211\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ If\ empty\ grid\ has\ blocked\ cell,\ solved\ should\ too}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00213}00213\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ cell\ ==\ \textcolor{stringliteral}{"{}\#"{}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ solved\_cell\ !=\ \textcolor{stringliteral}{"{}\#"{}}:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00215}00215\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Inconsistency\ at\ [\{i\},\{j\}]:\ empty\ blocked\ but\ solved\ has\ '\{solved\_cell\}'"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00220}00220\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00221}00221\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ (IndexError,\ KeyError)\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Grid\ validation\ error:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00225}00225\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00226}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ad8e4bd48ca7e114566462f724d14ca6f}{00226}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ad8e4bd48ca7e114566462f724d14ca6f}{get\_statistics}}(self)\ -\/>\ Dict[str,\ Any]:}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00227}00227\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Get\ detailed\ statistics\ about\ this\ puzzle."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00228}00228\ \ \ \ \ \ \ \ \ stats\ =\ \{}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00229}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_abd9047d179f4bf9fc9b39effd75de308}{00229}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}puzzle\_id"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ac091074563d5d2b9dd318832bb4edd9c}{id}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_abd9047d179f4bf9fc9b39effd75de308}{id}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00230}00230\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}grid\_size"{}}:\ f\textcolor{stringliteral}{"{}\{self.grid\_size\}x\{self.grid\_size\}"{}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00231}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ae36e301f54cef178c454dad62e82c9e0}{00231}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}word\_count"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_acc2441564883ad85addc58f0378ce6b6}{word\_count}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ae36e301f54cef178c454dad62e82c9e0}{word\_count}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00232}00232\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}density"{}}:\ f\textcolor{stringliteral}{"{}\{self.density:.1\%\}"{}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00233}00233\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}context\_score"{}}:\ f\textcolor{stringliteral}{"{}\{self.context\_score:.3f\}"{}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00234}00234\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}quality\_score"{}}:\ f\textcolor{stringliteral}{"{}\{self.quality\_score:.3f\}"{}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00235}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a33f74e25308be50d70a1d4b54ffc50e4}{00235}}\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sources\_used"{}}:\ len(self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a84e0e0ae2e08af2be46859bf67654c08}{source\_mix}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a33f74e25308be50d70a1d4b54ffc50e4}{source\_mix}}),}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00236}00236\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}source\_distribution"{}}:\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a84e0e0ae2e08af2be46859bf67654c08}{source\_mix}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a33f74e25308be50d70a1d4b54ffc50e4}{source\_mix}},}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00237}00237\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00238}00238\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00239}00239\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Add\ direction\ analysis}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00240}00240\ \ \ \ \ \ \ \ \ across\_count\ =\ sum(}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00241}00241\ \ \ \ \ \ \ \ \ \ \ \ \ 1}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00242}00242\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ clue\_data\ \textcolor{keywordflow}{in}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_a23ea47df5c558e5f8fc5755a0ac0080d}{clues\_with\_answer}}.values()}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ clue\_data.get(\textcolor{stringliteral}{"{}direction"{}})\ ==\ \textcolor{stringliteral}{"{}across"{}}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00244}00244\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ down\_count\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_acc2441564883ad85addc58f0378ce6b6}{word\_count}}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry_ae36e301f54cef178c454dad62e82c9e0}{word\_count}}\ -\/\ across\_count}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00246}00246\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ stats[\textcolor{stringliteral}{"{}direction\_balance"{}}]\ =\ \{}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00248}00248\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}across"{}}:\ across\_count,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}down"{}}:\ down\_count,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}balance\_ratio"{}}:\ min(across\_count,\ down\_count)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \ \ \ \ /\ max(across\_count,\ down\_count)}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ max(across\_count,\ down\_count)\ >\ 0}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ 0,}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{puzzle__entry_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stats}
+
+\end{DoxyCode}

@@ -1,0 +1,14 @@
+{
+  "words_marker": {
+    "English": "WORDS:"
+  },
+  "grid_marker": {
+    "English": "GRID:"
+  },
+  "across_marker": {
+    "English": "across"
+  },
+  "down_marker": {
+    "English": "down"
+  }
+}

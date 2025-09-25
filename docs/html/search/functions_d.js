@@ -1,0 +1,14 @@
+var searchData=
+[
+  ['record_5fpuzzle_5fusage_0',['record_puzzle_usage',['../classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker.html#abad736d33c6a97f428ddd560a85adf57',1,'buddhi_pragati::generate::puzzle_builder::UsedPairTracker']]],
+  ['reload_5fconfig_1',['reload_config',['../namespacebuddhi__pragati_1_1utils_1_1config__loader.html#ac23fe5ee106083377f0f314e553e8548',1,'buddhi_pragati::utils::config_loader']]],
+  ['restore_5fconfiguration_2',['restore_configuration',['../classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager.html#a2dfaa3357f995f2e840cc69729139656',1,'buddhi_pragati::utils::dataset_manager::DatasetManager']]],
+  ['retry_5fwith_5fexponential_5fbackoff_3',['retry_with_exponential_backoff',['../namespacebuddhi__pragati_1_1models_1_1model__interface.html#ab4656905fdf8088aaf2fbabd57e370cc',1,'buddhi_pragati::models::model_interface']]],
+  ['run_5fexperiment_5f0_5fmaster_4',['run_experiment_0_master',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#a8dd5edb8753c5ed654d337dded5cd2d0',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['run_5fexperiment_5f2_5fshot_5fvariations_5',['run_experiment_2_shot_variations',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#a35c842e2d492c50ab1ac342f6bd572a9',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['run_5fexperiment_5f3_5fbatch_5fsizes_6',['run_experiment_3_batch_sizes',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#a38f6743acba652c63dc2bb82da5f1e20',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['run_5fexperiment_5f4_5fchain_5fof_5fthought_7',['run_experiment_4_chain_of_thought',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#adbd24faf6590f471ab48943ecb675448',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['run_5fexperiment_5f5_5freasoning_5feffort_8',['run_experiment_5_reasoning_effort',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#adc9ae795a88de29cb54190991694d023',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['run_5fexperiment_5f6_5fself_5freflection_9',['run_experiment_6_self_reflection',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#a87243f25d90cd50f7a5731c12742980a',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]],
+  ['run_5fexperiment_5f7_5flanguage_5fvariants_10',['run_experiment_7_language_variants',['../classbuddhi__pragati_1_1evaluate_1_1experiment__runner_1_1NewExperimentRunner.html#a53edda407f200181bc2f712a545aabc2',1,'buddhi_pragati::evaluate::experiment_runner::NewExperimentRunner']]]
+];

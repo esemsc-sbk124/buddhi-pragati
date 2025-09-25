@@ -1,0 +1,257 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend Class Reference}
+\hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend}{}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend}\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+Inheritance diagram for buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_af8dc743190077ac647d02ab523538531}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aa044c8fadaca2ce0447499cb707003bf}{model\+\_\+name}}, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ab85c922666fd3659160cf1af67e0f68c}{api\+\_\+key}}=None, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a6e4adfe334f3d723d73ee5c7fde81082}{generate\+\_\+response}} (self, str prompt, int max\+\_\+completion\+\_\+tokens=1000, int max\+\_\+tokens=1000, Optional\mbox{[}bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a7fb99d89e569997b8ccb2fe78cb83e5a}{reasoning\+\_\+mode}}=None, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a91bd0422868b5aea93bce1ca5c7951f5}{get\+\_\+reasoning\+\_\+token\+\_\+limit}} (self, Optional\mbox{[}str\mbox{]} effort=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a54d105c7f19daaf3fa31ccd5566712ca}{get\+\_\+last\+\_\+token\+\_\+usage}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ab85c922666fd3659160cf1af67e0f68c}{api\+\_\+key}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aaefd3644374244afa43e4d0ea86b9270}{is\+\_\+reasoning\+\_\+model}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a7fb99d89e569997b8ccb2fe78cb83e5a}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a04e86a5eeda72d2cd62a79d98f8b9682}{supports\+\_\+responses\+\_\+api}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ad93ab0410da255a986ba7a8a1e7ec146}{client}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ad090575078dd8b2e4117fa048e17d3fd}{api\+\_\+url}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aa044c8fadaca2ce0447499cb707003bf}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ae8eee48c1a0de90dcdb6cf20de0cee60}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a1cdf4177d3a43db6b1f432c6b53bfc25}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a872d583047f5888008ef9e67b3b811c9}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_ac64f735d00604bf6915e7b64c656c853}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a46220218796cc16206b87bbc14f2cc67}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a5b0e4a9be06b6c99e468fcd3366805f6}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a95e4bb37d475f22c555326273b742840}{\+\_\+validate\+\_\+model\+\_\+parameters}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aa044c8fadaca2ce0447499cb707003bf}{model\+\_\+name}})
+\item 
+None \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_add99415743e2c763b98956969b425bf3}{\+\_\+handle\+\_\+openai\+\_\+errors}} (self, Exception error)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a17a901e92b8b4d79dcac552c073951bd}{\+\_\+generate\+\_\+with\+\_\+responses\+\_\+api}} (self, str prompt, int max\+\_\+completion\+\_\+tokens, int max\+\_\+tokens, bool use\+\_\+reasoning, str effort)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aec8eb929bbe9909d1e74c9580edbf27d}{\+\_\+generate\+\_\+with\+\_\+chat\+\_\+completions}} (self, str prompt, int max\+\_\+completion\+\_\+tokens, int max\+\_\+tokens, bool use\+\_\+reasoning, str effort)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a5b43b7cc65f025a320583dfe90b3ea36}{\+\_\+generate\+\_\+with\+\_\+requests}} (self, str prompt, int max\+\_\+completion\+\_\+tokens, int max\+\_\+tokens, bool use\+\_\+reasoning, str effort)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}OpenAI API backend with Responses API and o1/o3 reasoning mode support.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01087}{1087}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_af8dc743190077ac647d02ab523538531}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_af8dc743190077ac647d02ab523538531} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{api\+\_\+key = {\ttfamily None},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a020ebe0e3f56628a73401fd23acaa015}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01090}{1090}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aec8eb929bbe9909d1e74c9580edbf27d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aec8eb929bbe9909d1e74c9580edbf27d} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!\_generate\_with\_chat\_completions@{\_generate\_with\_chat\_completions}}
+\index{\_generate\_with\_chat\_completions@{\_generate\_with\_chat\_completions}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_generate\_with\_chat\_completions()}{\_generate\_with\_chat\_completions()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+\_\+generate\+\_\+with\+\_\+chat\+\_\+completions (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int}]{max\+\_\+completion\+\_\+tokens,  }\item[{int}]{max\+\_\+tokens,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate response using OpenAI Chat Completions API.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01298}{1298}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a5b43b7cc65f025a320583dfe90b3ea36}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a5b43b7cc65f025a320583dfe90b3ea36} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!\_generate\_with\_requests@{\_generate\_with\_requests}}
+\index{\_generate\_with\_requests@{\_generate\_with\_requests}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_generate\_with\_requests()}{\_generate\_with\_requests()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+\_\+generate\+\_\+with\+\_\+requests (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int}]{max\+\_\+completion\+\_\+tokens,  }\item[{int}]{max\+\_\+tokens,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Legacy requests-based generation for backward compatibility.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01348}{1348}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a17a901e92b8b4d79dcac552c073951bd}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a17a901e92b8b4d79dcac552c073951bd} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!\_generate\_with\_responses\_api@{\_generate\_with\_responses\_api}}
+\index{\_generate\_with\_responses\_api@{\_generate\_with\_responses\_api}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_generate\_with\_responses\_api()}{\_generate\_with\_responses\_api()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+\_\+generate\+\_\+with\+\_\+responses\+\_\+api (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int}]{max\+\_\+completion\+\_\+tokens,  }\item[{int}]{max\+\_\+tokens,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate response using OpenAI Responses API.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01234}{1234}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_add99415743e2c763b98956969b425bf3}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_add99415743e2c763b98956969b425bf3} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!\_handle\_openai\_errors@{\_handle\_openai\_errors}}
+\index{\_handle\_openai\_errors@{\_handle\_openai\_errors}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_handle\_openai\_errors()}{\_handle\_openai\_errors()}}
+{\footnotesize\ttfamily  None buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+\_\+handle\+\_\+openai\+\_\+errors (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Exception}]{error }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Handle OpenAI-specific errors with helpful messages.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01162}{1162}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a95e4bb37d475f22c555326273b742840}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a95e4bb37d475f22c555326273b742840} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!\_validate\_model\_parameters@{\_validate\_model\_parameters}}
+\index{\_validate\_model\_parameters@{\_validate\_model\_parameters}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{\_validate\_model\_parameters()}{\_validate\_model\_parameters()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+\_\+validate\+\_\+model\+\_\+parameters (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Validate and return supported parameters for the given model.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01136}{1136}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a6e4adfe334f3d723d73ee5c7fde81082}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a6e4adfe334f3d723d73ee5c7fde81082} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!generate\_response@{generate\_response}}
+\index{generate\_response@{generate\_response}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{generate\_response()}{generate\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+generate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int }]{max\+\_\+completion\+\_\+tokens = {\ttfamily 1000},  }\item[{int }]{max\+\_\+tokens = {\ttfamily 1000},  }\item[{Optional\mbox{[}bool\mbox{]} }]{reasoning\+\_\+mode = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{reasoning\+\_\+effort = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate response using OpenAI API with Responses API and reasoning mode support.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_aab76e566366a7038db3a22d9a87e7e96}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01186}{1186}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ab85c922666fd3659160cf1af67e0f68c}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ab85c922666fd3659160cf1af67e0f68c} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!api\_key@{api\_key}}
+\index{api\_key@{api\_key}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{api\_key}{api\_key}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+api\+\_\+key}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01094}{1094}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ad090575078dd8b2e4117fa048e17d3fd}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ad090575078dd8b2e4117fa048e17d3fd} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!api\_url@{api\_url}}
+\index{api\_url@{api\_url}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{api\_url}{api\_url}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+api\+\_\+url}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01133}{1133}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ad93ab0410da255a986ba7a8a1e7ec146}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ad93ab0410da255a986ba7a8a1e7ec146} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!client@{client}}
+\index{client@{client}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{client}{client}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+client}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01128}{1128}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aaefd3644374244afa43e4d0ea86b9270}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aaefd3644374244afa43e4d0ea86b9270} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!is\_reasoning\_model@{is\_reasoning\_model}}
+\index{is\_reasoning\_model@{is\_reasoning\_model}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{is\_reasoning\_model}{is\_reasoning\_model}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+is\+\_\+reasoning\+\_\+model}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01108}{1108}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ae8eee48c1a0de90dcdb6cf20de0cee60}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_ae8eee48c1a0de90dcdb6cf20de0cee60} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!last\_token\_usage@{last\_token\_usage}}
+\index{last\_token\_usage@{last\_token\_usage}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{last\_token\_usage}{last\_token\_usage}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+last\+\_\+token\+\_\+usage}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01274}{1274}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aa044c8fadaca2ce0447499cb707003bf}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_aa044c8fadaca2ce0447499cb707003bf} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!model\_name@{model\_name}}
+\index{model\_name@{model\_name}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{model\_name}{model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01246}{1246}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a7fb99d89e569997b8ccb2fe78cb83e5a}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a7fb99d89e569997b8ccb2fe78cb83e5a} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!reasoning\_mode@{reasoning\_mode}}
+\index{reasoning\_mode@{reasoning\_mode}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{reasoning\_mode}{reasoning\_mode}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+reasoning\+\_\+mode}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01110}{1110}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a04e86a5eeda72d2cd62a79d98f8b9682}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend_a04e86a5eeda72d2cd62a79d98f8b9682} 
+\index{buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}!supports\_responses\_api@{supports\_responses\_api}}
+\index{supports\_responses\_api@{supports\_responses\_api}!buddhi\_pragati.models.model\_interface.OpenAIBackend@{buddhi\_pragati.models.model\_interface.OpenAIBackend}}
+\doxysubsubsection{\texorpdfstring{supports\_responses\_api}{supports\_responses\_api}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+AIBackend.\+supports\+\_\+responses\+\_\+api}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01113}{1113}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/models/\mbox{\hyperlink{model__interface_8py}{model\+\_\+interface.\+py}}\end{DoxyCompactItemize}

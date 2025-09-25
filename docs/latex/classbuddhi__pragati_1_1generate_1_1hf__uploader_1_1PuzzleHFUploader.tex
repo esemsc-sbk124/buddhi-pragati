@@ -1,0 +1,325 @@
+\doxysection{buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader Class Reference}
+\hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader}{}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader}\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a1d6cf923637d0b813dad9e93fdcc3543}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0675414d08384d3225d3d634ab2363ab}{hf\+\_\+token}}=None, str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ace2548693251f861380361e1cc20c828}{generated\+\_\+repo}}=None)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a682628ee5a3bea99530f5243628ca9ea}{upload\+\_\+puzzle\+\_\+batch}} (self, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]} puzzles, str language, int grid\+\_\+size)
+\item 
+Dict\mbox{[}str, bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aea9635d9ec0c150b92349abbcdb2734c}{upload\+\_\+multi\+\_\+language\+\_\+batch}} (self, Dict\mbox{[}str, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]}\mbox{]} language\+\_\+puzzles)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a8662d5050a318973f3b84e6073ba7e78}{get\+\_\+upload\+\_\+statistics}} (self)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0810b23f9f1887a196a4529856828321}{validate\+\_\+upload}} (self, str config\+\_\+name, int expected\+\_\+count)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a6ef5f55eee86f60615fdf6e6a5f1f3fa}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0675414d08384d3225d3d634ab2363ab}{hf\+\_\+token}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ace2548693251f861380361e1cc20c828}{generated\+\_\+repo}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a08da456e84a00cc3f4d55b00660755fd}{hf\+\_\+api}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afde5bd899e125caf048b8316e6f5577b}{\+\_\+clear\+\_\+dataset\+\_\+cache}} (self, str repo\+\_\+id, str config\+\_\+name=None)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a556b25a5b2f526859762f02e90299601}{\+\_\+ensure\+\_\+repository\+\_\+exists}} (self)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aa6ac1eb8b0281be46045440467912ce5}{\+\_\+scan\+\_\+repository\+\_\+configurations}} (self, str repo\+\_\+id)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afc5d31a065ad6fa5e9b44cc59a7ec8bd}{\+\_\+update\+\_\+dataset\+\_\+card\+\_\+comprehensive}} (self, str active\+\_\+language=None)
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a8473aaacd2196b9617441d57f06e7801}{\+\_\+get\+\_\+configuration\+\_\+stats}} (self, str repo\+\_\+id, str config\+\_\+name, bool force\+\_\+refresh=False)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aba8e37bec228af8766bd0f9f21bb8e7f}{\+\_\+generate\+\_\+dynamic\+\_\+yaml\+\_\+header}} (self, str repo\+\_\+id, List\mbox{[}str\mbox{]} all\+\_\+configs, str active\+\_\+language=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a81353abef19c2db89ae16bd71fbb0249}{\+\_\+generate\+\_\+clean\+\_\+yaml\+\_\+header}} (self)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afde4f182a3efc6339d17ee6c5869f5a7}{\+\_\+generate\+\_\+dynamic\+\_\+readme\+\_\+content}} (self, str repo\+\_\+id, List\mbox{[}str\mbox{]} all\+\_\+configs, str active\+\_\+language=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ab68b7bb3cca243cbdc4c3f914094a620}{\+\_\+generate\+\_\+clean\+\_\+readme\+\_\+content}} (self)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Handles uploading generated crossword puzzles to HuggingFace Hub with proper
+configuration management, YAML headers, and README updates.
+
+Creates and manages language-specific configurations (subsets) in the dataset
+repository, ensuring proper organization and metadata management.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00031}{31}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a1d6cf923637d0b813dad9e93fdcc3543}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a1d6cf923637d0b813dad9e93fdcc3543} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{hf\+\_\+token = {\ttfamily None},  }\item[{str }]{generated\+\_\+repo = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize HuggingFace uploader for puzzle datasets.
+
+Args:
+    hf_token: HuggingFace token for dataset operations
+    generated_repo: Repository for generated puzzles (default from config)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00040}{40}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afde5bd899e125caf048b8316e6f5577b}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afde5bd899e125caf048b8316e6f5577b} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_clear\_dataset\_cache@{\_clear\_dataset\_cache}}
+\index{\_clear\_dataset\_cache@{\_clear\_dataset\_cache}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_clear\_dataset\_cache()}{\_clear\_dataset\_cache()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+clear\+\_\+dataset\+\_\+cache (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{str }]{config\+\_\+name = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Clear HuggingFace dataset cache for a specific repository.
+
+Args:
+    repo_id: Repository ID (e.g., 'selim-b-kh/buddhi-pragati-puzzles')
+    config_name: Optional language configuration to clear specifically.
+                If None, clears entire repository cache.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00071}{71}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a556b25a5b2f526859762f02e90299601}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a556b25a5b2f526859762f02e90299601} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_ensure\_repository\_exists@{\_ensure\_repository\_exists}}
+\index{\_ensure\_repository\_exists@{\_ensure\_repository\_exists}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_ensure\_repository\_exists()}{\_ensure\_repository\_exists()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+ensure\+\_\+repository\+\_\+exists (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Ensure the generated puzzles repository exists on HuggingFace.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00326}{326}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ab68b7bb3cca243cbdc4c3f914094a620}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ab68b7bb3cca243cbdc4c3f914094a620} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_generate\_clean\_readme\_content@{\_generate\_clean\_readme\_content}}
+\index{\_generate\_clean\_readme\_content@{\_generate\_clean\_readme\_content}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_generate\_clean\_readme\_content()}{\_generate\_clean\_readme\_content()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+generate\+\_\+clean\+\_\+readme\+\_\+content (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate README content for clean repository (no configurations).\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00669}{669}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a81353abef19c2db89ae16bd71fbb0249}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a81353abef19c2db89ae16bd71fbb0249} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_generate\_clean\_yaml\_header@{\_generate\_clean\_yaml\_header}}
+\index{\_generate\_clean\_yaml\_header@{\_generate\_clean\_yaml\_header}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_generate\_clean\_yaml\_header()}{\_generate\_clean\_yaml\_header()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+generate\+\_\+clean\+\_\+yaml\+\_\+header (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate YAML header for clean repository (no configurations).\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00549}{549}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afde4f182a3efc6339d17ee6c5869f5a7}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afde4f182a3efc6339d17ee6c5869f5a7} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_generate\_dynamic\_readme\_content@{\_generate\_dynamic\_readme\_content}}
+\index{\_generate\_dynamic\_readme\_content@{\_generate\_dynamic\_readme\_content}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_generate\_dynamic\_readme\_content()}{\_generate\_dynamic\_readme\_content()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+generate\+\_\+dynamic\+\_\+readme\+\_\+content (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{List\mbox{[}str\mbox{]}}]{all\+\_\+configs,  }\item[{str }]{active\+\_\+language = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate unified README content with real statistics for all languages.
+
+Args:
+    repo_id: Repository ID
+    all_configs: List of all language configurations
+    active_language: Language currently being updated (gets fresh stats, others use cache)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00557}{557}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aba8e37bec228af8766bd0f9f21bb8e7f}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aba8e37bec228af8766bd0f9f21bb8e7f} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_generate\_dynamic\_yaml\_header@{\_generate\_dynamic\_yaml\_header}}
+\index{\_generate\_dynamic\_yaml\_header@{\_generate\_dynamic\_yaml\_header}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_generate\_dynamic\_yaml\_header()}{\_generate\_dynamic\_yaml\_header()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+generate\+\_\+dynamic\+\_\+yaml\+\_\+header (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{List\mbox{[}str\mbox{]}}]{all\+\_\+configs,  }\item[{str }]{active\+\_\+language = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate accurate YAML header with real dataset statistics.
+
+Args:
+    repo_id: Repository ID
+    all_configs: List of all language configurations
+    active_language: Language currently being updated (gets fresh stats, others use cache)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00502}{502}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a8473aaacd2196b9617441d57f06e7801}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a8473aaacd2196b9617441d57f06e7801} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_get\_configuration\_stats@{\_get\_configuration\_stats}}
+\index{\_get\_configuration\_stats@{\_get\_configuration\_stats}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_get\_configuration\_stats()}{\_get\_configuration\_stats()}}
+{\footnotesize\ttfamily  dict buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+get\+\_\+configuration\+\_\+stats (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id,  }\item[{str}]{config\+\_\+name,  }\item[{bool }]{force\+\_\+refresh = {\ttfamily False} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get statistics for a specific language configuration.
+
+Args:
+    repo_id: Repository ID (e.g., 'selim-b-kh/buddhi-pragati-puzzles')
+    config_name: Language configuration name (e.g., 'english', 'hindi')
+    force_refresh: If True, force download fresh data. If False, reuse cache when possible.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00427}{427}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aa6ac1eb8b0281be46045440467912ce5}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aa6ac1eb8b0281be46045440467912ce5} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_scan\_repository\_configurations@{\_scan\_repository\_configurations}}
+\index{\_scan\_repository\_configurations@{\_scan\_repository\_configurations}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_scan\_repository\_configurations()}{\_scan\_repository\_configurations()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+scan\+\_\+repository\+\_\+configurations (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{repo\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Scan HuggingFace repository to find all existing language configurations.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00342}{342}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afc5d31a065ad6fa5e9b44cc59a7ec8bd}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_afc5d31a065ad6fa5e9b44cc59a7ec8bd} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!\_update\_dataset\_card\_comprehensive@{\_update\_dataset\_card\_comprehensive}}
+\index{\_update\_dataset\_card\_comprehensive@{\_update\_dataset\_card\_comprehensive}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{\_update\_dataset\_card\_comprehensive()}{\_update\_dataset\_card\_comprehensive()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+\_\+update\+\_\+dataset\+\_\+card\+\_\+comprehensive (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{active\+\_\+language = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Update dataset card with comprehensive statistics for all configurations.
+
+Args:
+    active_language: Language currently being updated (gets fresh stats, others use cache)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00368}{368}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a8662d5050a318973f3b84e6073ba7e78}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a8662d5050a318973f3b84e6073ba7e78} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!get\_upload\_statistics@{get\_upload\_statistics}}
+\index{get\_upload\_statistics@{get\_upload\_statistics}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{get\_upload\_statistics()}{get\_upload\_statistics()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+get\+\_\+upload\+\_\+statistics (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get comprehensive statistics about uploaded puzzles.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00704}{704}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aea9635d9ec0c150b92349abbcdb2734c}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_aea9635d9ec0c150b92349abbcdb2734c} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!upload\_multi\_language\_batch@{upload\_multi\_language\_batch}}
+\index{upload\_multi\_language\_batch@{upload\_multi\_language\_batch}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{upload\_multi\_language\_batch()}{upload\_multi\_language\_batch()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, bool\mbox{]} buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+upload\+\_\+multi\+\_\+language\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]}\mbox{]}     }]{language\+\_\+puzzles }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Upload puzzles for multiple languages.
+
+Args:
+    language_puzzles: Dictionary mapping language -> List[CrosswordPuzzleEntry]
+
+Returns:
+    Dictionary mapping language -> success_status
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00288}{288}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a682628ee5a3bea99530f5243628ca9ea}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a682628ee5a3bea99530f5243628ca9ea} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!upload\_puzzle\_batch@{upload\_puzzle\_batch}}
+\index{upload\_puzzle\_batch@{upload\_puzzle\_batch}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{upload\_puzzle\_batch()}{upload\_puzzle\_batch()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+upload\+\_\+puzzle\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]}}]{puzzles,  }\item[{str}]{language,  }\item[{int     }]{grid\+\_\+size }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Upload a batch of generated puzzles to HuggingFace with proper configuration management.
+
+Args:
+    puzzles: List of CrosswordPuzzleEntry instances to upload
+    language: Language of the puzzles
+    grid_size: Grid size of the puzzles
+
+Returns:
+    True if upload successful, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00181}{181}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0810b23f9f1887a196a4529856828321}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0810b23f9f1887a196a4529856828321} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!validate\_upload@{validate\_upload}}
+\index{validate\_upload@{validate\_upload}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{validate\_upload()}{validate\_upload()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+validate\+\_\+upload (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{config\+\_\+name,  }\item[{int}]{expected\+\_\+count }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Validate that upload was successful and entries went to correct configuration.
+
+Args:
+    config_name: Configuration name to validate
+    expected_count: Minimum expected number of entries
+
+Returns:
+    True if validation passes, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00737}{737}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a6ef5f55eee86f60615fdf6e6a5f1f3fa}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a6ef5f55eee86f60615fdf6e6a5f1f3fa} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!config@{config}}
+\index{config@{config}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00048}{48}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ace2548693251f861380361e1cc20c828}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_ace2548693251f861380361e1cc20c828} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!generated\_repo@{generated\_repo}}
+\index{generated\_repo@{generated\_repo}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{generated\_repo}{generated\_repo}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+generated\+\_\+repo}
+
+
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00052}{52}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a08da456e84a00cc3f4d55b00660755fd}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a08da456e84a00cc3f4d55b00660755fd} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!hf\_api@{hf\_api}}
+\index{hf\_api@{hf\_api}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{hf\_api}{hf\_api}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+hf\+\_\+api}
+
+
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00060}{60}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0675414d08384d3225d3d634ab2363ab}\label{classbuddhi__pragati_1_1generate_1_1hf__uploader_1_1PuzzleHFUploader_a0675414d08384d3225d3d634ab2363ab} 
+\index{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader@{buddhi\_pragati.generate.hf\_uploader.PuzzleHFUploader}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+hf\+\_\+uploader.\+Puzzle\+HFUploader.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{hf__uploader_8py_source_l00049}{49}} of file \mbox{\hyperlink{hf__uploader_8py_source}{hf\+\_\+uploader.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/generate/\mbox{\hyperlink{hf__uploader_8py}{hf\+\_\+uploader.\+py}}\end{DoxyCompactItemize}

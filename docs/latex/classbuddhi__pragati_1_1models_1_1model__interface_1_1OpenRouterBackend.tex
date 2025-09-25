@@ -1,0 +1,233 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend Class Reference}
+\hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend}{}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend}\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+Inheritance diagram for buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_aff8f985f558e127957f8adcaeab5f02f}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a9451694200a1c2a6e61f7bb67e601f5d}{model\+\_\+name}}, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2e38b956eee83b62455e6cd06bd4337a}{api\+\_\+key}}=None, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a309817539dd9a1ed5bab937907aea8af}{generate\+\_\+response}} (self, str prompt, int max\+\_\+completion\+\_\+tokens=1000, int max\+\_\+tokens=1000, Optional\mbox{[}bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}=None, Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}=None, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a91bd0422868b5aea93bce1ca5c7951f5}{get\+\_\+reasoning\+\_\+token\+\_\+limit}} (self, Optional\mbox{[}str\mbox{]} effort=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a54d105c7f19daaf3fa31ccd5566712ca}{get\+\_\+last\+\_\+token\+\_\+usage}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2e38b956eee83b62455e6cd06bd4337a}{api\+\_\+key}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a3601b7d5790df1f21920a480e8a60369}{api\+\_\+url}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a4914cc9fbbde019344f54d7ccd216da4}{model\+\_\+capabilities}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_aa42c2a96e4c17c6d642ed2423c538635}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a9451694200a1c2a6e61f7bb67e601f5d}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_abde4271080de6b1ccfb8c1015237ca4d}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a1cdf4177d3a43db6b1f432c6b53bfc25}{model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a4125c233dc40048fc28be11664b66d55}{reasoning\+\_\+mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a7044e7bbdf2f777832cc42b63da40b88}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a872d583047f5888008ef9e67b3b811c9}{temperature}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_ac64f735d00604bf6915e7b64c656c853}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a46220218796cc16206b87bbc14f2cc67}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a5b0e4a9be06b6c99e468fcd3366805f6}{last\+\_\+token\+\_\+usage}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a8f169a1e48877ed89048ebc67c01f365}{\+\_\+detect\+\_\+model\+\_\+capabilities}} (self)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a942bc474011e349167efc20dad61c831}{\+\_\+get\+\_\+model\+\_\+specific\+\_\+params}} (self, bool use\+\_\+reasoning, str effort, int max\+\_\+tokens, \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}kwargs)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a27bae39e1a88f81d7ab8a71476e8ab89}{\+\_\+handle\+\_\+rate\+\_\+limiting}} (self)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a371fd7ed7cf46cc9b462aedbdf6fc9d5}{\+\_\+post\+\_\+process\+\_\+response}} (self, str generated\+\_\+text, Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a4914cc9fbbde019344f54d7ccd216da4}{model\+\_\+capabilities}})
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2c276ca586bea5f657498163affadc53}{\+\_\+normalize\+\_\+crossword\+\_\+response}} (self, str response, Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a4914cc9fbbde019344f54d7ccd216da4}{model\+\_\+capabilities}})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}OpenRouter API backend with model-specific optimization and advanced feature support.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01543}{1543}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_aff8f985f558e127957f8adcaeab5f02f}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_aff8f985f558e127957f8adcaeab5f02f} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name,  }\item[{Optional\mbox{[}str\mbox{]} }]{api\+\_\+key = {\ttfamily None},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_a020ebe0e3f56628a73401fd23acaa015}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01546}{1546}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a8f169a1e48877ed89048ebc67c01f365}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a8f169a1e48877ed89048ebc67c01f365} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!\_detect\_model\_capabilities@{\_detect\_model\_capabilities}}
+\index{\_detect\_model\_capabilities@{\_detect\_model\_capabilities}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{\_detect\_model\_capabilities()}{\_detect\_model\_capabilities()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+\_\+detect\+\_\+model\+\_\+capabilities (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Detect model-specific capabilities based on OpenRouter API research.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01567}{1567}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a942bc474011e349167efc20dad61c831}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a942bc474011e349167efc20dad61c831} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!\_get\_model\_specific\_params@{\_get\_model\_specific\_params}}
+\index{\_get\_model\_specific\_params@{\_get\_model\_specific\_params}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{\_get\_model\_specific\_params()}{\_get\_model\_specific\_params()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+\_\+get\+\_\+model\+\_\+specific\+\_\+params (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{bool}]{use\+\_\+reasoning,  }\item[{str}]{effort,  }\item[{int}]{max\+\_\+tokens,  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get model-specific parameters based on OpenRouter API research.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01652}{1652}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a27bae39e1a88f81d7ab8a71476e8ab89}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a27bae39e1a88f81d7ab8a71476e8ab89} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!\_handle\_rate\_limiting@{\_handle\_rate\_limiting}}
+\index{\_handle\_rate\_limiting@{\_handle\_rate\_limiting}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{\_handle\_rate\_limiting()}{\_handle\_rate\_limiting()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+\_\+handle\+\_\+rate\+\_\+limiting (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Handle model-specific rate limiting with proper backoff strategy.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01715}{1715}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2c276ca586bea5f657498163affadc53}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2c276ca586bea5f657498163affadc53} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!\_normalize\_crossword\_response@{\_normalize\_crossword\_response}}
+\index{\_normalize\_crossword\_response@{\_normalize\_crossword\_response}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{\_normalize\_crossword\_response()}{\_normalize\_crossword\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+\_\+normalize\+\_\+crossword\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{response,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{model\+\_\+capabilities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Normalize response format for crossword parser compatibility.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01763}{1763}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a371fd7ed7cf46cc9b462aedbdf6fc9d5}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a371fd7ed7cf46cc9b462aedbdf6fc9d5} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!\_post\_process\_response@{\_post\_process\_response}}
+\index{\_post\_process\_response@{\_post\_process\_response}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{\_post\_process\_response()}{\_post\_process\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+\_\+post\+\_\+process\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{generated\+\_\+text,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{model\+\_\+capabilities }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Post-process response to format for crossword parser compatibility.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01730}{1730}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a309817539dd9a1ed5bab937907aea8af}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a309817539dd9a1ed5bab937907aea8af} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!generate\_response@{generate\_response}}
+\index{generate\_response@{generate\_response}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{generate\_response()}{generate\_response()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+generate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt,  }\item[{int }]{max\+\_\+completion\+\_\+tokens = {\ttfamily 1000},  }\item[{int }]{max\+\_\+tokens = {\ttfamily 1000},  }\item[{Optional\mbox{[}bool\mbox{]} }]{reasoning\+\_\+mode = {\ttfamily None},  }\item[{Optional\mbox{[}str\mbox{]} }]{reasoning\+\_\+effort = {\ttfamily None},  }\item[{\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}}]{kwargs }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate response using OpenRouter API with model-specific optimization.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface_aab76e566366a7038db3a22d9a87e7e96}{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Base\+Model\+Interface}}.
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01847}{1847}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2e38b956eee83b62455e6cd06bd4337a}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a2e38b956eee83b62455e6cd06bd4337a} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!api\_key@{api\_key}}
+\index{api\_key@{api\_key}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{api\_key}{api\_key}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+api\+\_\+key}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01550}{1550}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a3601b7d5790df1f21920a480e8a60369}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a3601b7d5790df1f21920a480e8a60369} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!api\_url@{api\_url}}
+\index{api\_url@{api\_url}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{api\_url}{api\_url}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+api\+\_\+url}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01556}{1556}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_abde4271080de6b1ccfb8c1015237ca4d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_abde4271080de6b1ccfb8c1015237ca4d} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!last\_token\_usage@{last\_token\_usage}}
+\index{last\_token\_usage@{last\_token\_usage}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{last\_token\_usage}{last\_token\_usage}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+last\+\_\+token\+\_\+usage}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01940}{1940}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a4914cc9fbbde019344f54d7ccd216da4}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a4914cc9fbbde019344f54d7ccd216da4} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!model\_capabilities@{model\_capabilities}}
+\index{model\_capabilities@{model\_capabilities}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{model\_capabilities}{model\_capabilities}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+model\+\_\+capabilities}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01559}{1559}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a9451694200a1c2a6e61f7bb67e601f5d}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_a9451694200a1c2a6e61f7bb67e601f5d} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!model\_name@{model\_name}}
+\index{model\_name@{model\_name}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{model\_name}{model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01659}{1659}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_aa42c2a96e4c17c6d642ed2423c538635}\label{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend_aa42c2a96e4c17c6d642ed2423c538635} 
+\index{buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}!temperature@{temperature}}
+\index{temperature@{temperature}!buddhi\_pragati.models.model\_interface.OpenRouterBackend@{buddhi\_pragati.models.model\_interface.OpenRouterBackend}}
+\doxysubsubsection{\texorpdfstring{temperature}{temperature}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+Open\+Router\+Backend.\+temperature}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l01576}{1576}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/models/\mbox{\hyperlink{model__interface_8py}{model\+\_\+interface.\+py}}\end{DoxyCompactItemize}

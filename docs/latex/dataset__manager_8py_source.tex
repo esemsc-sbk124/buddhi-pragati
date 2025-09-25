@@ -1,0 +1,596 @@
+\doxysection{dataset\+\_\+manager.\+py}
+\hypertarget{dataset__manager_8py_source}{}\label{dataset__manager_8py_source}\index{buddhi\_pragati/utils/dataset\_manager.py@{buddhi\_pragati/utils/dataset\_manager.py}}
+\mbox{\hyperlink{dataset__manager_8py}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00001}\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1dataset__manager}{00001}}\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00002}00002\ \textcolor{stringliteral}{Dataset\ Management\ Utility\ for\ Buddhi-\/Pragati\ HuggingFace\ Operations}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00003}00003\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00004}00004\ \textcolor{stringliteral}{This\ module\ provides\ utilities\ for\ managing\ HuggingFace\ datasets\ including\ deletion}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00005}00005\ \textcolor{stringliteral}{of\ specific\ language\ configurations\ (subsets),\ dataset\ inspection,\ and\ maintenance}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00006}00006\ \textcolor{stringliteral}{operations.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00007}00007\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00008}00008\ \textcolor{stringliteral}{Key\ Features:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00009}00009\ \textcolor{stringliteral}{-\/\ Delete\ specific\ language\ configurations\ from\ multi-\/config\ datasets}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00010}00010\ \textcolor{stringliteral}{-\/\ List\ and\ inspect\ dataset\ configurations\ and\ file\ structure}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00011}00011\ \textcolor{stringliteral}{-\/\ Update\ dataset\ cards\ and\ metadata}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00012}00012\ \textcolor{stringliteral}{-\/\ Backup\ and\ restore\ functionality\ for\ dataset\ configurations}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00013}00013\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00014}00014\ \textcolor{stringliteral}{Architecture:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00015}00015\ \textcolor{stringliteral}{-\/\ DatasetManager:\ Main\ orchestrator\ for\ dataset\ operations}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00016}00016\ \textcolor{stringliteral}{-\/\ Configuration-\/aware\ operations\ using\ crossword\_config.txt}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00017}00017\ \textcolor{stringliteral}{-\/\ Safe\ deletion\ with\ backup\ options}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00018}00018\ \textcolor{stringliteral}{-\/\ Comprehensive\ logging\ and\ error\ handling}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00019}00019\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00020}00020\ \textcolor{stringliteral}{Note:\ Since\ HuggingFace\ Hub\ doesn't\ directly\ support\ subset\ deletion\ via\ API,}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00021}00021\ \textcolor{stringliteral}{this\ utility\ implements\ workarounds\ by\ manually\ managing\ dataset\ files\ and}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00022}00022\ \textcolor{stringliteral}{configurations.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00023}00023\ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00024}00024\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00025}00025\ \textcolor{keyword}{import}\ os}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00026}00026\ \textcolor{keyword}{import}\ json}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00027}00027\ \textcolor{keyword}{import}\ logging}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00028}00028\ \textcolor{keyword}{from}\ typing\ \textcolor{keyword}{import}\ Dict,\ List,\ Optional}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00029}00029\ \textcolor{keyword}{from}\ pathlib\ \textcolor{keyword}{import}\ Path}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00030}00030\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00031}00031\ \textcolor{keyword}{import}\ pandas\ \textcolor{keyword}{as}\ pd}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00032}00032\ \textcolor{keyword}{from}\ datasets\ \textcolor{keyword}{import}\ Dataset,\ load\_dataset,\ get\_dataset\_config\_names}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00033}00033\ \textcolor{keyword}{from}\ huggingface\_hub\ \textcolor{keyword}{import}\ HfApi,\ login,\ list\_repo\_files}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00034}00034\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00035}00035\ \textcolor{keyword}{from}\ .config\_loader\ \textcolor{keyword}{import}\ get\_config}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00036}00036\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00037}\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1dataset__manager_a30456887bcead09e366fc43470f69116}{00037}}\ logger\ =\ logging.getLogger(\_\_name\_\_)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00038}00038\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00039}00039\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00040}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager}{00040}}\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager}{DatasetManager}}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00041}00041\ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00042}00042\ \textcolor{stringliteral}{\ \ \ \ Comprehensive\ dataset\ management\ utility\ for\ HuggingFace\ operations.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00043}00043\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00044}00044\ \textcolor{stringliteral}{\ \ \ \ Handles\ deletion,\ inspection,\ and\ maintenance\ of\ multi-\/configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00045}00045\ \textcolor{stringliteral}{\ \ \ \ datasets\ with\ language-\/specific\ subsets.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00046}00046\ \textcolor{stringliteral}{\ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00047}00047\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00048}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac52a830ec8179a7518639e9112d1ecdd}{00048}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac52a830ec8179a7518639e9112d1ecdd}{\_\_init\_\_}}(self,\ hf\_token:\ Optional[str]\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00049}00049\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00050}00050\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Initialize\ dataset\ manager\ with\ HuggingFace\ credentials.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00051}00051\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00052}00052\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00053}00053\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ hf\_token:\ HuggingFace\ token\ for\ authentication}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00054}00054\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00055}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc}{00055}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc}{config}}\ =\ get\_config()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00056}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac7a7c37f2fc0b5eca7d538279c58ae4e}{00056}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac7a7c37f2fc0b5eca7d538279c58ae4e}{dataset\_config}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc}{config}}.get\_dataset\_config()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00057}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{00057}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}\ =\ (}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00058}00058\ \ \ \ \ \ \ \ \ \ \ \ \ hf\_token\ \textcolor{keywordflow}{or}\ os.getenv(\textcolor{stringliteral}{"{}HF\_TOKEN"{}})\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_abef4238e275120b7d97700e819ec27dc}{config}}.get(\textcolor{stringliteral}{"{}DEFAULT\_HF\_TOKEN"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00059}00059\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00060}00060\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00061}00061\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00062}00062\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}\ ValueError(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00063}00063\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}HuggingFace\ token\ required.\ Set\ HF\_TOKEN\ env\ var\ or\ pass\ hf\_token\ parameter."{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00064}00064\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00065}00065\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00066}00066\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Initialize\ HF\ API}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00067}00067\ \ \ \ \ \ \ \ \ login(token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00068}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a67e4d4ba62a62e258f0f83df8783fd1d}{00068}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a67e4d4ba62a62e258f0f83df8783fd1d}{hf\_api}}\ =\ HfApi()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00069}00069\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00070}00070\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Default\ repository\ from\ config}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00071}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{00071}}\ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ac7a7c37f2fc0b5eca7d538279c58ae4e}{dataset\_config}}.get(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00072}00072\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}HF\_DATASET\_REPO"{}},\ \textcolor{stringliteral}{"{}selim-\/b-\/kh/Buddhi\_pragati"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00073}00073\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00074}00074\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00075}00075\ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}DatasetManager\ initialized\ for\ repository:\ \{self.default\_repo\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00076}00076\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00077}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}{00077}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}{list\_dataset\_configurations}}(self,\ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None})\ -\/>\ List[str]:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00078}00078\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00079}00079\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ List\ all\ available\ configurations\ (language\ subsets)\ in\ the\ dataset.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00080}00080\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00081}00081\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00082}00082\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ Repository\ ID\ (default\ from\ config)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00083}00083\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00084}00084\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00085}00085\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ List\ of\ configuration\ names}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00086}00086\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00087}00087\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00088}00088\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00089}00089\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00090}00090\ \ \ \ \ \ \ \ \ \ \ \ \ configs\ =\ get\_dataset\_config\_names(repo\_id,\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00091}00091\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Found\ \{len(configs)\}\ configurations\ in\ \{repo\_id\}:\ \{configs\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00092}00092\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ configs}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00093}00093\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00094}00094\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ get\ configurations\ for\ \{repo\_id\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00095}00095\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ []}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00096}00096\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00097}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b}{00097}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b}{inspect\_dataset\_structure}}(self,\ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None})\ -\/>\ Dict:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00098}00098\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00099}00099\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Inspect\ complete\ dataset\ structure\ including\ files\ and\ configurations.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00100}00100\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00101}00101\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00102}00102\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ Repository\ ID\ (default\ from\ config)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00103}00103\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00104}00104\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00105}00105\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ with\ dataset\ structure\ information}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00106}00106\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00107}00107\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00108}00108\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00109}00109\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00110}00110\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ all\ files\ in\ repository}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00111}00111\ \ \ \ \ \ \ \ \ \ \ \ \ repo\_files\ =\ list\_repo\_files(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00112}00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id,\ repo\_type=\textcolor{stringliteral}{"{}dataset"{}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00113}00113\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00114}00114\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00115}00115\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ configurations}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00116}00116\ \ \ \ \ \ \ \ \ \ \ \ \ configs\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}{list\_dataset\_configurations}}(repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00117}00117\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00118}00118\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Organize\ by\ file\ type\ and\ configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00119}00119\ \ \ \ \ \ \ \ \ \ \ \ \ structure\ =\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00120}00120\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}repository"{}}:\ repo\_id,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00121}00121\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}configurations"{}}:\ configs,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00122}00122\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}files"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00123}00123\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}data\_files"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00124}00124\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}config\_files"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00125}00125\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}metadata\_files"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00126}00126\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}other\_files"{}}:\ [],}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00127}00127\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00128}00128\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}config\_file\_mapping"{}}:\ \{\},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00129}00129\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00130}00130\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00131}00131\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\_path\ \textcolor{keywordflow}{in}\ repo\_files:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00132}00132\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ file\_path.endswith((\textcolor{stringliteral}{"{}.parquet"{}},\ \textcolor{stringliteral}{"{}.json"{}},\ \textcolor{stringliteral}{"{}.jsonl"{}},\ \textcolor{stringliteral}{"{}.csv"{}})):}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00133}00133\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structure[\textcolor{stringliteral}{"{}files"{}}][\textcolor{stringliteral}{"{}data\_files"{}}].append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00134}00134\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00135}00135\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Try\ to\ map\ to\ configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00136}00136\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ config\ \textcolor{keywordflow}{in}\ configs:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00137}00137\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ config\ \textcolor{keywordflow}{in}\ file\_path:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00138}00138\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ config\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ structure[\textcolor{stringliteral}{"{}config\_file\_mapping"{}}]:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00139}00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structure[\textcolor{stringliteral}{"{}config\_file\_mapping"{}}][config]\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00140}00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structure[\textcolor{stringliteral}{"{}config\_file\_mapping"{}}][config].append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00141}00141\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00142}00142\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ file\_path\ \textcolor{keywordflow}{in}\ [\textcolor{stringliteral}{"{}README.md"{}},\ \textcolor{stringliteral}{"{}dataset\_infos.json"{}}]:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00143}00143\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structure[\textcolor{stringliteral}{"{}files"{}}][\textcolor{stringliteral}{"{}metadata\_files"{}}].append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00144}00144\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{elif}\ file\_path.endswith(\textcolor{stringliteral}{"{}.yaml"{}})\ \textcolor{keywordflow}{or}\ \textcolor{stringliteral}{"{}config"{}}\ \textcolor{keywordflow}{in}\ file\_path:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00145}00145\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structure[\textcolor{stringliteral}{"{}files"{}}][\textcolor{stringliteral}{"{}config\_files"{}}].append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00146}00146\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00147}00147\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ structure[\textcolor{stringliteral}{"{}files"{}}][\textcolor{stringliteral}{"{}other\_files"{}}].append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00148}00148\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00149}00149\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Dataset\ structure\ inspection\ complete\ for\ \{repo\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00150}00150\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00151}00151\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Configurations:\ \{len(configs)\},\ Total\ files:\ \{len(repo\_files)\}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00152}00152\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00153}00153\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00154}00154\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ structure}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00155}00155\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00156}00156\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00157}00157\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ inspect\ dataset\ structure\ for\ \{repo\_id\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00158}00158\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}error"{}}:\ str(e)\}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00159}00159\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00160}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a11dfaeda51ca8d252d13205212806a49}{00160}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a11dfaeda51ca8d252d13205212806a49}{backup\_configuration}}(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00161}00161\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00162}00162\ \ \ \ \ \ \ \ \ config\_name:\ str,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00163}00163\ \ \ \ \ \ \ \ \ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00164}00164\ \ \ \ \ \ \ \ \ backup\_dir:\ Optional[str]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00165}00165\ \ \ \ \ )\ -\/>\ str:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00166}00166\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00167}00167\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Create\ a\ backup\ of\ a\ specific\ configuration\ before\ deletion.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00168}00168\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00169}00169\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00170}00170\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ config\_name:\ Configuration\ name\ to\ backup}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00171}00171\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ Repository\ ID\ (default\ from\ config)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00172}00172\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ backup\_dir:\ Local\ directory\ for\ backup\ (default:\ ./backups)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00173}00173\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00174}00174\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00175}00175\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Path\ to\ backup\ directory}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00176}00176\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00177}00177\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00178}00178\ \ \ \ \ \ \ \ \ backup\_dir\ =\ backup\_dir\ \textcolor{keywordflow}{or}\ \textcolor{stringliteral}{"{}./dataset\_backups"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00179}00179\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00180}00180\ \ \ \ \ \ \ \ \ backup\_path\ =\ (}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00181}00181\ \ \ \ \ \ \ \ \ \ \ \ \ Path(backup\_dir)\ /\ f\textcolor{stringliteral}{"{}\{repo\_id.replace('/',\ '\_')\}\_\{config\_name\}\_backup"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00182}00182\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00183}00183\ \ \ \ \ \ \ \ \ backup\_path.mkdir(parents=\textcolor{keyword}{True},\ exist\_ok=\textcolor{keyword}{True})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00184}00184\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00185}00185\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00186}00186\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Creating\ backup\ for\ \{config\_name\}\ configuration..."{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00187}00187\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00188}00188\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ and\ save\ the\ dataset}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00189}00189\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00190}00190\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id,\ config\_name,\ split=\textcolor{stringliteral}{"{}train"{}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00191}00191\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00192}00192\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\_path\ =\ backup\_path\ /\ \textcolor{stringliteral}{"{}dataset.json"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00193}00193\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00194}00194\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ to\ pandas\ and\ save\ as\ JSON\ for\ easy\ restoration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00195}00195\ \ \ \ \ \ \ \ \ \ \ \ \ df\ =\ dataset.to\_pandas()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00196}00196\ \ \ \ \ \ \ \ \ \ \ \ \ df.to\_json(dataset\_path,\ orient=\textcolor{stringliteral}{"{}records"{}},\ indent=2)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00197}00197\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00198}00198\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Save\ metadata}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00199}00199\ \ \ \ \ \ \ \ \ \ \ \ \ metadata\ =\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00200}00200\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}repo\_id"{}}:\ repo\_id,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00201}00201\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}config\_name"{}}:\ config\_name,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00202}00202\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}num\_rows"{}}:\ len(df),}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00203}00203\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}columns"{}}:\ list(df.columns),}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00204}00204\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}backup\_timestamp"{}}:\ pd.Timestamp.now().isoformat(),}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00205}00205\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00206}00206\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00207}00207\ \ \ \ \ \ \ \ \ \ \ \ \ metadata\_path\ =\ backup\_path\ /\ \textcolor{stringliteral}{"{}metadata.json"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00208}00208\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(metadata\_path,\ \textcolor{stringliteral}{"{}w"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00209}00209\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ json.dump(metadata,\ f,\ indent=2)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00210}00210\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00211}00211\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Backup\ created\ successfully\ at\ \{backup\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00212}00212\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Backed\ up\ \{len(df)\}\ entries\ for\ \{config\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00213}00213\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00214}00214\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ str(backup\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00215}00215\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00216}00216\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00217}00217\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ create\ backup\ for\ \{config\_name\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00218}00218\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{raise}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00219}00219\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00220}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a52ecd806224e2f38a5663fe90d416c5d}{00220}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a52ecd806224e2f38a5663fe90d416c5d}{delete\_configuration}}(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00221}00221\ \ \ \ \ \ \ \ \ self,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00222}00222\ \ \ \ \ \ \ \ \ config\_name:\ str,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00223}00223\ \ \ \ \ \ \ \ \ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00224}00224\ \ \ \ \ \ \ \ \ create\_backup:\ bool\ =\ \textcolor{keyword}{True},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00225}00225\ \ \ \ \ )\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00226}00226\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00227}00227\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Delete\ a\ specific\ configuration\ (language\ subset)\ from\ the\ dataset.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00228}00228\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00229}00229\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Since\ HuggingFace\ doesn't\ support\ direct\ subset\ deletion,\ this\ method:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00230}00230\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ 1.\ Creates\ a\ backup\ if\ requested}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00231}00231\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ 2.\ Identifies\ all\ files\ associated\ with\ the\ configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00232}00232\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ 3.\ Deletes\ those\ files\ from\ the\ repository}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00233}00233\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ 4.\ Updates\ dataset\ metadata}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00234}00234\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00235}00235\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00236}00236\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ config\_name:\ Configuration\ name\ to\ delete\ (e.g.,\ 'hindi')}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00237}00237\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ Repository\ ID\ (default\ from\ config)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00238}00238\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ create\_backup:\ Whether\ to\ create\ backup\ before\ deletion}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00239}00239\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00240}00240\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00241}00241\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ True\ if\ deletion\ successful,\ False\ otherwise}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00242}00242\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00243}00243\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00244}00244\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00245}00245\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00246}00246\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Starting\ deletion\ process\ for\ '\{config\_name\}'\ configuration\ from\ \{repo\_id\}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00247}00247\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00248}00248\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00249}00249\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Safety\ check\ -\/\ confirm\ configuration\ exists}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00250}00250\ \ \ \ \ \ \ \ \ existing\_configs\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}{list\_dataset\_configurations}}(repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00251}00251\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ config\_name\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ existing\_configs:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00252}00252\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Configuration\ '\{config\_name\}'\ not\ found\ in\ \{repo\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00253}00253\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Available\ configurations:\ \{existing\_configs\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00254}00254\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00255}00255\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00256}00256\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ backup\ if\ requested}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00257}00257\ \ \ \ \ \ \ \ \ backup\_path\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00258}00258\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ create\_backup:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00259}00259\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00260}00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ backup\_path\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a11dfaeda51ca8d252d13205212806a49}{backup\_configuration}}(config\_name,\ repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00261}00261\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}✅\ Backup\ created\ at:\ \{backup\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00262}00262\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00263}00263\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Backup\ failed:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00264}00264\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00265}00265\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00266}00266\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00267}00267\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Inspect\ dataset\ structure\ to\ identify\ files\ to\ delete}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00268}00268\ \ \ \ \ \ \ \ \ \ \ \ \ structure\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b}{inspect\_dataset\_structure}}(repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00269}00269\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00270}00270\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}error"{}}\ \textcolor{keywordflow}{in}\ structure:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00271}00271\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00272}00272\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Failed\ to\ inspect\ dataset\ structure:\ \{structure['error']\}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00273}00273\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00274}00274\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00275}00275\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00276}00276\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Identify\ files\ associated\ with\ this\ configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00277}00277\ \ \ \ \ \ \ \ \ \ \ \ \ files\_to\_delete\ =\ structure[\textcolor{stringliteral}{"{}config\_file\_mapping"{}}].get(config\_name,\ [])}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00278}00278\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00279}00279\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ files\_to\_delete:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00280}00280\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}No\ files\ found\ for\ configuration\ '\{config\_name\}'"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00281}00281\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00282}00282\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Attempting\ to\ delete\ by\ rebuilding\ dataset\ without\ this\ configuration..."{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00283}00283\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00284}00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a5a6216acef80fe97e0a8260623a8f640}{\_rebuild\_dataset\_without\_config}}(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00285}00285\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ config\_name,\ repo\_id,\ existing\_configs}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00286}00286\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00287}00287\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00288}00288\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00289}00289\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Found\ \{len(files\_to\_delete)\}\ files\ to\ delete\ for\ '\{config\_name\}':"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00290}00290\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00291}00291\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\_path\ \textcolor{keywordflow}{in}\ files\_to\_delete:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00292}00292\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}\ \ -\/\ \{file\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00293}00293\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00294}00294\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Delete\ files\ one\ by\ one}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00295}00295\ \ \ \ \ \ \ \ \ \ \ \ \ deleted\_files\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00296}00296\ \ \ \ \ \ \ \ \ \ \ \ \ failed\_files\ =\ []}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00297}00297\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00298}00298\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\_path\ \textcolor{keywordflow}{in}\ files\_to\_delete:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00299}00299\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00300}00300\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a67e4d4ba62a62e258f0f83df8783fd1d}{hf\_api}}.delete\_file(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00301}00301\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ path\_in\_repo=file\_path,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00302}00302\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id=repo\_id,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00303}00303\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_type=\textcolor{stringliteral}{"{}dataset"{}},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00304}00304\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00305}00305\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00306}00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deleted\_files.append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00307}00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}✅\ Deleted:\ \{file\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00308}00308\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00309}00309\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00310}00310\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}❌\ Failed\ to\ delete\ \{file\_path\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00311}00311\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ failed\_files.append(file\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00312}00312\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00313}00313\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Update\ dataset\ card\ to\ remove\ references\ to\ deleted\ configuration}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00314}00314\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ae517307215db4ea68273f2579f314128}{\_update\_dataset\_card\_after\_deletion}}(config\_name,\ repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00315}00315\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00316}00316\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Report\ results}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00317}00317\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}DELETION\ SUMMARY\ for\ '\{config\_name\}':"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00318}00318\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}\ \ ✅\ Successfully\ deleted:\ \{len(deleted\_files)\}\ files"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00319}00319\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ failed\_files:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00320}00320\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}\ \ ❌\ Failed\ to\ delete:\ \{len(failed\_files)\}\ files"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00321}00321\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ file\_path\ \textcolor{keywordflow}{in}\ failed\_files:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00322}00322\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}\ \ \ \ -\/\ \{file\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00323}00323\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00324}00324\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ backup\_path:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00325}00325\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}\ \ 💾\ Backup\ available\ at:\ \{backup\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00326}00326\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00327}00327\ \ \ \ \ \ \ \ \ \ \ \ \ success\ =\ len(failed\_files)\ ==\ 0}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00328}00328\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ success:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00329}00329\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00330}00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}🎉\ Configuration\ '\{config\_name\}'\ successfully\ deleted\ from\ \{repo\_id\}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00331}00331\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00332}00332\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00333}00333\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00334}00334\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}⚠️\ \ Partial\ deletion\ completed\ with\ \{len(failed\_files)\}\ failures"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00335}00335\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00336}00336\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00337}00337\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ success}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00338}00338\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00339}00339\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00340}00340\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Deletion\ process\ failed:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00341}00341\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{import}\ traceback}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00342}00342\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00343}00343\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Full\ error:\ \{traceback.format\_exc()\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00344}00344\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00345}00345\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00346}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a5a6216acef80fe97e0a8260623a8f640}{00346}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a5a6216acef80fe97e0a8260623a8f640}{\_rebuild\_dataset\_without\_config}}(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00347}00347\ \ \ \ \ \ \ \ \ self,\ config\_to\_exclude:\ str,\ repo\_id:\ str,\ existing\_configs:\ List[str]}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00348}00348\ \ \ \ \ )\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00349}00349\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00350}00350\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Rebuild\ entire\ dataset\ excluding\ a\ specific\ configuration.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00351}00351\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00352}00352\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ This\ is\ a\ fallback\ method\ when\ file-\/by-\/file\ deletion\ doesn't\ work.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00353}00353\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00354}00354\ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00355}00355\ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Rebuilding\ dataset\ \{repo\_id\}\ without\ '\{config\_to\_exclude\}'\ configuration..."{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00356}00356\ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00357}00357\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00358}00358\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00359}00359\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ all\ configurations\ except\ the\ one\ to\ exclude}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00360}00360\ \ \ \ \ \ \ \ \ \ \ \ \ remaining\_configs\ =\ [c\ \textcolor{keywordflow}{for}\ c\ \textcolor{keywordflow}{in}\ existing\_configs\ \textcolor{keywordflow}{if}\ c\ !=\ config\_to\_exclude]}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00361}00361\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00362}00362\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ remaining\_configs:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00363}00363\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(\textcolor{stringliteral}{"{}Cannot\ delete\ the\ only\ configuration\ in\ the\ dataset"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00364}00364\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00365}00365\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00366}00366\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Preserving\ configurations:\ \{remaining\_configs\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00367}00367\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00368}00368\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ For\ each\ remaining\ configuration,\ load\ and\ re-\/upload}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00369}00369\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ config\_name\ \textcolor{keywordflow}{in}\ remaining\_configs:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00370}00370\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Preserving\ configuration:\ \{config\_name\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00371}00371\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00372}00372\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ existing\ data}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00373}00373\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00374}00374\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id,\ config\_name,\ split=\textcolor{stringliteral}{"{}train"{}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00375}00375\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00376}00376\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00377}00377\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Re-\/upload\ to\ preserve\ it}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00378}00378\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ dataset.push\_to\_hub(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00379}00379\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id,\ config\_name=config\_name,\ split=\textcolor{stringliteral}{"{}train"{}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00380}00380\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00381}00381\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00382}00382\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00383}00383\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}✅\ Preserved\ configuration\ '\{config\_name\}'\ with\ \{len(dataset)\}\ entries"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00384}00384\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00385}00385\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00386}00386\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00387}00387\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}Dataset\ rebuild\ completed.\ '\{config\_to\_exclude\}'\ has\ been\ excluded."{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00388}00388\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00389}00389\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00390}00390\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00391}00391\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00392}00392\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Dataset\ rebuild\ failed:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00393}00393\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00394}00394\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00395}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ae517307215db4ea68273f2579f314128}{00395}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ae517307215db4ea68273f2579f314128}{\_update\_dataset\_card\_after\_deletion}}(self,\ deleted\_config:\ str,\ repo\_id:\ str):}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00396}00396\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Update\ dataset\ card\ with\ dynamic\ README\ system\ after\ configuration\ deletion."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00397}00397\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00398}00398\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Import\ the\ dynamic\ README\ system\ from\ dataset\_builder}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00399}00399\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ \mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1dataset__builder}{buddhi\_pragati.data.dataset\_builder}}\ \textcolor{keyword}{import}\ DatasetBuilder}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00400}00400\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00401}00401\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Create\ a\ temporary\ DatasetBuilder\ instance\ to\ access\ dynamic\ README\ methods}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00402}00402\ \ \ \ \ \ \ \ \ \ \ \ \ temp\_builder\ =\ DatasetBuilder(hf\_token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00403}00403\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00404}00404\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Use\ the\ dynamic\ README\ update\ system}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00405}00405\ \ \ \ \ \ \ \ \ \ \ \ \ temp\_builder.\_update\_dataset\_card\_incremental(\textcolor{stringliteral}{"{}dummy"{}},\ repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00406}00406\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00407}00407\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00408}00408\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}✅\ Updated\ dataset\ card\ using\ dynamic\ system\ after\ deleting\ '\{deleted\_config\}'"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00409}00409\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00410}00410\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00411}00411\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00412}00412\ \ \ \ \ \ \ \ \ \ \ \ \ logger.warning(f\textcolor{stringliteral}{"{}Failed\ to\ update\ dataset\ card\ with\ dynamic\ system:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00413}00413\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Fallback\ to\ simple\ cleanup\ for\ empty\ repository}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00414}00414\ \ \ \ \ \ \ \ \ \ \ \ \ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ad5c5b225dbc67757d4180dfea53c659b}{\_create\_empty\_repository\_readme}}(repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00415}00415\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00416}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ad5c5b225dbc67757d4180dfea53c659b}{00416}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_ad5c5b225dbc67757d4180dfea53c659b}{\_create\_empty\_repository\_readme}}(self,\ repo\_id:\ str):}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00417}00417\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Create\ a\ clean\ README\ for\ empty\ repository\ as\ fallback."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00418}00418\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00419}00419\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{from}\ huggingface\_hub\ \textcolor{keyword}{import}\ DatasetCard}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00420}00420\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00421}00421\ \ \ \ \ \ \ \ \ \ \ \ \ empty\_readme\ =\ \textcolor{stringliteral}{"{}"{}"{}-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00422}00422\ \textcolor{stringliteral}{license:\ apache-\/2.0}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00423}00423\ \textcolor{stringliteral}{-\/-\/-\/}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00424}00424\ \textcolor{stringliteral}{\#\ Buddhi-\/Pragati\ Crossword\ Dataset}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00425}00425\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00426}00426\ \textcolor{stringliteral}{This\ dataset\ contains\ crossword\ clue-\/answer\ pairs\ extracted\ from\ multiple\ Indian\ language\ sources.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00427}00427\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00428}00428\ \textcolor{stringliteral}{\#\#\ Available\ Languages}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00429}00429\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00430}00430\ \textcolor{stringliteral}{*No\ language\ configurations\ currently\ available.\ Upload\ data\ to\ populate\ this\ dataset.*}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00431}00431\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00432}00432\ \textcolor{stringliteral}{\#\#\ Dataset\ Structure}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00433}00433\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00434}00434\ \textcolor{stringliteral}{Each\ entry\ contains:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00435}00435\ \textcolor{stringliteral}{-\/\ \`{}id\`{}:\ Unique\ identifier}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00436}00436\ \textcolor{stringliteral}{-\/\ \`{}clue\`{}:\ Crossword\ clue\ text}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00437}00437\ \textcolor{stringliteral}{-\/\ \`{}answer\`{}:\ Single-\/word\ answer\ (uppercase)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00438}00438\ \textcolor{stringliteral}{-\/\ \`{}source\`{}:\ Original\ data\ source\ (MILU,\ IndicWikiBio,\ IndoWordNet,\ Bhasha-\/Wiki)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00439}00439\ \textcolor{stringliteral}{-\/\ \`{}source\_id\`{}:\ Original\ ID\ in\ source\ dataset}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00440}00440\ \textcolor{stringliteral}{-\/\ \`{}context\_score\`{}:\ Indian\ cultural\ context\ score\ (0.0-\/1.0)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00441}00441\ \textcolor{stringliteral}{-\/\ \`{}quality\_score\`{}:\ Crossword\ suitability\ score\ (0.0-\/1.0)}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00442}00442\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00443}00443\ \textcolor{stringliteral}{Automatically\ generated\ crossword\ benchmark\ dataset."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00444}00444\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00445}00445\ \ \ \ \ \ \ \ \ \ \ \ \ card\ =\ DatasetCard(empty\_readme)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00446}00446\ \ \ \ \ \ \ \ \ \ \ \ \ card.push\_to\_hub(repo\_id,\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00447}00447\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(\textcolor{stringliteral}{"{}✅\ Created\ empty\ repository\ README\ as\ fallback"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00448}00448\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00449}00449\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00450}00450\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ create\ empty\ repository\ README:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00451}00451\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00452}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a2dfaa3357f995f2e840cc69729139656}{00452}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a2dfaa3357f995f2e840cc69729139656}{restore\_configuration}}(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00453}00453\ \ \ \ \ \ \ \ \ self,\ backup\_path:\ str,\ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00454}00454\ \ \ \ \ )\ -\/>\ bool:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00455}00455\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00456}00456\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Restore\ a\ configuration\ from\ backup.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00457}00457\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00458}00458\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00459}00459\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ backup\_path:\ Path\ to\ backup\ directory}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00460}00460\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ Target\ repository\ ID}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00461}00461\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00462}00462\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00463}00463\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ True\ if\ restoration\ successful}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00464}00464\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00465}00465\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00466}00466\ \ \ \ \ \ \ \ \ backup\_path\ =\ Path(backup\_path)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00467}00467\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00468}00468\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{keywordflow}{not}\ backup\_path.exists():}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00469}00469\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Backup\ path\ does\ not\ exist:\ \{backup\_path\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00470}00470\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00471}00471\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00472}00472\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00473}00473\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ backup\ metadata}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00474}00474\ \ \ \ \ \ \ \ \ \ \ \ \ metadata\_path\ =\ backup\_path\ /\ \textcolor{stringliteral}{"{}metadata.json"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00475}00475\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{with}\ open(metadata\_path,\ \textcolor{stringliteral}{"{}r"{}})\ \textcolor{keyword}{as}\ f:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00476}00476\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ metadata\ =\ json.load(f)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00477}00477\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00478}00478\ \ \ \ \ \ \ \ \ \ \ \ \ config\_name\ =\ metadata[\textcolor{stringliteral}{"{}config\_name"{}}]}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00479}00479\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(f\textcolor{stringliteral}{"{}Restoring\ configuration\ '\{config\_name\}'\ to\ \{repo\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00480}00480\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00481}00481\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Load\ backup\ data}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00482}00482\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\_path\ =\ backup\_path\ /\ \textcolor{stringliteral}{"{}dataset.json"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00483}00483\ \ \ \ \ \ \ \ \ \ \ \ \ df\ =\ pd.read\_json(dataset\_path,\ orient=\textcolor{stringliteral}{"{}records"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00484}00484\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00485}00485\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Convert\ to\ HF\ dataset\ and\ upload}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00486}00486\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ Dataset.from\_pandas(df)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00487}00487\ \ \ \ \ \ \ \ \ \ \ \ \ dataset.push\_to\_hub(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00488}00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id,\ config\_name=config\_name,\ split=\textcolor{stringliteral}{"{}train"{}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00489}00489\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00490}00490\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00491}00491\ \ \ \ \ \ \ \ \ \ \ \ \ logger.info(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00492}00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ f\textcolor{stringliteral}{"{}✅\ Successfully\ restored\ '\{config\_name\}'\ with\ \{len(df)\}\ entries"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00493}00493\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00494}00494\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{True}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00495}00495\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00496}00496\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00497}00497\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ restore\ configuration:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00498}00498\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{False}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00499}00499\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00500}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_acb210f19869228f0d7945b2981117305}{00500}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_acb210f19869228f0d7945b2981117305}{get\_configuration\_stats}}(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00501}00501\ \ \ \ \ \ \ \ \ self,\ config\_name:\ str,\ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00502}00502\ \ \ \ \ )\ -\/>\ Dict:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00503}00503\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00504}00504\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Get\ detailed\ statistics\ for\ a\ specific\ configuration.}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00505}00505\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00506}00506\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Args:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00507}00507\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ config\_name:\ Configuration\ name}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00508}00508\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ repo\_id:\ Repository\ ID}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00509}00509\ \textcolor{stringliteral}{}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00510}00510\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ Returns:}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00511}00511\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ \ \ \ \ Dictionary\ with\ configuration\ statistics}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00512}00512\ \textcolor{stringliteral}{\ \ \ \ \ \ \ \ "{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00513}00513\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00514}00514\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00515}00515\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{try}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00516}00516\ \ \ \ \ \ \ \ \ \ \ \ \ dataset\ =\ load\_dataset(}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00517}00517\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ repo\_id,\ config\_name,\ split=\textcolor{stringliteral}{"{}train"{}},\ token=self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a285545fa5291dac80900413aebf74f13}{hf\_token}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00518}00518\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00519}00519\ \ \ \ \ \ \ \ \ \ \ \ \ df\ =\ dataset.to\_pandas()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00520}00520\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00521}00521\ \ \ \ \ \ \ \ \ \ \ \ \ stats\ =\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00522}00522\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}config\_name"{}}:\ config\_name,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00523}00523\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}repo\_id"{}}:\ repo\_id,}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00524}00524\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}total\_entries"{}}:\ len(df),}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00525}00525\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}columns"{}}:\ list(df.columns),}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00526}00526\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}sources"{}}:\ df[\textcolor{stringliteral}{"{}source"{}}].value\_counts().to\_dict()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00527}00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}source"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00528}00528\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \{\},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00529}00529\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}quality\_stats"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00530}00530\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean\_quality"{}}:\ df[\textcolor{stringliteral}{"{}quality\_score"{}}].mean()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00531}00531\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}quality\_score"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00532}00532\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00533}00533\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min\_quality"{}}:\ df[\textcolor{stringliteral}{"{}quality\_score"{}}].min()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00534}00534\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}quality\_score"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00535}00535\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00536}00536\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max\_quality"{}}:\ df[\textcolor{stringliteral}{"{}quality\_score"{}}].max()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00537}00537\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}quality\_score"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00538}00538\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00539}00539\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00540}00540\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}answer\_length\_stats"{}}:\ \{}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00541}00541\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}mean\_length"{}}:\ df[\textcolor{stringliteral}{"{}answer"{}}].str.len().mean()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00542}00542\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}answer"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00543}00543\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00544}00544\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}min\_length"{}}:\ df[\textcolor{stringliteral}{"{}answer"{}}].str.len().min()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00545}00545\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}answer"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00546}00546\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00547}00547\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}max\_length"{}}:\ df[\textcolor{stringliteral}{"{}answer"{}}].str.len().max()}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00548}00548\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}answer"{}}\ \textcolor{keywordflow}{in}\ df.columns}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00549}00549\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordtype}{None},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00550}00550\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \},}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00551}00551\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00552}00552\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00553}00553\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ stats}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00554}00554\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00555}00555\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{except}\ Exception\ \textcolor{keyword}{as}\ e:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00556}00556\ \ \ \ \ \ \ \ \ \ \ \ \ logger.error(f\textcolor{stringliteral}{"{}Failed\ to\ get\ stats\ for\ \{config\_name\}:\ \{e\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00557}00557\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \{\textcolor{stringliteral}{"{}error"{}}:\ str(e)\}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00558}00558\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00559}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a7303816748104e052c67cc536a093b2d}{00559}}\ \ \ \ \ \textcolor{keyword}{def\ }\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a7303816748104e052c67cc536a093b2d}{print\_repository\_overview}}(self,\ repo\_id:\ Optional[str]\ =\ \textcolor{keywordtype}{None}):}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00560}00560\ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}"{}"{}Print\ a\ comprehensive\ overview\ of\ the\ repository."{}"{}"{}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00561}00561\ \ \ \ \ \ \ \ \ repo\_id\ =\ repo\_id\ \textcolor{keywordflow}{or}\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a440e99176b8d92366a842cc92205375e}{default\_repo}}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00562}00562\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00563}00563\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)n\{'='\ *\ 60\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00564}00564\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}DATASET\ REPOSITORY\ OVERVIEW:\ \{repo\_id\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00565}00565\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\{'='\ *\ 60\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00566}00566\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00567}00567\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ configurations}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00568}00568\ \ \ \ \ \ \ \ \ configs\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_aa93a244ca05394a837b79cdb5b89c73e}{list\_dataset\_configurations}}(repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00569}00569\ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\(\backslash\)n📊\ CONFIGURATIONS\ (\{len(configs)\}\ total):"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00570}00570\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00571}00571\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ config\ \textcolor{keywordflow}{in}\ configs:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00572}00572\ \ \ \ \ \ \ \ \ \ \ \ \ stats\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_acb210f19869228f0d7945b2981117305}{get\_configuration\_stats}}(config,\ repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00573}00573\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}error"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ stats:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00574}00574\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ •\ \{config\}:\ \{stats['total\_entries']\}\ entries"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00575}00575\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ stats[\textcolor{stringliteral}{"{}sources"{}}]:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00576}00576\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ sources\ =\ \textcolor{stringliteral}{"{},\ "{}}.join(stats[\textcolor{stringliteral}{"{}sources"{}}].keys())}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00577}00577\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ \ \ Sources:\ \{sources\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00578}00578\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00579}00579\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ •\ \{config\}:\ Error\ loading\ stats"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00580}00580\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00581}00581\ \ \ \ \ \ \ \ \ \textcolor{comment}{\#\ Get\ structure}}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00582}00582\ \ \ \ \ \ \ \ \ structure\ =\ self.\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1dataset__manager_1_1DatasetManager_a4b1260557f1e9b5300b4110b3375f57b}{inspect\_dataset\_structure}}(repo\_id)}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00583}00583\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ \textcolor{stringliteral}{"{}error"{}}\ \textcolor{keywordflow}{not}\ \textcolor{keywordflow}{in}\ structure:}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00584}00584\ \ \ \ \ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)n\ REPOSITORY\ FILES:"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00585}00585\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ •\ Data\ files:\ \{len(structure['files']['data\_files'])\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00586}00586\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ •\ Metadata\ files:\ \{len(structure['files']['metadata\_files'])\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00587}00587\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ •\ Config\ files:\ \{len(structure['files']['config\_files'])\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00588}00588\ \ \ \ \ \ \ \ \ \ \ \ \ print(f\textcolor{stringliteral}{"{}\ \ •\ Other\ files:\ \{len(structure['files']['other\_files'])\}"{}})}
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00589}00589\ }
+\DoxyCodeLine{\Hypertarget{dataset__manager_8py_source_l00590}00590\ \ \ \ \ \ \ \ \ print(\textcolor{stringliteral}{"{}\(\backslash\)n✅\ Repository\ overview\ complete"{}})}
+
+\end{DoxyCode}

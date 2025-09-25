@@ -1,0 +1,108 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader}{}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader}\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a8f7d3b1fe4f2474c2d2c88bb59096984}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+Dict \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a419b06f91ef9f031d14325ac07beeeee}{load\+\_\+prompts}} (self, str filename)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a8fca1ad130f4b9e65cb7b2d7a8e043f9}{get\+\_\+prompt}} (self, str filename, str key)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a7de61a8b2b346c86a2954a5ecf4de5c0}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_acac3ee433875006e7b81a8f8d59dc0f4}{prompts\+\_\+dir}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_abd0ca4d501f8aa33021da243b508e6de}{\+\_\+prompt\+\_\+cache}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Loads and manages multilingual prompt templates from JSON files.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00017}{17}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a8f7d3b1fe4f2474c2d2c88bb59096984}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a8f7d3b1fe4f2474c2d2c88bb59096984} 
+\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00022}{22}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a8fca1ad130f4b9e65cb7b2d7a8e043f9}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a8fca1ad130f4b9e65cb7b2d7a8e043f9} 
+\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}!get\_prompt@{get\_prompt}}
+\index{get\_prompt@{get\_prompt}!buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection{\texorpdfstring{get\_prompt()}{get\_prompt()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader.\+get\+\_\+prompt (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{filename,  }\item[{str}]{key }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get a specific prompt (all prompts are now in English).\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00045}{45}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a419b06f91ef9f031d14325ac07beeeee}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a419b06f91ef9f031d14325ac07beeeee} 
+\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}!load\_prompts@{load\_prompts}}
+\index{load\_prompts@{load\_prompts}!buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection{\texorpdfstring{load\_prompts()}{load\_prompts()}}
+{\footnotesize\ttfamily  Dict buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader.\+load\+\_\+prompts (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{filename }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load prompts from a JSON file with caching.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00027}{27}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_abd0ca4d501f8aa33021da243b508e6de}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_abd0ca4d501f8aa33021da243b508e6de} 
+\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}!\_prompt\_cache@{\_prompt\_cache}}
+\index{\_prompt\_cache@{\_prompt\_cache}!buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection{\texorpdfstring{\_prompt\_cache}{\_prompt\_cache}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader.\+\_\+prompt\+\_\+cache\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00025}{25}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a7de61a8b2b346c86a2954a5ecf4de5c0}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_a7de61a8b2b346c86a2954a5ecf4de5c0} 
+\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00023}{23}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_acac3ee433875006e7b81a8f8d59dc0f4}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1PromptLoader_acac3ee433875006e7b81a8f8d59dc0f4} 
+\index{buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}!prompts\_dir@{prompts\_dir}}
+\index{prompts\_dir@{prompts\_dir}!buddhi\_pragati.evaluate.templates.PromptLoader@{buddhi\_pragati.evaluate.templates.PromptLoader}}
+\doxysubsubsection{\texorpdfstring{prompts\_dir}{prompts\_dir}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Prompt\+Loader.\+prompts\+\_\+dir}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00024}{24}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{templates_8py}{templates.\+py}}\end{DoxyCompactItemize}

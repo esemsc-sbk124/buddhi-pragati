@@ -1,0 +1,128 @@
+\chapter{Buddhi-\/\+Pragati Experiment Scripts}
+\hypertarget{md_buddhi__pragati_2scripts_2README}{}\label{md_buddhi__pragati_2scripts_2README}\index{Buddhi-\/Pragati Experiment Scripts@{Buddhi-\/Pragati Experiment Scripts}}
+\label{md_buddhi__pragati_2scripts_2README_autotoc_md0}%
+\Hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md0}%
+ Simple bash scripts to execute all crossword benchmark experiments systematically.\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md1}{}\doxysection{\texorpdfstring{Quick Start}{Quick Start}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md1}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Run\ all\ experiments\ in\ correct\ order}
+\DoxyCodeLine{./run\_all\_experiments.sh}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Or\ test\ with\ dry-\/run\ first}
+\DoxyCodeLine{./run\_all\_experiments.sh\ -\/-\/dry-\/run}
+
+\end{DoxyCode}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md2}{}\doxysection{\texorpdfstring{Scripts Overview}{Scripts Overview}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md2}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md3}{}\doxysubsection{\texorpdfstring{Main Experiment Scripts}{Main Experiment Scripts}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md3}
+
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily run\+\_\+all\+\_\+experiments.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Executes all experiments in correct dependency order
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily run\+\_\+master\+\_\+experiment.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Experiment 0 (all models × all languages × all grid sizes)
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily run\+\_\+focused\+\_\+experiments.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Experiments 2-\/7 (parameter variations with priority subsets)
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily run\+\_\+analysis\+\_\+experiments.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Experiments 1,8-\/10 (results analysis from master experiment)
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md4}{}\doxysubsection{\texorpdfstring{Utility Scripts}{Utility Scripts}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md4}
+
+\begin{DoxyItemize}
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily utils/setup\+\_\+environment.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Environment validation and setup
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily utils/monitor\+\_\+progress.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Real-\/time progress monitoring
+\item \texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*}{\ttfamily utils/check\+\_\+results.\+sh}\texorpdfstring{$\ast$}{*}\texorpdfstring{$\ast$}{*} -\/ Results validation and summary
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md5}{}\doxysection{\texorpdfstring{Usage Examples}{Usage Examples}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md5}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md6}{}\doxysubsection{\texorpdfstring{Run All Experiments}{Run All Experiments}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md6}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{./run\_all\_experiments.sh}
+
+\end{DoxyCode}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md7}{}\doxysubsection{\texorpdfstring{Run Individual Experiment Groups}{Run Individual Experiment Groups}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md7}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Master\ experiment\ only}
+\DoxyCodeLine{./run\_master\_experiment.sh}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Focused\ experiments\ only}
+\DoxyCodeLine{./run\_focused\_experiments.sh}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Analysis\ experiments\ (requires\ master\ results)}
+\DoxyCodeLine{./run\_analysis\_experiments.sh}
+
+\end{DoxyCode}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md8}{}\doxysubsection{\texorpdfstring{Test First (\+Recommended)}{Test First (Recommended)}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md8}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ See\ what\ commands\ will\ be\ executed}
+\DoxyCodeLine{./run\_all\_experiments.sh\ -\/-\/dry-\/run}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Validate\ environment}
+\DoxyCodeLine{./utils/setup\_environment.sh\ -\/-\/check}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Check\ current\ results}
+\DoxyCodeLine{./utils/check\_results.sh}
+
+\end{DoxyCode}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md9}{}\doxysubsection{\texorpdfstring{Custom Options}{Custom Options}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md9}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Custom\ output\ directory}
+\DoxyCodeLine{./run\_master\_experiment.sh\ -\/-\/output-\/dir\ ./custom\_results}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Run\ specific\ focused\ experiments}
+\DoxyCodeLine{./run\_focused\_experiments.sh\ -\/-\/experiments\ 2\_shot\_variations,4\_chain\_of\_thought}
+
+\end{DoxyCode}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md10}{}\doxysection{\texorpdfstring{Experiment Types}{Experiment Types}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md10}
+\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md11}{}\doxysubsection{\texorpdfstring{Master Experiment (0)}{Master Experiment (0)}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md11}
+
+\begin{DoxyItemize}
+\item {\bfseries{Scope}}\+: ALL models × ALL languages × ALL grid sizes × ALL puzzles
+\item {\bfseries{Purpose}}\+: Comprehensive baseline evaluation
+\item {\bfseries{Duration}}\+: Several hours to days
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md12}{}\doxysubsection{\texorpdfstring{Focused Experiments (2-\/7)}{Focused Experiments (2-7)}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md12}
+
+\begin{DoxyItemize}
+\item {\bfseries{Scope}}\+: Priority models/languages/grid sizes with parameter variations
+\item {\bfseries{Experiments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily 2\+\_\+shot\+\_\+variations}\+: 0-\/shot vs 1-\/shot vs few-\/shot prompting
+\item {\ttfamily 3\+\_\+batch\+\_\+sizes}\+: 1 puzzle vs 10 puzzles vs all puzzles per batch
+\item {\ttfamily 4\+\_\+chain\+\_\+of\+\_\+thought}\+: CoT enabled vs disabled
+\item {\ttfamily 5\+\_\+reasoning\+\_\+effort}\+: Low vs normal vs high token limits
+\item {\ttfamily 6\+\_\+self\+\_\+reflection}\+: Error correction enabled vs disabled
+\item {\ttfamily 7\+\_\+language\+\_\+variants}\+: Same-\/language vs cross-\/language prompts
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md13}{}\doxysubsection{\texorpdfstring{Analysis Experiments (1, 8-\/10)}{Analysis Experiments (1, 8-10)}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md13}
+
+\begin{DoxyItemize}
+\item {\bfseries{Input}}\+: Master experiment results
+\item {\bfseries{Experiments}}\+:
+\begin{DoxyItemize}
+\item {\ttfamily 1\+\_\+language\+\_\+families}\+: Dravidian vs Indo-\/\+Aryan vs Other languages
+\item {\ttfamily 8\+\_\+model\+\_\+types}\+: Indic fine-\/tuned vs General multilingual
+\item {\ttfamily 9\+\_\+reasoning\+\_\+models}\+: Reasoning vs Non-\/reasoning models
+\item {\ttfamily 10\+\_\+performance\+\_\+normalization}\+: Cost/token and token usage analysis
+\end{DoxyItemize}
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md14}{}\doxysection{\texorpdfstring{Output}{Output}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md14}
+All results saved to\+: {\ttfamily buddhi\+\_\+pragati/experiments/experiment\+\_\+\{id\}\+\_\+\{timestamp\}.json}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md15}{}\doxysection{\texorpdfstring{Requirements}{Requirements}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md15}
+
+\begin{DoxyItemize}
+\item Python with buddhi-\/pragati package installed
+\item Valid API keys configured in {\ttfamily crossword\+\_\+config.\+txt}
+\item Hugging\+Face token for dataset access
+\item \texorpdfstring{$\sim$}{\string~}10\+GB disk space for comprehensive results
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md16}{}\doxysection{\texorpdfstring{Configuration}{Configuration}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md16}
+Priority settings are configured in {\ttfamily crossword\+\_\+config.\+txt}\+:
+\begin{DoxyItemize}
+\item {\ttfamily DEFAULT\+\_\+\+PRIORITARY\+\_\+\+MODELS}\+: 12 priority models
+\item {\ttfamily DEFAULT\+\_\+\+PRIORITARY\+\_\+\+LANGUAGES}\+: 10 priority languages ~\newline
+
+\item {\ttfamily DEFAULT\+\_\+\+PRIORITARY\+\_\+\+GRID\+\_\+\+SIZES}\+: 3 priority grid sizes (7,15,25)
+\end{DoxyItemize}\hypertarget{md_buddhi__pragati_2scripts_2README_autotoc_md17}{}\doxysection{\texorpdfstring{Monitoring}{Monitoring}}\label{md_buddhi__pragati_2scripts_2README_autotoc_md17}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\#\ Monitor\ progress\ in\ real-\/time}
+\DoxyCodeLine{./utils/monitor\_progress.sh}
+\DoxyCodeLine{}
+\DoxyCodeLine{\#\ Check\ results\ status}
+\DoxyCodeLine{./utils/check\_results.sh}
+
+\end{DoxyCode}
+ 

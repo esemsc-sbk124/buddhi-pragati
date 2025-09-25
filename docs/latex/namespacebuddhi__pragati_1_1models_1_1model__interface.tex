@@ -1,0 +1,126 @@
+\doxysection{buddhi\+\_\+pragati.\+models.\+model\+\_\+interface Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1models_1_1model__interface}{}\label{namespacebuddhi__pragati_1_1models_1_1model__interface}\index{buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1AnthropicBackend}{Anthropic\+Backend}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface}{Base\+Model\+Interface}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1HuggingFaceBackend}{Hugging\+Face\+Backend}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenAIBackend}{Open\+AIBackend}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend}{Open\+Router\+Backend}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend}{Sarvam\+AIBackend}}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1models_1_1model__interface_1_1UnifiedModelInterface}{Unified\+Model\+Interface}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Callable \mbox{\hyperlink{namespacebuddhi__pragati_1_1models_1_1model__interface_ab4656905fdf8088aaf2fbabd57e370cc}{retry\+\_\+with\+\_\+exponential\+\_\+backoff}} (int max\+\_\+attempts=3, float initial\+\_\+delay=1.\+0, float max\+\_\+delay=60.\+0, float backoff\+\_\+factor=2.\+0, tuple exceptions=(Exception,))
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1models_1_1model__interface_a2f2b841f9796bc1a2a9b3e299b9f342d}{validate\+\_\+response}} (str response, int min\+\_\+length=10)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{namespacebuddhi__pragati_1_1models_1_1model__interface_aa360d3c0761139cd3cf5e4fa6ed8829c}{HF\+\_\+\+AVAILABLE}} = True
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1models_1_1model__interface_a4e27eae9a371822edf436c6eeee3cc46}{pipeline}} = None
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Unified model interface system supporting multiple providers with modern API clients.
+
+This module provides a comprehensive model interface that supports:
+- OpenAI (Responses API for gpt-4.1/gpt-5/o1/o3, Chat Completions for others)
+- Anthropic (Messages API with thinking mode support and official client option)
+- OpenRouter (proxy for multiple models with enhanced error handling)
+- HuggingFace (local and hosted models with automatic architecture detection)
+- SarvamAI (official client library with api_subscription_key authentication)
+
+Key Features:
+- Modern API client integration with fallback to requests for backward compatibility
+- Reasoning mode support across all providers with proper parameter mapping
+- Enhanced error handling and response validation
+- Proper token usage tracking for cost analysis
+- Configuration-driven parameter management from crossword_config.txt
+- Retry logic with exponential backoff for robustness
+
+API Implementation Details:
+- OpenAI: Supports both new Responses API and legacy Chat Completions
+- Anthropic: Fixed thinking mode parameter format and response content parsing
+- SarvamAI: Complete rewrite using official client with proper api_subscription_key handling
+- All backends maintain backward compatibility while supporting modern features
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1models_1_1model__interface_ab4656905fdf8088aaf2fbabd57e370cc}\label{namespacebuddhi__pragati_1_1models_1_1model__interface_ab4656905fdf8088aaf2fbabd57e370cc} 
+\index{buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}!retry\_with\_exponential\_backoff@{retry\_with\_exponential\_backoff}}
+\index{retry\_with\_exponential\_backoff@{retry\_with\_exponential\_backoff}!buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}}
+\doxysubsubsection{\texorpdfstring{retry\_with\_exponential\_backoff()}{retry\_with\_exponential\_backoff()}}
+{\footnotesize\ttfamily  Callable buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+retry\+\_\+with\+\_\+exponential\+\_\+backoff (\begin{DoxyParamCaption}\item[{int }]{max\+\_\+attempts = {\ttfamily 3},  }\item[{float }]{initial\+\_\+delay = {\ttfamily 1.0},  }\item[{float }]{max\+\_\+delay = {\ttfamily 60.0},  }\item[{float }]{backoff\+\_\+factor = {\ttfamily 2.0},  }\item[{tuple }]{exceptions = {\ttfamily (Exception,)} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Decorator for retrying functions with exponential backoff.
+
+Args:
+    max_attempts: Maximum number of retry attempts
+    initial_delay: Initial delay between retries in seconds
+    max_delay: Maximum delay between retries
+    backoff_factor: Factor to multiply delay by after each attempt
+    exceptions: Tuple of exceptions to catch and retry on
+
+Returns:
+    Decorated function with retry logic
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00045}{45}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1models_1_1model__interface_a2f2b841f9796bc1a2a9b3e299b9f342d}\label{namespacebuddhi__pragati_1_1models_1_1model__interface_a2f2b841f9796bc1a2a9b3e299b9f342d} 
+\index{buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}!validate\_response@{validate\_response}}
+\index{validate\_response@{validate\_response}!buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}}
+\doxysubsubsection{\texorpdfstring{validate\_response()}{validate\_response()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+validate\+\_\+response (\begin{DoxyParamCaption}\item[{str}]{response,  }\item[{int }]{min\+\_\+length = {\ttfamily 10} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Validate that a model response is meaningful.
+
+Args:
+    response: The response text to validate
+    min_length: Minimum acceptable response length
+
+Returns:
+    True if response is valid, False otherwise
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00109}{109}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1models_1_1model__interface_aa360d3c0761139cd3cf5e4fa6ed8829c}\label{namespacebuddhi__pragati_1_1models_1_1model__interface_aa360d3c0761139cd3cf5e4fa6ed8829c} 
+\index{buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}!HF\_AVAILABLE@{HF\_AVAILABLE}}
+\index{HF\_AVAILABLE@{HF\_AVAILABLE}!buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}}
+\doxysubsubsection{\texorpdfstring{HF\_AVAILABLE}{HF\_AVAILABLE}}
+{\footnotesize\ttfamily bool buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+HF\+\_\+\+AVAILABLE = True}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00039}{39}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1models_1_1model__interface_a4e27eae9a371822edf436c6eeee3cc46}\label{namespacebuddhi__pragati_1_1models_1_1model__interface_a4e27eae9a371822edf436c6eeee3cc46} 
+\index{buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}!pipeline@{pipeline}}
+\index{pipeline@{pipeline}!buddhi\_pragati.models.model\_interface@{buddhi\_pragati.models.model\_interface}}
+\doxysubsubsection{\texorpdfstring{pipeline}{pipeline}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+models.\+model\+\_\+interface.\+pipeline = None}
+
+
+
+Definition at line \mbox{\hyperlink{model__interface_8py_source_l00042}{42}} of file \mbox{\hyperlink{model__interface_8py_source}{model\+\_\+interface.\+py}}.
+

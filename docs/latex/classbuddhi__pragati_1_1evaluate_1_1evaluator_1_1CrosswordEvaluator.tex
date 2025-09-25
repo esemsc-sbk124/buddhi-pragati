@@ -1,0 +1,338 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator}{}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator}\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+Inheritance diagram for buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0200ef04596e85e86537cb99491e3365}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}{evaluate\+\_\+single}} (self, model, puzzle, Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}\mbox{]} template=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ad02ea0eefd2326c2f6042662acf2dea1}{evaluate\+\_\+batch}} (self, model, List puzzles, Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}\mbox{]} template=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa92d3896a59e1a76768381dbd54ffd35}{evaluate\+\_\+batch\+\_\+with\+\_\+examples}} (self, model, List puzzles, \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}} template, Optional\mbox{[}List\mbox{]} examples=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a861e5fa2be7722a627135177ae04f7c3}{evaluate\+\_\+single\+\_\+with\+\_\+prompt}} (self, model, puzzle, str custom\+\_\+prompt)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a992186c9ed574853ee298b1a4fb24a4b}{evaluate\+\_\+batch\+\_\+with\+\_\+tracking}} (self, model, List puzzles, \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}} template)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa382b6babc6b262e9cb0dae60add327c}{evaluate\+\_\+batch\+\_\+with\+\_\+reflection}} (self, model, List puzzles, \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}} template)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}{parser}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}{metrics}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a799abaebd592d16c0aa54ee4844de9b6}{token\+\_\+tracking\+\_\+enabled}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}{\+\_\+calculate\+\_\+summary}} (self, List\mbox{[}Dict\mbox{]} results)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}{\+\_\+extract\+\_\+token\+\_\+info}} (self, model, str response)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a22e98823795b6262d8af96f3a92f92c6}{\+\_\+generate\+\_\+error\+\_\+feedback}} (self, puzzle, Dict\mbox{[}str, Any\mbox{]} result)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}{\+\_\+get\+\_\+template\+\_\+config}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}} template)
+\item 
+Optional\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3}{\+\_\+process\+\_\+and\+\_\+validate\+\_\+response}} (self, str response, str puzzle\+\_\+id)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Enhanced crossword puzzle evaluator with experimental support.
+
+Provides comprehensive evaluation capabilities including:
+- Standard single/batch evaluation
+- Token usage tracking
+- Cost analysis
+- Few-shot example support
+- Self-reflection capabilities
+- Multi-iteration evaluation
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00021}{21}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0200ef04596e85e86537cb99491e3365}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0200ef04596e85e86537cb99491e3365} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize evaluator with integrated components.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00034}{34}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a8db8258d847952abee56c72fcd316359} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!\_calculate\_summary@{\_calculate\_summary}}
+\index{\_calculate\_summary@{\_calculate\_summary}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{\_calculate\_summary()}{\_calculate\_summary()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+\_\+calculate\+\_\+summary (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Dict\mbox{]}}]{results }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Calculate summary metrics across all results.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00417}{417}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0fa967d4b8049fdb12092a07a889d8af} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!\_extract\_token\_info@{\_extract\_token\_info}}
+\index{\_extract\_token\_info@{\_extract\_token\_info}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{\_extract\_token\_info()}{\_extract\_token\_info()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+\_\+extract\+\_\+token\+\_\+info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{str}]{response }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Extract token usage information from model if available.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00456}{456}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a22e98823795b6262d8af96f3a92f92c6}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a22e98823795b6262d8af96f3a92f92c6} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!\_generate\_error\_feedback@{\_generate\_error\_feedback}}
+\index{\_generate\_error\_feedback@{\_generate\_error\_feedback}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{\_generate\_error\_feedback()}{\_generate\_error\_feedback()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+\_\+generate\+\_\+error\+\_\+feedback (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{result }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate error feedback for self-reflection.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00572}{572}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a9febfb81b77cc4fc19defee305ecb357} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!\_get\_template\_config@{\_get\_template\_config}}
+\index{\_get\_template\_config@{\_get\_template\_config}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{\_get\_template\_config()}{\_get\_template\_config()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+\_\+get\+\_\+template\+\_\+config (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}}]{template }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Extract template configuration for result tracking.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00614}{614}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a16ffcd403e6416fdb57788c728d7c9f3} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!\_process\_and\_validate\_response@{\_process\_and\_validate\_response}}
+\index{\_process\_and\_validate\_response@{\_process\_and\_validate\_response}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{\_process\_and\_validate\_response()}{\_process\_and\_validate\_response()}}
+{\footnotesize\ttfamily  Optional\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+\_\+process\+\_\+and\+\_\+validate\+\_\+response (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{response,  }\item[{str     }]{puzzle\+\_\+id }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Enhanced response processing and validation for crossword evaluation.
+
+Provides additional validation and error handling on top of backend
+normalization to ensure robust evaluation pipeline performance.
+
+Args:
+    response: Raw model response
+    puzzle_id: Puzzle identifier for logging
+
+Returns:
+    Processed response string or None if processing fails
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00628}{628}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ad02ea0eefd2326c2f6042662acf2dea1}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ad02ea0eefd2326c2f6042662acf2dea1} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!evaluate\_batch@{evaluate\_batch}}
+\index{evaluate\_batch@{evaluate\_batch}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_batch()}{evaluate\_batch()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+evaluate\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{List}]{puzzles,  }\item[{Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}\mbox{]} }]{template = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate model on multiple puzzles.
+
+Args:
+    model: Model interface
+    puzzles: List of CrosswordPuzzle objects
+    template: Optional CrosswordPromptTemplate for custom prompting
+
+Returns:
+    Dict with batch evaluation results
+\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a4bfaa7b863e638c6684625e5ccc83751}{buddhi\+\_\+pragati.\+core.\+base\+\_\+evaluator.\+Base\+Evaluator}}.
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00162}{162}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa92d3896a59e1a76768381dbd54ffd35}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa92d3896a59e1a76768381dbd54ffd35} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!evaluate\_batch\_with\_examples@{evaluate\_batch\_with\_examples}}
+\index{evaluate\_batch\_with\_examples@{evaluate\_batch\_with\_examples}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_batch\_with\_examples()}{evaluate\_batch\_with\_examples()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+evaluate\+\_\+batch\+\_\+with\+\_\+examples (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{List}]{puzzles,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}}]{template,  }\item[{Optional\mbox{[}List\mbox{]} }]{examples = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate batch with few-shot examples.
+
+Args:
+    model: Model interface
+    puzzles: List of puzzles to evaluate
+    template: Configured template with shot type
+    examples: Few-shot example puzzles
+
+Returns:
+    Batch evaluation results
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00213}{213}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa382b6babc6b262e9cb0dae60add327c}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_aa382b6babc6b262e9cb0dae60add327c} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!evaluate\_batch\_with\_reflection@{evaluate\_batch\_with\_reflection}}
+\index{evaluate\_batch\_with\_reflection@{evaluate\_batch\_with\_reflection}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_batch\_with\_reflection()}{evaluate\_batch\_with\_reflection()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+evaluate\+\_\+batch\+\_\+with\+\_\+reflection (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{List}]{puzzles,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}     }]{template }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate batch with self-reflection capabilities.
+
+Args:
+    model: Model interface
+    puzzles: List of puzzles to evaluate
+    template: Template configured with self_reflection=True
+
+Returns:
+    Batch evaluation results with reflection iterations
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00481}{481}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a992186c9ed574853ee298b1a4fb24a4b}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a992186c9ed574853ee298b1a4fb24a4b} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!evaluate\_batch\_with\_tracking@{evaluate\_batch\_with\_tracking}}
+\index{evaluate\_batch\_with\_tracking@{evaluate\_batch\_with\_tracking}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_batch\_with\_tracking()}{evaluate\_batch\_with\_tracking()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+evaluate\+\_\+batch\+\_\+with\+\_\+tracking (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{List}]{puzzles,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}     }]{template }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate batch with detailed resource tracking for efficiency analysis.
+
+Args:
+    model: Model interface
+    puzzles: List of puzzles
+    template: Template configuration
+
+Returns:
+    Results with detailed resource usage tracking
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00357}{357}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a0b086e01bcd78bcbd1aeef9d634b1433} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!evaluate\_single@{evaluate\_single}}
+\index{evaluate\_single@{evaluate\_single}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_single()}{evaluate\_single()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+evaluate\+\_\+single (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{puzzle,  }\item[{Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{Crossword\+Prompt\+Template}}\mbox{]} }]{template = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate model on a single crossword puzzle.
+
+Args:
+    model: Model interface with generate_response method
+    puzzle: CrosswordPuzzle object
+    template: Optional CrosswordPromptTemplate for custom prompting
+
+Returns:
+    Dict with comprehensive evaluation results
+\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1core_1_1base__evaluator_1_1BaseEvaluator_a1dfe532b576659dd0fcdb2c32e797847}{buddhi\+\_\+pragati.\+core.\+base\+\_\+evaluator.\+Base\+Evaluator}}.
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00050}{50}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a861e5fa2be7722a627135177ae04f7c3}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a861e5fa2be7722a627135177ae04f7c3} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!evaluate\_single\_with\_prompt@{evaluate\_single\_with\_prompt}}
+\index{evaluate\_single\_with\_prompt@{evaluate\_single\_with\_prompt}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{evaluate\_single\_with\_prompt()}{evaluate\_single\_with\_prompt()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+evaluate\+\_\+single\+\_\+with\+\_\+prompt (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{puzzle,  }\item[{str     }]{custom\+\_\+prompt }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Evaluate with a custom prompt (for self-reflection).
+
+Args:
+    model: Model interface
+    puzzle: CrosswordPuzzle object
+    custom_prompt: Pre-formatted prompt string
+
+Returns:
+    Evaluation result dictionary
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00292}{292}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_af5bf736eb22d59d5486762c73e8f69c0} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!config@{config}}
+\index{config@{config}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00037}{37}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a86e97b1f08219bb786370fc8c097cb1d} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00036}{36}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_ac1e397ae4c72b5586dced4c8d5a809ab} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!metrics@{metrics}}
+\index{metrics@{metrics}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{metrics}{metrics}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+metrics}
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00041}{41}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a639a18d2befa10ba2ea2f899087f2379} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!parser@{parser}}
+\index{parser@{parser}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{parser}{parser}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+parser}
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00040}{40}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a799abaebd592d16c0aa54ee4844de9b6}\label{classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator_a799abaebd592d16c0aa54ee4844de9b6} 
+\index{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}!token\_tracking\_enabled@{token\_tracking\_enabled}}
+\index{token\_tracking\_enabled@{token\_tracking\_enabled}!buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator@{buddhi\_pragati.evaluate.evaluator.CrosswordEvaluator}}
+\doxysubsubsection{\texorpdfstring{token\_tracking\_enabled}{token\_tracking\_enabled}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+evaluator.\+Crossword\+Evaluator.\+token\+\_\+tracking\+\_\+enabled}
+
+
+
+Definition at line \mbox{\hyperlink{evaluator_8py_source_l00044}{44}} of file \mbox{\hyperlink{evaluator_8py_source}{evaluator.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{evaluator_8py}{evaluator.\+py}}\end{DoxyCompactItemize}

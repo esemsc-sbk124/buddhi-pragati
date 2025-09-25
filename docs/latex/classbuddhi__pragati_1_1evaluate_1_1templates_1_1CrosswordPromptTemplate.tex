@@ -1,0 +1,325 @@
+\doxysection{buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template Class Reference}
+\hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}{}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate}\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ae0d0d71b15a043416e2cf44219570756}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a407f9c20630dc48ed62a3a3c4ed47f25}{target\+\_\+language}}="{}English"{})
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a9910942fb7619bc05f304b398926d3fa}{configure\+\_\+experiment}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_af33700b0b2ec7f72ec0a5a8eb74ade6a}{shot\+\_\+type}}="{}zero-\/shot"{}, bool \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aff9b295f9ce0fbd51a91e3425bdad82b}{chain\+\_\+of\+\_\+thought}}=False, str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_acab1c321adbb82115b9301b8d6fcdb5e}{reasoning\+\_\+effort}}="{}normal"{}, bool \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a5dde6a6a2ce11dadddcd157a81122a2e}{self\+\_\+reflection}}=False, int \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_adbc8b3920a6044a42f51a8b2dc970011}{batch\+\_\+size}}=1)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a3581c21e68b77ec10e86449bc42f7229}{format\+\_\+puzzle\+\_\+for\+\_\+model}} (self, puzzle, Optional\mbox{[}List\mbox{]} few\+\_\+shot\+\_\+examples=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ad78992fb310f562802d341ba63ebf9f0}{generate\+\_\+self\+\_\+reflection\+\_\+prompt}} (self, puzzle, str previous\+\_\+response, List\mbox{[}str\mbox{]} errors)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a407f9c20630dc48ed62a3a3c4ed47f25}{target\+\_\+language}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a54727f7ca0db77301ebb7917e41059d0}{loader}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aac788377daa7decfddd4183314aa2794}{logger}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a93b945411540500615a314eb495fb83d}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_af33700b0b2ec7f72ec0a5a8eb74ade6a}{shot\+\_\+type}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aff9b295f9ce0fbd51a91e3425bdad82b}{chain\+\_\+of\+\_\+thought}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_acab1c321adbb82115b9301b8d6fcdb5e}{reasoning\+\_\+effort}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a5dde6a6a2ce11dadddcd157a81122a2e}{self\+\_\+reflection}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_adbc8b3920a6044a42f51a8b2dc970011}{batch\+\_\+size}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_afc9d27052ef0ff1313b17242d1e22aca}{\+\_\+inject\+\_\+language}} (self, str prompt\+\_\+text)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a04a4dba15cf293483584a19fae7f7e09}{\+\_\+format\+\_\+few\+\_\+shot\+\_\+section}} (self, List examples)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a30034154e926734817dd36f17bfafe52}{\+\_\+format\+\_\+single\+\_\+puzzle}} (self, puzzle)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a74de885b2ba76dfcdc8a76aa72815a45}{\+\_\+format\+\_\+batch\+\_\+puzzles}} (self, List puzzles)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ab356970ca42b38fc8d450bcf4a779b0a}{\+\_\+format\+\_\+grid\+\_\+with\+\_\+numbers}} (self, puzzle)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a82b6159409820db7208c1a3ad404c2e2}{\+\_\+format\+\_\+clues\+\_\+section}} (self, puzzle)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ae30b9b9627de2f3b8fac8c877866e1a0}{\+\_\+format\+\_\+solution\+\_\+words}} (self, puzzle)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aac8b294d75936d1093ba81bc81f2f090}{\+\_\+format\+\_\+solution\+\_\+grid}} (self, puzzle)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ab57f4e4069db0863ceb0b6d41df12daa}{\+\_\+get\+\_\+position\+\_\+list}} (self, clue)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Composable crossword prompt template system.
+
+Supports various experimental conditions:
+- Zero-shot, one-shot, few-shot prompting
+- Chain of thought vs direct answering
+- High vs low reasoning effort
+- Self-reflection capabilities
+- Multilingual evaluation with English prompts
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00055}{55}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ae0d0d71b15a043416e2cf44219570756}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ae0d0d71b15a043416e2cf44219570756} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{target\+\_\+language = {\ttfamily "{}English"{}} }\end{DoxyParamCaption})}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00067}{67}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a74de885b2ba76dfcdc8a76aa72815a45}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a74de885b2ba76dfcdc8a76aa72815a45} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_batch\_puzzles@{\_format\_batch\_puzzles}}
+\index{\_format\_batch\_puzzles@{\_format\_batch\_puzzles}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_batch\_puzzles()}{\_format\_batch\_puzzles()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+batch\+\_\+puzzles (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List}]{puzzles }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Format multiple puzzles for batch evaluation.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00222}{222}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a82b6159409820db7208c1a3ad404c2e2}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a82b6159409820db7208c1a3ad404c2e2} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_clues\_section@{\_format\_clues\_section}}
+\index{\_format\_clues\_section@{\_format\_clues\_section}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_clues\_section()}{\_format\_clues\_section()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+clues\+\_\+section (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Format the clues section with position details.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00252}{252}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a04a4dba15cf293483584a19fae7f7e09}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a04a4dba15cf293483584a19fae7f7e09} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_few\_shot\_section@{\_format\_few\_shot\_section}}
+\index{\_format\_few\_shot\_section@{\_format\_few\_shot\_section}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_few\_shot\_section()}{\_format\_few\_shot\_section()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+few\+\_\+shot\+\_\+section (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List}]{examples }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Format few-shot examples section.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00161}{161}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ab356970ca42b38fc8d450bcf4a779b0a}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ab356970ca42b38fc8d450bcf4a779b0a} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_grid\_with\_numbers@{\_format\_grid\_with\_numbers}}
+\index{\_format\_grid\_with\_numbers@{\_format\_grid\_with\_numbers}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_grid\_with\_numbers()}{\_format\_grid\_with\_numbers()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+grid\+\_\+with\+\_\+numbers (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Create a numbered grid showing where each word starts.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00233}{233}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a30034154e926734817dd36f17bfafe52}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a30034154e926734817dd36f17bfafe52} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_single\_puzzle@{\_format\_single\_puzzle}}
+\index{\_format\_single\_puzzle@{\_format\_single\_puzzle}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_single\_puzzle()}{\_format\_single\_puzzle()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+single\+\_\+puzzle (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Format a single puzzle for evaluation.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00189}{189}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aac8b294d75936d1093ba81bc81f2f090}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aac8b294d75936d1093ba81bc81f2f090} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_solution\_grid@{\_format\_solution\_grid}}
+\index{\_format\_solution\_grid@{\_format\_solution\_grid}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_solution\_grid()}{\_format\_solution\_grid()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+solution\+\_\+grid (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Format solution grid for few-shot examples.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00274}{274}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ae30b9b9627de2f3b8fac8c877866e1a0}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ae30b9b9627de2f3b8fac8c877866e1a0} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_format\_solution\_words@{\_format\_solution\_words}}
+\index{\_format\_solution\_words@{\_format\_solution\_words}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_format\_solution\_words()}{\_format\_solution\_words()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+format\+\_\+solution\+\_\+words (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Format solution words for few-shot examples.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00267}{267}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ab57f4e4069db0863ceb0b6d41df12daa}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ab57f4e4069db0863ceb0b6d41df12daa} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_get\_position\_list@{\_get\_position\_list}}
+\index{\_get\_position\_list@{\_get\_position\_list}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_get\_position\_list()}{\_get\_position\_list()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+get\+\_\+position\+\_\+list (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{clue }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get list of grid positions for a word.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00283}{283}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_afc9d27052ef0ff1313b17242d1e22aca}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_afc9d27052ef0ff1313b17242d1e22aca} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!\_inject\_language@{\_inject\_language}}
+\index{\_inject\_language@{\_inject\_language}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{\_inject\_language()}{\_inject\_language()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+\_\+inject\+\_\+language (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{prompt\+\_\+text }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Inject target evaluation language into prompt placeholders.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00082}{82}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a9910942fb7619bc05f304b398926d3fa}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a9910942fb7619bc05f304b398926d3fa} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!configure\_experiment@{configure\_experiment}}
+\index{configure\_experiment@{configure\_experiment}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{configure\_experiment()}{configure\_experiment()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+configure\+\_\+experiment (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{shot\+\_\+type = {\ttfamily "{}zero-\/shot"{}},  }\item[{bool }]{chain\+\_\+of\+\_\+thought = {\ttfamily False},  }\item[{str }]{reasoning\+\_\+effort = {\ttfamily "{}normal"{}},  }\item[{bool }]{self\+\_\+reflection = {\ttfamily False},  }\item[{int }]{batch\+\_\+size = {\ttfamily 1} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Configure experimental parameters for prompt generation.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00086}{86}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a3581c21e68b77ec10e86449bc42f7229}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a3581c21e68b77ec10e86449bc42f7229} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!format\_puzzle\_for\_model@{format\_puzzle\_for\_model}}
+\index{format\_puzzle\_for\_model@{format\_puzzle\_for\_model}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{format\_puzzle\_for\_model()}{format\_puzzle\_for\_model()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+format\+\_\+puzzle\+\_\+for\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle,  }\item[{Optional\mbox{[}List\mbox{]} }]{few\+\_\+shot\+\_\+examples = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate a complete prompt for the model based on experimental configuration.
+
+Args:
+    puzzle: CrosswordPuzzle object or list of puzzles for batch evaluation
+    few_shot_examples: List of example puzzles for few-shot prompting
+
+Returns:
+    Complete formatted prompt string
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00101}{101}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ad78992fb310f562802d341ba63ebf9f0}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_ad78992fb310f562802d341ba63ebf9f0} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!generate\_self\_reflection\_prompt@{generate\_self\_reflection\_prompt}}
+\index{generate\_self\_reflection\_prompt@{generate\_self\_reflection\_prompt}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{generate\_self\_reflection\_prompt()}{generate\_self\_reflection\_prompt()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+generate\+\_\+self\+\_\+reflection\+\_\+prompt (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle,  }\item[{str}]{previous\+\_\+response,  }\item[{List\mbox{[}str\mbox{]}     }]{errors }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate a self-reflection prompt with error feedback.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00296}{296}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_adbc8b3920a6044a42f51a8b2dc970011}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_adbc8b3920a6044a42f51a8b2dc970011} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!batch\_size@{batch\_size}}
+\index{batch\_size@{batch\_size}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{batch\_size}{batch\_size}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+batch\+\_\+size}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00080}{80}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aff9b295f9ce0fbd51a91e3425bdad82b}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aff9b295f9ce0fbd51a91e3425bdad82b} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!chain\_of\_thought@{chain\_of\_thought}}
+\index{chain\_of\_thought@{chain\_of\_thought}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{chain\_of\_thought}{chain\_of\_thought}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+chain\+\_\+of\+\_\+thought}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00075}{75}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a93b945411540500615a314eb495fb83d}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a93b945411540500615a314eb495fb83d} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!config@{config}}
+\index{config@{config}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00071}{71}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a54727f7ca0db77301ebb7917e41059d0}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a54727f7ca0db77301ebb7917e41059d0} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!loader@{loader}}
+\index{loader@{loader}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{loader}{loader}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+loader}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00069}{69}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aac788377daa7decfddd4183314aa2794}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_aac788377daa7decfddd4183314aa2794} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+logger}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00070}{70}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_acab1c321adbb82115b9301b8d6fcdb5e}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_acab1c321adbb82115b9301b8d6fcdb5e} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!reasoning\_effort@{reasoning\_effort}}
+\index{reasoning\_effort@{reasoning\_effort}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{reasoning\_effort}{reasoning\_effort}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+reasoning\+\_\+effort}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00076}{76}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a5dde6a6a2ce11dadddcd157a81122a2e}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a5dde6a6a2ce11dadddcd157a81122a2e} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!self\_reflection@{self\_reflection}}
+\index{self\_reflection@{self\_reflection}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{self\_reflection}{self\_reflection}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+self\+\_\+reflection}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00079}{79}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_af33700b0b2ec7f72ec0a5a8eb74ade6a}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_af33700b0b2ec7f72ec0a5a8eb74ade6a} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!shot\_type@{shot\_type}}
+\index{shot\_type@{shot\_type}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{shot\_type}{shot\_type}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+shot\+\_\+type}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00074}{74}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a407f9c20630dc48ed62a3a3c4ed47f25}\label{classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate_a407f9c20630dc48ed62a3a3c4ed47f25} 
+\index{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}!target\_language@{target\_language}}
+\index{target\_language@{target\_language}!buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate@{buddhi\_pragati.evaluate.templates.CrosswordPromptTemplate}}
+\doxysubsubsection{\texorpdfstring{target\_language}{target\_language}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+evaluate.\+templates.\+Crossword\+Prompt\+Template.\+target\+\_\+language}
+
+
+
+Definition at line \mbox{\hyperlink{templates_8py_source_l00068}{68}} of file \mbox{\hyperlink{templates_8py_source}{templates.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/evaluate/\mbox{\hyperlink{templates_8py}{templates.\+py}}\end{DoxyCompactItemize}

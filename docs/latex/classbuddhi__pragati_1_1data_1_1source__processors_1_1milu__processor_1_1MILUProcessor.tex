@@ -1,0 +1,366 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor Class Reference}
+\hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor}{}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor}\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+Inheritance diagram for buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}, context\+\_\+scorer=None)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aa27fbf27bf580eed50803481cf08229e}{get\+\_\+supported\+\_\+languages}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_abe7d410d4286c377b6bce7ea3ca4d005}{set\+\_\+current\+\_\+offset}} (self, int offset)
+\item 
+Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_adaef1856591b46a13ce75d886fb5da39}{load\+\_\+raw\+\_\+data}} (self, int batch\+\_\+size, int offset=0)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a4991eabefbfd556cd4048746aa975f73}{process\+\_\+batch}} (self, List\mbox{[}Dict\mbox{]} batch\+\_\+data)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_af03b8665b2792624865afa666650d0c5}{is\+\_\+single\+\_\+word}} (self, str text)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8b98224c38829de3056ada28760a0126}{calculate\+\_\+quality\+\_\+score}} (self, str clue, str answer)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3}{dataset}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a632d57213b6807b0f414ef98ba38defe}{current\+\_\+index}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a14f16e1216605a7bd1361a48ce4bf288}{current\+\_\+batch\+\_\+number}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0}{valid\+\_\+count\+\_\+in\+\_\+batch}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a04b5b5fd0db6d67050335d2ab5d13d35}{contextual\+\_\+patterns}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3fcc942779cc70fd69c3a298eb6dcb28}{current\+\_\+offset}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a75dcd20b1d117f788e863d080f72d509}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a153bcbb510048f3b79bb4af3a6a765ad}{processed\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_aa5029592af0e379a5708ea1c5f72ea98}{valid\+\_\+count}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a8a4714876f672982d52ddd4bea3fe0a8}{answer\+\_\+in\+\_\+clue\+\_\+rejections}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a5abd68487b9ca52ee5eeef203a75cb64}{other\+\_\+rejections}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a84f1a61f4456fef4c3c737adc9627b85}{SUPPORTED\+\_\+\+LANGUAGES}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List\mbox{[}re.\+Pattern\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a2fc66469936f16dec2a2f0ba358c4ef3}{\+\_\+get\+\_\+contextual\+\_\+patterns}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac4290114a955e590ae0361b9e59a35d6}{language}})
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac945c14032230ad6c4ca31f1fccc5d00}{\+\_\+process\+\_\+single\+\_\+item}} (self, Dict item)
+\item 
+bool \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_af85b7fa74da2aa1040d10f1f2a439247}{\+\_\+is\+\_\+contextual\+\_\+question}} (self, str question)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a8df5a5d27f1b28378277f76d31837a93}{\+\_\+clean\+\_\+question}} (self, str question)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+Optional\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{Indian\+Context\+Scorer}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab0add796c2b9cabdebcb762907641f70}{\+\_\+load\+\_\+context\+\_\+scorer}} (self)
+\item 
+Dict\mbox{[}str, any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a6db0db9696d5bf3ce5ccabd721204dfb}{\+\_\+parse\+\_\+scoring\+\_\+config}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462}{\+\_\+stream\+\_\+iterator}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}{\+\_\+current\+\_\+position}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac5a7da762817a33f2af6dd3c26aab22d}{\+\_\+stream\+\_\+initialized}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_adf852d8b32f6feb8f9254b36ace2ea95}{\+\_\+context\+\_\+scorer}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a631dc0711391faa70d3a361e06f8949a}{\+\_\+enable\+\_\+enhanced\+\_\+scoring}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Processor for MILU dataset MCQ questions.
+
+Filters out questions that require context or multiple choice options,
+keeping only questions with single-word answers that work as crossword clues.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00020}{20}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3090209934646a2bd9e80f2cfd24985f} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{dict}]{config,  }\item[{str}]{language,  }\item[{}]{context\+\_\+scorer = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ac0bab857d8cb68dacbd504f5256964a4}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00043}{43}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a8df5a5d27f1b28378277f76d31837a93}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a8df5a5d27f1b28378277f76d31837a93} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_clean\_question@{\_clean\_question}}
+\index{\_clean\_question@{\_clean\_question}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_clean\_question()}{\_clean\_question()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+clean\+\_\+question (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{question }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Clean question to make it more suitable as a crossword clue.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00324}{324}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a2fc66469936f16dec2a2f0ba358c4ef3}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a2fc66469936f16dec2a2f0ba358c4ef3} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_get\_contextual\_patterns@{\_get\_contextual\_patterns}}
+\index{\_get\_contextual\_patterns@{\_get\_contextual\_patterns}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_get\_contextual\_patterns()}{\_get\_contextual\_patterns()}}
+{\footnotesize\ttfamily  List\mbox{[}re.\+Pattern\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+get\+\_\+contextual\+\_\+patterns (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get compiled regex patterns for detecting contextual questions.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00061}{61}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_af85b7fa74da2aa1040d10f1f2a439247}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_af85b7fa74da2aa1040d10f1f2a439247} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_is\_contextual\_question@{\_is\_contextual\_question}}
+\index{\_is\_contextual\_question@{\_is\_contextual\_question}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_is\_contextual\_question()}{\_is\_contextual\_question()}}
+{\footnotesize\ttfamily  bool buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+is\+\_\+contextual\+\_\+question (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{question }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Check if question requires contextual knowledge or multiple choice options.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00317}{317}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac945c14032230ad6c4ca31f1fccc5d00}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac945c14032230ad6c4ca31f1fccc5d00} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_process\_single\_item@{\_process\_single\_item}}
+\index{\_process\_single\_item@{\_process\_single\_item}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_process\_single\_item()}{\_process\_single\_item()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+process\+\_\+single\+\_\+item (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict}]{item }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Process a single MILU item into a dataset entry.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00244}{244}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aa27fbf27bf580eed50803481cf08229e}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aa27fbf27bf580eed50803481cf08229e} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return set of languages supported by MILU.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ad7ae21c80ff0ad7a1e4709746710de5b}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00053}{53}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_adaef1856591b46a13ce75d886fb5da39}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_adaef1856591b46a13ce75d886fb5da39} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!load\_raw\_data@{load\_raw\_data}}
+\index{load\_raw\_data@{load\_raw\_data}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{load\_raw\_data()}{load\_raw\_data()}}
+{\footnotesize\ttfamily  Tuple\mbox{[}List\mbox{[}Dict\mbox{]}, bool\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+load\+\_\+raw\+\_\+data (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{batch\+\_\+size,  }\item[{int }]{offset = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load batch of raw MILU data using streaming to avoid loading entire dataset.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_ab7267908c99eb1dc87c5f0d353369170}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00146}{146}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a4991eabefbfd556cd4048746aa975f73}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a4991eabefbfd556cd4048746aa975f73} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!process\_batch@{process\_batch}}
+\index{process\_batch@{process\_batch}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{process\_batch()}{process\_batch()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1data__structure_1_1DatasetEntry}{Dataset\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+process\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{List\mbox{[}Dict\mbox{]}}]{batch\+\_\+data }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Process batch of MILU data into dataset entries.\end{DoxyVerb}
+ 
+
+Reimplemented from \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1dataset__builder_1_1SourceProcessor_a3da768df8b6ff82fa1e593cca13205f0}{buddhi\+\_\+pragati.\+data.\+dataset\+\_\+builder.\+Source\+Processor}}.
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00206}{206}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_abe7d410d4286c377b6bce7ea3ca4d005}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_abe7d410d4286c377b6bce7ea3ca4d005} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!set\_current\_offset@{set\_current\_offset}}
+\index{set\_current\_offset@{set\_current\_offset}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{set\_current\_offset()}{set\_current\_offset()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+set\+\_\+current\+\_\+offset (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{offset }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Set current offset for unique ID generation across batches.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00057}{57}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a82ecc9cfe578db8aad5098a1659654a5} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_current\_position@{\_current\_position}}
+\index{\_current\_position@{\_current\_position}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_current\_position}{\_current\_position}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+current\+\_\+position\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00161}{161}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac5a7da762817a33f2af6dd3c26aab22d}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_ac5a7da762817a33f2af6dd3c26aab22d} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_stream\_initialized@{\_stream\_initialized}}
+\index{\_stream\_initialized@{\_stream\_initialized}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_stream\_initialized}{\_stream\_initialized}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+stream\+\_\+initialized\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00162}{162}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a11d05f9db8ca1811437cd4e76ade2462} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!\_stream\_iterator@{\_stream\_iterator}}
+\index{\_stream\_iterator@{\_stream\_iterator}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{\_stream\_iterator}{\_stream\_iterator}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+\_\+stream\+\_\+iterator\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00160}{160}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a7a50ca58be504c0b1866945d6da1698b} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}}
+\index{answer\_in\_clue\_rejections@{answer\_in\_clue\_rejections}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{answer\_in\_clue\_rejections}{answer\_in\_clue\_rejections}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+answer\+\_\+in\+\_\+clue\+\_\+rejections}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00225}{225}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a04b5b5fd0db6d67050335d2ab5d13d35}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a04b5b5fd0db6d67050335d2ab5d13d35} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!contextual\_patterns@{contextual\_patterns}}
+\index{contextual\_patterns@{contextual\_patterns}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{contextual\_patterns}{contextual\_patterns}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+contextual\+\_\+patterns}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00051}{51}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a14f16e1216605a7bd1361a48ce4bf288}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a14f16e1216605a7bd1361a48ce4bf288} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!current\_batch\_number@{current\_batch\_number}}
+\index{current\_batch\_number@{current\_batch\_number}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{current\_batch\_number}{current\_batch\_number}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+current\+\_\+batch\+\_\+number}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00047}{47}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a632d57213b6807b0f414ef98ba38defe}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a632d57213b6807b0f414ef98ba38defe} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!current\_index@{current\_index}}
+\index{current\_index@{current\_index}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{current\_index}{current\_index}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+current\+\_\+index}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00046}{46}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3fcc942779cc70fd69c3a298eb6dcb28}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a3fcc942779cc70fd69c3a298eb6dcb28} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!current\_offset@{current\_offset}}
+\index{current\_offset@{current\_offset}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{current\_offset}{current\_offset}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+current\+\_\+offset}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00059}{59}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_aee2278815dfcccb7e37b40285eec02a3} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!dataset@{dataset}}
+\index{dataset@{dataset}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{dataset}{dataset}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+dataset}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00045}{45}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a84f1a61f4456fef4c3c737adc9627b85}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a84f1a61f4456fef4c3c737adc9627b85} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!SUPPORTED\_LANGUAGES@{SUPPORTED\_LANGUAGES}}
+\index{SUPPORTED\_LANGUAGES@{SUPPORTED\_LANGUAGES}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{SUPPORTED\_LANGUAGES}{SUPPORTED\_LANGUAGES}}
+{\footnotesize\ttfamily dict buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+SUPPORTED\+\_\+\+LANGUAGES\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00029}{29}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0}\label{classbuddhi__pragati_1_1data_1_1source__processors_1_1milu__processor_1_1MILUProcessor_a397588824f1cf1141161764cf215d1a0} 
+\index{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}!valid\_count\_in\_batch@{valid\_count\_in\_batch}}
+\index{valid\_count\_in\_batch@{valid\_count\_in\_batch}!buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor@{buddhi\_pragati.data.source\_processors.milu\_processor.MILUProcessor}}
+\doxysubsubsection{\texorpdfstring{valid\_count\_in\_batch}{valid\_count\_in\_batch}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+source\+\_\+processors.\+milu\+\_\+processor.\+MILUProcessor.\+valid\+\_\+count\+\_\+in\+\_\+batch}
+
+
+
+Definition at line \mbox{\hyperlink{milu__processor_8py_source_l00048}{48}} of file \mbox{\hyperlink{milu__processor_8py_source}{milu\+\_\+processor.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/data/source\+\_\+processors/\mbox{\hyperlink{milu__processor_8py}{milu\+\_\+processor.\+py}}\end{DoxyCompactItemize}

@@ -1,0 +1,267 @@
+name: Generate Documentation
+
+on:
+  push:
+    branches: 
+      -  main
+    paths: 
+      - 'buddhi_pragati/**/*.py'
+      - 'README.md'
+      - 'Doxyfile'
+      - '.github/workflows/documentation.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'buddhi_pragati/**/*.py'
+      - 'README.md'
+      - 'Doxyfile'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  generate-docs:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+
+    - name: Install Python dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+
+    - name: Install Doxygen
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y doxygen graphviz texlive-latex-base texlive-latex-extra texlive-fonts-recommended
+
+    - name: Install Python documentation dependencies
+      run: |
+        pip install pydoctor
+
+    - name: Validate Python docstrings
+      run: |
+        echo "Validating Python docstring coverage..."
+        python -c "
+        import ast
+        import os
+        
+        def check_docstrings(filepath):
+            with open(filepath, 'r', encoding='utf-8') as f:
+                try:
+                    tree = ast.parse(f.read())
+                except:
+                    return True  # Skip files with parse errors
+            
+            functions = [node for node in ast.walk(tree) if isinstance(node, ast.FunctionDef)]
+            classes = [node for node in ast.walk(tree) if isinstance(node, ast.ClassDef)]
+            
+            total = len(functions) + len(classes)
+            documented = 0
+            
+            for node in functions + classes:
+                if ast.get_docstring(node):
+                    documented += 1
+            
+            if total > 0:
+                coverage = (documented / total) * 100
+                print(f'{filepath}: {coverage:.1f}% documented ({documented}/{total})')
+                return coverage >= 70  # Require 70% coverage
+            return True
+            
+        all_good = True
+        for root, dirs, files in os.walk('buddhi_pragati'):
+            dirs[:] = [d for d in dirs if d != '__pycache__']
+            for file in files:
+                if file.endswith('.py') and not file.startswith('__'):
+                    filepath = os.path.join(root, file)
+                    if not check_docstrings(filepath):
+                        all_good = False
+        
+        if not all_good:
+            print('WARNING: Some files have low docstring coverage')
+        else:
+            print('Documentation coverage validation passed')
+        "
+
+    - name: Generate Doxygen documentation
+      run: |
+        echo "Generating Doxygen documentation..."
+        doxygen Doxyfile
+        
+        # Check if documentation was generated successfully
+        if [ ! -d "docs/html" ]; then
+          echo "ERROR: Doxygen HTML documentation not generated"
+          exit 1
+        fi
+        
+        if [ ! -d "docs/latex" ]; then
+          echo "WARNING: Doxygen LaTeX documentation not generated"
+        fi
+
+    - name: Generate PDF from LaTeX (if available)
+      run: |
+        if [ -d "docs/latex" ]; then
+          echo "Generating PDF documentation..."
+          cd docs/latex
+          
+          # Try to fix Unicode issues in LaTeX files
+          echo "Fixing Unicode issues in LaTeX files..."
+          for file in *.tex; do
+            if [ -f "$file" ]; then
+              # Replace problematic Unicode characters with LaTeX equivalents
+              sed -i 's/├/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/└/\\texttt{\`}/g' "$file" 2>/dev/null || true  
+              sed -i 's/│/\\texttt{|}/g' "$file" 2>/dev/null || true
+              sed -i 's/─/\\texttt{-}/g' "$file" 2>/dev/null || true
+              sed -i 's/┌/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/┐/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/┘/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/┴/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/┬/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/┤/\\texttt{+}/g' "$file" 2>/dev/null || true
+              sed -i 's/┼/\\texttt{+}/g' "$file" 2>/dev/null || true
+            fi
+          done
+          
+          echo "Attempting PDF generation..."
+          make pdf || echo "PDF generation failed, continuing with HTML documentation only"
+          if [ -f "refman.pdf" ]; then
+            cp refman.pdf ../buddhi-pragati-documentation.pdf
+            echo "PDF generated successfully: docs/buddhi-pragati-documentation.pdf"
+          else
+            echo "PDF generation skipped due to LaTeX compilation errors"
+          fi
+          cd ../..
+        else
+          echo "LaTeX documentation not available, skipping PDF generation"
+        fi
+
+    - name: Create documentation index
+      run: |
+        cat > docs/html/index.html << 'EOF'
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Buddhi-Pragati Documentation</title>
+          <meta charset="UTF-8">
+          <style>
+            body { font-family: Arial, sans-serif; margin: 40px; }
+            .header { background-color: #f5f5f5; padding: 20px; border-radius: 5px; }
+            .content { margin-top: 20px; }
+            .link-box { 
+              display: inline-block; 
+              background-color: #e6f3ff; 
+              padding: 15px; 
+              margin: 10px; 
+              border-radius: 5px; 
+              text-decoration: none; 
+              color: #333;
+              border: 1px solid #ccc;
+            }
+            .link-box:hover { background-color: #d1e9ff; }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Buddhi-Pragati: Crossword Reasoning Benchmark System</h1>
+            <p>Comprehensive LLM reasoning benchmark system for crossword puzzles and cultural context evaluation</p>
+            <p><strong>Generated:</strong> $(date)</p>
+          </div>
+          
+          <div class="content">
+            <h2>Documentation Links</h2>
+            
+            <a href="annotated.html" class="link-box">
+              <strong>📚 Class Documentation</strong><br>
+              Browse all classes and their methods
+            </a>
+            
+            <a href="files.html" class="link-box">
+              <strong>📁 File Documentation</strong><br>
+              Browse all source files and modules
+            </a>
+            
+            <a href="hierarchy.html" class="link-box">
+              <strong>🏗️ Class Hierarchy</strong><br>
+              View inheritance relationships
+            </a>
+            
+            <a href="globals.html" class="link-box">
+              <strong>🔧 Functions & Variables</strong><br>
+              Browse all global functions and variables
+            </a>
+            
+            <h2>Quick Start</h2>
+            <p>This is an academic research project implementing a comprehensive crossword puzzle benchmark for evaluating language model reasoning capabilities.</p>
+            
+            <h3>Key Components</h3>
+            <ul>
+              <li><strong>buddhi_pragati.core</strong> - Base interfaces and data structures</li>
+              <li><strong>buddhi_pragati.data</strong> - Dataset creation and processing pipeline</li>
+              <li><strong>buddhi_pragati.models</strong> - Unified model interface system</li>
+              <li><strong>buddhi_pragati.generate</strong> - Crossword puzzle generation</li>
+              <li><strong>buddhi_pragati.evaluate</strong> - LLM evaluation and experiments</li>
+              <li><strong>buddhi_pragati.utils</strong> - Configuration and utilities</li>
+            </ul>
+            
+            <h3>External Resources</h3>
+            <ul>
+              <li><a href="https://github.com/your-repo" target="_blank">GitHub Repository</a></li>
+              <li><a href="../README.md" target="_blank">README.md</a></li>
+            </ul>
+          </div>
+        </body>
+        </html>
+        EOF
+
+    - name: Create documentation artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: buddhi-pragati-documentation
+        path: |
+          docs/html/
+          docs/buddhi-pragati-documentation.pdf
+        retention-days: 30
+
+    - name: Commit documentation to repository
+      run: |
+        # Configure git
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
+        # Add generated documentation
+        git add docs/
+        
+        # Check if there are changes to commit
+        if git diff --staged --quiet; then
+          echo "No documentation changes to commit"
+        else
+          echo "Committing documentation changes..."
+          git commit -m "Update generated documentation
+          
+          - Regenerated HTML documentation with Doxygen
+          - Updated class and function documentation
+          - Refreshed module documentation and cross-references
+          
+          Auto-generated by documentation workflow"
+          
+          # Push changes back to the repository
+          git push
+        fi

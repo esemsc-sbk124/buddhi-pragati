@@ -1,0 +1,235 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus}{}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus}\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aecf68b40f2f366c7ca6b843ada5975a4}{load\+\_\+indowordnet}} ()
+\item 
+Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a27b108be3814d4e0065de180acba21d6}{create\+\_\+seed\+\_\+corpus}} ()
+\item 
+Dict\mbox{[}str, Dict\mbox{[}str, Set\mbox{[}str\mbox{]}\mbox{]}\mbox{]} \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aa525140dbc70ad4d2bbca63d2faa8734}{expand\+\_\+concepts\+\_\+with\+\_\+indowordnet}} (Dict\mbox{[}str, any\mbox{]} seed\+\_\+corpus, Dict\mbox{[}str, any\mbox{]} iwn\+\_\+instances, int max\+\_\+depth=2)
+\item 
+Dict\mbox{[}str, Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]}\mbox{]} \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aba0063547a9687a486e41bcff6046999}{format\+\_\+corpus\+\_\+for\+\_\+scorer}} (Dict\mbox{[}str, Dict\mbox{[}str, Set\mbox{[}str\mbox{]}\mbox{]}\mbox{]} expanded\+\_\+corpus)
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_abcd99be1c6d29742b9807f6880f1d3ec}{save\+\_\+corpus}} (Dict\mbox{[}str, Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]}\mbox{]} corpus, str output\+\_\+file)
+\item 
+Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} \mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_afa1a2e514a0839690e67e654e4b2bb9d}{create\+\_\+fallback\+\_\+corpus}} ()
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a3e901c3d31fd549ef5a3793638ca69f7}{main}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a3546fcd1265ab9d47ce172a3b813d7aa}{level}}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a614337e231a9e31fde5ae2fa58df54ea}{INFO}}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a6334925ad64185eac8fc5985b410fe4c}{format}}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1utils_1_1create__corpus_ae4f4c99188d94c3c07244d2e4c4dafec}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Enhanced Indian Cultural Corpus Generation Script
+
+Creates a comprehensive multilingual corpus of Indian cultural concepts using IndoWordNet's
+semantic relationships. Expands from seed concepts through synonyms, hyponyms, and meronyms
+across 18 supported Indian languages to build a rich cultural reference corpus.
+
+This script generates an expanded cultural corpus that replaces the limited manual corpus
+in indian_context_scorer.py with a systematically derived multilingual corpus covering
+hundreds of culturally-specific Indian terms across multiple semantic categories.
+
+Usage:
+    python create_corpus.py [--output-file indian_corpus.json] [--max-depth 2] [--verbose]
+
+Architecture:
+- Seed-based expansion from manually curated Indian concepts
+- IndoWordNet semantic traversal with depth limits
+- Multilingual synset linking for comprehensive coverage
+- Category-organized output matching existing scorer format
+- JSON serialization for easy integration with scoring system
+
+Categories Generated:
+- festivals_rituals: Religious and cultural celebrations
+- food_cuisine: Traditional Indian foods and beverages
+- clothing_textiles: Traditional garments and fabrics
+- philosophy_concepts: Spiritual and philosophical terms
+- mythology_epics: Mythological figures and epic literature
+- people_relations: Social roles and relationships
+- flora_fauna: Native plants and animals with cultural significance
+- arts_music: Traditional arts, music, and performance
+- geography: Indian places and geographical features
+- history: Historical figures and events
+- modern_india: Contemporary Indian institutions and concepts
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_afa1a2e514a0839690e67e654e4b2bb9d}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_afa1a2e514a0839690e67e654e4b2bb9d} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!create\_fallback\_corpus@{create\_fallback\_corpus}}
+\index{create\_fallback\_corpus@{create\_fallback\_corpus}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{create\_fallback\_corpus()}{create\_fallback\_corpus()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+create\+\_\+fallback\+\_\+corpus (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Create fallback corpus when IndoWordNet is unavailable.
+
+Uses the original manual corpus with some expansions as a fallback option.
+
+Returns:
+    Fallback corpus dictionary
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00398}{398}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a27b108be3814d4e0065de180acba21d6}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a27b108be3814d4e0065de180acba21d6} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!create\_seed\_corpus@{create\_seed\_corpus}}
+\index{create\_seed\_corpus@{create\_seed\_corpus}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{create\_seed\_corpus()}{create\_seed\_corpus()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+create\+\_\+seed\+\_\+corpus (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load comprehensive seed corpus from JSON file and return it directly.
+
+Returns the complete JSON content from the seed_corpus.json file for use
+in corpus expansion. This replaces the previous flattening logic to allow
+direct access to the structured multilingual corpus.
+
+Returns:
+    Dictionary containing the complete seed corpus structure as loaded from JSON
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00095}{95}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aa525140dbc70ad4d2bbca63d2faa8734}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aa525140dbc70ad4d2bbca63d2faa8734} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!expand\_concepts\_with\_indowordnet@{expand\_concepts\_with\_indowordnet}}
+\index{expand\_concepts\_with\_indowordnet@{expand\_concepts\_with\_indowordnet}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{expand\_concepts\_with\_indowordnet()}{expand\_concepts\_with\_indowordnet()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Dict\mbox{[}str, Set\mbox{[}str\mbox{]}\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+expand\+\_\+concepts\+\_\+with\+\_\+indowordnet (\begin{DoxyParamCaption}\item[{Dict\mbox{[}str, any\mbox{]}}]{seed\+\_\+corpus,  }\item[{Dict\mbox{[}str, any\mbox{]}}]{iwn\+\_\+instances,  }\item[{int }]{max\+\_\+depth = {\ttfamily 2} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Expand seed concepts using IndoWordNet semantic relationships per language.
+
+For each language-specific category in the seed corpus, uses the corresponding
+IndoWordNet instance to find synsets and traverse hyponyms/meronyms up to max_depth
+levels. Maintains the structured format: dict(category: dict(language: concepts)).
+
+Args:
+    seed_corpus: Dictionary of seed concepts with structure {category: {language: [concepts]}}
+    iwn_instances: Dictionary mapping language names to IndoWordNet instances
+    max_depth: Maximum depth for semantic traversal
+
+Returns:
+    Dictionary with structure {category: {language: expanded_concept_sets}}
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00154}{154}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aba0063547a9687a486e41bcff6046999}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aba0063547a9687a486e41bcff6046999} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!format\_corpus\_for\_scorer@{format\_corpus\_for\_scorer}}
+\index{format\_corpus\_for\_scorer@{format\_corpus\_for\_scorer}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{format\_corpus\_for\_scorer()}{format\_corpus\_for\_scorer()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+format\+\_\+corpus\+\_\+for\+\_\+scorer (\begin{DoxyParamCaption}\item[{Dict\mbox{[}str, Dict\mbox{[}str, Set\mbox{[}str\mbox{]}\mbox{]}\mbox{]}}]{expanded\+\_\+corpus }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Format expanded corpus to maintain structured format for indian_context_scorer.
+
+Converts sets to lists while preserving the category -> language -> concepts structure.
+This allows the IndianContextScorer to access language-specific keywords directly.
+
+Args:
+    expanded_corpus: Dictionary with structure {category: {language: concept_sets}}
+
+Returns:
+    Dictionary with structure {category: {language: concept_lists}} (scorer format)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00338}{338}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aecf68b40f2f366c7ca6b843ada5975a4}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_aecf68b40f2f366c7ca6b843ada5975a4} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!load\_indowordnet@{load\_indowordnet}}
+\index{load\_indowordnet@{load\_indowordnet}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{load\_indowordnet()}{load\_indowordnet()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+load\+\_\+indowordnet (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Load IndoWordNet instances for all supported languages.
+
+Returns:
+    Dictionary mapping language names to IndoWordNet instances, or None if loading fails
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00051}{51}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a3e901c3d31fd549ef5a3793638ca69f7}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a3e901c3d31fd549ef5a3793638ca69f7} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!main@{main}}
+\index{main@{main}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Main corpus generation function with CLI argument parsing.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00413}{413}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_abcd99be1c6d29742b9807f6880f1d3ec}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_abcd99be1c6d29742b9807f6880f1d3ec} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!save\_corpus@{save\_corpus}}
+\index{save\_corpus@{save\_corpus}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{save\_corpus()}{save\_corpus()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+save\+\_\+corpus (\begin{DoxyParamCaption}\item[{Dict\mbox{[}str, Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]}\mbox{]}}]{corpus,  }\item[{str}]{output\+\_\+file }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Save corpus to JSON file with proper formatting.
+
+Args:
+    corpus: Formatted corpus dictionary with structure {category: {language: concepts}}
+    output_file: Path to output JSON file
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00364}{364}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a6334925ad64185eac8fc5985b410fe4c}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a6334925ad64185eac8fc5985b410fe4c} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!format@{format}}
+\index{format@{format}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{format}{format}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+format}
+
+
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00046}{46}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a614337e231a9e31fde5ae2fa58df54ea}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a614337e231a9e31fde5ae2fa58df54ea} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!INFO@{INFO}}
+\index{INFO@{INFO}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{INFO}{INFO}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+INFO}
+
+
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00046}{46}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a3546fcd1265ab9d47ce172a3b813d7aa}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_a3546fcd1265ab9d47ce172a3b813d7aa} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!level@{level}}
+\index{level@{level}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{level}{level}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+level}
+
+
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00046}{46}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+
+\Hypertarget{namespacebuddhi__pragati_1_1utils_1_1create__corpus_ae4f4c99188d94c3c07244d2e4c4dafec}\label{namespacebuddhi__pragati_1_1utils_1_1create__corpus_ae4f4c99188d94c3c07244d2e4c4dafec} 
+\index{buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.utils.create\_corpus@{buddhi\_pragati.utils.create\_corpus}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+create\+\_\+corpus.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{create__corpus_8py_source_l00048}{48}} of file \mbox{\hyperlink{create__corpus_8py_source}{create\+\_\+corpus.\+py}}.
+

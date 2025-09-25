@@ -1,0 +1,511 @@
+\doxysection{buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer Class Reference}
+\hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}{}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer}\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a6aec462a52c0327163a9ffd5e3ff2837}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a2df4d32191258ab97d8121fbff72ecfa}{config}}, str \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}{mode}}="{}complete"{})
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a82edd89f6e82fe285a34abdf4efe958b}{score\+\_\+context}} (self, str clue, str answer, str language)
+\item 
+Dict\mbox{[}str, float\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21683b1a357988e10fabf4aa4982ba58}{validate\+\_\+cross\+\_\+language\+\_\+consistency}} (self, Dict\mbox{[}str, List\mbox{[}float\mbox{]}\mbox{]} scores\+\_\+by\+\_\+language)
+\item 
+Set\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a752e5a3d2cacd0223452ae87844bf440}{get\+\_\+supported\+\_\+languages}} (self)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a40b90ae3557942f7fc87f7ef2c332024}{get\+\_\+language\+\_\+tier\+\_\+info}} (self, str language)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a2df4d32191258ab97d8121fbff72ecfa}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}{mode}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}{primary\+\_\+model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}{indic\+\_\+model\+\_\+name}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9fd12cddc0904462059cacad61584c6}{enable\+\_\+tiered\+\_\+scoring}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04}{tier1\+\_\+weights}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}{tier2\+\_\+weights}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a80e58f89955c7a6f9c8093e841066a85}{TIER\+\_\+1\+\_\+\+LANGUAGES}}
+\item 
+dict \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23e026639d4da0560f723393621b6771}{TIER\+\_\+2\+\_\+\+LANGUAGES}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab4ee1118a44be82138d3fcdd53dfa374}{\+\_\+initialize\+\_\+cultural\+\_\+corpus}} (self)
+\item 
+Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ad4c97f72feb4ad17b1313714b6bff882}{\+\_\+get\+\_\+multilingual\+\_\+india\+\_\+keywords}} (self)
+\item 
+Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632}{\+\_\+get\+\_\+manual\+\_\+cultural\+\_\+corpus}} (self)
+\item 
+Dict\mbox{[}str, Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23064cbf145aec221d4e07c8745a8449}{\+\_\+load\+\_\+expanded\+\_\+corpus}} (self)
+\item 
+Any \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}{\+\_\+load\+\_\+model}} (self, str model\+\_\+name)
+\item 
+Optional\mbox{[}np.\+ndarray\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aee226ad076abfc7e8382cecba7c1b0f7}{\+\_\+get\+\_\+reference\+\_\+embeddings}} (self, str model\+\_\+name)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}{\+\_\+calculate\+\_\+embedding\+\_\+score}} (self, str text, str model\+\_\+name)
+\item 
+float \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1}{\+\_\+calculate\+\_\+keyword\+\_\+score}} (self, str text, str language=None)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a}{\+\_\+get\+\_\+scoring\+\_\+strategy}} (self, str language)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}{\+\_\+models}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}{\+\_\+reference\+\_\+embeddings}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8}{\+\_\+cultural\+\_\+references}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1}{\+\_\+expanded\+\_\+corpus}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Multi-tier Indian cultural context scorer for clue-answer pairs.
+
+Provides sophisticated assessment of "Indianness" using semantic embeddings,
+named entity recognition, and cultural keyword matching. Supports all 20
+languages with enhanced accuracy for core Indic languages.
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00033}{33}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a6aec462a52c0327163a9ffd5e3ff2837}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a6aec462a52c0327163a9ffd5e3ff2837} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, Any\mbox{]}}]{config,  }\item[{str }]{mode = {\ttfamily "{}complete"{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize the Indian context scorer with configuration and scoring mode.
+
+Args:
+    config: Configuration dictionary with scoring parameters
+    mode: Scoring mode - "fast" (multilingual India keywords) or "complete" (full corpus)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00079}{79}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aa4dffcd8f9021d9da7fd17e025a0295c} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_calculate\_embedding\_score@{\_calculate\_embedding\_score}}
+\index{\_calculate\_embedding\_score@{\_calculate\_embedding\_score}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_calculate\_embedding\_score()}{\_calculate\_embedding\_score()}}
+{\footnotesize\ttfamily  float buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+calculate\+\_\+embedding\+\_\+score (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{text,  }\item[{str}]{model\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Calculate semantic similarity score using embeddings.
+
+Args:
+    text: Input text to score
+    model_name: Name of the sentence transformer model
+
+Returns:
+    Similarity score between 0.0 and 1.0
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00441}{441}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_afa33fa3f01d7b62249011c775d4882c1} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_calculate\_keyword\_score@{\_calculate\_keyword\_score}}
+\index{\_calculate\_keyword\_score@{\_calculate\_keyword\_score}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_calculate\_keyword\_score()}{\_calculate\_keyword\_score()}}
+{\footnotesize\ttfamily  float buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+calculate\+\_\+keyword\+\_\+score (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{text,  }\item[{str }]{language = {\ttfamily None} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Calculate language-aware keyword-based cultural context score.
+
+Args:
+    text: Input text to analyze
+    language: Target language for language-specific keywords (optional)
+
+Returns:
+    Keyword score between 0.0 and 1.0
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00471}{471}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9c1ae43802b4d0727da9d495640c632} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_get\_manual\_cultural\_corpus@{\_get\_manual\_cultural\_corpus}}
+\index{\_get\_manual\_cultural\_corpus@{\_get\_manual\_cultural\_corpus}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_get\_manual\_cultural\_corpus()}{\_get\_manual\_cultural\_corpus()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+get\+\_\+manual\+\_\+cultural\+\_\+corpus (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get the original manual cultural corpus as fallback.
+
+Returns:
+    Dictionary mapping cultural categories to reference texts
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00268}{268}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ad4c97f72feb4ad17b1313714b6bff882}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ad4c97f72feb4ad17b1313714b6bff882} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_get\_multilingual\_india\_keywords@{\_get\_multilingual\_india\_keywords}}
+\index{\_get\_multilingual\_india\_keywords@{\_get\_multilingual\_india\_keywords}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_get\_multilingual\_india\_keywords()}{\_get\_multilingual\_india\_keywords()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+get\+\_\+multilingual\+\_\+india\+\_\+keywords (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get comprehensive India keywords across all supported languages for fast mode.
+
+Returns:
+    Dictionary containing India-related keywords in multiple languages
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00164}{164}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aee226ad076abfc7e8382cecba7c1b0f7}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_aee226ad076abfc7e8382cecba7c1b0f7} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_get\_reference\_embeddings@{\_get\_reference\_embeddings}}
+\index{\_get\_reference\_embeddings@{\_get\_reference\_embeddings}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_get\_reference\_embeddings()}{\_get\_reference\_embeddings()}}
+{\footnotesize\ttfamily  Optional\mbox{[}np.\+ndarray\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+get\+\_\+reference\+\_\+embeddings (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get cached reference embeddings for cultural corpus.
+
+Args:
+    model_name: Name of the sentence transformer model
+
+Returns:
+    Numpy array of reference embeddings or None if model unavailable
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00409}{409}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99cda8421148243bfa7ece19913c815a} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_get\_scoring\_strategy@{\_get\_scoring\_strategy}}
+\index{\_get\_scoring\_strategy@{\_get\_scoring\_strategy}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_get\_scoring\_strategy()}{\_get\_scoring\_strategy()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+get\+\_\+scoring\+\_\+strategy (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Determine scoring strategy based on language tier.
+
+Args:
+    language: Target language
+
+Returns:
+    Scoring strategy ('tier1' or 'tier2')
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00541}{541}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab4ee1118a44be82138d3fcdd53dfa374}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab4ee1118a44be82138d3fcdd53dfa374} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_initialize\_cultural\_corpus@{\_initialize\_cultural\_corpus}}
+\index{\_initialize\_cultural\_corpus@{\_initialize\_cultural\_corpus}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_initialize\_cultural\_corpus()}{\_initialize\_cultural\_corpus()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+initialize\+\_\+cultural\+\_\+corpus (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Initialize cultural reference corpus based on selected mode.
+
+Returns:
+    Dictionary mapping cultural categories to reference texts
+    - Fast mode: Comprehensive multilingual India keywords across all 20 languages
+    - Complete mode: Full expanded corpus from generated file or fallback
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00121}{121}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23064cbf145aec221d4e07c8745a8449}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23064cbf145aec221d4e07c8745a8449} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_load\_expanded\_corpus@{\_load\_expanded\_corpus}}
+\index{\_load\_expanded\_corpus@{\_load\_expanded\_corpus}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_load\_expanded\_corpus()}{\_load\_expanded\_corpus()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Dict\mbox{[}str, List\mbox{[}str\mbox{]}\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+load\+\_\+expanded\+\_\+corpus (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Load language-specific expanded corpus from generated indian_corpus.json file.
+
+Returns:
+    Dictionary mapping categories to language-specific keyword dictionaries
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00332}{332}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a78e62c64d3c078a743e2fa0430600a1f} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_load\_model@{\_load\_model}}
+\index{\_load\_model@{\_load\_model}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_load\_model()}{\_load\_model()}}
+{\footnotesize\ttfamily  Any buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+load\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{model\+\_\+name }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Lazy load sentence transformer model with caching.
+
+Args:
+    model_name: Name of the sentence transformer model
+
+Returns:
+    Loaded sentence transformer model
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00386}{386}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a40b90ae3557942f7fc87f7ef2c332024}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a40b90ae3557942f7fc87f7ef2c332024} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!get\_language\_tier\_info@{get\_language\_tier\_info}}
+\index{get\_language\_tier\_info@{get\_language\_tier\_info}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{get\_language\_tier\_info()}{get\_language\_tier\_info()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+get\+\_\+language\+\_\+tier\+\_\+info (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get tier information for specific language.
+
+Args:
+    language: Target language
+
+Returns:
+    Dictionary with tier information and capabilities
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00662}{662}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a752e5a3d2cacd0223452ae87844bf440}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a752e5a3d2cacd0223452ae87844bf440} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  Set\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get set of all supported languages.
+
+Returns:
+    Set of supported language names
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00653}{653}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a82edd89f6e82fe285a34abdf4efe958b}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a82edd89f6e82fe285a34abdf4efe958b} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!score\_context@{score\_context}}
+\index{score\_context@{score\_context}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{score\_context()}{score\_context()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+score\+\_\+context (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{clue,  }\item[{str}]{answer,  }\item[{str}]{language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Calculate comprehensive Indian context score for clue-answer pair.
+
+Args:
+    clue: Crossword clue text
+    answer: Answer word/phrase
+    language: Target language for scoring
+
+Returns:
+    Dictionary containing individual and final scores
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00556}{556}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21683b1a357988e10fabf4aa4982ba58}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21683b1a357988e10fabf4aa4982ba58} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!validate\_cross\_language\_consistency@{validate\_cross\_language\_consistency}}
+\index{validate\_cross\_language\_consistency@{validate\_cross\_language\_consistency}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{validate\_cross\_language\_consistency()}{validate\_cross\_language\_consistency()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, float\mbox{]} buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+validate\+\_\+cross\+\_\+language\+\_\+consistency (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{Dict\mbox{[}str, List\mbox{[}float\mbox{]}\mbox{]}     }]{scores\+\_\+by\+\_\+language }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Validate scoring consistency across languages.
+
+Args:
+    scores_by_language: Dictionary mapping language to list of scores
+
+Returns:
+    Dictionary containing consistency metrics
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00616}{616}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a21b3cd83c94451e58e6fda8386d2b5c8} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_cultural\_references@{\_cultural\_references}}
+\index{\_cultural\_references@{\_cultural\_references}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_cultural\_references}{\_cultural\_references}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+cultural\+\_\+references\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00112}{112}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1dd3649246baf61b4b1718dc415289f1} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_expanded\_corpus@{\_expanded\_corpus}}
+\index{\_expanded\_corpus@{\_expanded\_corpus}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_expanded\_corpus}{\_expanded\_corpus}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+expanded\+\_\+corpus\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00115}{115}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a496e9bb7b88cdcac3fb34097614ef711} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_models@{\_models}}
+\index{\_models@{\_models}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_models}{\_models}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+models\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00089}{89}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a99bc9b287d772eadef5e2e89208b57e1} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!\_reference\_embeddings@{\_reference\_embeddings}}
+\index{\_reference\_embeddings@{\_reference\_embeddings}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{\_reference\_embeddings}{\_reference\_embeddings}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+\_\+reference\+\_\+embeddings\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00090}{90}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a2df4d32191258ab97d8121fbff72ecfa}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a2df4d32191258ab97d8121fbff72ecfa} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!config@{config}}
+\index{config@{config}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00087}{87}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9fd12cddc0904462059cacad61584c6}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_ab9fd12cddc0904462059cacad61584c6} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!enable\_tiered\_scoring@{enable\_tiered\_scoring}}
+\index{enable\_tiered\_scoring@{enable\_tiered\_scoring}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{enable\_tiered\_scoring}{enable\_tiered\_scoring}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+enable\+\_\+tiered\+\_\+scoring}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00100}{100}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a52131aa0c15ce28b762928ba8c2bff11} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!indic\_model\_name@{indic\_model\_name}}
+\index{indic\_model\_name@{indic\_model\_name}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{indic\_model\_name}{indic\_model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+indic\+\_\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00097}{97}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a9ff93f53b1ae74c95add3cf85ed351ae} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!mode@{mode}}
+\index{mode@{mode}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{mode}{mode}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+mode}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00088}{88}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a1a60ee4113ce5d22b3b3841f3addbe71} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!primary\_model\_name@{primary\_model\_name}}
+\index{primary\_model\_name@{primary\_model\_name}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{primary\_model\_name}{primary\_model\_name}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+primary\+\_\+model\+\_\+name}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00093}{93}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_abf51e0740f0636f7caa65aed2b31dc04} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!tier1\_weights@{tier1\_weights}}
+\index{tier1\_weights@{tier1\_weights}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{tier1\_weights}{tier1\_weights}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+tier1\+\_\+weights}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00103}{103}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a42633085859cf53af17c3c55383a56f4} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!tier2\_weights@{tier2\_weights}}
+\index{tier2\_weights@{tier2\_weights}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{tier2\_weights}{tier2\_weights}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+tier2\+\_\+weights}
+
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00106}{106}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a80e58f89955c7a6f9c8093e841066a85}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a80e58f89955c7a6f9c8093e841066a85} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!TIER\_1\_LANGUAGES@{TIER\_1\_LANGUAGES}}
+\index{TIER\_1\_LANGUAGES@{TIER\_1\_LANGUAGES}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{TIER\_1\_LANGUAGES}{TIER\_1\_LANGUAGES}}
+{\footnotesize\ttfamily dict buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+TIER\+\_\+1\+\_\+\+LANGUAGES\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{\ \ \textcolor{comment}{\#\ Universal\ coverage\ -\/\ all\ 20\ supported\ languages}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Assamese"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bodo"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kashmiri"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Konkani"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Meitei"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Nepali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Sanskrit"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Urdu"{}},}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00043}{43}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23e026639d4da0560f723393621b6771}\label{classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer_a23e026639d4da0560f723393621b6771} 
+\index{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}!TIER\_2\_LANGUAGES@{TIER\_2\_LANGUAGES}}
+\index{TIER\_2\_LANGUAGES@{TIER\_2\_LANGUAGES}!buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer@{buddhi\_pragati.utils.indian\_context\_scorer.IndianContextScorer}}
+\doxysubsubsection{\texorpdfstring{TIER\_2\_LANGUAGES}{TIER\_2\_LANGUAGES}}
+{\footnotesize\ttfamily dict buddhi\+\_\+pragati.\+utils.\+indian\+\_\+context\+\_\+scorer.\+Indian\+Context\+Scorer.\+TIER\+\_\+2\+\_\+\+LANGUAGES\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \ \{\ \ \textcolor{comment}{\#\ Enhanced\ scoring\ with\ Indic-\/specific\ models}}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Bengali"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}English"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Gujarati"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Hindi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Kannada"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Malayalam"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Marathi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Odia"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Punjabi"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Tamil"{}},}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Telugu"{}},}
+\DoxyCodeLine{\ \ \ \ \}}
+
+\end{DoxyCode}
+
+
+Definition at line \mbox{\hyperlink{indian__context__scorer_8py_source_l00065}{65}} of file \mbox{\hyperlink{indian__context__scorer_8py_source}{indian\+\_\+context\+\_\+scorer.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/utils/\mbox{\hyperlink{indian__context__scorer_8py}{indian\+\_\+context\+\_\+scorer.\+py}}\end{DoxyCompactItemize}

@@ -1,0 +1,29 @@
+{
+  "Hindi": {
+    "MILU": {
+      "tracking_type": "batch_based",
+      "last_completed_batch": 0,
+      "total_processed_entries": 48,
+      "valid_entries_generated": 3,
+      "next_start_offset": 100
+    },
+    "IndicWikiBio": {
+      "tracking_type": "id_based", 
+      "last_processed_id": null,
+      "valid_entries_generated": 0,
+      "next_start_after_id": null
+    },
+    "Bhasha-Wiki": {
+      "tracking_type": "id_based",
+      "last_processed_id": null, 
+      "valid_entries_generated": 0,
+      "next_start_after_id": null
+    },
+    "IndoWordNet": {
+      "tracking_type": "id_based",
+      "last_processed_id": null,
+      "valid_entries_generated": 0, 
+      "next_start_after_id": null
+    }
+  }
+}

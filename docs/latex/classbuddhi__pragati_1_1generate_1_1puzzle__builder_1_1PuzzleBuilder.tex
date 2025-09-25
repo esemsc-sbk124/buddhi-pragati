@@ -1,0 +1,357 @@
+\doxysection{buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder Class Reference}
+\hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder}{}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder}\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a17adc355ad037e2795b0e0fe870526ae}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_affb0c20bc972d78feee69182a154b4bc}{hf\+\_\+token}}=None)
+\item 
+List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aec1b6e763b305afa1a2f8af5bd2381c1}{generate\+\_\+puzzle\+\_\+batch}} (self, str language, int grid\+\_\+size, int count, int max\+\_\+corpus\+\_\+size=None, bool upload\+\_\+to\+\_\+hf=False, str output\+\_\+dir=None)
+\item 
+Dict\mbox{[}int, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]}\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a57b2951094f237f40e34121a22325869}{generate\+\_\+multi\+\_\+size\+\_\+batch}} (self, str language, List\mbox{[}int\mbox{]} grid\+\_\+sizes, int count\+\_\+per\+\_\+size, bool upload\+\_\+to\+\_\+hf=False, str output\+\_\+dir=None)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a94e7da2ca72051c59524195aae2242a2}{get\+\_\+generation\+\_\+statistics}} (self)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_abd1ea918f717f8de9c66c37f52325ffc}{clear\+\_\+caches}} (self)
+\item 
+List\mbox{[}str\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a4c65353e66bdcb52b7e6247edb2180c6}{get\+\_\+supported\+\_\+languages}} (self)
+\item 
+Dict\mbox{[}str, Any\mbox{]} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ae54c9eef0a11c5a9088376012161c3f5}{validate\+\_\+corpus\+\_\+for\+\_\+grid\+\_\+size}} (self, str language, int grid\+\_\+size)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ac456864fe064968f88634f1d6bc8e6aa}{config}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_affb0c20bc972d78feee69182a154b4bc}{hf\+\_\+token}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a1b321bd250c520e7b7b5cc83f1519847}{corpus\+\_\+loader}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a926aa31b0f8c474efd1d2cc01f0c8d5c}{generators}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a2a45ca526b0772b5b002632b4e85d1a0}{hf\+\_\+uploader}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ac65f1754330d1a717effac914c82a83a}{dataset\+\_\+manager}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aa8a669de99e3a0c22a2116421f4a98f1}{puzzles\+\_\+repo}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a6c6640bed4d7cbdcc6b6570978f69935}{generation\+\_\+stats}}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ae2743b9d88b0bd835b26f439b7479427}{pair\+\_\+tracker}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator}{Memetic\+Crossword\+Generator}} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a938232f1fa0edad43b0cab28a5c0b1dd}{\+\_\+get\+\_\+generator}} (self, int grid\+\_\+size)
+\item 
+str \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a43cd409e2772b417899d6721674f80db}{\+\_\+generate\+\_\+puzzle\+\_\+id}} (self, str language, int grid\+\_\+size, int sequence)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}} \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a02dce7530c39b095cc6a3fb42213a6c7}{\+\_\+puzzle\+\_\+to\+\_\+entry}} (self, puzzle, Dict\mbox{[}str, float\mbox{]} context\+\_\+scores, Dict\mbox{[}str, str\mbox{]} answer\+\_\+to\+\_\+source, str language, int grid\+\_\+size)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a519e464e5511f84710ca5ccca26ae759}{\+\_\+update\+\_\+generation\+\_\+stats}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}} puzzle\+\_\+entry)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aede689a7c9200b2795f50394739e9752}{\+\_\+save\+\_\+puzzle\+\_\+to\+\_\+file}} (self, \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}} puzzle\+\_\+entry, str output\+\_\+dir)
+\item 
+\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a38085bfe5efe335852d16d77ba46eaf3}{\+\_\+ensure\+\_\+language\+\_\+configuration}} (self, str language, int grid\+\_\+size)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Main orchestrator for crossword puzzle generation pipeline.
+
+Handles the complete workflow:
+1. Load and prioritize corpus from HF dataset
+2. Generate puzzles using memetic algorithm
+3. Convert to HF dataset format
+4. Upload to HuggingFace Hub (optional)
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00138}{138}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a17adc355ad037e2795b0e0fe870526ae}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a17adc355ad037e2795b0e0fe870526ae} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str }]{hf\+\_\+token = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Initialize puzzle builder.
+
+Args:
+    hf_token: HuggingFace token for dataset operations
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00149}{149}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a38085bfe5efe335852d16d77ba46eaf3}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a38085bfe5efe335852d16d77ba46eaf3} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_ensure\_language\_configuration@{\_ensure\_language\_configuration}}
+\index{\_ensure\_language\_configuration@{\_ensure\_language\_configuration}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_ensure\_language\_configuration()}{\_ensure\_language\_configuration()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+ensure\+\_\+language\+\_\+configuration (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int}]{grid\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Ensure that a language-specific configuration exists in the generated puzzles dataset.
+
+Args:
+    language: Target language
+    grid_size: Target grid size
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00529}{529}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a43cd409e2772b417899d6721674f80db}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a43cd409e2772b417899d6721674f80db} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_generate\_puzzle\_id@{\_generate\_puzzle\_id}}
+\index{\_generate\_puzzle\_id@{\_generate\_puzzle\_id}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_generate\_puzzle\_id()}{\_generate\_puzzle\_id()}}
+{\footnotesize\ttfamily  str buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+generate\+\_\+puzzle\+\_\+id (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int}]{grid\+\_\+size,  }\item[{int}]{sequence }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Generate unique puzzle identifier.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00386}{386}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a938232f1fa0edad43b0cab28a5c0b1dd}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a938232f1fa0edad43b0cab28a5c0b1dd} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_get\_generator@{\_get\_generator}}
+\index{\_get\_generator@{\_get\_generator}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_get\_generator()}{\_get\_generator()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1MemeticCrosswordGenerator}{Memetic\+Crossword\+Generator}} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+get\+\_\+generator (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{int}]{grid\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Get or create generator for specific grid size.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00379}{379}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a02dce7530c39b095cc6a3fb42213a6c7}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a02dce7530c39b095cc6a3fb42213a6c7} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_puzzle\_to\_entry@{\_puzzle\_to\_entry}}
+\index{\_puzzle\_to\_entry@{\_puzzle\_to\_entry}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_puzzle\_to\_entry()}{\_puzzle\_to\_entry()}}
+{\footnotesize\ttfamily  \mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+puzzle\+\_\+to\+\_\+entry (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{puzzle,  }\item[{Dict\mbox{[}str, float\mbox{]}}]{context\+\_\+scores,  }\item[{Dict\mbox{[}str, str\mbox{]}}]{answer\+\_\+to\+\_\+source,  }\item[{str}]{language,  }\item[{int}]{grid\+\_\+size }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Convert CrosswordPuzzle to CrosswordPuzzleEntry for HF dataset.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00390}{390}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aede689a7c9200b2795f50394739e9752}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aede689a7c9200b2795f50394739e9752} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_save\_puzzle\_to\_file@{\_save\_puzzle\_to\_file}}
+\index{\_save\_puzzle\_to\_file@{\_save\_puzzle\_to\_file}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_save\_puzzle\_to\_file()}{\_save\_puzzle\_to\_file()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+save\+\_\+puzzle\+\_\+to\+\_\+file (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}}]{puzzle\+\_\+entry,  }\item[{str}]{output\+\_\+dir }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Save puzzle entry to JSON file.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00481}{481}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a519e464e5511f84710ca5ccca26ae759}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a519e464e5511f84710ca5ccca26ae759} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!\_update\_generation\_stats@{\_update\_generation\_stats}}
+\index{\_update\_generation\_stats@{\_update\_generation\_stats}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{\_update\_generation\_stats()}{\_update\_generation\_stats()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+\_\+update\+\_\+generation\+\_\+stats (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}}]{puzzle\+\_\+entry }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyVerb}Update running generation statistics.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00446}{446}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_abd1ea918f717f8de9c66c37f52325ffc}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_abd1ea918f717f8de9c66c37f52325ffc} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!clear\_caches@{clear\_caches}}
+\index{clear\_caches@{clear\_caches}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{clear\_caches()}{clear\_caches()}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+clear\+\_\+caches (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clear all caches to free memory.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00518}{518}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a57b2951094f237f40e34121a22325869}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a57b2951094f237f40e34121a22325869} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!generate\_multi\_size\_batch@{generate\_multi\_size\_batch}}
+\index{generate\_multi\_size\_batch@{generate\_multi\_size\_batch}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{generate\_multi\_size\_batch()}{generate\_multi\_size\_batch()}}
+{\footnotesize\ttfamily  Dict\mbox{[}int, List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]}\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+generate\+\_\+multi\+\_\+size\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{List\mbox{[}int\mbox{]}}]{grid\+\_\+sizes,  }\item[{int}]{count\+\_\+per\+\_\+size,  }\item[{bool }]{upload\+\_\+to\+\_\+hf = {\ttfamily False},  }\item[{str }]{output\+\_\+dir = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate puzzles across multiple grid sizes for a language.
+
+Args:
+    language: Language to generate puzzles for
+    grid_sizes: List of grid sizes to generate
+    count_per_size: Number of puzzles per grid size
+    upload_to_hf: Whether to upload to HuggingFace
+    output_dir: Directory to save puzzles (None to skip)
+
+Returns:
+    Dictionary mapping grid_size -> List[CrosswordPuzzleEntry]
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00331}{331}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aec1b6e763b305afa1a2f8af5bd2381c1}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aec1b6e763b305afa1a2f8af5bd2381c1} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!generate\_puzzle\_batch@{generate\_puzzle\_batch}}
+\index{generate\_puzzle\_batch@{generate\_puzzle\_batch}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{generate\_puzzle\_batch()}{generate\_puzzle\_batch()}}
+{\footnotesize\ttfamily  List\mbox{[}\mbox{\hyperlink{classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry}{Crossword\+Puzzle\+Entry}}\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+generate\+\_\+puzzle\+\_\+batch (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int}]{grid\+\_\+size,  }\item[{int}]{count,  }\item[{int }]{max\+\_\+corpus\+\_\+size = {\ttfamily None},  }\item[{bool }]{upload\+\_\+to\+\_\+hf = {\ttfamily False},  }\item[{str }]{output\+\_\+dir = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate a batch of crossword puzzles for a specific language and grid size.
+
+Args:
+    language: Language to generate puzzles for (e.g., "English", "Hindi")
+    grid_size: Grid size (3-30)
+    count: Number of puzzles to generate
+    max_corpus_size: Maximum corpus size to load (None for all)
+    upload_to_hf: Whether to upload generated puzzles to HuggingFace
+    output_dir: Directory to save puzzle JSON files (None to skip)
+
+Returns:
+    List of CrosswordPuzzleEntry instances
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00184}{184}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a94e7da2ca72051c59524195aae2242a2}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a94e7da2ca72051c59524195aae2242a2} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!get\_generation\_statistics@{get\_generation\_statistics}}
+\index{get\_generation\_statistics@{get\_generation\_statistics}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{get\_generation\_statistics()}{get\_generation\_statistics()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+get\+\_\+generation\+\_\+statistics (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get comprehensive generation statistics.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00497}{497}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a4c65353e66bdcb52b7e6247edb2180c6}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a4c65353e66bdcb52b7e6247edb2180c6} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!get\_supported\_languages@{get\_supported\_languages}}
+\index{get\_supported\_languages@{get\_supported\_languages}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{get\_supported\_languages()}{get\_supported\_languages()}}
+{\footnotesize\ttfamily  List\mbox{[}str\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+get\+\_\+supported\+\_\+languages (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Get list of supported languages from corpus loader.\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00525}{525}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ae54c9eef0a11c5a9088376012161c3f5}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ae54c9eef0a11c5a9088376012161c3f5} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!validate\_corpus\_for\_grid\_size@{validate\_corpus\_for\_grid\_size}}
+\index{validate\_corpus\_for\_grid\_size@{validate\_corpus\_for\_grid\_size}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{validate\_corpus\_for\_grid\_size()}{validate\_corpus\_for\_grid\_size()}}
+{\footnotesize\ttfamily  Dict\mbox{[}str, Any\mbox{]} buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+validate\+\_\+corpus\+\_\+for\+\_\+grid\+\_\+size (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{str}]{language,  }\item[{int     }]{grid\+\_\+size }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Validate that corpus has sufficient entries for given grid size.
+
+Args:
+    language: Language to check
+    grid_size: Target grid size
+
+Returns:
+    Dictionary with validation results
+\end{DoxyVerb}
+ 
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00566}{566}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ac456864fe064968f88634f1d6bc8e6aa}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ac456864fe064968f88634f1d6bc8e6aa} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!config@{config}}
+\index{config@{config}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{config}{config}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+config}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00156}{156}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a1b321bd250c520e7b7b5cc83f1519847}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a1b321bd250c520e7b7b5cc83f1519847} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!corpus\_loader@{corpus\_loader}}
+\index{corpus\_loader@{corpus\_loader}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{corpus\_loader}{corpus\_loader}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+corpus\+\_\+loader}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00160}{160}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ac65f1754330d1a717effac914c82a83a}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ac65f1754330d1a717effac914c82a83a} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!dataset\_manager@{dataset\_manager}}
+\index{dataset\_manager@{dataset\_manager}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{dataset\_manager}{dataset\_manager}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+dataset\+\_\+manager}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00163}{163}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a6c6640bed4d7cbdcc6b6570978f69935}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a6c6640bed4d7cbdcc6b6570978f69935} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!generation\_stats@{generation\_stats}}
+\index{generation\_stats@{generation\_stats}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{generation\_stats}{generation\_stats}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+generation\+\_\+stats}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00169}{169}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a926aa31b0f8c474efd1d2cc01f0c8d5c}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a926aa31b0f8c474efd1d2cc01f0c8d5c} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!generators@{generators}}
+\index{generators@{generators}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{generators}{generators}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+generators}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00161}{161}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_affb0c20bc972d78feee69182a154b4bc}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_affb0c20bc972d78feee69182a154b4bc} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!hf\_token@{hf\_token}}
+\index{hf\_token@{hf\_token}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{hf\_token}{hf\_token}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+hf\+\_\+token}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00157}{157}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a2a45ca526b0772b5b002632b4e85d1a0}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_a2a45ca526b0772b5b002632b4e85d1a0} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!hf\_uploader@{hf\_uploader}}
+\index{hf\_uploader@{hf\_uploader}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{hf\_uploader}{hf\_uploader}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+hf\+\_\+uploader}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00162}{162}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ae2743b9d88b0bd835b26f439b7479427}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_ae2743b9d88b0bd835b26f439b7479427} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!pair\_tracker@{pair\_tracker}}
+\index{pair\_tracker@{pair\_tracker}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{pair\_tracker}{pair\_tracker}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+pair\+\_\+tracker}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00180}{180}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+\Hypertarget{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aa8a669de99e3a0c22a2116421f4a98f1}\label{classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1PuzzleBuilder_aa8a669de99e3a0c22a2116421f4a98f1} 
+\index{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}!puzzles\_repo@{puzzles\_repo}}
+\index{puzzles\_repo@{puzzles\_repo}!buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder@{buddhi\_pragati.generate.puzzle\_builder.PuzzleBuilder}}
+\doxysubsubsection{\texorpdfstring{puzzles\_repo}{puzzles\_repo}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+generate.\+puzzle\+\_\+builder.\+Puzzle\+Builder.\+puzzles\+\_\+repo}
+
+
+
+Definition at line \mbox{\hyperlink{puzzle__builder_8py_source_l00164}{164}} of file \mbox{\hyperlink{puzzle__builder_8py_source}{puzzle\+\_\+builder.\+py}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+buddhi\+\_\+pragati/generate/\mbox{\hyperlink{puzzle__builder_8py}{puzzle\+\_\+builder.\+py}}\end{DoxyCompactItemize}

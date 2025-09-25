@@ -1,0 +1,45 @@
+\doxysection{buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager Namespace Reference}
+\hypertarget{namespacebuddhi__pragati_1_1data_1_1local__backup__manager}{}\label{namespacebuddhi__pragati_1_1data_1_1local__backup__manager}\index{buddhi\_pragati.data.local\_backup\_manager@{buddhi\_pragati.data.local\_backup\_manager}}
+\doxysubsubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classbuddhi__pragati_1_1data_1_1local__backup__manager_1_1LocalBackupManager}{Local\+Backup\+Manager}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacebuddhi__pragati_1_1data_1_1local__backup__manager_a9d12974b283a085c9210317875903941}{logger}} = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Local Backup Manager for Dataset Creation
+
+This module provides functionality for saving dataset entry batches locally during processing
+and loading them back for final HuggingFace upload. This enables memory-efficient processing
+while maintaining the ability to upload complete language configurations.
+
+Key Features:
+- Batch-level disk persistence during processing
+- Language-based organization of backup files
+- Automatic deduplication when loading accumulated entries
+- Cleanup functionality for post-upload maintenance
+
+Architecture:
+- Backup files stored in: configs_backup/{language}/batch_{source}_{batch_num}.json
+- JSON serialization using DatasetEntry dataclass fields
+- Answer-based deduplication across all batches for a language
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespacebuddhi__pragati_1_1data_1_1local__backup__manager_a9d12974b283a085c9210317875903941}\label{namespacebuddhi__pragati_1_1data_1_1local__backup__manager_a9d12974b283a085c9210317875903941} 
+\index{buddhi\_pragati.data.local\_backup\_manager@{buddhi\_pragati.data.local\_backup\_manager}!logger@{logger}}
+\index{logger@{logger}!buddhi\_pragati.data.local\_backup\_manager@{buddhi\_pragati.data.local\_backup\_manager}}
+\doxysubsubsection{\texorpdfstring{logger}{logger}}
+{\footnotesize\ttfamily buddhi\+\_\+pragati.\+data.\+local\+\_\+backup\+\_\+manager.\+logger = logging.\+get\+Logger(\+\_\+\+\_\+name\+\_\+\+\_\+)}
+
+
+
+Definition at line \mbox{\hyperlink{local__backup__manager_8py_source_l00028}{28}} of file \mbox{\hyperlink{local__backup__manager_8py_source}{local\+\_\+backup\+\_\+manager.\+py}}.
+

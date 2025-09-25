@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['target_5flanguage_0',['target_language',['../classbuddhi__pragati_1_1evaluate_1_1templates_1_1CrosswordPromptTemplate.html#a407f9c20630dc48ed62a3a3c4ed47f25',1,'buddhi_pragati::evaluate::templates::CrosswordPromptTemplate']]],
+  ['temperature_1',['temperature',['../classbuddhi__pragati_1_1models_1_1model__interface_1_1BaseModelInterface.html#a872d583047f5888008ef9e67b3b811c9',1,'buddhi_pragati.models.model_interface.BaseModelInterface.temperature'],['../classbuddhi__pragati_1_1models_1_1model__interface_1_1OpenRouterBackend.html#aa42c2a96e4c17c6d642ed2423c538635',1,'buddhi_pragati.models.model_interface.OpenRouterBackend.temperature'],['../classbuddhi__pragati_1_1models_1_1model__interface_1_1SarvamAIBackend.html#ad6633cb928d1bb7d4d80e3e1fe018cf9',1,'buddhi_pragati.models.model_interface.SarvamAIBackend.temperature']]],
+  ['templates_2epy_2',['templates.py',['../templates_8py.html',1,'']]],
+  ['test_20first_20recommended_3',['Test First (Recommended)',['../md_buddhi__pragati_2scripts_2README.html#autotoc_md8',1,'']]],
+  ['testing_4',['Development and Testing',['../md_README.html#autotoc_md44',1,'']]],
+  ['tests_5',['Running Tests',['../md_README.html#autotoc_md45',1,'']]],
+  ['text_6',['text',['../classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement.html#a2256e30aaf18110db6a4747e739d0860',1,'buddhi_pragati.generate.memetic_generator.WordPlacement.text'],['../classbuddhi__pragati_1_1generate_1_1memetic__generator_1_1WordPlacement.html#ac575271e913c1953d480878326a4f2e0',1,'buddhi_pragati.generate.memetic_generator.WordPlacement.text']]],
+  ['tier1_5fweights_7',['tier1_weights',['../classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer.html#abf51e0740f0636f7caa65aed2b31dc04',1,'buddhi_pragati::utils::indian_context_scorer::IndianContextScorer']]],
+  ['tier2_5fweights_8',['tier2_weights',['../classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer.html#a42633085859cf53af17c3c55383a56f4',1,'buddhi_pragati::utils::indian_context_scorer::IndianContextScorer']]],
+  ['tier_5f1_5flanguages_9',['TIER_1_LANGUAGES',['../classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer.html#a80e58f89955c7a6f9c8093e841066a85',1,'buddhi_pragati::utils::indian_context_scorer::IndianContextScorer']]],
+  ['tier_5f2_5flanguages_10',['TIER_2_LANGUAGES',['../classbuddhi__pragati_1_1utils_1_1indian__context__scorer_1_1IndianContextScorer.html#a23e026639d4da0560f723393621b6771',1,'buddhi_pragati::utils::indian_context_scorer::IndianContextScorer']]],
+  ['to_5fdict_11',['to_dict',['../classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry.html#ac2fae0fa0b525ca5f6fbc9bfddd38642',1,'buddhi_pragati.generate.puzzle_entry.CrosswordPuzzleEntry.to_dict()'],['../classbuddhi__pragati_1_1core_1_1base__puzzle_1_1BasePuzzle.html#a3147de6f2cd629b8bcbc5261a0f030c3',1,'buddhi_pragati.core.base_puzzle.BasePuzzle.to_dict()'],['../classbuddhi__pragati_1_1core_1_1base__puzzle_1_1CrosswordPuzzle.html#aada2959779c917aa00dc2e45032b3dec',1,'buddhi_pragati.core.base_puzzle.CrosswordPuzzle.to_dict()']]],
+  ['to_5fjson_12',['to_json',['../classbuddhi__pragati_1_1generate_1_1puzzle__entry_1_1CrosswordPuzzleEntry.html#a7e9155adac0c0fb714a13c3aa364d7f2',1,'buddhi_pragati::generate::puzzle_entry::CrosswordPuzzleEntry']]],
+  ['token_5ftracking_5fenabled_13',['token_tracking_enabled',['../classbuddhi__pragati_1_1evaluate_1_1evaluator_1_1CrosswordEvaluator.html#a799abaebd592d16c0aa54ee4844de9b6',1,'buddhi_pragati::evaluate::evaluator::CrosswordEvaluator']]],
+  ['total_5fpuzzles_14',['total_puzzles',['../classbuddhi__pragati_1_1generate_1_1puzzle__builder_1_1UsedPairTracker.html#a1cd15042e3b52c2b5c9b2503a34ed6e9',1,'buddhi_pragati::generate::puzzle_builder::UsedPairTracker']]],
+  ['total_5fsynsets_15',['total_synsets',['../classbuddhi__pragati_1_1data_1_1source__processors_1_1indowordnet__processor_1_1IndoWordNetProcessor.html#a36da0023c82967514324303df5b92fdb',1,'buddhi_pragati::data::source_processors::indowordnet_processor::IndoWordNetProcessor']]],
+  ['tt_20buddhi_5fpragati_20core_20tt_20base_20interfaces_16',['&lt;tt&gt;buddhi_pragati/core/&lt;/tt&gt; - Base Interfaces',['../md_README.html#autotoc_md24',1,'']]],
+  ['tt_20buddhi_5fpragati_20data_20tt_20dataset_20creation_20pipeline_17',['&lt;tt&gt;buddhi_pragati/data/&lt;/tt&gt; - Dataset Creation Pipeline',['../md_README.html#autotoc_md25',1,'']]],
+  ['tt_20buddhi_5fpragati_20evaluate_20tt_20evaluation_20and_20experiments_18',['&lt;tt&gt;buddhi_pragati/evaluate/&lt;/tt&gt; - Evaluation and Experiments',['../md_README.html#autotoc_md28',1,'']]],
+  ['tt_20buddhi_5fpragati_20generate_20tt_20puzzle_20generation_20system_19',['&lt;tt&gt;buddhi_pragati/generate/&lt;/tt&gt; - Puzzle Generation System',['../md_README.html#autotoc_md27',1,'']]],
+  ['tt_20buddhi_5fpragati_20models_20tt_20unified_20model_20interface_20',['&lt;tt&gt;buddhi_pragati/models/&lt;/tt&gt; - Unified Model Interface',['../md_README.html#autotoc_md26',1,'']]],
+  ['tt_20buddhi_5fpragati_20scripts_20tt_20automation_20and_20batch_20processing_21',['&lt;tt&gt;buddhi_pragati/scripts/&lt;/tt&gt; - Automation and Batch Processing',['../md_README.html#autotoc_md30',1,'']]],
+  ['tt_20buddhi_5fpragati_20utils_20tt_20configuration_20and_20utilities_22',['&lt;tt&gt;buddhi_pragati/utils/&lt;/tt&gt; - Configuration and Utilities',['../md_README.html#autotoc_md29',1,'']]],
+  ['tt_20run_5fcrossword_5fbenchmark_20py_20tt_23',['Main Executor: &lt;tt&gt;run_crossword_benchmark.py&lt;/tt&gt;',['../md_README.html#autotoc_md36',1,'']]],
+  ['types_24',['Experiment Types',['../md_buddhi__pragati_2scripts_2README.html#autotoc_md10',1,'']]]
+];
